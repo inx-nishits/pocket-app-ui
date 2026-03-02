@@ -127,7 +127,7 @@
         .screen {
             width: 444px;
             height: 960px;
-            background: #f1f5f9;
+            background: linear-gradient(170deg, #e4efff 0%, #f6f8fd 40%, #ffffff 100%);
             border-radius: 56px;
             overflow: hidden;
             position: relative;
@@ -160,13 +160,18 @@
             overflow: hidden;
         }
 
-        /* Floating Command Center */
         .header-spatial {
             padding: 60px 16px 16px;
-            background: linear-gradient(160deg, var(--accent-deep) 0%, var(--accent-blue) 100%);
+            background: linear-gradient(135deg, rgba(135, 169, 237, 0.9) 0%, rgba(110, 136, 191, 0.85) 100%);
+            backdrop-filter: blur(25px) saturate(190%);
+            -webkit-backdrop-filter: blur(25px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: none;
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, 0.5),
+                0 8px 32px rgba(0, 0, 0, 0.1);
             border-bottom-left-radius: 40px;
             border-bottom-right-radius: 40px;
-            box-shadow: 0 10px 40px rgba(42, 59, 92, 0.3);
             z-index: 100;
             position: relative;
         }
@@ -375,10 +380,10 @@
         }
 
         .g-tab-active {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
+            background: linear-gradient(135deg, rgba(135, 169, 237, 0.9) 0%, rgba(84, 110, 164, 0.85) 100%);
             color: #ffffff;
             border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 20px rgba(75, 124, 140, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(84, 110, 164, 0.4), inset 0 1px 3px rgba(255, 255, 255, 0.3);
             transform: none;
             z-index: 2;
         }
@@ -648,9 +653,9 @@
         }
 
         .nav-active {
-            background: linear-gradient(135deg, var(--accent-deep), var(--accent-blue));
+            background: linear-gradient(135deg, rgba(135, 169, 237, 0.9) 0%, rgba(84, 110, 164, 0.85) 100%);
             color: #fff !important;
-            box-shadow: 0 10px 20px rgba(42, 59, 92, 0.25);
+            box-shadow: 0 10px 20px rgba(84, 110, 164, 0.4);
         }
 
         .nav-item img {
