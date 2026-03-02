@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pocket App - Spatial iOS 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        /* ── Spatial Design System 2026 ────────────────────────────── */
+        :root {
+            --glass-white: rgba(255, 255, 255, 0.85);
+            --glass-blur: blur(25px);
+            --accent-blue: #546EA4;
+            --accent-deep: #2A3B5C;
+            /* Dark, grounded professional navy */
+            --accent-teal: #4B7C8C;
+            /* Cool complementary marine teal */
+            --accent-glow: #eef2f6;
+            --text-title: #0f172a;
+            --text-copy: #475569;
+            --text-extra-dim: #94a3b8;
+            --ios-spring: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            --card-border: rgba(255, 255, 255, 0.5);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: var(--text-title);
+        }
+
+        /* ── Dynamic Ambient Background ────────────────────────────── */
+        .ambient-box {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: #f8fafc;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.25;
+            animation: orbMove 25s infinite alternate ease-in-out;
+        }
+
+        .orb-1 {
+            width: 900px;
+            height: 900px;
+            background: #546EA4;
+            top: -300px;
+            left: -200px;
+        }
+
+        .orb-2 {
+            width: 700px;
+            height: 700px;
+            background: #6366f1;
+            bottom: -200px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 600px;
+            height: 600px;
+            background: #a855f7;
+            top: 40%;
+            left: 50%;
+            opacity: 0.15;
+        }
+
+        @keyframes orbMove {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(150px, 80px) scale(1.1);
+            }
+        }
+
+        /* ── iPhone Surface ────────────────────────────────────────── */
+        .scene {
+            position: relative;
+            z-index: 10;
+            transform-style: preserve-3d;
+        }
+
+        .iphone {
+            position: relative;
+            width: 490px;
+            background: linear-gradient(135deg, #1c1c1e 0%, #000 100%);
+            border-radius: 76px;
+            padding: 12px;
+            box-shadow: 0 80px 160px -40px rgba(0, 0, 0, 0.8);
+        }
+
+        .bezel {
+            background: #000;
+            border-radius: 64px;
+            padding: 8px;
+            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+
+        .screen {
+            width: 444px;
+            height: 960px;
+            background: #f1f5f9;
+            border-radius: 56px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Dynamic Island */
+        .dynamic-island {
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 36px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── Spatial Interface ────────────────────────────────────── */
+        .app-shell {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating Command Center */
+        .header-spatial {
+            padding: 60px 16px 16px;
+            background: linear-gradient(160deg, var(--accent-deep) 0%, var(--accent-blue) 100%);
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 10px 40px rgba(42, 59, 92, 0.3);
+            z-index: 100;
+            position: relative;
+        }
+
+        .status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            padding: 0 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .top-deck {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+
+            /* Scroll Animation Properties */
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            max-height: 100px;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transform-origin: top center;
+        }
+
+        .header-collapsed .top-deck {
+            max-height: 0;
+            margin-bottom: 0;
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            pointer-events: none;
+        }
+
+        .ai-spatial-pill {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            padding: 6px 20px 6px 6px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .ai-pulse-wrap {
+            width: 42px;
+            height: 42px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-pulse-wrap img {
+            width: 24px;
+        }
+
+        .ai-hint {
+            color: #fff;
+            font-weight: 800;
+            font-size: 17px;
+            letter-spacing: -0.4px;
+        }
+
+        .tool-bar {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tool-btn {
+            width: 46px;
+            height: 46px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-btn img {
+            width: 22px;
+        }
+
+        .search-spatial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 12px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-spatial>img:first-child {
+            width: 18px;
+            opacity: 1;
+            /* Precise filter for #546EA4 */
+            filter: brightness(0) saturate(100%) invert(41%) sepia(28%) saturate(677%) hue-rotate(185deg) brightness(92%) contrast(87%);
+            flex-shrink: 0;
+        }
+
+        .search-spatial span {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-extra-dim);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .search-all-cta {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--accent-blue);
+            padding: 4px;
+            font-size: 13px;
+            font-weight: 800;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+            transition: var(--ios-spring);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .search-all-cta svg {
+            width: 15px;
+            height: 15px;
+            stroke: var(--accent-blue);
+            stroke-width: 2.5;
+        }
+
+        .btn-filter-glass {
+            margin-left: 8px;
+            width: 36px;
+            height: 36px;
+            background: var(--accent-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 16px rgba(84, 110, 164, 0.35);
+        }
+
+        .btn-filter-glass img {
+            width: 16px;
+            filter: brightness(0) invert(1);
+            opacity: 1;
+        }
+
+        /* ── Scroll Area ────────────────────────────────────────── */
+        .content-scroller {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 16px;
+            scrollbar-width: none;
+        }
+
+        .content-scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        .glass-tabs {
+            margin-bottom: 24px;
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .g-tab {
+            flex: 1;
+            padding: 14px 4px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 4px 10px rgba(84, 110, 164, 0.05);
+            position: relative;
+        }
+
+        .g-tab span {
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+            letter-spacing: -0.2px;
+        }
+
+        .g-tab-active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(75, 124, 140, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.3);
+            transform: none;
+            z-index: 2;
+        }
+
+        .g-tab-inactive {
+            color: rgba(84, 110, 164, 0.8);
+            transform: none;
+        }
+
+        .g-tab img {
+            width: 24px;
+            height: 24px;
+            /* Precise filter for #546EA4 */
+            filter: brightness(0) saturate(100%) invert(41%) sepia(28%) saturate(677%) hue-rotate(185deg) brightness(92%) contrast(87%);
+            transition: var(--ios-spring);
+        }
+
+        .g-tab-active img {
+            filter: brightness(0) invert(1) !important;
+            opacity: 1;
+        }
+
+        .g-tab-inactive img {
+            opacity: 0.6;
+        }
+
+        .sticky-index-wrapper {
+            position: sticky;
+            top: 6px;
+            z-index: 50;
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 24px;
+            pointer-events: none;
+            /* Let scroll events pass through the empty side */
+        }
+
+        .hero-title {
+            pointer-events: auto;
+            /* Re-enable for the actual badge */
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--text-title);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+
+            /* Floating HUD Capsule */
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(35px) saturate(180%);
+            padding: 6px 14px 6px 18px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow:
+                0 12px 24px -6px rgba(84, 110, 164, 0.2),
+                inset 0 1px 3px rgba(255, 255, 255, 0.9);
+            margin: 0;
+        }
+
+        .hero-title span {
+            font-size: 10px;
+            font-weight: 800;
+            color: #fff;
+            background: linear-gradient(135deg, var(--accent-deep), var(--accent-teal));
+            padding: 4px 10px;
+            border-radius: 16px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(42, 59, 92, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            /* Optically center against huge numbers */
+        }
+
+        /* ── The Prism Cards (Spatial Bricks) ───────────────────── */
+        .plate-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 120px;
+        }
+
+        .spatial-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: var(--glass-blur);
+            border-radius: 20px;
+            padding: 14px 16px 14px 12px;
+            /* Slight left padding adjust for border */
+            border: 1px solid var(--card-border);
+            border-left-width: 6px;
+            /* Color strip width */
+            box-shadow:
+                0 4px 12px rgba(84, 110, 164, 0.05),
+                inset 0 1px 1px rgba(255, 255, 255, 1);
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            row-gap: 12px;
+            column-gap: 16px;
+            align-items: center;
+            animation: plateEnter 0.5s cubic-bezier(0, 1.05, 0.3, 1) both;
+        }
+
+        .spatial-card-header {
+            grid-column: 1 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 0;
+        }
+
+        .spatial-title {
+            font-size: 15px;
+            font-weight: 800;
+            line-height: 1.35;
+            color: var(--text-title);
+        }
+
+        .spatial-subtitle {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-deep);
+            background: var(--accent-glow);
+            align-self: flex-start;
+            padding: 3px 10px;
+            border-radius: 8px;
+            letter-spacing: -0.2px;
+        }
+
+        .spatial-date {
+            grid-column: 1 / 2;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-extra-dim);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .spatial-date svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0.6;
+        }
+
+        .spatial-footer {
+            grid-column: 2 / 3;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 14px;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .spatial-tools {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .spatial-tools img {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .spatial-tools img:hover {
+            transform: scale(1.1);
+        }
+
+        .spatial-tools img:active {
+            transform: scale(0.9);
+        }
+
+        .spatial-link {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(75, 124, 140, 0.25);
+        }
+
+        .spatial-link svg {
+            width: 14px;
+            stroke: #fff;
+        }
+
+        /* ── Floating Nav Dock ─────────────────────────────────── */
+        .nav-dock {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 86px;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(25px);
+            border-radius: 34px 34px 0 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.05);
+            z-index: 200;
+            padding: 12px 20px 0;
+            border: none;
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s;
+            transform: translateY(0);
+        }
+
+        .nav-collapsed {
+            transform: translateY(100%);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-extra-dim);
+            height: 54px;
+            min-width: 70px;
+            padding: 0;
+            border-radius: 20px;
+            transition: var(--ios-spring);
+        }
+
+        .nav-active {
+            background: linear-gradient(135deg, var(--accent-deep), var(--accent-blue));
+            color: #fff !important;
+            box-shadow: 0 10px 20px rgba(42, 59, 92, 0.25);
+        }
+
+        .nav-item img {
+            width: 26px;
+            height: 26px;
+            opacity: 1;
+            filter: none;
+            transition: var(--ios-spring);
+        }
+
+        .nav-active img {
+            opacity: 1;
+            filter: brightness(0) invert(1) !important;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .nav-active .nav-label {
+            color: #fff;
+        }
+
+        .home-pill {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            height: 5px;
+            background: #000;
+            border-radius: 10px;
+            opacity: 0.1;
+        }
+
+        @keyframes plateEnter {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.9);
+                filter: blur(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .spatial-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .spatial-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .spatial-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .spatial-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .spatial-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        /* ── Colorful Card Variations ─────────────────────── */
+
+        /* 1) Soft Indigo */
+        .spatial-card:nth-child(4n+1) {
+            border-left-color: #8b5cf6;
+        }
+
+        .spatial-card:nth-child(4n+1) .spatial-subtitle {
+            color: #5b21b6;
+            background: #f5f3ff;
+        }
+
+        .spatial-card:nth-child(4n+1) .spatial-link {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            box-shadow: 0 4px 8px rgba(124, 58, 237, 0.25);
+        }
+
+        /* 2) Soft Emerald */
+        .spatial-card:nth-child(4n+2) {
+            border-left-color: #10b981;
+        }
+
+        .spatial-card:nth-child(4n+2) .spatial-subtitle {
+            color: #065f46;
+            background: #ecfdf5;
+        }
+
+        .spatial-card:nth-child(4n+2) .spatial-link {
+            background: linear-gradient(135deg, #059669, #10b981);
+            box-shadow: 0 4px 8px rgba(5, 150, 105, 0.25);
+        }
+
+        /* 3) Soft Amber */
+        .spatial-card:nth-child(4n+3) {
+            border-left-color: #f59e0b;
+        }
+
+        .spatial-card:nth-child(4n+3) .spatial-subtitle {
+            color: #92400e;
+            background: #fffbeb;
+        }
+
+        .spatial-card:nth-child(4n+3) .spatial-link {
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+            box-shadow: 0 4px 8px rgba(217, 119, 6, 0.25);
+        }
+
+        /* 4) Soft Sky Blue */
+        .spatial-card:nth-child(4n+4) {
+            border-left-color: #38bdf8;
+        }
+
+        .spatial-card:nth-child(4n+4) .spatial-subtitle {
+            color: #0369a1;
+            background: #e0f2fe;
+        }
+
+        .spatial-card:nth-child(4n+4) .spatial-link {
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
+            box-shadow: 0 4px 8px rgba(2, 132, 199, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-box">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="scene">
+        <div class="iphone">
+            <div class="bezel">
+                <div class="screen">
+                    <div class="dynamic-island"></div>
+
+                    <div class="app-shell">
+                        <header class="header-spatial">
+                            <div class="status-bar">
+                                <span class="status-time">9:41</span>
+                                <div style="display:flex;gap:6px;">
+                                    <svg width="17" height="11">
+                                        <path d="M1 10h1v1H1v-1zm3-3h1v4H4V7zm3-3h1v7H7V4zm3-3h1v10h-1V1z"
+                                            fill="#fff" />
+                                    </svg>
+                                    <svg width="25" height="12">
+                                        <rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="#fff"
+                                            fill="none" />
+                                        <rect x="2" y="2" width="16" height="8" rx="1" fill="#fff" />
+                                        <path d="M23 4v4" stroke="#fff" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="top-deck">
+                                <div class="ai-spatial-pill">
+                                    <div class="ai-pulse-wrap"><img src="images/ai.svg"></div>
+                                    <span class="ai-hint">NEW! AI Assistant</span>
+                                </div>
+                                <div class="tool-bar">
+                                    <div class="tool-btn"><img src="images/megaphone.svg"></div>
+                                    <div class="tool-btn"><img src="images/ps-podcast.svg"></div>
+                                    <div class="tool-btn"><img src="images/star.svg"></div>
+                                </div>
+                            </div>
+
+                            <div class="search-spatial">
+                                <img src="images/search-icon.svg">
+                                <span>Search knowledge base...</span>
+                                <a href="#" class="search-all-cta">
+                                    Search All
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </a>
+                                <div class="btn-filter-glass"><img src="images/filter.svg"></div>
+                            </div>
+                        </header>
+
+                        <div class="content-scroller">
+                            <div class="glass-tabs">
+                                <div class="g-tab g-tab-active"><img src="images/all.svg"> <span>All</span></div>
+                                <div class="g-tab g-tab-inactive"><img src="images/summary.svg"> <span>Summary</span>
+                                </div>
+                                <div class="g-tab g-tab-inactive"><img src="images/either-way.svg"> <span>Either
+                                        way</span></div>
+                                <div class="g-tab g-tab-inactive"><img src="images/Indictable.svg">
+                                    <span>Indictable</span>
+                                </div>
+                            </div>
+
+                            <div class="sticky-index-wrapper">
+                                <h1 class="hero-title">0–9 <span>16 ITEMS</span></h1>
+                            </div>
+
+                            <div class="plate-stack">
+                                <!-- Plate 1 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">3×5×2 Intelligence Submission</h3>
+                                        <span class="spatial-subtitle">Forces Gradually Adopting from April 2016</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 2 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">4 R's - Detained Person Observation List</h3>
+                                        <span class="spatial-subtitle">PACE Code C - Annex H</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 3 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">5 statutory principles of Mental Capacity Act 2005
+                                        </h3>
+                                        <span class="spatial-subtitle">Mental Capacity Act 2005</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 4 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">5x5x5 Intelligence Submission</h3>
+                                        <span class="spatial-subtitle">Source Grading</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 5 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">3×5×2 Intelligence Submission</h3>
+                                        <span class="spatial-subtitle">Forces Gradually Adopting from April 2016</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 6 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">4 R's - Detained Person Observation List</h3>
+                                        <span class="spatial-subtitle">PACE Code C - Annex H</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 7 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">5 statutory principles of Mental Capacity Act 2005
+                                        </h3>
+                                        <span class="spatial-subtitle">Mental Capacity Act 2005</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 8 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">5x5x5 Intelligence Submission</h3>
+                                        <span class="spatial-subtitle">Source Grading</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 9 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">3×5×2 Intelligence Submission</h3>
+                                        <span class="spatial-subtitle">Forces Gradually Adopting from April 2016</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 10 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">4 R's - Detained Person Observation List</h3>
+                                        <span class="spatial-subtitle">PACE Code C - Annex H</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 11 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">5 statutory principles of Mental Capacity Act 2005
+                                        </h3>
+                                        <span class="spatial-subtitle">Mental Capacity Act 2005</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 12 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">5x5x5 Intelligence Submission</h3>
+                                        <span class="spatial-subtitle">Source Grading</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 13 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">3×5×2 Intelligence Submission</h3>
+                                        <span class="spatial-subtitle">Forces Gradually Adopting from April 2016</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 14 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">4 R's - Detained Person Observation List</h3>
+                                        <span class="spatial-subtitle">PACE Code C - Annex H</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 15 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">5 statutory principles of Mental Capacity Act 2005
+                                        </h3>
+                                        <span class="spatial-subtitle">Mental Capacity Act 2005</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+
+                                <!-- Plate 16 -->
+                                <div class="spatial-card">
+                                    <div class="spatial-card-header">
+                                        <h3 class="spatial-title">5x5x5 Intelligence Submission</h3>
+                                        <span class="spatial-subtitle">Source Grading</span>
+                                    </div>
+                                    <div class="spatial-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        02-05-2025
+                                    </div>
+                                    <div class="spatial-footer">
+                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
+                                                src="images/attech.svg"></div>
+                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
+                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="9 18 15 12 9 6"></polyline>
+                                            </svg></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <nav class="nav-dock">
+                            <div class="nav-item nav-active">
+                                <img src="images/search.svg">
+                            </div>
+                            <div class="nav-item">
+                                <img src="images/tags.svg">
+                            </div>
+                            <div class="nav-item">
+                                <img src="images/list.svg">
+                            </div>
+                            <div class="nav-item">
+                                <img src="images/phone-call.svg">
+                            </div>
+                            <div class="nav-item">
+                                <img src="images/bar.svg">
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Interaction Script -->
+    <script>
+        const scroller = document.querySelector('.content-scroller');
+        const header = document.querySelector('.header-spatial');
+        const navDock = document.querySelector('.nav-dock');
+
+        let lastScrollTop = 0;
+
+        scroller.addEventListener('scroll', () => {
+            const scrollTop = scroller.scrollTop;
+
+            // Only hide after scrolling down a bit (20px buffer)
+            if (scrollTop > 20 && scrollTop > lastScrollTop) {
+                header.classList.add('header-collapsed');
+                navDock.classList.add('nav-collapsed');
+            }
+            // Show when scrolling up slightly, or when hitting the top
+            else if (scrollTop < lastScrollTop - 5 || scrollTop <= 20) {
+                header.classList.remove('header-collapsed');
+                navDock.classList.remove('nav-collapsed');
+            }
+
+            lastScrollTop = Math.max(0, scrollTop);
+        });
+    </script>
+</body>
+
+</html>

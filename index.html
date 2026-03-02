@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Knowledge Base App – iOS UI Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        /* ── Reset ────────────────────────────────────────────────── */
+        :root {
+            --main-theme: #546EA4;
+            --main-theme-light: #6a83ba;
+            --main-theme-dark: #44588e;
+            --main-theme-glass: rgba(84, 110, 164, 0.45);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 24px;
+            background: #080c1a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ── Animated background orbs ─────────────────────────────── */
+        .bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: orbFloat 12s ease-in-out infinite;
+        }
+
+        .bg-orb-1 {
+            width: 560px;
+            height: 560px;
+            background: radial-gradient(circle, #2a4bdb, #1255a0);
+            top: -8%;
+            left: -8%;
+            animation-duration: 14s;
+        }
+
+        .bg-orb-2 {
+            width: 440px;
+            height: 440px;
+            background: radial-gradient(circle, #6038d4, #3a50dc);
+            top: 38%;
+            right: -12%;
+            animation-duration: 10s;
+            animation-delay: -4s;
+        }
+
+        .bg-orb-3 {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, #0a90cc, #0260a8);
+            bottom: -8%;
+            left: 28%;
+            animation-duration: 16s;
+            animation-delay: -8s;
+        }
+
+        @keyframes orbFloat {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(36px, -28px) scale(1.04);
+            }
+
+            66% {
+                transform: translate(-26px, 18px) scale(0.97);
+            }
+        }
+
+        /* ── Scene ────────────────────────────────────────────────── */
+        .scene {
+            position: relative;
+            z-index: 10;
+            animation: sceneIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        @keyframes sceneIn {
+            from {
+                opacity: 0;
+                transform: translateY(32px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Glow behind phone */
+        .phone-glow {
+            position: absolute;
+            inset: -28px;
+            border-radius: 78px;
+            background: radial-gradient(ellipse at 50% 38%, var(--main-theme-glass) 0%, transparent 68%);
+            filter: blur(28px);
+            z-index: -1;
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.04);
+            }
+        }
+
+        /* ─────────────────────────────────────────────────────────────
+           iPhone 16 Pro Max Frame - Hyper Realistic 3D Model
+           Screen: 440x956 | Bezel: 8px | Frame: Titanium
+        ───────────────────────────────────────────────────────────── */
+        .iphone {
+            position: relative;
+            width: 486px;
+            /* 440 screen + 8px*2 bezel + 15px*2 frame */
+            background: #d3c7b9;
+            background: linear-gradient(to right, #8a8278 0%, #b8aea4 5%, #d8cec4 15%, #f5f0eb 30%, #f5f0eb 70%, #d8cec4 85%, #b8aea4 95%, #8a8278 100%);
+            border-radius: 68px;
+            padding: 15px;
+            /* The Titanium Frame width */
+            box-shadow:
+                0 1px 2px rgba(255, 255, 255, 0.8),
+                0 -1px 1px rgba(0, 0, 0, 0.3),
+                0 20px 50px rgba(0, 0, 0, 0.6),
+                inset 0 0 2px rgba(255, 255, 255, 0.4);
+            z-index: 10;
+        }
+
+        /* Frame Texture & Antenna Bands */
+        .iphone::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 68px;
+            background:
+                linear-gradient(to bottom, transparent 150px, #9a8e80 150px, #9a8e80 152px, transparent 152px, transparent 800px, #9a8e80 800px, #9a8e80 802px, transparent 802px);
+            pointer-events: none;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        /* Black Bezel Layer (OLED Border) */
+        .bezel {
+            background: #0b0b0b;
+            border-radius: 54px;
+            padding: 8px;
+            /* Ultra-thin Pro Max bezel */
+            box-shadow:
+                0 0 0 1px #000,
+                inset 0 0 3px rgba(255, 255, 255, 0.15);
+            position: relative;
+            z-index: 20;
+        }
+
+        /* 3D Hardware Buttons */
+        .btn {
+            position: absolute;
+            background: linear-gradient(to right, #8a8278, #b8aea4 40%, #8a8278);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+            z-index: 5;
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* Left Side */
+        .btn-action {
+            left: -3px;
+            top: 120px;
+            width: 4px;
+            height: 32px;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .btn-vol-up {
+            left: -3px;
+            top: 180px;
+            width: 4px;
+            height: 68px;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .btn-vol-down {
+            left: -3px;
+            top: 265px;
+            width: 4px;
+            height: 68px;
+            border-radius: 4px 0 0 4px;
+        }
+
+        /* Right Side */
+        .btn-power {
+            right: -3px;
+            top: 220px;
+            width: 4px;
+            height: 100px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Screen Layer */
+        .screen {
+            width: 440px;
+            height: 956px;
+            background: #f0f2f8;
+            border-radius: 46px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 30;
+            box-shadow: inset 0 0 2px #000;
+        }
+
+        /* Glass Surface Reflection */
+        .screen-glass {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.08) 0%,
+                    rgba(255, 255, 255, 0.02) 40%,
+                    transparent 41%,
+                    transparent 100%);
+            border-radius: 46px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Dynamic Island - High Fidelity */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            height: 38px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Sensors within Island */
+        .di-sensor {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #080808;
+            box-shadow: inset 0 0 2px #111;
+        }
+
+        .di-camera {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #1c1d3c 0%, #050505 80%);
+            border: 1px solid #0d0d0d;
+            box-shadow: inset 0 0 3px rgba(80, 100, 255, 0.25);
+            position: relative;
+        }
+
+        .di-camera::after {
+            content: '';
+            position: absolute;
+            width: 2.5px;
+            height: 2.5px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            top: 2.5px;
+            left: 2.5px;
+        }
+
+        /* ─────────────────────────────────────────────────────────────
+       STATUS BAR
+    ───────────────────────────────────────────────────────────── */
+        .status-bar {
+            height: 62px;
+            background: var(--main-theme);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 0 30px 10px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 50;
+        }
+
+        .status-time {
+            font-size: 17px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .signal {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 13px;
+        }
+
+        .signal span {
+            background: #fff;
+            border-radius: 1.5px;
+            width: 3.5px;
+        }
+
+        .signal span:nth-child(1) {
+            height: 5px;
+        }
+
+        .signal span:nth-child(2) {
+            height: 8px;
+        }
+
+        .signal span:nth-child(3) {
+            height: 11px;
+        }
+
+        .signal span:nth-child(4) {
+            height: 13px;
+            opacity: 0.35;
+        }
+
+        /* WiFi icon */
+        .wifi-icon {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Battery */
+        .battery-wrap {
+            display: flex;
+            align-items: center;
+        }
+
+        .battery-icon {
+            width: 28px;
+            height: 13px;
+            border: 1.8px solid rgba(255, 255, 255, 0.9);
+            border-radius: 3.5px;
+            padding: 2px;
+            position: relative;
+        }
+
+        .battery-icon::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .battery-fill {
+            background: #4ade80;
+            height: 100%;
+            width: 80%;
+            border-radius: 1.5px;
+        }
+
+        /* ─────────────────────────────────────────────────────────────
+       APP HEADER
+    ───────────────────────────────────────────────────────────── */
+        .app-header {
+            background: linear-gradient(160deg, var(--main-theme-dark) 0%, var(--main-theme) 55%, var(--main-theme-light) 100%);
+            padding: 12px 16px 16px;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Subtle vertical light streak for 'real' glass feel */
+        .app-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12), transparent);
+            pointer-events: none;
+        }
+
+        .app-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 220px 130px at 8% 115%, rgba(99, 130, 255, 0.28) 0%, transparent 70%),
+                radial-gradient(ellipse 160px 90px at 96% -8%, rgba(140, 90, 255, 0.22) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* ── AI Banner ──────────────────────────────────────────── */
+        .ai-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 2;
+            gap: 10px;
+        }
+
+        .ai-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 7px 12px 7px 7px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+        }
+
+
+        /* AI avatar wraps the Image(AI).svg at a larger size */
+        .ai-avatar-wrap {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        @keyframes aiGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 18px rgba(139, 92, 246, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(139, 92, 246, 0.85), 0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .ai-avatar-wrap img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .ai-text-block {
+            flex: 1;
+        }
+
+        .ai-new-badge {
+            font-size: 16px;
+            /* Significantly larger */
+            font-weight: 900;
+            /* Extra bold */
+            background: linear-gradient(135deg, #4f46e5 0%, #9333ea 50%, #4f46e5 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            display: inline-block;
+            animation: aiShimmer 3s linear infinite;
+        }
+
+        @keyframes aiShimmer {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .ai-ask-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--main-theme-dark);
+            /* Dark blue for legibility on light BG */
+            display: block;
+        }
+
+        .ai-chevron {
+            display: flex;
+            align-items: center;
+            color: var(--main-theme);
+            /* Darker chevron */
+            flex-shrink: 0;
+        }
+
+        .ai-chevron svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Right header action buttons */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            flex-shrink: 0;
+        }
+
+        .hdr-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #ffffff;
+            position: relative;
+        }
+
+
+
+        .hdr-btn img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+        }
+
+        /* Star button — Ultra-premium 3D Gold */
+        .hdr-btn-star {
+            background: #ffffff;
+        }
+
+        .hdr-btn-star img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* ── Search Bar ─────────────────────────────────────────── */
+        .search-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-bar {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 14px;
+            padding: 11px 14px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .search-bar:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 26px rgba(0, 0, 0, 0.25);
+        }
+
+        .search-bar img {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .search-placeholder {
+            flex: 1;
+            font-size: 14px;
+            color: #a0aac0;
+        }
+
+        .search-all-link {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--main-theme);
+            white-space: nowrap;
+        }
+
+        /* Filter button */
+        .filter-btn {
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .filter-btn:hover {
+            transform: scale(1.06);
+        }
+
+        .filter-btn img {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ─────────────────────────────────────────────────────────────
+       FILTER TABS
+    ───────────────────────────────────────────────────────────── */
+        .tab-row {
+            background: #fff;
+            padding: 10px 16px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            flex-shrink: 0;
+            scrollbar-width: none;
+            border-bottom: 1px solid rgba(74, 95, 160, 0.09);
+        }
+
+        .tab-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 22px;
+            font-size: 12.5px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: none;
+        }
+
+        .tab img {
+            width: 14px;
+            height: 14px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .tab-active {
+            background: linear-gradient(135deg, var(--main-theme-dark), var(--main-theme));
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(84, 110, 164, 0.4);
+        }
+
+        .tab-active img {
+            filter: brightness(0) invert(1);
+        }
+
+        .tab-active:hover {
+            transform: translateY(-1px);
+        }
+
+        .tab-inactive {
+            background: #f1f4ff;
+            color: #5a6b9a;
+            border: 1px solid rgba(74, 99, 180, 0.1);
+        }
+
+        .tab-inactive:hover {
+            background: #e8eeff;
+            transform: translateY(-1px);
+        }
+
+        /* ─────────────────────────────────────────────────────────────
+       SCROLLABLE LIST
+    ───────────────────────────────────────────────────────────── */
+        .list-scroll {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            background: #eef1f8;
+        }
+
+        .list-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ── Section Header ─────────────────────────────────────── */
+        .section-hdr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 18px;
+            background: linear-gradient(90deg, var(--main-theme-dark), var(--main-theme));
+        }
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .section-count {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 10px;
+            padding: 2px 9px;
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        /* ── Cards ──────────────────────────────────────────────── */
+        .card-list {
+            padding: 12px 13px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(74, 95, 160, 0.09), 0 1px 3px rgba(0, 0, 0, 0.04);
+            cursor: pointer;
+            transition: all 0.26s cubic-bezier(0.34, 1.2, 0.64, 1);
+            position: relative;
+            animation: cardIn 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+        }
+
+        .card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.10s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .card:nth-child(4) {
+            animation-delay: 0.20s;
+        }
+
+        .card:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-3px) scale(1.004);
+            box-shadow: 0 10px 28px rgba(74, 95, 160, 0.17), 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .card:active {
+            transform: scale(0.987);
+        }
+
+        /* Shimmer on hover */
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.38) 50%, transparent 70%);
+            border-radius: 16px;
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: opacity 0.3s, transform 0.55s;
+            pointer-events: none;
+        }
+
+        .card:hover::after {
+            opacity: 1;
+            transform: translateX(100%);
+        }
+
+        /* Gradient left accent bar */
+        .card-bar {
+            width: 5px;
+            flex-shrink: 0;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .card-body {
+            flex: 1;
+            padding: 13px 10px 13px 14px;
+            min-width: 0;
+        }
+
+        .card-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #1a2040;
+            line-height: 1.36;
+            margin-bottom: 4px;
+            letter-spacing: -0.12px;
+        }
+
+        .card-subtitle {
+            font-size: 11.5px;
+            color: #7c8db5;
+            margin-bottom: 9px;
+            line-height: 1.4;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .clock-icon {
+            width: 13px;
+            height: 13px;
+            flex-shrink: 0;
+        }
+
+        .card-date {
+            font-size: 11px;
+            font-weight: 500;
+            color: #9aa5c4;
+        }
+
+        /* Card right side */
+        .card-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 13px 12px 4px;
+            min-width: 42px;
+        }
+
+        .icon-star {
+            cursor: pointer;
+            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .icon-star:hover {
+            transform: scale(1.28) rotate(6deg);
+        }
+
+        .icon-star img {
+            width: 18px;
+            height: 18px;
+            display: block;
+        }
+
+        .icon-clip {
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.18s, transform 0.18s;
+        }
+
+        .icon-clip:hover {
+            opacity: 1;
+            transform: rotate(-14deg);
+        }
+
+        .icon-clip img {
+            width: 16px;
+            height: 16px;
+            display: block;
+        }
+
+        .icon-chevron {
+            display: flex;
+            align-items: center;
+            color: #c8cedf;
+        }
+
+        .icon-chevron svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* ─────────────────────────────────────────────────────────────
+       BOTTOM TAB BAR
+    ───────────────────────────────────────────────────────────── */
+        .tab-bar {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(74, 95, 160, 0.1);
+            padding: 10px 0 28px;
+            display: flex;
+            justify-content: space-around;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 30;
+            box-shadow: 0 -6px 24px rgba(74, 95, 160, 0.09);
+        }
+
+        .tb-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            flex: 1;
+            transition: opacity 0.18s;
+        }
+
+        .tb-item:hover {
+            opacity: 0.78;
+        }
+
+        .tb-item:active {
+            transform: scale(0.9);
+        }
+
+        .tb-icon-wrap {
+            width: 54px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .tb-item.active .tb-icon-wrap {
+            background: linear-gradient(135deg, var(--main-theme-dark), var(--main-theme));
+            box-shadow: 0 4px 14px rgba(84, 110, 164, 0.4);
+        }
+
+        .tb-icon-wrap img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+        }
+
+        /* Active: make icon white */
+        .tb-item.active .tb-icon-wrap img {
+            filter: brightness(0) invert(1);
+        }
+
+        .tb-label {
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .tb-item.active .tb-label {
+            color: var(--main-theme);
+        }
+
+        .tb-item.inactive .tb-label {
+            color: #9aa5c4;
+        }
+
+        /* Home indicator pill */
+        .home-bar {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 5px;
+            background: #1c1c1e;
+            border-radius: 3px;
+            opacity: 0.22;
+        }
+
+        svg {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Animated background -->
+    <div class="bg-canvas">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+    </div>
+
+    <div class="scene">
+        <div class="phone-glow"></div>
+
+        <!-- ═══════════════════════════════════════════════════════
+         iPhone 16 Pro Max Frame
+    ═════════════════════════════════════════════════════════ -->
+        <div class="iphone">
+            <!-- Hardware Buttons -->
+            <div class="btn btn-action"></div>
+            <div class="btn btn-vol-up"></div>
+            <div class="btn btn-vol-down"></div>
+            <div class="btn btn-power"></div>
+
+            <div class="bezel">
+                <div class="screen">
+                    <!-- Glass layer for reflection -->
+                    <div class="screen-glass"></div>
+
+                    <!-- Dynamic Island -->
+                    <div class="dynamic-island">
+                        <div class="di-sensor"></div>
+                        <div class="di-camera"></div>
+                    </div>
+
+                    <!-- ── STATUS BAR ────────────────────────────────── -->
+                    <div class="status-bar">
+                        <span class="status-time">9:41</span>
+                        <div class="status-right">
+                            <div class="signal">
+                                <span></span><span></span><span></span><span></span>
+                            </div>
+                            <!-- Wi-Fi -->
+                            <div class="wifi-icon">
+                                <svg width="17" height="13" viewBox="0 0 25 19" fill="none">
+                                    <path
+                                        d="M12.5 4.5C8.5 4.5 5 6 2.5 8.5L1 7C3.9 4 7.9 2 12.5 2s8.6 2 11.5 5L22.5 8.5C20 6 16.5 4.5 12.5 4.5z"
+                                        fill="white" />
+                                    <path
+                                        d="M12.5 9.5C9.8 9.5 7.4 10.6 5.7 12.4L4.2 10.9A10.3 10.3 0 0112.5 7.5c3.2 0 6 1.3 8.1 3.4l-1.5 1.5A7.3 7.3 0 0012.5 9.5z"
+                                        fill="white" />
+                                    <circle cx="12.5" cy="16" r="2.5" fill="white" />
+                                </svg>
+                            </div>
+                            <!-- Battery -->
+                            <div class="battery-wrap">
+                                <div class="battery-icon">
+                                    <div class="battery-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── APP HEADER ─────────────────────────────────── -->
+                    <div class="app-header">
+
+                        <!-- AI Banner -->
+                        <div class="ai-banner">
+                            <div class="ai-pill">
+                                <div class="ai-avatar-wrap">
+                                    <img src="images/ai.svg" alt="AI" />
+                                </div>
+                                <div class="ai-text-block">
+                                    <span class="ai-new-badge">NEW! AI Assistant</span>
+                                </div>
+                                <div class="ai-chevron">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="9 18 15 12 9 6" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="header-actions">
+                                <!-- Bell (Notifications) -->
+                                <div class="hdr-btn">
+                                    <img src="images/megaphone.svg" alt="Notifications" />
+                                </div>
+                                <!-- Shield (Safe/Protected) -->
+                                <div class="hdr-btn">
+                                    <img src="images/ps-podcast.svg" alt="Protected" />
+                                </div>
+                                <!-- Star (Favourites) -->
+                                <div class="hdr-btn hdr-btn-star">
+                                    <img src="images/star.svg" alt="Favourites" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Search Bar -->
+                        <div class="search-wrap">
+                            <div class="search-bar">
+                                <img src="images/search-icon.svg" alt="Search" />
+                                <span class="search-placeholder">Search knowledge base...</span>
+                                <span class="search-all-link">Search all</span>
+                            </div>
+                            <div class="filter-btn">
+                                <img src="images/filter.svg" alt="Filter"
+                                    style="filter: brightness(0.2) saturate(0);" />
+                            </div>
+                        </div>
+
+                    </div><!-- /app-header -->
+
+                    <!-- ── FILTER TABS ────────────────────────────────── -->
+                    <div class="tab-row">
+                        <!-- All (active) -->
+                        <button class="tab tab-active">
+                            <img src="images/all.svg" alt="All" />
+                            All
+                        </button>
+                        <!-- Summary -->
+                        <button class="tab tab-inactive">
+                            <img src="images/summary.svg" alt="Summary"
+                                style="filter: brightness(0.4) saturate(0.5);" />
+                            Summary
+                        </button>
+                        <!-- Either way -->
+                        <button class="tab tab-inactive">
+                            <img src="images/either-way.svg" alt="Either way"
+                                style="filter: brightness(0.4) saturate(0.5);" />
+                            Either way
+                        </button>
+                        <!-- Indictable -->
+                        <button class="tab tab-inactive">
+                            <img src="images/Indictable.svg" alt="Indictable"
+                                style="filter: brightness(0.4) saturate(0.5);" />
+                            Indictable
+                        </button>
+                    </div>
+
+                    <!-- ── LIST ───────────────────────────────────────── -->
+                    <div class="list-scroll">
+
+                        <!-- Section Header -->
+                        <div class="section-hdr">
+                            <span class="section-label">0–9</span>
+                            <span class="section-count">5 items</span>
+                        </div>
+
+                        <div class="card-list">
+
+                            <!-- Card 1 -->
+                            <div class="card">
+                                <div class="card-bar" style="background:linear-gradient(180deg,#4a63b4,#6366f1)"></div>
+                                <div class="card-body">
+                                    <div class="card-title">3×5×2 Intelligence Submission</div>
+                                    <div class="card-subtitle">Forces Gradually Adopting from April 2016</div>
+                                    <div class="card-meta">
+                                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#9aa5c4"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                        <span class="card-date">02-05-2025</span>
+                                    </div>
+                                </div>
+                                <div class="card-side">
+                                    <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
+                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment" /></div>
+                                    <div class="icon-chevron">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="9 18 15 12 9 6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="card">
+                                <div class="card-bar" style="background:linear-gradient(180deg,#6366f1,#818cf8)"></div>
+                                <div class="card-body">
+                                    <div class="card-title">4 R's – Detained Person<br>Observation List</div>
+                                    <div class="card-subtitle">PACE Code C – Annex H</div>
+                                    <div class="card-meta">
+                                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#9aa5c4"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                        <span class="card-date">02-05-2025</span>
+                                    </div>
+                                </div>
+                                <div class="card-side">
+                                    <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
+                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment" /></div>
+                                    <div class="icon-chevron">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="9 18 15 12 9 6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 — unstarred -->
+                            <div class="card">
+                                <div class="card-bar" style="background:linear-gradient(180deg,#a855f7,#d946ef)"></div>
+                                <div class="card-body">
+                                    <div class="card-title">5 statutory principles of<br>Mental Capacity Act 2005</div>
+                                    <div class="card-subtitle">Mental Capacity Act 2005</div>
+                                    <div class="card-meta">
+                                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#9aa5c4"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                        <span class="card-date">02-05-2025</span>
+                                    </div>
+                                </div>
+                                <div class="card-side">
+                                    <!-- unstarred — use Icon-3 with grey filter -->
+                                    <div class="icon-star">
+                                        <img src="images/star-sm.svg" alt="Star"
+                                            style="filter:grayscale(1) opacity(0.35);" />
+                                    </div>
+                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment" /></div>
+                                    <div class="icon-chevron">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="9 18 15 12 9 6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4 -->
+                            <div class="card">
+                                <div class="card-bar" style="background:linear-gradient(180deg,#0ea5e9,#38bdf8)"></div>
+                                <div class="card-body">
+                                    <div class="card-title">5×5×5 Intelligence Submission</div>
+                                    <div class="card-subtitle">Source Grading</div>
+                                    <div class="card-meta">
+                                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#9aa5c4"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                        <span class="card-date">02-05-2025</span>
+                                    </div>
+                                </div>
+                                <div class="card-side">
+                                    <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
+                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment" /></div>
+                                    <div class="icon-chevron">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="9 18 15 12 9 6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 5 -->
+                            <div class="card">
+                                <div class="card-bar" style="background:linear-gradient(180deg,#10b981,#34d399)"></div>
+                                <div class="card-body">
+                                    <div class="card-title">5×5×5 Intelligence Submission</div>
+                                    <div class="card-subtitle">Source Grading</div>
+                                    <div class="card-meta">
+                                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#9aa5c4"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                        <span class="card-date">02-05-2025</span>
+                                    </div>
+                                </div>
+                                <div class="card-side">
+                                    <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
+                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment" /></div>
+                                    <div class="icon-chevron">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="9 18 15 12 9 6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="height:10px"></div>
+                        </div>
+                    </div><!-- /list-scroll -->
+
+                    <!-- ── BOTTOM TAB BAR ─────────────────────────────── -->
+                    <div class="tab-bar">
+
+                        <!-- Search (active) -->
+                        <div class="tb-item active">
+                            <div class="tb-icon-wrap">
+                                <img src="images/search.svg" alt="Search" />
+                            </div>
+                            <span class="tb-label">Search</span>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="tb-item inactive">
+                            <div class="tb-icon-wrap">
+                                <img src="images/tags.svg" alt="Tags" />
+                            </div>
+                            <span class="tb-label">Tags</span>
+                        </div>
+
+                        <!-- Docs / List -->
+                        <div class="tb-item inactive">
+                            <div class="tb-icon-wrap">
+                                <img src="images/list.svg" alt="Docs" />
+                            </div>
+                            <span class="tb-label">Docs</span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="tb-item inactive">
+                            <div class="tb-icon-wrap">
+                                <img src="images/bar.svg" alt="Menu" />
+                            </div>
+                            <span class="tb-label">Menu</span>
+                        </div>
+
+                        <div class="home-bar"></div>
+                    </div>
+
+                </div><!-- /screen -->
+            </div><!-- /bezel -->
+        </div><!-- /iphone -->
+    </div><!-- /scene -->
+
+</body>
+
+</html>
