@@ -924,9 +924,16 @@
         }
 
         .icon-clip img {
-            width: 16px;
-            height: 16px;
+            width: 24px;
+            height: 24px;
             display: block;
+        }
+
+        .cat-icon {
+            background: #eef5ff;
+            border: 1px solid #c8daff;
+            border-radius: 6px;
+            padding: 3px;
         }
 
         .icon-chevron {
@@ -1132,7 +1139,7 @@
                         <!-- Search Bar -->
                         <div class="search-wrap">
                             <div class="search-bar">
-                                <img src="images/search-icon.svg" alt="Search" />
+                                <img src="images/search.svg" alt="Search" />
                                 <span class="search-placeholder">Search knowledge base...</span>
                                 <span class="search-all-link">Search all</span>
                             </div>
@@ -1199,7 +1206,8 @@
                                 </div>
                                 <div class="card-side">
                                     <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
-                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment" /></div>
+                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment"
+                                            data-icon="images/attech.svg" class="cat-icon" /></div>
                                     <div class="icon-chevron">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -1226,7 +1234,8 @@
                                 </div>
                                 <div class="card-side">
                                     <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
-                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment" /></div>
+                                    <div class="icon-clip"><img src="images/summary.svg" alt="Summary"
+                                            data-icon="images/summary.svg" class="cat-icon" /></div>
                                     <div class="icon-chevron">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -1257,7 +1266,8 @@
                                         <img src="images/star-sm.svg" alt="Star"
                                             style="filter:grayscale(1) opacity(0.35);" />
                                     </div>
-                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment" /></div>
+                                    <div class="icon-clip"><img src="images/either-way.svg" alt="Either-way"
+                                            data-icon="images/either-way.svg" class="cat-icon" /></div>
                                     <div class="icon-chevron">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -1284,7 +1294,8 @@
                                 </div>
                                 <div class="card-side">
                                     <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
-                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment" /></div>
+                                    <div class="icon-clip"><img src="images/Indictable.svg" alt="Indictable"
+                                            data-icon="images/Indictable.svg" class="cat-icon" /></div>
                                     <div class="icon-chevron">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                                             stroke-linecap="round" stroke-linejoin="round">
@@ -1336,20 +1347,28 @@
                             <span class="tb-label">Search</span>
                         </div>
 
-                        <!-- Tags -->
+                        <!-- Crime -->
                         <div class="tb-item inactive">
                             <div class="tb-icon-wrap">
-                                <img src="images/tags.svg" alt="Tags" />
+                                <img src="images/crime-cat.svg" alt="Crime" />
                             </div>
-                            <span class="tb-label">Tags</span>
+                            <span class="tb-label">Crime</span>
                         </div>
 
-                        <!-- Docs / List -->
+                        <!-- Checklist -->
                         <div class="tb-item inactive">
                             <div class="tb-icon-wrap">
-                                <img src="images/list.svg" alt="Docs" />
+                                <img src="images/checklist.svg" alt="Checklist" />
                             </div>
-                            <span class="tb-label">Docs</span>
+                            <span class="tb-label">Checklist</span>
+                        </div>
+
+                        <!-- Contact Us -->
+                        <div class="tb-item inactive">
+                            <div class="tb-icon-wrap">
+                                <img src="images/contact-us.svg" alt="Contact Us" />
+                            </div>
+                            <span class="tb-label">Contact Us</span>
                         </div>
 
                         <!-- Menu -->
@@ -1368,6 +1387,60 @@
         </div><!-- /iphone -->
     </div><!-- /scene -->
 
+    <!-- Dynamic Interactions -->
+    <script>
+        // 1. Tab Switching Logic
+        const tabs = document.querySelectorAll('.tab');
+        const spatialIcons = document.querySelectorAll('.cat-icon');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab UI
+                tabs.forEach(t => {
+                    t.classList.remove('tab-active');
+                    t.classList.add('tab-inactive');
+                });
+                tab.classList.add('tab-active');
+                tab.classList.remove('tab-inactive');
+
+                const tabText = tab.textContent.trim();
+                const tabIconSrc = tab.querySelector('img') ? tab.querySelector('img').src : null;
+
+                spatialIcons.forEach(icon => {
+                    if (tabText.toLowerCase() === 'all') {
+                        // Restore original icons from data-icon attribute
+                        const originalIcon = icon.getAttribute('data-icon');
+                        if (originalIcon) {
+                            icon.src = originalIcon;
+                        }
+                    } else if (tabIconSrc) {
+                        // All cards show the active tab's icon
+                        icon.src = tabIconSrc;
+                    }
+                });
+            });
+        });
+
+        // 2. Scroll Interaction Script
+        const scroller = document.querySelector('.card-list, .list-scroll');
+        const header = document.querySelector('.app-header');
+        const thumbDock = document.querySelector('.tab-bar, .nav-dock');
+
+        if (scroller && header && thumbDock) {
+            let lastScrollTop = 0;
+            scroller.addEventListener('scroll', () => {
+                const scrollTop = scroller.scrollTop;
+                if (scrollTop > 20 && scrollTop > lastScrollTop) {
+                    header.classList.add('header-collapsed');
+                    thumbDock.classList.add('nav-collapsed');
+                } else if (scrollTop < lastScrollTop - 5 || scrollTop <= 20) {
+                    header.classList.remove('header-collapsed');
+                    thumbDock.classList.remove('nav-collapsed');
+                }
+                lastScrollTop = Math.max(0, scrollTop);
+            });
+        }
+    </script>
 </body>
 
 </html>
