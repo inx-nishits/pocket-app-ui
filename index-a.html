@@ -830,9 +830,15 @@
             }
 
             .sticky-index-wrapper {
-                top: 140px !important;
-                /* Sticky below the fixed header */
-                margin-bottom: 10px;
+                position: sticky;
+                top: calc(env(safe-area-inset-top, 44px) + 120px);
+                z-index: 50;
+                margin-bottom: 20px;
+                transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            body.app-collapsed .sticky-index-wrapper {
+                top: calc(env(safe-area-inset-top, 44px) + 50px);
             }
 
             .status-bar {
@@ -842,14 +848,16 @@
 
             .header-spatial {
                 padding-top: calc(env(safe-area-inset-top, 44px) + 12px);
+                padding-bottom: 16px;
                 border-radius: 0 0 32px 32px;
                 position: fixed;
                 /* Fixed for smoothness and app-like feel on real devices */
                 top: 0;
                 left: 0;
                 right: 0;
-                z-index: 1001;
-                background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 0.95) 100%);
+                z-index: 1010;
+                /* Above scroller but below nav */
+                background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 0.98) 100%);
                 will-change: transform;
                 transform: translateZ(0);
                 backface-visibility: hidden;
@@ -1507,10 +1515,12 @@
                         if (scrollTop > 40 && scrollTop > lastScrollTop) {
                             header.classList.add('header-collapsed');
                             navDock.classList.add('nav-collapsed');
+                            document.body.classList.add('app-collapsed');
                         }
                         else if (scrollTop < lastScrollTop - 10 || scrollTop <= 20) {
                             header.classList.remove('header-collapsed');
                             navDock.classList.remove('nav-collapsed');
+                            document.body.classList.remove('app-collapsed');
                         }
 
                         lastScrollTop = Math.max(0, scrollTop);
