@@ -812,10 +812,12 @@
                 border-radius: 28px 28px 0 0;
                 z-index: 2000;
                 box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
-                will-change: transform;
-                transform: translateZ(0);
-                /* Hardware Acceleration */
                 backface-visibility: hidden;
+                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            .nav-collapsed {
+                transform: translateY(100%);
             }
 
             /* Hides black gap below bottom bar during overscroll */
