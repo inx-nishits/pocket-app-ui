@@ -1120,14 +1120,20 @@
 
             .app-header {
                 padding-top: calc(env(safe-area-inset-top, 44px) + 10px);
-                position: sticky;
+                position: fixed;
                 top: 0;
+                left: 0;
+                right: 0;
                 z-index: 1001;
                 background: var(--main-theme);
                 will-change: transform;
                 transform: translateZ(0);
-                /* Hardware Acceleration */
                 backface-visibility: hidden;
+                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            .header-collapsed {
+                transform: translateY(-70px);
             }
 
             .tab-bar {
@@ -1164,10 +1170,13 @@
             }
 
             .list-scroll {
-                padding-top: 10px;
-                padding-bottom: 160px;
+                padding-top: 180px;
+                /* Space for fixed header */
+                padding-bottom: 200px;
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
+                overscroll-behavior-y: contain;
+                background-color: #f7f9fc;
             }
         }
     </style>
