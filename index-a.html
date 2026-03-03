@@ -835,26 +835,27 @@
             }
 
             .content-scroller {
-                padding-top: 210px;
-                /* Sufficient clearance for expanded header + notch */
-                padding-bottom: 150px;
-                /* Extra room for nav and bottom safety */
+                padding-top: 220px;
+                /* Increased to fully clear expanded Spatial Header + Notch */
+                padding-bottom: 120px;
                 -webkit-overflow-scrolling: touch;
                 overflow-x: hidden;
+                overflow-y: auto;
+                background-color: #f7f9fc;
             }
 
             .sticky-index-wrapper {
                 position: sticky;
-                top: 195px;
-                /* Expanded header bottom */
+                top: 200px;
+                /* Below the expanded header (180px + 20px padding) */
                 z-index: 50;
                 margin-bottom: 25px;
                 transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             }
 
             body.app-collapsed .sticky-index-wrapper {
-                top: 125px;
-                /* Collapsed header bottom */
+                top: 130px;
+                /* Below the collapsed header (110px + 20px padding) */
             }
 
             .status-bar {
@@ -870,15 +871,16 @@
                 top: 0;
                 left: 0;
                 right: 0;
-                z-index: 1010;
-                background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 0.99) 100%);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
+                z-index: 1050;
+                /* Ensure it stays above everything */
+                background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 1) 100%);
+                backdrop-filter: blur(30px);
+                -webkit-backdrop-filter: blur(30px);
                 will-change: transform;
                 transform: translateZ(0);
                 backface-visibility: hidden;
                 transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
             }
 
 
