@@ -179,13 +179,23 @@
 
         /* Floating Command Center */
         .header-spatial {
-            padding: 60px 16px 16px;
-            background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 0.8) 100%);
+            padding: 60px 16px 20px;
+            background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 0.98) 100%);
             border-bottom-left-radius: 40px;
             border-bottom-right-radius: 40px;
-            box-shadow: 0 10px 40px rgba(84, 110, 164, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             z-index: 100;
-            position: relative;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .header-collapsed {
+            transform: translateY(-80px);
         }
 
         .status-bar {
@@ -344,7 +354,7 @@
         .content-scroller {
             flex: 1;
             overflow-y: auto;
-            padding: 16px 16px;
+            padding: 190px 16px 100px;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
             /* Native-like momentum scrolling */
@@ -419,13 +429,17 @@
 
         .sticky-index-wrapper {
             position: sticky;
-            top: 6px;
+            top: 175px;
             z-index: 50;
             display: flex;
             justify-content: flex-start;
             margin-bottom: 24px;
             pointer-events: none;
-            /* Let scroll events pass through the empty side */
+            transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body.app-collapsed .sticky-index-wrapper {
+            top: 95px;
         }
 
         .hero-title {
