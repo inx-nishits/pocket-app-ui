@@ -743,9 +743,17 @@
 
         /* ── Mobile Hybrid Viewport ────────────────────────────────── */
         @media (max-width: 500px) {
+
+            html,
+            body {
+                height: 100%;
+                overflow: hidden;
+                background-color: #f7f9fc;
+                /* App background color to hide black areas */
+            }
+
             body {
                 height: 100dvh;
-                overflow: hidden;
             }
 
             .ambient-box {
@@ -796,6 +804,10 @@
                 top: 0;
                 z-index: 1001;
                 background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 0.95) 100%);
+                will-change: transform;
+                transform: translateZ(0);
+                /* Hardware Acceleration */
+                backface-visibility: hidden;
             }
 
             .nav-dock {
@@ -810,6 +822,21 @@
                 z-index: 2000;
                 background: rgba(255, 255, 255, 0.98);
                 box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+                will-change: transform;
+                transform: translateZ(0);
+                /* Hardware Acceleration */
+                backface-visibility: hidden;
+            }
+
+            /* Fixes the black line/gap below nav on elastic scroll */
+            .nav-dock::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                height: 100px;
+                background: #fff;
             }
 
             .home-pill {
@@ -819,7 +846,10 @@
             .content-scroller {
                 padding-top: 10px;
                 padding-bottom: 160px;
-                /* Significant space for fixed dock */
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                /* Momentum scroll for iOS */
+                background-color: #f7f9fc;
             }
         }
     </style>

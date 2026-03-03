@@ -750,9 +750,16 @@
 
         /* ── Mobile Hybrid Viewport ────────────────────────────────── */
         @media (max-width: 500px) {
+
+            html,
+            body {
+                height: 100%;
+                overflow: hidden;
+                background-color: #f7f9fc;
+            }
+
             body {
                 height: 100dvh;
-                overflow: hidden;
             }
 
             .ambient-box {
@@ -803,6 +810,10 @@
                 top: 0;
                 z-index: 1001;
                 background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 0.95) 100%);
+                will-change: transform;
+                transform: translateZ(0);
+                /* Hardware Acceleration */
+                backface-visibility: hidden;
             }
 
             .nav-dock {
@@ -817,6 +828,21 @@
                 border-radius: 28px 28px 0 0;
                 z-index: 2000;
                 box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+                will-change: transform;
+                transform: translateZ(0);
+                /* Hardware Acceleration */
+                backface-visibility: hidden;
+            }
+
+            /* Hides black gap below bottom bar during overscroll */
+            .nav-dock::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                height: 100px;
+                background: #fff;
             }
 
             .home-pill {
