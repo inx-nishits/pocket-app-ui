@@ -821,24 +821,26 @@
             }
 
             .content-scroller {
-                padding-top: 150px;
-                /* Push content below fixed header */
-                padding-bottom: 120px;
-                /* Room for bottom nav */
+                padding-top: 210px;
+                /* Sufficient clearance for expanded header + notch */
+                padding-bottom: 150px;
+                /* Extra room for nav and bottom safety */
                 -webkit-overflow-scrolling: touch;
                 overflow-x: hidden;
             }
 
             .sticky-index-wrapper {
                 position: sticky;
-                top: calc(env(safe-area-inset-top, 44px) + 120px);
+                top: 195px;
+                /* Expanded header bottom */
                 z-index: 50;
-                margin-bottom: 20px;
+                margin-bottom: 25px;
                 transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             }
 
             body.app-collapsed .sticky-index-wrapper {
-                top: calc(env(safe-area-inset-top, 44px) + 50px);
+                top: 125px;
+                /* Collapsed header bottom */
             }
 
             .status-bar {
@@ -848,20 +850,21 @@
 
             .header-spatial {
                 padding-top: calc(env(safe-area-inset-top, 44px) + 12px);
-                padding-bottom: 16px;
+                padding-bottom: 20px;
                 border-radius: 0 0 32px 32px;
                 position: fixed;
-                /* Fixed for smoothness and app-like feel on real devices */
                 top: 0;
                 left: 0;
                 right: 0;
                 z-index: 1010;
-                /* Above scroller but below nav */
-                background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 0.98) 100%);
+                background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 0.99) 100%);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
                 will-change: transform;
                 transform: translateZ(0);
                 backface-visibility: hidden;
                 transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
             }
 
 
