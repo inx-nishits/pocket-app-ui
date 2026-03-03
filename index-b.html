@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Pocket App - Spatial iOS 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -721,6 +721,77 @@
 
         .spatial-card:nth-child(5) {
             animation-delay: 0.5s;
+        }
+
+        /* ── Mobile Hybrid Viewport ────────────────────────────────── */
+        @media (max-width: 500px) {
+            body {
+                height: 100dvh;
+                overflow: hidden;
+            }
+
+            .ambient-box {
+                display: none;
+                /* Simplify on mobile for performance */
+            }
+
+            .scene {
+                width: 100%;
+                height: 100vh;
+                display: block;
+            }
+
+            .iphone {
+                width: 100%;
+                height: 100%;
+                background: none;
+                padding: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .bezel {
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                border-radius: 0;
+            }
+
+            .screen {
+                width: 100%;
+                height: 100dvh;
+                border-radius: 0;
+            }
+
+            .dynamic-island {
+                display: none;
+            }
+
+            .status-bar {
+                display: none;
+                /* Real phone has its own status bar */
+            }
+
+            .header-spatial {
+                padding-top: env(safe-area-inset-top, 20px);
+                border-radius: 0 0 32px 32px;
+            }
+
+            .nav-dock {
+                padding-bottom: env(safe-area-inset-bottom, 20px);
+                height: auto;
+                min-height: 86px;
+                border-radius: 24px 24px 0 0;
+            }
+
+            .home-pill {
+                display: none;
+                /* Real phone has its own home indicator */
+            }
+
+            .content-scroller {
+                padding-bottom: 100px;
+            }
         }
     </style>
 </head>

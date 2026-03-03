@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Knowledge Base App – iOS UI Demo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1035,6 +1035,87 @@
 
         svg {
             display: block;
+        }
+
+        /* ── Mobile Hybrid Viewport ────────────────────────────────── */
+        @media (max-width: 500px) {
+            body {
+                padding: 0;
+                height: 100dvh;
+                overflow: hidden;
+            }
+
+            .bg-canvas {
+                display: none;
+            }
+
+            .scene {
+                width: 100%;
+                height: 100vh;
+                animation: none;
+            }
+
+            .phone-glow {
+                display: none;
+            }
+
+            .iphone {
+                width: 100%;
+                height: 100%;
+                background: none;
+                padding: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .iphone::before {
+                display: none;
+            }
+
+            .btn {
+                display: none;
+            }
+
+            .bezel {
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .screen {
+                width: 100%;
+                height: 100dvh;
+                border-radius: 0;
+            }
+
+            .dynamic-island {
+                display: none;
+            }
+
+            .status-bar {
+                display: none;
+            }
+
+            .app-header {
+                padding-top: env(safe-area-inset-top, 20px);
+            }
+
+            .tab-bar {
+                padding-bottom: env(safe-area-inset-bottom, 20px);
+                height: auto;
+                min-height: 84px;
+                border-radius: 0;
+            }
+
+            .home-bar {
+                display: none;
+            }
+
+            .list-scroll {
+                padding-bottom: 100px;
+            }
         }
     </style>
 </head>
