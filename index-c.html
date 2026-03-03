@@ -192,19 +192,17 @@
             justify-content: space-between;
             margin-bottom: 16px;
 
-            /* Scroll Animation Properties */
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            max-height: 100px;
-            opacity: 1;
-            transform: translateY(0) scale(1);
+            /* Optimization: Use transform for smoother mobile animations */
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
             transform-origin: top center;
+            will-change: transform, opacity;
         }
 
         .header-collapsed .top-deck {
-            max-height: 0;
-            margin-bottom: 0;
-            opacity: 0;
             transform: translateY(-20px) scale(0.95);
+            opacity: 0;
+            margin-bottom: -40px;
+            /* Pull search bar up */
             pointer-events: none;
         }
 
@@ -1407,28 +1405,38 @@
 
     <!-- Scroll Interaction Script -->
     <script>
+        // Optimized Scrolling Interaction
         const scroller = document.querySelector('.content-scroller');
         const header = document.querySelector('.header-spatial');
         const navDock = document.querySelector('.nav-dock');
 
         let lastScrollTop = 0;
+        let ticking = false;
 
-        scroller.addEventListener('scroll', () => {
-            const scrollTop = scroller.scrollTop;
+        if (scroller && header && navDock) {
+            scroller.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrollTop = scroller.scrollTop;
 
-            // Only hide after scrolling down a bit (20px buffer)
-            if (scrollTop > 20 && scrollTop > lastScrollTop) {
-                header.classList.add('header-collapsed');
-                navDock.classList.add('nav-collapsed');
-            }
-            // Show when scrolling up slightly, or when hitting the top
-            else if (scrollTop < lastScrollTop - 5 || scrollTop <= 20) {
-                header.classList.remove('header-collapsed');
-                navDock.classList.remove('nav-collapsed');
-            }
+                        // Only hide after scrolling down a bit (40px buffer)
+                        if (scrollTop > 40 && scrollTop > lastScrollTop) {
+                            header.classList.add('header-collapsed');
+                            navDock.classList.add('nav-collapsed');
+                        }
+                        // Show when scrolling up slightly, or when hitting the top
+                        else if (scrollTop < lastScrollTop - 10 || scrollTop <= 20) {
+                            header.classList.remove('header-collapsed');
+                            navDock.classList.remove('nav-collapsed');
+                        }
 
-            lastScrollTop = Math.max(0, scrollTop);
-        });
+                        lastScrollTop = Math.max(0, scrollTop);
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        }
     </script>
 </body>
 

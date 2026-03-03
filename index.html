@@ -455,6 +455,19 @@
             position: relative;
             z-index: 2;
             gap: 10px;
+
+            /* Optimization: Use transform for smoother mobile animations */
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s, margin-bottom 0.4s;
+            transform-origin: top center;
+            will-change: transform, opacity;
+        }
+
+        .header-collapsed .ai-banner {
+            transform: translateY(-20px) scale(0.95);
+            opacity: 0;
+            margin-bottom: -40px;
+            /* Pull search bar up */
+            pointer-events: none;
         }
 
         .ai-pill {
@@ -1542,24 +1555,34 @@
             });
         });
 
-        // 2. Scroll Interaction Script
+        // 2. Optimized Scroll Interaction
         const scroller = document.querySelector('.card-list, .list-scroll');
         const header = document.querySelector('.app-header');
         const thumbDock = document.querySelector('.tab-bar, .nav-dock');
 
         if (scroller && header && thumbDock) {
             let lastScrollTop = 0;
+            let ticking = false;
+
             scroller.addEventListener('scroll', () => {
-                const scrollTop = scroller.scrollTop;
-                if (scrollTop > 20 && scrollTop > lastScrollTop) {
-                    header.classList.add('header-collapsed');
-                    thumbDock.classList.add('nav-collapsed');
-                } else if (scrollTop < lastScrollTop - 5 || scrollTop <= 20) {
-                    header.classList.remove('header-collapsed');
-                    thumbDock.classList.remove('nav-collapsed');
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrollTop = scroller.scrollTop;
+
+                        if (scrollTop > 40 && scrollTop > lastScrollTop) {
+                            header.classList.add('header-collapsed');
+                            thumbDock.classList.add('nav-collapsed');
+                        } else if (scrollTop < lastScrollTop - 10 || scrollTop <= 20) {
+                            header.classList.remove('header-collapsed');
+                            thumbDock.classList.remove('nav-collapsed');
+                        }
+
+                        lastScrollTop = Math.max(0, scrollTop);
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-                lastScrollTop = Math.max(0, scrollTop);
-            });
+            }, { passive: true });
         }
     </script>
 </body>
