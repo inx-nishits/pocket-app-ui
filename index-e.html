@@ -506,7 +506,7 @@
         }
 
         .nav-hidden .bottom-nav-wrapper {
-            transform: translateY(120px) scale(0.9);
+            transform: translateY(150px);
             opacity: 0;
             pointer-events: none;
         }
@@ -788,11 +788,20 @@
         scroller.addEventListener('scroll', () => {
             const currentScrollY = scroller.scrollTop;
 
-            if (currentScrollY > 70 && currentScrollY > lastScrollY) {
-                // Scrolling down -> hide bottom dock safely
+            // Scrolling down
+            if (currentScrollY > lastScrollY && currentScrollY > 70) {
                 document.body.classList.add('nav-hidden');
-            } else if (currentScrollY < lastScrollY - 2 || currentScrollY <= 70) {
-                // Scrolling up -> safely show bottom dock again
+            }
+            // Scrolling up
+            else if (currentScrollY < lastScrollY) {
+                // Prevent bottom rubber-band bounce from falsely revealing the menu
+                if (currentScrollY + scroller.clientHeight < scroller.scrollHeight - 10) {
+                    document.body.classList.remove('nav-hidden');
+                }
+            }
+
+            // Always show at absolute top
+            if (currentScrollY <= 70) {
                 document.body.classList.remove('nav-hidden');
             }
 
