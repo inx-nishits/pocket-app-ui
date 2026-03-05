@@ -79,7 +79,7 @@
         .top-nav-group {
             background: #ffffff;
             padding-top: var(--safe-area-top);
-            padding-bottom: 16px;
+            padding-bottom: 12px;
             position: relative;
             z-index: 10;
             border-radius: 0 0 32px 32px;
@@ -283,11 +283,6 @@
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             z-index: 100;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.3s;
-        }
-
-        .scrolled .sticky-tabs-container {
             border-bottom: 1px solid rgba(84, 110, 164, 0.15);
         }
 
@@ -371,7 +366,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px 16px 16px;
+            padding: 16px;
             position: sticky;
             top: calc(var(--safe-area-top) + 83px);
             background: rgba(247, 249, 252, 0.85);
@@ -615,9 +610,15 @@
             justify-content: space-around;
             align-items: center;
             padding: 8px 12px;
-            border-radius: 36px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 40px;
+            /* Inner track design: thin darker border + inner white glow */
+            border: 1px solid rgba(84, 110, 164, 0.2);
+            box-shadow:
+                0 12px 32px -8px rgba(84, 110, 164, 0.25),
+                /* Deep floating shadow */
+                inset 0 0 0 1.5px rgba(255, 255, 255, 0.8);
+            /* Inner white track glow */
+            position: relative;
         }
 
         .nav-btn {
