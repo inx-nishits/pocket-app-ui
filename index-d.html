@@ -2,17 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-
-    <title>Pocket App - Spatial iOS 2026</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet" />
-
-    <!-- PWA / iOS Native App Meta Tags -->
+    <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
@@ -20,29 +13,27 @@
     <meta name="theme-color" content="#f7f9fc">
     <link rel="manifest" href="manifest-d.json">
     <link rel="apple-touch-icon" href="images/Ps-pro-logo.png">
-    <meta name="format-detection" content="telephone=no">
-
+    <title>Pocket App - Spatial iOS 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ── Spatial Design System 2026 ────────────────────────────── */
         :root {
-            --glass-white: rgba(255, 255, 255, 0.85);
-            --glass-blur: blur(25px);
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
             --accent-blue: #546EA4;
-            --accent-deep: #2A3B5C;
-            /* Dark, grounded professional navy */
-            --accent-teal: #4B7C8C;
-            /* Cool complementary marine teal */
-            --accent-glow: #eef2f6;
-            --text-title: #0f172a;
-            --text-copy: #475569;
-            --text-extra-dim: #94a3b8;
-            --ios-spring: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-            --card-border: rgba(255, 255, 255, 0.5);
+            --accent-slate: #475569;
+            --pill-bg: #ffffff;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
+            /* Derived from 546EA4 */
+            --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.12);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
         }
 
-        *,
-        *::before,
-        *::after {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -51,1387 +42,1293 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000;
-            height: 100vh;
+            background-color: var(--bg-color);
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            color: var(--text-primary);
             overflow: hidden;
-            color: var(--text-title);
+            /* Prevent body scroll, let container scroll */
+            overscroll-behavior-y: none;
+            /* Native iOS bounce lock */
         }
 
-        /* ── Dynamic Ambient Background ────────────────────────────── */
-        .ambient-box {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background: #f8fafc;
+        /* Required to fill available safe space accurately */
+        html {
+            height: -webkit-fill-available;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(140px);
-            opacity: 0.25;
-            animation: orbMove 25s infinite alternate ease-in-out;
+        /* ----- Header Sections ----- */
+        .app-header {
+            display: contents;
         }
 
-        .orb-1 {
-            width: 900px;
-            height: 900px;
-            background: #546EA4;
-            top: -300px;
-            left: -200px;
-        }
-
-        .orb-2 {
-            width: 700px;
-            height: 700px;
-            background: #6366f1;
-            bottom: -200px;
-            right: -100px;
-            animation-delay: -5s;
-        }
-
-        .orb-3 {
-            width: 600px;
-            height: 600px;
-            background: #a855f7;
-            top: 40%;
-            left: 50%;
-            opacity: 0.15;
-        }
-
-        @keyframes orbMove {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            100% {
-                transform: translate(150px, 80px) scale(1.1);
-            }
-        }
-
-        /* ── iPhone Surface ────────────────────────────────────────── */
-        .scene {
+        .top-nav-group {
+            background: #ffffff;
+            padding-top: var(--safe-area-top);
+            padding-bottom: 12px;
             position: relative;
             z-index: 10;
-            transform-style: preserve-3d;
+            border-radius: 0 0 32px 32px;
+            margin-bottom: 8px;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
         }
 
-        .iphone {
-            position: relative;
-            width: 490px;
-            background: linear-gradient(135deg, #1c1c1e 0%, #000 100%);
-            border-radius: 76px;
-            padding: 12px;
-            box-shadow: 0 80px 160px -40px rgba(0, 0, 0, 0.8);
-        }
-
-        .bezel {
-            background: #000;
-            border-radius: 64px;
-            padding: 8px;
-            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.1);
-        }
-
-        .screen {
-            width: 444px;
-            height: 960px;
-            background: linear-gradient(170deg, #e4efff 0%, #f6f8fd 40%, #ffffff 100%);
-            border-radius: 56px;
-            overflow: hidden;
-            position: relative;
+        .top-nav {
             display: flex;
-            flex-direction: column;
-        }
-
-        /* Dynamic Island */
-        .dynamic-island {
-            position: absolute;
-            top: 14px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 126px;
-            height: 36px;
-            background: #000;
-            border-radius: 20px;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* ── Spatial Interface ────────────────────────────────────── */
-        .app-shell {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-spatial {
-            padding: 60px 16px 16px;
-            background: linear-gradient(135deg, rgba(135, 169, 237, 0.9) 0%, rgba(110, 136, 191, 0.85) 100%);
-            backdrop-filter: blur(25px) saturate(190%);
-            -webkit-backdrop-filter: blur(25px) saturate(190%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-top: none;
-            box-shadow:
-                inset 0 1px 1px rgba(255, 255, 255, 0.5),
-                0 8px 32px rgba(0, 0, 0, 0.1);
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            z-index: 100;
-            position: relative;
-        }
-
-        .status-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
-            padding: 0 36px;
-            display: flex;
-            align-items: center;
             justify-content: space-between;
-            color: #fff;
-            font-weight: 700;
-            font-size: 16px;
-        }
-
-        .top-deck {
-            display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-
-            /* Optimization: Use transform for smoother mobile animations */
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
-            transform-origin: top center;
-            will-change: transform, opacity;
-        }
-
-        .header-collapsed .top-deck {
-            transform: translateY(-20px) scale(0.95);
-            opacity: 0;
-            margin-bottom: -40px;
-            /* Pull search bar up */
-            pointer-events: none;
+            padding: 16px 16px 4px;
         }
 
         .ai-spatial-pill {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            padding: 6px 20px 6px 6px;
+            background: #ffffff;
+            padding: 0 14px 0 6px;
             border-radius: 50px;
             display: flex;
             align-items: center;
-            gap: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            gap: 4px;
+            box-shadow: 0 0 12px rgba(15, 23, 42, 0.12);
+            height: 40px;
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 10px rgba(15, 23, 42, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(15, 23, 42, 0.18);
+            }
+
+            100% {
+                box-shadow: 0 0 10px rgba(15, 23, 42, 0.1);
+            }
         }
 
         .ai-pulse-wrap {
-            width: 42px;
-            height: 42px;
-            background: #fff;
+            width: 32px;
+            height: 32px;
+            background: transparent;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .ai-pulse-wrap img {
             width: 24px;
+            height: 24px;
+            object-fit: contain;
         }
 
         .ai-hint {
-            color: #fff;
-            font-weight: 800;
-            font-size: 17px;
-            letter-spacing: -0.4px;
+            background: linear-gradient(135deg, #f59e0b, var(--accent-slate));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 900;
+            font-size: 14px;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
         }
 
-        .tool-bar {
+        .top-actions {
             display: flex;
+            align-items: center;
             gap: 8px;
         }
 
-        .tool-btn {
-            width: 46px;
-            height: 46px;
-            background: #fff;
+        .action-item {
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        .tool-btn img {
-            width: 22px;
+        .action-item:active {
+            transform: scale(0.9);
         }
 
-        .search-spatial {
-            background: #fff;
-            border-radius: 20px;
-            padding: 12px 12px;
+        .action-item.announcements {
+            background: #fff8f3;
+            border: 1px solid #fed7aa;
+        }
+
+        .action-item.podcast {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+        }
+
+        .action-item.favorites {
+            background: #fffef0;
+            border: 1px solid #fde68a;
+        }
+
+        .action-item img {
+            width: 16px;
+            height: 16px;
+            opacity: 0.9;
+        }
+
+
+
+        .search-section {
+            padding: 4px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            min-width: 0;
+            background: #f1f5f9;
+            border-radius: 24px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 0 16px;
+            border: none;
         }
 
-        .search-spatial>img:first-child {
-            width: 18px;
-            opacity: 1;
-            /* Precise filter for #546EA4 */
-            filter: brightness(0) saturate(100%) invert(41%) sepia(28%) saturate(677%) hue-rotate(185deg) brightness(92%) contrast(87%);
-            flex-shrink: 0;
+        .search-input-wrapper input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 14px 0;
+            font-size: 16px;
+            outline: none;
+            color: var(--text-primary);
+            min-width: 0;
         }
 
-        .search-spatial span {
-            font-size: 14px;
+        .search-input-wrapper input::placeholder {
+            color: var(--text-dim);
             font-weight: 500;
-            color: var(--text-extra-dim);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        }
+
+        .search-input-wrapper>img {
+            width: 18px;
+            height: 18px;
+            filter: invert(1) brightness(0) opacity(0.9);
+            margin-right: 8px;
+            flex-shrink: 0;
         }
 
         .search-all-cta {
-            margin-left: auto;
             display: flex;
             align-items: center;
             gap: 4px;
-            color: var(--accent-blue);
-            padding: 4px;
-            font-size: 13px;
-            font-weight: 800;
+            color: var(--accent-slate);
+            font-size: 14px;
+            font-weight: 700;
             text-decoration: underline;
-            text-decoration-thickness: 2px;
-            text-underline-offset: 4px;
-            transition: var(--ios-spring);
+            text-decoration-thickness: 1.5px;
+            text-underline-offset: 3px;
             white-space: nowrap;
-            flex-shrink: 0;
+            margin-left: auto;
         }
 
         .search-all-cta svg {
-            width: 15px;
-            height: 15px;
-            stroke: var(--accent-blue);
+            width: 14px;
+            height: 14px;
+            stroke: var(--accent-slate);
             stroke-width: 2.5;
         }
 
-        .btn-filter-glass {
-            margin-left: 8px;
-            width: 36px;
-            height: 36px;
-            background: var(--accent-blue);
-            border-radius: 12px;
+        .filter-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 16px rgba(84, 110, 164, 0.35);
+            cursor: pointer;
+            flex-shrink: 0;
         }
 
-        .btn-filter-glass img {
-            width: 16px;
-            filter: brightness(0) invert(1);
-            opacity: 1;
+        .filter-btn img {
+            width: 22px;
+            height: 22px;
+            opacity: 0.8;
+            filter: invert(1) brightness(0);
         }
 
-        /* ── Scroll Area ────────────────────────────────────────── */
-        .content-scroller {
+        .sticky-tabs-container {
+            position: sticky;
+            top: -1px;
+            padding: calc(var(--safe-area-top) + 8px) 0 10px 0;
+            background: rgba(247, 249, 252, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(15, 23, 42, 0.15);
+        }
+
+        .magic-tabs-wrapper {
+            margin: 0 16px;
+            background: #f1f5f9;
+            border-radius: 22px;
+            padding: 5px;
+            position: relative;
+            display: flex;
+        }
+
+        .tab-indicator {
+            position: absolute;
+            top: 5px;
+            bottom: 5px;
+            left: 5px;
+            width: calc(25% - 2.5px);
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1;
+        }
+
+        .m-tab {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 0;
+            cursor: pointer;
+            z-index: 2;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .m-tab span {
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .m-tab img {
+            width: 22px;
+            height: 22px;
+            filter: opacity(0.85) brightness(0.8);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .m-tab.m-tab-active {
+            color: var(--accent-slate);
+        }
+
+        .m-tab.m-tab-active img {
+            filter: brightness(0) saturate(100%) invert(31%) sepia(19%) saturate(464%) hue-rotate(176deg) brightness(95%) contrast(88%);
+            transform: translateY(-2px);
+        }
+
+        /* ----- Main Scrollable Content ----- */
+        .scroller {
             flex: 1;
             overflow-y: auto;
-            padding: 16px 16px;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 120px;
+            /* space for bottom nav */
             scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
         }
 
-        .content-scroller::-webkit-scrollbar {
+        .scroller::-webkit-scrollbar {
             display: none;
+            /* Chrome, Safari and Opera */
         }
 
-        .glass-tabs {
-            margin-bottom: 24px;
+        .section-header {
             display: flex;
-            gap: 10px;
-            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            position: sticky;
+            top: calc(var(--safe-area-top) + 83px);
+            background: rgba(247, 249, 252, 0.85);
+            /* Matched to #f7f9fc variable */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 50;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s;
         }
 
-        .g-tab {
-            flex: 1;
-            padding: 14px 4px;
+        .scrolled .section-header {
+            border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .view-toggles {
+            display: flex;
+            background: var(--pill-bg);
             border-radius: 20px;
+            padding: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .view-btn {
+            background: transparent;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
             cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            background: rgba(255, 255, 255, 0.35);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 4px 10px rgba(84, 110, 164, 0.05);
-            position: relative;
+            color: var(--text-dim);
+            transition: all 0.2s;
         }
 
-        .g-tab span {
-            font-size: 11px;
-            font-weight: 800;
-            white-space: nowrap;
-            letter-spacing: -0.2px;
+        .view-btn.active {
+            background: #f1f5f9;
+            color: #334155;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
         }
 
-        .g-tab-active {
-            background: linear-gradient(135deg, rgba(135, 169, 237, 0.9) 0%, rgba(84, 110, 164, 0.85) 100%);
-            color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 20px rgba(84, 110, 164, 0.4), inset 0 1px 3px rgba(255, 255, 255, 0.3);
-            transform: none;
-            z-index: 2;
+        .view-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
         }
 
-        .g-tab-inactive {
-            color: rgba(84, 110, 164, 0.8);
-            transform: none;
+        /* ----- Cards ----- */
+        .cards-container {
+            padding: 0 16px;
+            transition: all 0.3s ease;
         }
 
-        .g-tab img {
-            width: 24px;
-            height: 24px;
-            /* Precise filter for #546EA4 */
-            filter: brightness(0) saturate(100%) invert(41%) sepia(28%) saturate(677%) hue-rotate(185deg) brightness(92%) contrast(87%);
-            transition: var(--ios-spring);
+        /* Grid View */
+        .cards-container.grid-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
         }
 
-        .g-tab-active img {
-            filter: brightness(0) invert(1) !important;
-            opacity: 1;
-        }
-
-        .g-tab-inactive img {
-            opacity: 0.6;
-        }
-
-        .sticky-index-wrapper {
-            position: sticky;
-            top: 6px;
-            z-index: 50;
-            display: flex;
-            justify-content: flex-start;
-            margin-bottom: 24px;
-            pointer-events: none;
-            /* Let scroll events pass through the empty side */
-        }
-
-        .hero-title {
-            pointer-events: auto;
-            /* Re-enable for the actual badge */
-            font-size: 24px;
-            font-weight: 900;
-            color: var(--text-title);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-
-            /* Floating HUD Capsule */
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(35px) saturate(180%);
-            padding: 6px 14px 6px 18px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow:
-                0 12px 24px -6px rgba(84, 110, 164, 0.2),
-                inset 0 1px 3px rgba(255, 255, 255, 0.9);
-            margin: 0;
-        }
-
-        .hero-title span {
-            font-size: 10px;
-            font-weight: 800;
-            color: #fff;
-            background: linear-gradient(135deg, var(--accent-deep), var(--accent-teal));
-            padding: 4px 10px;
-            border-radius: 16px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(42, 59, 92, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
-            /* Optically center against huge numbers */
-        }
-
-        /* ── The Prism Cards (Spatial Bricks) ───────────────────── */
-        .plate-stack {
+        /* List View */
+        .cards-container.list-view {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            padding-bottom: 120px;
+            gap: 14px;
         }
 
-        .spatial-card {
-            background: var(--glass-white);
-            backdrop-filter: var(--glass-blur);
+        .card {
+            background: var(--card-bg);
             border-radius: 20px;
-            padding: 14px 16px;
-            border: 1px solid var(--card-border);
-            box-shadow:
-                0 4px 12px rgba(84, 110, 164, 0.05),
-                inset 0 1px 1px rgba(255, 255, 255, 1);
+            padding: 12px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
             position: relative;
             overflow: hidden;
-            display: grid;
-            grid-template-columns: 1fr auto;
-            row-gap: 12px;
-            column-gap: 16px;
-            align-items: center;
-            animation: plateEnter 0.5s cubic-bezier(0, 1.05, 0.3, 1) both;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .spatial-card-header {
-            grid-column: 1 / 3;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-bottom: 0;
-            padding-right: 40px;
+        .card:active {
+            transform: scale(0.98);
         }
 
-        .spatial-title {
-            font-size: 15px;
+        .pro-tag {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 8px;
             font-weight: 800;
-            line-height: 1.35;
-            color: var(--text-title);
+            color: #ffffff;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            padding: 2px 8px;
+            border-bottom-left-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(217, 119, 6, 0.2);
+            z-index: 5;
         }
 
-        .spatial-subtitle {
-            font-size: 11px;
+        .card-content {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 16px;
             font-weight: 700;
-            color: var(--accent-deep);
-            background: var(--accent-glow);
-            align-self: flex-start;
-            padding: 4px 10px;
-            border-radius: 8px;
+            line-height: 1.25;
             letter-spacing: -0.2px;
-            line-height: 1.4;
-            white-space: normal;
+            margin-bottom: 4px;
+            color: var(--text-primary);
         }
 
-        .spatial-date {
-            grid-column: 1 / 2;
+        .card-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.35;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .cjs-code {
             font-size: 11px;
-            font-weight: 700;
-            color: var(--text-extra-dim);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .spatial-date svg {
-            width: 14px;
-            height: 14px;
-            opacity: 0.6;
-        }
-
-        /* Unique Elements: CJS Code and PRO Tag */
-        .spatial-cjs-code {
-            font-size: 10px;
             font-weight: 700;
             color: #475569;
             background: #f1f5f9;
-            padding: 2px 8px;
-            border-radius: 6px;
+            padding: 2px 6px;
+            border-radius: 4px;
             display: inline-block;
-            align-self: flex-start;
-            margin-top: 4px;
+            margin-bottom: 12px;
             letter-spacing: 0.5px;
             border: 1px solid #e2e8f0;
         }
 
-        .spatial-pro-tag {
-            position: absolute;
-            top: 0;
-            right: 0;
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border-color);
+            gap: 8px;
+        }
+
+        .card-date {
             font-size: 10px;
-            font-weight: 900;
-            color: #ffffff;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            padding: 4px 12px;
-            border-bottom-left-radius: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
-            z-index: 5;
-        }
-
-        .spatial-footer {
-            grid-column: 2 / 3;
+            color: var(--text-dim);
+            font-weight: 600;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            gap: 14px;
-            padding-top: 0;
-            border-top: none;
+            gap: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        .spatial-tools {
+        .card-date svg {
+            width: 10px;
+            height: 10px;
+            stroke: var(--text-dim);
+            stroke-width: 2.5;
+        }
+
+        .card-icons {
             display: flex;
-            align-items: center;
-            gap: 16px;
+            gap: 4px;
         }
 
-        .spatial-tools img {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .spatial-tools img.cat-icon {
-            background: #e1f5fe;
-            border: 1.5px solid #bae6fd;
-            border-radius: 8px;
-            padding: 4px;
-            box-shadow: 0 2px 5px rgba(129, 212, 250, 0.2);
-        }
-
-        .spatial-tools img:hover {
-            transform: scale(1.1);
-        }
-
-        .spatial-tools img:active {
-            transform: scale(0.9);
-        }
-
-        .spatial-link {
-            width: 30px;
-            height: 30px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
-            border-radius: 10px;
+        .star-btn {
+            background: #f8fafc;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 8px rgba(75, 124, 140, 0.25);
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        .spatial-link svg {
+        .star-btn.active {
+            background: #FFD049;
+            box-shadow: 0 4px 10px rgba(255, 208, 73, 0.3);
+        }
+
+        .star-btn img {
             width: 14px;
-            stroke: #fff;
+            filter: grayscale(100%);
+            opacity: 0.4;
         }
 
-        /* ── Floating Nav Dock ─────────────────────────────────── */
-        .nav-dock {
+        .star-btn.active img {
+            filter: brightness(0) invert(1);
+            opacity: 1;
+        }
+
+        /* ----- Bottom Nav ----- */
+        .bottom-nav-wrapper {
             position: absolute;
-            bottom: 0;
+            bottom: max(16px, var(--safe-area-bottom));
             left: 0;
             width: 100%;
-            height: 86px;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(25px);
-            border-radius: 34px 34px 0 0;
+            padding: 0 16px;
+            z-index: 200;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s;
+        }
+
+        .nav-hidden .bottom-nav-wrapper {
+            transform: translateY(150px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .bottom-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             display: flex;
             justify-content: space-around;
-            align-items: flex-start;
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.05);
-            z-index: 200;
-            padding: 12px 20px 0;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 40px;
+            /* Inner track design: thin darker border + inner white glow */
+            border: 1px solid rgba(15, 23, 42, 0.15);
+            box-shadow:
+                0 12px 32px -8px rgba(15, 23, 42, 0.2),
+                /* Deep floating shadow */
+                inset 0 0 0 1.5px rgba(255, 255, 255, 0.8);
+            /* Inner white track glow */
+            position: relative;
+        }
+
+        .nav-btn {
+            background: transparent;
             border: none;
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s;
-            transform: translateY(0);
-        }
-
-        .nav-collapsed {
-            transform: translateY(100%);
-        }
-
-        .nav-item {
+            height: 50px;
+            width: 50px;
+            border-radius: 25px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: var(--text-extra-dim);
-            height: 54px;
-            min-width: 70px;
-            padding: 0;
-            border-radius: 20px;
-            transition: var(--ios-spring);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        .nav-active {
-            background: linear-gradient(135deg, rgba(135, 169, 237, 0.9) 0%, rgba(84, 110, 164, 0.85) 100%);
-            color: #fff !important;
-            box-shadow: 0 10px 20px rgba(84, 110, 164, 0.4);
+        .nav-btn.active {
+            background: var(--accent-blue);
+            width: 80px;
         }
 
-        .nav-item img {
-            width: 26px;
-            height: 26px;
+        .nav-btn img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0);
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+
+        .nav-btn.active img {
+            filter: brightness(0) invert(1);
             opacity: 1;
-            filter: none;
-            transition: var(--ios-spring);
         }
 
-        .nav-active img {
-            opacity: 1;
-            filter: brightness(0) invert(1) !important;
-        }
-
-        .nav-label {
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        .nav-active .nav-label {
-            color: #fff;
-        }
-
-        .home-pill {
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 130px;
-            height: 5px;
-            background: #000;
-            border-radius: 10px;
-            opacity: 0.1;
-        }
-
-        @keyframes plateEnter {
-            from {
-                opacity: 0;
-                transform: translateY(40px) scale(0.9);
-                filter: blur(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        .spatial-card:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .spatial-card:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .spatial-card:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .spatial-card:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .spatial-card:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        /* ── Mobile Hybrid Viewport ────────────────────────────────── */
-        @media (max-width: 500px) {
-
-            html,
+        /* ----- Responsive / Desktop Mockup bounds ----- */
+        @media (min-width: 500px) {
             body {
-                height: 100%;
-                overflow: hidden;
-                background-color: #f7f9fc;
+                padding: 40px 0;
+                background-color: #e2e8f0;
+                /* Show dark background outside app area on desktop */
+                overflow: auto;
+                /* Re-enable scroll on desktop to see the whole phone */
             }
 
-            body {
-                height: 100dvh;
-            }
-
-            .ambient-box {
-                display: none;
-                /* Simplify on mobile for performance */
-            }
-
-            .scene {
-                width: 100%;
-                height: 100dvh;
-                display: block;
-            }
-
-            .iphone {
-                width: 100%;
-                height: 100%;
-                background: none;
-                padding: 0;
-                border-radius: 0;
-                box-shadow: none;
-            }
-
-            .bezel {
-                width: 100%;
-                height: 100%;
-                padding: 0;
-                border-radius: 0;
-            }
-
-            .screen {
-                width: 100%;
-                height: 100dvh;
-                border-radius: 0;
-            }
-
-            .dynamic-island {
-                display: none;
-            }
-
-            .status-bar {
-                display: none;
-            }
-
-            .header-spatial {
-                padding-top: calc(env(safe-area-inset-top, 44px) + 10px);
-                border-radius: 0 0 32px 32px;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                z-index: 1001;
-                background: linear-gradient(180deg, var(--accent-blue) 0%, rgba(84, 110, 164, 0.95) 100%);
-                will-change: transform;
-                transform: translateZ(0);
-                backface-visibility: hidden;
-                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-
-            .header-collapsed {
-                transform: translateY(-70px);
-            }
-
-            .nav-dock {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                padding-bottom: calc(env(safe-area-inset-bottom, 34px) + 5px);
-                height: auto;
-                min-height: 100px;
-                background: rgba(255, 255, 255, 0.98);
-                border-radius: 28px 28px 0 0;
-                z-index: 2000;
-                box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
-                backface-visibility: hidden;
-                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-
-            .nav-collapsed {
-                transform: translateY(100%);
-            }
-
-            /* Hides black gap below bottom bar during overscroll */
-            .nav-dock::after {
-                content: "";
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                height: 100px;
-                background: #fff;
-            }
-
-            .home-pill {
-                display: none;
-            }
-
-            .content-scroller {
-                padding-top: 180px;
-                /* Space for fixed header */
-                padding-bottom: 200px;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                overscroll-behavior-y: contain;
-                background-color: #f7f9fc;
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                /* iPhone 16 Pro Max height frame */
+                border: 12px solid #000;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="ambient-box">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
 
-    <div class="scene">
-        <div class="iphone">
-            <div class="bezel">
-                <div class="screen">
-                    <div class="dynamic-island"></div>
+    <div class="app-container">
 
-                    <div class="app-shell">
-                        <header class="header-spatial">
-                            <div class="status-bar">
-                                <span class="status-time">9:41</span>
-                                <div style="display:flex;gap:6px;">
-                                    <svg width="17" height="11">
-                                        <path d="M1 10h1v1H1v-1zm3-3h1v4H4V7zm3-3h1v7H7V4zm3-3h1v10h-1V1z"
-                                            fill="#fff" />
-                                    </svg>
-                                    <svg width="25" height="12">
-                                        <rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="#fff"
-                                            fill="none" />
-                                        <rect x="2" y="2" width="16" height="8" rx="1" fill="#fff" />
-                                        <path d="M23 4v4" stroke="#fff" />
-                                    </svg>
-                                </div>
+        <div class="scroller">
+
+            <header class="app-header">
+                <div class="top-nav-group">
+                    <div class="top-nav">
+                        <div class="ai-spatial-pill">
+                            <div class="ai-pulse-wrap"><img src="images/ai.svg" alt="AI"></div>
+                            <span class="ai-hint">NEW! AI Assistant</span>
+                        </div>
+                        <div class="top-actions">
+                            <div class="action-item announcements">
+                                <img src="images/megaphone.svg" alt="Announcements">
                             </div>
-
-                            <div class="top-deck">
-                                <div class="ai-spatial-pill">
-                                    <div class="ai-pulse-wrap"><img src="images/ai.svg"></div>
-                                    <span class="ai-hint">NEW! AI Assistant</span>
-                                </div>
-                                <div class="tool-bar">
-                                    <div class="tool-btn"><img src="images/megaphone.svg"></div>
-                                    <div class="tool-btn"><img src="images/ps-podcast.svg"></div>
-                                    <div class="tool-btn"><img src="images/star.svg"></div>
-                                </div>
+                            <div class="action-item podcast">
+                                <img src="images/ps-podcast.svg" alt="Podcast">
                             </div>
-
-                            <div class="search-spatial">
-                                <img src="images/search.svg">
-                                <span>Search knowledge base...</span>
-                                <a href="#" class="search-all-cta">
-                                    Search All
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <polyline points="9 18 15 12 9 6"></polyline>
-                                    </svg>
-                                </a>
-                                <div class="btn-filter-glass"><img src="images/filter.svg"></div>
-                            </div>
-                        </header>
-
-                        <div class="content-scroller">
-                            <div class="glass-tabs">
-                                <div class="g-tab g-tab-active"><img src="images/all.svg"> <span>All</span></div>
-                                <div class="g-tab g-tab-inactive"><img src="images/summary.svg"> <span>Summary</span>
-                                </div>
-                                <div class="g-tab g-tab-inactive"><img src="images/either-way.svg"> <span>Either
-                                        way</span></div>
-                                <div class="g-tab g-tab-inactive"><img src="images/Indictable.svg">
-                                    <span>Indictable</span>
-                                </div>
-                            </div>
-
-                            <div class="sticky-index-wrapper">
-                                <h1 class="hero-title">0–9 <span>16 ITEMS</span></h1>
-                            </div>
-
-                            <div class="plate-stack">
-                                <!-- Plate 1 -->
-                                <div class="spatial-card">
-                                    <span class="spatial-pro-tag">PRO</span>
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">3×5×2 Intelligence Submission</h3>
-                                        <span class="spatial-subtitle">Forces Gradually Adopting from April 2016</span>
-                                        <div class="spatial-cjs-code">TH68058</div>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/attech.svg" data-icon="images/attech.svg" class="cat-icon">
-                                        </div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 2 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">4 R's - Detained Person Observation List</h3>
-                                        <span class="spatial-subtitle">PACE Code C - Annex H</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/summary.svg" data-icon="images/summary.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 3 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">5 statutory principles of Mental Capacity Act 2005
-                                        </h3>
-                                        <span class="spatial-subtitle">Mental Capacity Act 2005</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/either-way.svg" data-icon="images/either-way.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 4 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">5x5x5 Intelligence Submission</h3>
-                                        <span class="spatial-subtitle">Source Grading</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/Indictable.svg" data-icon="images/Indictable.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 5 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">3×5×2 Intelligence Submission</h3>
-                                        <span class="spatial-subtitle">Forces Gradually Adopting from April 2016</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/attech.svg" data-icon="images/attech.svg" class="cat-icon">
-                                        </div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 6 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">4 R's - Detained Person Observation List</h3>
-                                        <span class="spatial-subtitle">PACE Code C - Annex H</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/summary.svg" data-icon="images/summary.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 7 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">5 statutory principles of Mental Capacity Act 2005
-                                        </h3>
-                                        <span class="spatial-subtitle">Mental Capacity Act 2005</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/either-way.svg" data-icon="images/either-way.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 8 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">5x5x5 Intelligence Submission</h3>
-                                        <span class="spatial-subtitle">Source Grading</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/Indictable.svg" data-icon="images/Indictable.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 9 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">3×5×2 Intelligence Submission</h3>
-                                        <span class="spatial-subtitle">Forces Gradually Adopting from April 2016</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/attech.svg" data-icon="images/attech.svg" class="cat-icon">
-                                        </div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 10 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">4 R's - Detained Person Observation List</h3>
-                                        <span class="spatial-subtitle">PACE Code C - Annex H</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/summary.svg" data-icon="images/summary.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 11 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">5 statutory principles of Mental Capacity Act 2005
-                                        </h3>
-                                        <span class="spatial-subtitle">Mental Capacity Act 2005</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/either-way.svg" data-icon="images/either-way.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 12 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">5x5x5 Intelligence Submission</h3>
-                                        <span class="spatial-subtitle">Source Grading</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/Indictable.svg" data-icon="images/Indictable.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 13 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">3×5×2 Intelligence Submission</h3>
-                                        <span class="spatial-subtitle">Forces Gradually Adopting from April 2016</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/attech.svg" data-icon="images/attech.svg" class="cat-icon">
-                                        </div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 14 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">4 R's - Detained Person Observation List</h3>
-                                        <span class="spatial-subtitle">PACE Code C - Annex H</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/summary.svg" data-icon="images/summary.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 15 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">5 statutory principles of Mental Capacity Act 2005
-                                        </h3>
-                                        <span class="spatial-subtitle">Mental Capacity Act 2005</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/either-way.svg" data-icon="images/either-way.svg"
-                                                class="cat-icon"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
-
-                                <!-- Plate 16 -->
-                                <div class="spatial-card">
-                                    <div class="spatial-card-header">
-                                        <h3 class="spatial-title">5x5x5 Intelligence Submission</h3>
-                                        <span class="spatial-subtitle">Source Grading</span>
-                                    </div>
-                                    <div class="spatial-date">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12 6 12 12 16 14"></polyline>
-                                        </svg>
-                                        02-05-2025
-                                    </div>
-                                    <div class="spatial-footer">
-                                        <div class="spatial-tools"><img src="images/star-sm.svg"><img
-                                                src="images/attech.svg"></div>
-                                        <div class="spatial-link"><svg viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                                stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="9 18 15 12 9 6"></polyline>
-                                            </svg></div>
-                                    </div>
-                                </div>
+                            <div class="action-item favorites">
+                                <img src="images/star.svg" alt="Favorites">
                             </div>
                         </div>
+                    </div>
 
-                        <nav class="nav-dock">
-                            <div class="nav-item nav-active">
-                                <img src="images/search.svg">
-                            </div>
-                            <div class="nav-item">
-                                <img src="images/crime-cat.svg">
-                            </div>
-                            <div class="nav-item">
-                                <img src="images/checklist.svg">
-                            </div>
-                            <div class="nav-item">
-                                <img src="images/contact-us.svg">
-                            </div>
-                            <div class="nav-item">
-                                <img src="images/bar.svg">
-                            </div>
-                        </nav>
+                    <div class="search-section">
+                        <div class="search-input-wrapper">
+                            <img src="images/search.svg" alt="Search Icon">
+                            <input type="text" placeholder="Search...">
+                            <a href="#" class="search-all-cta">
+                                Search All
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                        <button class="filter-btn">
+                            <img src="images/filter.svg" alt="Filter">
+                        </button>
+                    </div>
+                </div> <!-- Ends top-nav-group -->
+
+                <div class="sticky-tabs-container">
+                    <div class="magic-tabs-wrapper">
+                        <div class="tab-indicator" id="tab-bg"></div>
+                        <div class="m-tab m-tab-active"><img src="images/all.svg" alt="All"> <span>All</span></div>
+                        <div class="m-tab m-tab-inactive"><img src="images/summary.svg" alt="Summary">
+                            <span>Summary</span>
+                        </div>
+                        <div class="m-tab m-tab-inactive"><img src="images/either-way.svg" alt="Either Way">
+                            <span>Either Way</span>
+                        </div>
+                        <div class="m-tab m-tab-inactive"><img src="images/Indictable.svg" alt="Indictable">
+                            <span>Indictable</span>
+                        </div>
                     </div>
                 </div>
+            </header>
+
+            <div class="section-header">
+                <h2>0-9</h2>
+                <div class="view-toggles">
+                    <button class="view-btn list-view-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                    </button>
+                    <button class="view-btn grid-view-btn active">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <rect x="4" y="4" width="6" height="6" rx="1"></rect>
+                            <rect x="14" y="4" width="6" height="6" rx="1"></rect>
+                            <rect x="14" y="14" width="6" height="6" rx="1"></rect>
+                            <rect x="4" y="14" width="6" height="6" rx="1"></rect>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="cards-container grid-view" id="cards-container">
+                <!-- Card 1 -->
+                <div class="card">
+                    <span class="pro-tag">PRO</span>
+                    <div class="card-content">
+                        <div class="card-title">3x5x2 Intelligence Submission</div>
+                        <div class="card-subtitle">Forces Gradually Adopting from April 2016</div>
+                        <div class="cjs-code">TH68058</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">4 R's - Detained Person Observation List</div>
+                        <div class="card-subtitle">PACE Code C - Annex H</div>
+                        <div class="cjs-code">TH68058</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">5 statutory principles of Mental Capacity Act 2005</div>
+                        <div class="card-subtitle">Mental Capacity Act 2005</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="card">
+                    <span class="pro-tag">PRO</span>
+                    <div class="card-content">
+                        <div class="card-title">5x5x5 Intelligence Submission</div>
+                        <div class="card-subtitle">Source Grading</div>
+                        <div class="cjs-code">TH68058</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">5x5x5 Intelligence Submission</div>
+                        <div class="card-subtitle">Information / Intelligence Evaluation</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">5x5x5 Intelligence Submission</div>
+                        <div class="card-subtitle">Main Report</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">16 Point Ethnic</div>
+                        <div class="card-subtitle">Officer Defined Ethnicity</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Domestic Abuse Stalking & Harassment</div>
+                        <div class="card-subtitle">DASH Risk Identification</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>01-14-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 9 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Vulnerability Assessment Framework</div>
+                        <div class="card-subtitle">VAF V1.2 Guidelines</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>12-10-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 10 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">National Decision Model</div>
+                        <div class="card-subtitle">Core NDM Cycle Framework</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>03-21-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 11 -->
+                <div class="card">
+                    <span class="pro-tag">PRO</span>
+                    <div class="card-content">
+                        <div class="card-title">Section 136 MHA</div>
+                        <div class="card-subtitle">Mental Health Act Guidelines</div>
+                        <div class="cjs-code">TH68058</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>11-05-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 12 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Stop and Search Report</div>
+                        <div class="card-subtitle">PACE Code A Procedures</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>09-12-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 13 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Counter Terrorism Tactics</div>
+                        <div class="card-subtitle">Schedule 7 Port Stops</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>06-30-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 14 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Traffic Offence Report (TOR)</div>
+                        <div class="card-subtitle">Road Traffic Act 1988 Reference</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>08-22-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 15 -->
+                <div class="card">
+                    <span class="pro-tag">PRO</span>
+                    <div class="card-content">
+                        <div class="card-title">Use of Force Reporting</div>
+                        <div class="card-subtitle">Firearms & Taser Deployments</div>
+                        <div class="cjs-code">TH68058</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>04-18-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 16 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Missing Persons (COMPACT)</div>
+                        <div class="card-subtitle">Risk Assessment Matrices</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>05-11-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 17 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Vulnerable Child Protection</div>
+                        <div class="card-subtitle">Multi-Agency Safeguarding Hubs (MASH)</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>08-01-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 18 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Major Incident Declaration</div>
+                        <div class="card-subtitle">JESIP Framework & METHANE</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-28-2026</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 19 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Anti-Social Behaviour (ASB)</div>
+                        <div class="card-subtitle">Community Protection Warnings (CPW)</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>10-15-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 20 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Digital Device Seizure</div>
+                        <div class="card-subtitle">Cyber Crime Initial Actions</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>07-09-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 21 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Scene Management</div>
+                        <div class="card-subtitle">Cordons and Log Preservation</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>04-04-2026</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 22 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Hate Crime Reporting</div>
+                        <div class="card-subtitle">Crime Recording Standards (NCRS)</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>01-19-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 23 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Pursuit Management</div>
+                        <div class="card-subtitle">Spontaneous Vehicle Checklists</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>09-30-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 24 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Custody Booking Risk</div>
+                        <div class="card-subtitle">Pre-Release Medical Assessments</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>11-22-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 25 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Body-Worn Video (BWV)</div>
+                        <div class="card-subtitle">Evidential Continuity Protocols</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>06-05-2026</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
+
+        <!-- Bottom Nav Dock -->
+        <div class="bottom-nav-wrapper">
+            <nav class="bottom-nav">
+                <button class="nav-btn active"><img src="images/search.svg" alt="Search"></button>
+                <button class="nav-btn"><img src="images/tags.svg" alt="Tags"></button>
+                <button class="nav-btn"><img src="images/checklist.svg" alt="Clipboard"></button>
+                <button class="nav-btn"><img src="images/phone-call.svg" alt="Contact"></button>
+                <button class="nav-btn"><img src="images/bar.svg" alt="Scan"></button>
+            </nav>
+        </div>
+
     </div>
 
-    <!-- Script for Tab Switching and Icon Updates -->
     <script>
-        const tabs = document.querySelectorAll('.g-tab');
-        const spatialIcons = document.querySelectorAll('.cat-icon');
+        // High-Performance Smooth Scroll Triggers
+        const scroller = document.querySelector('.scroller');
+        let lastScrollY = scroller.scrollTop;
 
-        tabs.forEach(tab => {
+        scroller.addEventListener('scroll', () => {
+            const currentScrollY = scroller.scrollTop;
+
+            // Scrolling down
+            if (currentScrollY > lastScrollY && currentScrollY > 70) {
+                document.body.classList.add('nav-hidden');
+            }
+            // Scrolling up
+            else if (currentScrollY < lastScrollY) {
+                // Prevent bottom rubber-band bounce from falsely revealing the menu
+                if (currentScrollY + scroller.clientHeight < scroller.scrollHeight - 10) {
+                    document.body.classList.remove('nav-hidden');
+                }
+            }
+
+            // Always show at absolute top
+            if (currentScrollY <= 70) {
+                document.body.classList.remove('nav-hidden');
+            }
+
+            // Toggle nice border logic for sticky container
+            if (currentScrollY > 10) {
+                document.body.classList.add('scrolled');
+            } else {
+                document.body.classList.remove('scrolled');
+            }
+
+            lastScrollY = currentScrollY;
+        }, { passive: true });
+
+        // View Toggle Logic
+        const gridBtn = document.querySelector('.grid-view-btn');
+        const listBtn = document.querySelector('.list-view-btn');
+        const container = document.getElementById('cards-container');
+
+        gridBtn.addEventListener('click', () => {
+            if (!gridBtn.classList.contains('active')) {
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+                container.classList.remove('list-view');
+                container.classList.add('grid-view');
+            }
+        });
+
+        listBtn.addEventListener('click', () => {
+            if (!listBtn.classList.contains('active')) {
+                listBtn.classList.add('active');
+                gridBtn.classList.remove('active');
+                container.classList.remove('grid-view');
+                container.classList.add('list-view');
+            }
+        });
+
+        // Star Toggle Logic
+        const starBtns = document.querySelectorAll('.star-btn');
+        starBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('active');
+            });
+        });
+
+        // Tab Selection Logic
+        const tabs = document.querySelectorAll('.m-tab');
+        const tabIndicator = document.getElementById('tab-bg');
+
+        tabs.forEach((tab, index) => {
             tab.addEventListener('click', () => {
-                // Update active tab UI
                 tabs.forEach(t => {
-                    t.classList.remove('g-tab-active');
-                    t.classList.add('g-tab-inactive');
+                    t.classList.remove('m-tab-active');
+                    t.classList.add('m-tab-inactive');
                 });
-                tab.classList.add('g-tab-active');
-                tab.classList.remove('g-tab-inactive');
+                tab.classList.add('m-tab-active');
+                tab.classList.remove('m-tab-inactive');
 
-                const tabText = tab.querySelector('span').textContent.trim();
-                const tabIconSrc = tab.querySelector('img').src;
+                // Slide the fluid active pill indicator
+                tabIndicator.style.transform = `translateX(${index * 100}%)`;
+            });
+        });
 
-                spatialIcons.forEach(icon => {
-                    if (tabText === 'All') {
-                        // Restore original icons from data-icon attribute
-                        const originalIcon = icon.getAttribute('data-icon');
-                        if (originalIcon) {
-                            icon.src = originalIcon;
-                        }
-                    } else {
-                        // All cards show the active tab's icon
-                        icon.src = tabIconSrc;
-                    }
-                });
+        // Bottom Nav Selection Logic
+        const navBtns = document.querySelectorAll('.bottom-nav .nav-btn');
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
             });
         });
     </script>
 
-    <!-- Scroll Interaction Script -->
+
     <script>
-        // Optimized Scrolling Interaction
-        const scroller = document.querySelector('.content-scroller');
-        const header = document.querySelector('.header-spatial');
-        const navDock = document.querySelector('.nav-dock');
-
-        let lastScrollTop = 0;
-        let ticking = false;
-
-        if (scroller && header && navDock) {
-            scroller.addEventListener('scroll', () => {
-                if (!ticking) {
-                    window.requestAnimationFrame(() => {
-                        const scrollTop = scroller.scrollTop;
-
-                        // Only hide after scrolling down a bit (40px buffer)
-                        if (scrollTop > 40 && scrollTop > lastScrollTop) {
-                            header.classList.add('header-collapsed');
-                            navDock.classList.add('nav-collapsed');
-                        }
-                        // Show when scrolling up slightly, or when hitting the top
-                        else if (scrollTop < lastScrollTop - 10 || scrollTop <= 20) {
-                            header.classList.remove('header-collapsed');
-                            navDock.classList.remove('nav-collapsed');
-                        }
-
-                        lastScrollTop = Math.max(0, scrollTop);
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            }, { passive: true });
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Registration Failed', err));
+            });
         }
     </script>
 </body>

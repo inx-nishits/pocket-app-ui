@@ -553,10 +553,10 @@ css = """
         }
 """
 
-with open('c:/Projects/pocket-app-ui/index-f.html', 'r', encoding='utf-8') as f:
+with open('./index-c.html', 'r', encoding='utf-8') as f:
     html = f.read()
 
 html = re.sub(r'<style>.*?</style>', f'<style>{css}</style>', html, flags=re.DOTALL)
 
-with open('c:/Projects/pocket-app-ui/index-f.html', 'w', encoding='utf-8') as f:
+with open('./index-c.html', 'w', encoding='utf-8') as f:
     f.write(html)

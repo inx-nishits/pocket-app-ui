@@ -2,1195 +2,649 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-
-    <title>Knowledge Base App – iOS UI Demo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet" />
-
-    <!-- PWA / iOS Native App Meta Tags -->
+    <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#f7f9fc">
-    <link rel="manifest" href="manifest-index.json">
+    <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="images/Ps-pro-logo.png">
-    <meta name="format-detection" content="telephone=no">
-
+    <title>Pocket App - Spatial iOS 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ── Reset ────────────────────────────────────────────────── */
         :root {
-            --main-theme: #546EA4;
-            --main-theme-light: #6a83ba;
-            --main-theme-dark: #44588e;
-            --main-theme-glass: rgba(84, 110, 164, 0.45);
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #546EA4;
+            --pill-bg: #ffffff;
+            --shadow-sm: 0 4px 16px rgba(84, 110, 164, 0.08);
+            /* Derived from 546EA4 */
+            --shadow-md: 0 8px 32px rgba(84, 110, 164, 0.12);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
         }
 
-        *,
-        *::before,
-        *::after {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            min-height: 100vh;
+            background-color: var(--bg-color);
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 48px 24px;
-            background: #080c1a;
-            position: relative;
+            align-items: flex-start;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            color: var(--text-primary);
             overflow: hidden;
+            /* Prevent body scroll, let container scroll */
+            overscroll-behavior-y: none;
+            /* Native iOS bounce lock */
         }
 
-        /* ── Animated background orbs ─────────────────────────────── */
-        .bg-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
+        /* Required to fill available safe space accurately */
+        html {
+            height: -webkit-fill-available;
+            -webkit-text-size-adjust: 100%;
         }
 
-        .bg-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-            animation: orbFloat 12s ease-in-out infinite;
-        }
-
-        .bg-orb-1 {
-            width: 560px;
-            height: 560px;
-            background: radial-gradient(circle, #2a4bdb, #1255a0);
-            top: -8%;
-            left: -8%;
-            animation-duration: 14s;
-        }
-
-        .bg-orb-2 {
-            width: 440px;
-            height: 440px;
-            background: radial-gradient(circle, #6038d4, #3a50dc);
-            top: 38%;
-            right: -12%;
-            animation-duration: 10s;
-            animation-delay: -4s;
-        }
-
-        .bg-orb-3 {
-            width: 380px;
-            height: 380px;
-            background: radial-gradient(circle, #0a90cc, #0260a8);
-            bottom: -8%;
-            left: 28%;
-            animation-duration: 16s;
-            animation-delay: -8s;
-        }
-
-        @keyframes orbFloat {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            33% {
-                transform: translate(36px, -28px) scale(1.04);
-            }
-
-            66% {
-                transform: translate(-26px, 18px) scale(0.97);
-            }
-        }
-
-        /* ── Scene ────────────────────────────────────────────────── */
-        .scene {
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background-color: var(--bg-color);
             position: relative;
-            z-index: 10;
-            animation: sceneIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-        }
-
-        @keyframes sceneIn {
-            from {
-                opacity: 0;
-                transform: translateY(32px) scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* Glow behind phone */
-        .phone-glow {
-            position: absolute;
-            inset: -28px;
-            border-radius: 78px;
-            background: radial-gradient(ellipse at 50% 38%, var(--main-theme-glass) 0%, transparent 68%);
-            filter: blur(28px);
-            z-index: -1;
-            animation: glowPulse 4s ease-in-out infinite;
-        }
-
-        @keyframes glowPulse {
-
-            0%,
-            100% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.04);
-            }
-        }
-
-        /* ─────────────────────────────────────────────────────────────
-           iPhone 16 Pro Max Frame - Hyper Realistic 3D Model
-           Screen: 440x956 | Bezel: 8px | Frame: Titanium
-        ───────────────────────────────────────────────────────────── */
-        .iphone {
-            position: relative;
-            width: 486px;
-            /* 440 screen + 8px*2 bezel + 15px*2 frame */
-            background: #d3c7b9;
-            background: linear-gradient(to right, #8a8278 0%, #b8aea4 5%, #d8cec4 15%, #f5f0eb 30%, #f5f0eb 70%, #d8cec4 85%, #b8aea4 95%, #8a8278 100%);
-            border-radius: 68px;
-            padding: 15px;
-            /* The Titanium Frame width */
-            box-shadow:
-                0 1px 2px rgba(255, 255, 255, 0.8),
-                0 -1px 1px rgba(0, 0, 0, 0.3),
-                0 20px 50px rgba(0, 0, 0, 0.6),
-                inset 0 0 2px rgba(255, 255, 255, 0.4);
-            z-index: 10;
-        }
-
-        /* Frame Texture & Antenna Bands */
-        .iphone::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 68px;
-            background:
-                linear-gradient(to bottom, transparent 150px, #9a8e80 150px, #9a8e80 152px, transparent 152px, transparent 800px, #9a8e80 800px, #9a8e80 802px, transparent 802px);
-            pointer-events: none;
-            opacity: 0.6;
-            z-index: 1;
-        }
-
-        /* Black Bezel Layer (OLED Border) */
-        .bezel {
-            background: #0b0b0b;
-            border-radius: 54px;
-            padding: 8px;
-            /* Ultra-thin Pro Max bezel */
-            box-shadow:
-                0 0 0 1px #000,
-                inset 0 0 3px rgba(255, 255, 255, 0.15);
-            position: relative;
-            z-index: 20;
-        }
-
-        /* 3D Hardware Buttons */
-        .btn {
-            position: absolute;
-            background: linear-gradient(to right, #8a8278, #b8aea4 40%, #8a8278);
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
-            z-index: 5;
-            box-shadow:
-                0 1px 2px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-
-        /* Left Side */
-        .btn-action {
-            left: -3px;
-            top: 120px;
-            width: 4px;
-            height: 32px;
-            border-radius: 4px 0 0 4px;
-        }
-
-        .btn-vol-up {
-            left: -3px;
-            top: 180px;
-            width: 4px;
-            height: 68px;
-            border-radius: 4px 0 0 4px;
-        }
-
-        .btn-vol-down {
-            left: -3px;
-            top: 265px;
-            width: 4px;
-            height: 68px;
-            border-radius: 4px 0 0 4px;
-        }
-
-        /* Right Side */
-        .btn-power {
-            right: -3px;
-            top: 220px;
-            width: 4px;
-            height: 100px;
-            border-radius: 0 4px 4px 0;
-        }
-
-        /* Screen Layer */
-        .screen {
-            width: 440px;
-            height: 956px;
-            background: #f0f2f8;
-            border-radius: 46px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            position: relative;
-            z-index: 30;
-            box-shadow: inset 0 0 2px #000;
         }
 
-        /* Glass Surface Reflection */
-        .screen-glass {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg,
-                    rgba(255, 255, 255, 0.08) 0%,
-                    rgba(255, 255, 255, 0.02) 40%,
-                    transparent 41%,
-                    transparent 100%);
-            border-radius: 46px;
-            pointer-events: none;
-            z-index: 100;
-        }
-
-        /* Dynamic Island - High Fidelity */
-        .dynamic-island {
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 130px;
-            height: 38px;
-            background: #000;
-            border-radius: 20px;
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.02);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Sensors within Island */
-        .di-sensor {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #080808;
-            box-shadow: inset 0 0 2px #111;
-        }
-
-        .di-camera {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #1c1d3c 0%, #050505 80%);
-            border: 1px solid #0d0d0d;
-            box-shadow: inset 0 0 3px rgba(80, 100, 255, 0.25);
-            position: relative;
-        }
-
-        .di-camera::after {
-            content: '';
-            position: absolute;
-            width: 2.5px;
-            height: 2.5px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            top: 2.5px;
-            left: 2.5px;
-        }
-
-        /* ─────────────────────────────────────────────────────────────
-       STATUS BAR
-    ───────────────────────────────────────────────────────────── */
-        .status-bar {
-            height: 62px;
-            background: var(--main-theme);
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            padding: 0 30px 10px;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 50;
-        }
-
-        .status-time {
-            font-size: 17px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -0.5px;
-        }
-
-        .status-right {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-
-        .signal {
-            display: flex;
-            align-items: flex-end;
-            gap: 2px;
-            height: 13px;
-        }
-
-        .signal span {
-            background: #fff;
-            border-radius: 1.5px;
-            width: 3.5px;
-        }
-
-        .signal span:nth-child(1) {
-            height: 5px;
-        }
-
-        .signal span:nth-child(2) {
-            height: 8px;
-        }
-
-        .signal span:nth-child(3) {
-            height: 11px;
-        }
-
-        .signal span:nth-child(4) {
-            height: 13px;
-            opacity: 0.35;
-        }
-
-        /* WiFi icon */
-        .wifi-icon {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Battery */
-        .battery-wrap {
-            display: flex;
-            align-items: center;
-        }
-
-        .battery-icon {
-            width: 28px;
-            height: 13px;
-            border: 1.8px solid rgba(255, 255, 255, 0.9);
-            border-radius: 3.5px;
-            padding: 2px;
-            position: relative;
-        }
-
-        .battery-icon::after {
-            content: '';
-            position: absolute;
-            right: -5px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 0 2px 2px 0;
-        }
-
-        .battery-fill {
-            background: #4ade80;
-            height: 100%;
-            width: 80%;
-            border-radius: 1.5px;
-        }
-
-        /* ─────────────────────────────────────────────────────────────
-       APP HEADER
-    ───────────────────────────────────────────────────────────── */
+        /* ----- Header Sections ----- */
         .app-header {
-            background: linear-gradient(160deg, var(--main-theme-dark) 0%, var(--main-theme) 55%, var(--main-theme-light) 100%);
-            padding: 12px 16px 16px;
-            flex-shrink: 0;
+            display: contents;
+        }
+
+        .top-nav-group {
+            background: var(--bg-color);
+            padding-top: var(--safe-area-top);
             position: relative;
-            overflow: hidden;
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+            z-index: 1;
         }
 
-        /* Subtle vertical light streak for 'real' glass feel */
-        .app-header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 20%;
-            width: 1px;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12), transparent);
-            pointer-events: none;
-        }
-
-        .app-header::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 220px 130px at 8% 115%, rgba(99, 130, 255, 0.28) 0%, transparent 70%),
-                radial-gradient(ellipse 160px 90px at 96% -8%, rgba(140, 90, 255, 0.22) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        /* ── AI Banner ──────────────────────────────────────────── */
-        .ai-banner {
+        .top-nav {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
-            position: relative;
-            z-index: 2;
-            gap: 10px;
-
-            /* Optimization: Use transform for smoother mobile animations */
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s, margin-bottom 0.4s;
-            transform-origin: top center;
-            will-change: transform, opacity;
+            align-items: center;
+            padding: 16px 16px 4px;
         }
 
-        .header-collapsed .ai-banner {
-            transform: translateY(-20px) scale(0.95);
-            opacity: 0;
-            margin-bottom: -40px;
-            /* Pull search bar up */
-            pointer-events: none;
-        }
-
-        .ai-pill {
+        .ai-spatial-pill {
+            background: var(--pill-bg);
+            padding: 0 14px 0 6px;
+            border-radius: 50px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            background: #ffffff;
-            border-radius: 28px;
-            padding: 7px 12px 7px 7px;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex: 1;
+            gap: 4px;
+            box-shadow: var(--shadow-sm);
+            height: 40px;
         }
 
-
-        /* AI avatar wraps the Image(AI).svg at a larger size */
-        .ai-avatar-wrap {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-
-        @keyframes aiGlow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 18px rgba(139, 92, 246, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
-            }
-
-            50% {
-                box-shadow: 0 0 30px rgba(139, 92, 246, 0.85), 0 2px 8px rgba(0, 0, 0, 0.3);
-            }
-        }
-
-        .ai-avatar-wrap img {
-            width: 30px;
-            height: 30px;
-            object-fit: contain;
-        }
-
-        .ai-text-block {
-            flex: 1;
-        }
-
-        .ai-new-badge {
-            font-size: 16px;
-            /* Significantly larger */
-            font-weight: 900;
-            /* Extra bold */
-            background: linear-gradient(135deg, #4f46e5 0%, #9333ea 50%, #4f46e5 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-            display: inline-block;
-            animation: aiShimmer 3s linear infinite;
-        }
-
-        @keyframes aiShimmer {
-            to {
-                background-position: 200% center;
-            }
-        }
-
-        .ai-ask-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--main-theme-dark);
-            /* Dark blue for legibility on light BG */
-            display: block;
-        }
-
-        .ai-chevron {
-            display: flex;
-            align-items: center;
-            color: var(--main-theme);
-            /* Darker chevron */
-            flex-shrink: 0;
-        }
-
-        .ai-chevron svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        /* Right header action buttons */
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            flex-shrink: 0;
-        }
-
-        .hdr-btn {
-            width: 44px;
-            height: 44px;
+        .ai-pulse-wrap {
+            width: 32px;
+            height: 32px;
+            background: transparent;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: #ffffff;
-            position: relative;
         }
 
-
-
-        .hdr-btn img {
-            width: 22px;
-            height: 22px;
-            object-fit: contain;
-        }
-
-        /* Star button — Ultra-premium 3D Gold */
-        .hdr-btn-star {
-            background: #ffffff;
-        }
-
-        .hdr-btn-star img {
+        .ai-pulse-wrap img {
             width: 24px;
             height: 24px;
+            object-fit: contain;
         }
 
-        /* ── Search Bar ─────────────────────────────────────────── */
-        .search-wrap {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .search-bar {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 14px;
-            padding: 11px 14px;
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .search-bar:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 26px rgba(0, 0, 0, 0.25);
-        }
-
-        .search-bar img {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-        }
-
-        .search-placeholder {
-            flex: 1;
+        .ai-hint {
+            color: var(--text-primary);
+            font-weight: 800;
             font-size: 14px;
-            color: #a0aac0;
+            letter-spacing: -0.3px;
         }
 
-        .search-all-link {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--main-theme);
-            white-space: nowrap;
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Filter button */
-        .filter-btn {
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 14px;
+        .action-item {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-sm);
             cursor: pointer;
             transition: transform 0.2s;
         }
 
-        .filter-btn:hover {
-            transform: scale(1.06);
-        }
-
-        .filter-btn img {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* ─────────────────────────────────────────────────────────────
-       FILTER TABS
-    ───────────────────────────────────────────────────────────── */
-        .tab-row {
-            background: #fff;
-            padding: 10px 16px;
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            flex-shrink: 0;
-            scrollbar-width: none;
-            border-bottom: 1px solid rgba(74, 95, 160, 0.09);
-        }
-
-        .tab-row::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            border-radius: 22px;
-            font-size: 12.5px;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: none;
-        }
-
-        .tab img {
-            width: 14px;
-            height: 14px;
-            object-fit: contain;
-            flex-shrink: 0;
-        }
-
-        .tab-active {
-            background: linear-gradient(135deg, var(--main-theme-dark), var(--main-theme));
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(84, 110, 164, 0.4);
-        }
-
-        .tab-active img {
-            filter: brightness(0) invert(1);
-        }
-
-        .tab-active:hover {
-            transform: translateY(-1px);
-        }
-
-        .tab-inactive {
-            background: #f1f4ff;
-            color: #5a6b9a;
-            border: 1px solid rgba(74, 99, 180, 0.1);
-        }
-
-        .tab-inactive:hover {
-            background: #e8eeff;
-            transform: translateY(-1px);
-        }
-
-        /* ─────────────────────────────────────────────────────────────
-       SCROLLABLE LIST
-    ───────────────────────────────────────────────────────────── */
-        .list-scroll {
-            flex: 1;
-            overflow-y: auto;
-            scrollbar-width: none;
-            background: #eef1f8;
-        }
-
-        .list-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* ── Section Header ─────────────────────────────────────── */
-        .section-hdr {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 9px 18px;
-            background: linear-gradient(90deg, var(--main-theme-dark), var(--main-theme));
-        }
-
-        .section-label {
-            font-size: 13px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: 0.5px;
-        }
-
-        .section-count {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            border-radius: 10px;
-            padding: 2px 9px;
-            font-size: 11px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.92);
-        }
-
-        /* ── Cards ──────────────────────────────────────────────── */
-        .card-list {
-            padding: 12px 13px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .card {
-            background: #fff;
-            border-radius: 16px;
-            display: flex;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(74, 95, 160, 0.09), 0 1px 3px rgba(0, 0, 0, 0.04);
-            cursor: pointer;
-            transition: all 0.26s cubic-bezier(0.34, 1.2, 0.64, 1);
-            position: relative;
-            animation: cardIn 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) both;
-        }
-
-        .card:nth-child(1) {
-            animation-delay: 0.05s;
-        }
-
-        .card:nth-child(2) {
-            animation-delay: 0.10s;
-        }
-
-        .card:nth-child(3) {
-            animation-delay: 0.15s;
-        }
-
-        .card:nth-child(4) {
-            animation-delay: 0.20s;
-        }
-
-        .card:nth-child(5) {
-            animation-delay: 0.25s;
-        }
-
-        @keyframes cardIn {
-            from {
-                opacity: 0;
-                transform: translateY(14px) scale(0.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .card:hover {
-            transform: translateY(-3px) scale(1.004);
-            box-shadow: 0 10px 28px rgba(74, 95, 160, 0.17), 0 3px 10px rgba(0, 0, 0, 0.06);
-        }
-
-        .card:active {
-            transform: scale(0.987);
-        }
-
-        /* Shimmer on hover */
-        .card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.38) 50%, transparent 70%);
-            border-radius: 16px;
-            opacity: 0;
-            transform: translateX(-100%);
-            transition: opacity 0.3s, transform 0.55s;
-            pointer-events: none;
-        }
-
-        .card:hover::after {
-            opacity: 1;
-            transform: translateX(100%);
-        }
-
-        /* Gradient left accent bar */
-        .card-bar {
-            width: 5px;
-            flex-shrink: 0;
-            border-radius: 0 3px 3px 0;
-        }
-
-        .card-body {
-            flex: 1;
-            padding: 13px 10px 13px 14px;
-            min-width: 0;
-        }
-
-        .card-title {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: #1a2040;
-            line-height: 1.36;
-            margin-bottom: 4px;
-            letter-spacing: -0.12px;
-        }
-
-        .card-subtitle {
-            font-size: 11.5px;
-            color: #7c8db5;
-            margin-bottom: 9px;
-            line-height: 1.4;
-        }
-
-        .card-meta {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .clock-icon {
-            width: 13px;
-            height: 13px;
-            flex-shrink: 0;
-        }
-
-        .card-date {
-            font-size: 11px;
-            font-weight: 500;
-            color: #9aa5c4;
-        }
-
-        /* Card right side */
-        .card-side {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 13px 12px 4px;
-            min-width: 42px;
-        }
-
-        .icon-star {
-            cursor: pointer;
-            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .icon-star:hover {
-            transform: scale(1.28) rotate(6deg);
-        }
-
-        .icon-star img {
-            width: 18px;
-            height: 18px;
-            display: block;
-        }
-
-        .icon-clip {
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.18s, transform 0.18s;
-        }
-
-        .icon-clip:hover {
-            opacity: 1;
-            transform: rotate(-14deg);
-        }
-
-        .icon-clip img {
-            width: 24px;
-            height: 24px;
-            display: block;
-        }
-
-        .cat-icon {
-            background: #eef5ff;
-            border: 1px solid #c8daff;
-            border-radius: 6px;
-            padding: 3px;
-        }
-
-        .icon-chevron {
-            display: flex;
-            align-items: center;
-            color: #c8cedf;
-        }
-
-        .icon-chevron svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        /* ─────────────────────────────────────────────────────────────
-       BOTTOM TAB BAR
-    ───────────────────────────────────────────────────────────── */
-        .tab-bar {
-            background: rgba(255, 255, 255, 0.97);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(74, 95, 160, 0.1);
-            padding: 10px 0 28px;
-            display: flex;
-            justify-content: space-around;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 30;
-            box-shadow: 0 -6px 24px rgba(74, 95, 160, 0.09);
-        }
-
-        .tb-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            flex: 1;
-            transition: opacity 0.18s;
-        }
-
-        .tb-item:hover {
-            opacity: 0.78;
-        }
-
-        .tb-item:active {
+        .action-item:active {
             transform: scale(0.9);
         }
 
-        .tb-icon-wrap {
-            width: 54px;
-            height: 36px;
+        .action-item.announcements {
+            background: #fff8f3;
+            border: 1px solid #fed7aa;
+        }
+
+        .action-item.podcast {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+        }
+
+        .action-item.favorites {
+            background: #fffef0;
+            border: 1px solid #fde68a;
+        }
+
+        .action-item img {
+            width: 16px;
+            height: 16px;
+            opacity: 0.9;
+        }
+
+        .search-section {
+            padding: 4px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            min-width: 0;
+            background: var(--pill-bg);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-input-wrapper input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 14px 0;
+            font-size: 15px;
+            outline: none;
+            color: var(--text-primary);
+            min-width: 0;
+        }
+
+        .search-input-wrapper input::placeholder {
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        .search-input-wrapper>img {
+            width: 18px;
+            height: 18px;
+            filter: invert(1) brightness(0) opacity(0.9);
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .search-all-cta {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--accent-blue);
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-thickness: 1.5px;
+            text-underline-offset: 3px;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        .search-all-cta svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--accent-blue);
+            stroke-width: 2.5;
+        }
+
+        .filter-btn {
+            background: var(--pill-bg);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 18px;
-            transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            flex-shrink: 0;
         }
 
-        .tb-item.active .tb-icon-wrap {
-            background: linear-gradient(135deg, var(--main-theme-dark), var(--main-theme));
-            box-shadow: 0 4px 14px rgba(84, 110, 164, 0.4);
-        }
-
-        .tb-icon-wrap img {
+        .filter-btn img {
             width: 22px;
             height: 22px;
-            object-fit: contain;
+            opacity: 0.8;
+            filter: invert(1) brightness(0);
         }
 
-        /* Active: make icon white */
-        .tb-item.active .tb-icon-wrap img {
-            filter: brightness(0) invert(1);
+        .sticky-tabs-container {
+            position: sticky;
+            top: -1px;
+            padding: calc(var(--safe-area-top) + 8px) 0 10px 0;
+            background: rgba(247, 249, 252, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(84, 110, 164, 0.15);
         }
 
-        .tb-label {
-            font-size: 10px;
-            font-weight: 600;
+        .magic-tabs-wrapper {
+            margin: 0 16px;
+            background: rgba(84, 110, 164, 0.08);
+            border-radius: 22px;
+            padding: 5px;
+            position: relative;
+            display: flex;
         }
 
-        .tb-item.active .tb-label {
-            color: var(--main-theme);
-        }
-
-        .tb-item.inactive .tb-label {
-            color: #9aa5c4;
-        }
-
-        /* Home indicator pill */
-        .home-bar {
+        .tab-indicator {
             position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 140px;
-            height: 5px;
-            background: #1c1c1e;
-            border-radius: 3px;
-            opacity: 0.22;
+            top: 5px;
+            bottom: 5px;
+            left: 5px;
+            width: calc(25% - 2.5px);
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(84, 110, 164, 0.15);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1;
         }
 
-        svg {
-            display: block;
+        .m-tab {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 0;
+            cursor: pointer;
+            z-index: 2;
+            color: var(--text-secondary);
+            transition: color 0.3s;
         }
 
-        /* ── Mobile Hybrid Viewport ────────────────────────────────── */
-        @media (max-width: 500px) {
+        .m-tab span {
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .m-tab img {
+            width: 22px;
+            height: 22px;
+            filter: opacity(0.85) brightness(0.8);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .m-tab.m-tab-active {
+            color: var(--accent-blue);
+        }
+
+        .m-tab.m-tab-active img {
+            filter: brightness(0) saturate(100%) invert(41%) sepia(28%) saturate(677%) hue-rotate(185deg) brightness(92%) contrast(87%);
+            transform: translateY(-2px);
+        }
+
+        /* ----- Main Scrollable Content ----- */
+        .scroller {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 120px;
+            /* space for bottom nav */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari and Opera */
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            position: sticky;
+            top: calc(var(--safe-area-top) + 83px);
+            background: rgba(247, 249, 252, 0.85);
+            /* Matched to #f7f9fc variable */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 50;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .scrolled .section-header {
+            border-bottom: 1px solid rgba(84, 110, 164, 0.1);
+        }
+
+        .section-header h2 {
+            font-size: 26px;
+            font-weight: 500;
+        }
+
+        .view-toggles {
+            display: flex;
+            background: var(--pill-bg);
+            border-radius: 20px;
+            padding: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .view-btn {
+            background: transparent;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-dim);
+            transition: all 0.2s;
+        }
+
+        .view-btn.active {
+            background: var(--accent-blue);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(10, 132, 255, 0.3);
+        }
+
+        .view-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+        }
+
+        /* ----- Cards ----- */
+        .cards-container {
+            padding: 0 16px;
+            transition: all 0.3s ease;
+        }
+
+        /* Grid View */
+        .cards-container.grid-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* List View */
+        .cards-container.list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .pro-tag {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 8px;
+            font-weight: 800;
+            color: #ffffff;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            padding: 2px 8px;
+            border-bottom-left-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(217, 119, 6, 0.2);
+            z-index: 5;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.2px;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .card-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.35;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .cjs-code {
+            font-size: 10px;
+            font-weight: 700;
+            color: #475569;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border-color);
+            gap: 8px;
+        }
+
+        .card-date {
+            font-size: 10px;
+            color: var(--text-dim);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .card-date svg {
+            width: 10px;
+            height: 10px;
+            stroke: var(--text-dim);
+            stroke-width: 2.5;
+        }
+
+        .card-icons {
+            display: flex;
+            gap: 4px;
+        }
+
+        .star-btn,
+        .pin-btn {
+            background: #f8fafc;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .star-btn.active {
+            background: #FFD049;
+            box-shadow: 0 4px 10px rgba(255, 208, 73, 0.3);
+        }
+
+        .star-btn img {
+            width: 14px;
+            filter: grayscale(100%);
+            opacity: 0.4;
+        }
+
+        .star-btn.active img {
+            filter: brightness(0) invert(1);
+            opacity: 1;
+        }
+
+        .pin-btn {
+            background: #e0f2fe;
+            border: 1px solid #bae6fd;
+        }
+
+        .pin-btn img {
+            width: 14px;
+            filter: invert(43%) sepia(21%) saturate(1478%) hue-rotate(184deg) brightness(91%) contrast(89%);
+            opacity: 0.7;
+        }
+
+        /* ----- Bottom Nav ----- */
+        .bottom-nav-wrapper {
+            position: absolute;
+            bottom: max(16px, var(--safe-area-bottom));
+            left: 0;
+            width: 100%;
+            padding: 0 16px;
+            z-index: 200;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s;
+        }
+
+        .nav-hidden .bottom-nav-wrapper {
+            transform: translateY(150px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .bottom-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 40px;
+            /* Inner track design: thin darker border + inner white glow */
+            border: 1px solid rgba(84, 110, 164, 0.2);
+            box-shadow:
+                0 12px 32px -8px rgba(84, 110, 164, 0.25),
+                /* Deep floating shadow */
+                inset 0 0 0 1.5px rgba(255, 255, 255, 0.8);
+            /* Inner white track glow */
+            position: relative;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            height: 50px;
+            width: 50px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-btn.active {
+            background: var(--accent-blue);
+            width: 80px;
+        }
+
+        .nav-btn img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0);
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+
+        .nav-btn.active img {
+            filter: brightness(0) invert(1);
+            opacity: 1;
+        }
+
+        /* ----- Responsive / Desktop Mockup bounds ----- */
+        @media (min-width: 500px) {
             body {
-                padding: 0;
-                height: 100dvh;
-                overflow: hidden;
+                padding: 40px 0;
+                background-color: #e2e8f0;
+                /* Show dark background outside app area on desktop */
+                overflow: auto;
+                /* Re-enable scroll on desktop to see the whole phone */
             }
 
-            .bg-canvas {
-                display: none;
-            }
-
-            .scene {
-                width: 100%;
-                height: 100dvh;
-                animation: none;
-            }
-
-            .phone-glow {
-                display: none;
-            }
-
-            .iphone {
-                width: 100%;
-                height: 100%;
-                background: none;
-                padding: 0;
-                border-radius: 0;
-                box-shadow: none;
-            }
-
-            .iphone::before {
-                display: none;
-            }
-
-            .btn {
-                display: none;
-            }
-
-            .bezel {
-                width: 100%;
-                height: 100%;
-                padding: 0;
-                border-radius: 0;
-                box-shadow: none;
-            }
-
-            .screen {
-                width: 100%;
-                height: 100dvh;
-                border-radius: 0;
-            }
-
-            .dynamic-island {
-                display: none;
-            }
-
-            .status-bar {
-                display: none;
-            }
-
-            html,
-            body {
-                height: 100%;
-                overflow: hidden;
-                background-color: #f7f9fc;
-            }
-
-            .app-header {
-                padding-top: calc(env(safe-area-inset-top, 44px) + 10px);
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                z-index: 1001;
-                background: var(--main-theme);
-                will-change: transform;
-                transform: translateZ(0);
-                backface-visibility: hidden;
-                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-
-            .header-collapsed {
-                transform: translateY(-70px);
-            }
-
-            .tab-bar {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                padding-bottom: calc(env(safe-area-inset-bottom, 34px) + 5px);
-                height: auto;
-                min-height: 100px;
-                border-radius: 0;
-                z-index: 2000;
-                background: rgba(255, 255, 255, 0.98);
-                box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-                backface-visibility: hidden;
-                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-
-            .nav-collapsed {
-                transform: translateY(100%);
-            }
-
-            /* Hides black gap during overscroll */
-            .tab-bar::after {
-                content: "";
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                height: 100px;
-                background: #fff;
-            }
-
-            .home-bar {
-                display: none;
-            }
-
-            .list-scroll {
-                padding-top: 180px;
-                /* Space for fixed header */
-                padding-bottom: 200px;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                overscroll-behavior-y: contain;
-                background-color: #f7f9fc;
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                /* iPhone 16 Pro Max height frame */
+                border: 12px solid #000;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
             }
         }
     </style>
@@ -1198,414 +652,726 @@
 
 <body>
 
-    <!-- Animated background -->
-    <div class="bg-canvas">
-        <div class="bg-orb bg-orb-1"></div>
-        <div class="bg-orb bg-orb-2"></div>
-        <div class="bg-orb bg-orb-3"></div>
+    <div class="app-container">
+
+        <div class="scroller">
+
+            <header class="app-header">
+                <div class="top-nav-group">
+                    <div class="top-nav">
+                        <div class="ai-spatial-pill">
+                            <div class="ai-pulse-wrap"><img src="images/ai.svg" alt="AI"></div>
+                            <span class="ai-hint">NEW! AI Assistant</span>
+                        </div>
+                        <div class="top-actions">
+                            <div class="action-item announcements">
+                                <img src="images/megaphone.svg" alt="Announcements">
+                            </div>
+                            <div class="action-item podcast">
+                                <img src="images/ps-podcast.svg" alt="Podcast">
+                            </div>
+                            <div class="action-item favorites">
+                                <img src="images/star.svg" alt="Favorites">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="search-section">
+                        <div class="search-input-wrapper">
+                            <img src="images/search.svg" alt="Search Icon">
+                            <input type="text" placeholder="Search...">
+                            <a href="#" class="search-all-cta">
+                                Search All
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                        <button class="filter-btn">
+                            <img src="images/filter.svg" alt="Filter">
+                        </button>
+                    </div>
+                </div> <!-- Ends top-nav-group -->
+
+                <div class="sticky-tabs-container">
+                    <div class="magic-tabs-wrapper">
+                        <div class="tab-indicator" id="tab-bg"></div>
+                        <div class="m-tab m-tab-active"><img src="images/all.svg" alt="All"> <span>All</span></div>
+                        <div class="m-tab m-tab-inactive"><img src="images/summary.svg" alt="Summary">
+                            <span>Summary</span>
+                        </div>
+                        <div class="m-tab m-tab-inactive"><img src="images/either-way.svg" alt="Either Way">
+                            <span>Either Way</span>
+                        </div>
+                        <div class="m-tab m-tab-inactive"><img src="images/Indictable.svg" alt="Indictable">
+                            <span>Indictable</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="section-header">
+                <h2>0-9</h2>
+                <div class="view-toggles">
+                    <button class="view-btn list-view-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                    </button>
+                    <button class="view-btn grid-view-btn active">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <rect x="4" y="4" width="6" height="6" rx="1"></rect>
+                            <rect x="14" y="4" width="6" height="6" rx="1"></rect>
+                            <rect x="14" y="14" width="6" height="6" rx="1"></rect>
+                            <rect x="4" y="14" width="6" height="6" rx="1"></rect>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="cards-container grid-view" id="cards-container">
+                <!-- Card 1 -->
+                <div class="card">
+                    <span class="pro-tag">PRO</span>
+                    <div class="card-content">
+                        <div class="card-title">3x5x2 Intelligence Submission</div>
+                        <div class="card-subtitle">Forces Gradually Adopting from April 2016</div>
+                        <div class="cjs-code">TH68058</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">4 R's - Detained Person Observation List</div>
+                        <div class="card-subtitle">PACE Code C - Annex H</div>
+                        <div class="cjs-code">TH68058</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">5 statutory principles of Mental Capacity Act 2005</div>
+                        <div class="card-subtitle">Mental Capacity Act 2005</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="card">
+                    <span class="pro-tag">PRO</span>
+                    <div class="card-content">
+                        <div class="card-title">5x5x5 Intelligence Submission</div>
+                        <div class="card-subtitle">Source Grading</div>
+                        <div class="cjs-code">TH68058</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">5x5x5 Intelligence Submission</div>
+                        <div class="card-subtitle">Information / Intelligence Evaluation</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">5x5x5 Intelligence Submission</div>
+                        <div class="card-subtitle">Main Report</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">16 Point Ethnic</div>
+                        <div class="card-subtitle">Officer Defined Ethnicity</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-05-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Domestic Abuse Stalking & Harassment</div>
+                        <div class="card-subtitle">DASH Risk Identification</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>01-14-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 9 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Vulnerability Assessment Framework</div>
+                        <div class="card-subtitle">VAF V1.2 Guidelines</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>12-10-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 10 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">National Decision Model</div>
+                        <div class="card-subtitle">Core NDM Cycle Framework</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>03-21-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 11 -->
+                <div class="card">
+                    <span class="pro-tag">PRO</span>
+                    <div class="card-content">
+                        <div class="card-title">Section 136 MHA</div>
+                        <div class="card-subtitle">Mental Health Act Guidelines</div>
+                        <div class="cjs-code">TH68058</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>11-05-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 12 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Stop and Search Report</div>
+                        <div class="card-subtitle">PACE Code A Procedures</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>09-12-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 13 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Counter Terrorism Tactics</div>
+                        <div class="card-subtitle">Schedule 7 Port Stops</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>06-30-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 14 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Traffic Offence Report (TOR)</div>
+                        <div class="card-subtitle">Road Traffic Act 1988 Reference</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>08-22-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 15 -->
+                <div class="card">
+                    <span class="pro-tag">PRO</span>
+                    <div class="card-content">
+                        <div class="card-title">Use of Force Reporting</div>
+                        <div class="card-subtitle">Firearms & Taser Deployments</div>
+                        <div class="cjs-code">TH68058</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>04-18-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 16 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Missing Persons (COMPACT)</div>
+                        <div class="card-subtitle">Risk Assessment Matrices</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>05-11-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 17 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Vulnerable Child Protection</div>
+                        <div class="card-subtitle">Multi-Agency Safeguarding Hubs (MASH)</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>08-01-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 18 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Major Incident Declaration</div>
+                        <div class="card-subtitle">JESIP Framework & METHANE</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>02-28-2026</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 19 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Anti-Social Behaviour (ASB)</div>
+                        <div class="card-subtitle">Community Protection Warnings (CPW)</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>10-15-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 20 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Digital Device Seizure</div>
+                        <div class="card-subtitle">Cyber Crime Initial Actions</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>07-09-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 21 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Scene Management</div>
+                        <div class="card-subtitle">Cordons and Log Preservation</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>04-04-2026</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 22 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Hate Crime Reporting</div>
+                        <div class="card-subtitle">Crime Recording Standards (NCRS)</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>01-19-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 23 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Pursuit Management</div>
+                        <div class="card-subtitle">Spontaneous Vehicle Checklists</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>09-30-2025</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 24 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Custody Booking Risk</div>
+                        <div class="card-subtitle">Pre-Release Medical Assessments</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>11-22-2024</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 25 -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-title">Body-Worn Video (BWV)</div>
+                        <div class="card-subtitle">Evidential Continuity Protocols</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg><span>06-05-2026</span></div>
+                        <div class="card-icons">
+                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
+                                    class="cat-icon" alt="Pin"></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Nav Dock -->
+        <div class="bottom-nav-wrapper">
+            <nav class="bottom-nav">
+                <button class="nav-btn active"><img src="images/search.svg" alt="Search"></button>
+                <button class="nav-btn"><img src="images/tags.svg" alt="Tags"></button>
+                <button class="nav-btn"><img src="images/checklist.svg" alt="Clipboard"></button>
+                <button class="nav-btn"><img src="images/phone-call.svg" alt="Contact"></button>
+                <button class="nav-btn"><img src="images/bar.svg" alt="Scan"></button>
+            </nav>
+        </div>
+
     </div>
 
-    <div class="scene">
-        <div class="phone-glow"></div>
-
-        <!-- ═══════════════════════════════════════════════════════
-         iPhone 16 Pro Max Frame
-    ═════════════════════════════════════════════════════════ -->
-        <div class="iphone">
-            <!-- Hardware Buttons -->
-            <div class="btn btn-action"></div>
-            <div class="btn btn-vol-up"></div>
-            <div class="btn btn-vol-down"></div>
-            <div class="btn btn-power"></div>
-
-            <div class="bezel">
-                <div class="screen">
-                    <!-- Glass layer for reflection -->
-                    <div class="screen-glass"></div>
-
-                    <!-- Dynamic Island -->
-                    <div class="dynamic-island">
-                        <div class="di-sensor"></div>
-                        <div class="di-camera"></div>
-                    </div>
-
-                    <!-- ── STATUS BAR ────────────────────────────────── -->
-                    <div class="status-bar">
-                        <span class="status-time">9:41</span>
-                        <div class="status-right">
-                            <div class="signal">
-                                <span></span><span></span><span></span><span></span>
-                            </div>
-                            <!-- Wi-Fi -->
-                            <div class="wifi-icon">
-                                <svg width="17" height="13" viewBox="0 0 25 19" fill="none">
-                                    <path
-                                        d="M12.5 4.5C8.5 4.5 5 6 2.5 8.5L1 7C3.9 4 7.9 2 12.5 2s8.6 2 11.5 5L22.5 8.5C20 6 16.5 4.5 12.5 4.5z"
-                                        fill="white" />
-                                    <path
-                                        d="M12.5 9.5C9.8 9.5 7.4 10.6 5.7 12.4L4.2 10.9A10.3 10.3 0 0112.5 7.5c3.2 0 6 1.3 8.1 3.4l-1.5 1.5A7.3 7.3 0 0012.5 9.5z"
-                                        fill="white" />
-                                    <circle cx="12.5" cy="16" r="2.5" fill="white" />
-                                </svg>
-                            </div>
-                            <!-- Battery -->
-                            <div class="battery-wrap">
-                                <div class="battery-icon">
-                                    <div class="battery-fill"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ── APP HEADER ─────────────────────────────────── -->
-                    <div class="app-header">
-
-                        <!-- AI Banner -->
-                        <div class="ai-banner">
-                            <div class="ai-pill">
-                                <div class="ai-avatar-wrap">
-                                    <img src="images/ai.svg" alt="AI" />
-                                </div>
-                                <div class="ai-text-block">
-                                    <span class="ai-new-badge">NEW! AI Assistant</span>
-                                </div>
-                                <div class="ai-chevron">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="9 18 15 12 9 6" />
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <div class="header-actions">
-                                <!-- Bell (Notifications) -->
-                                <div class="hdr-btn">
-                                    <img src="images/megaphone.svg" alt="Notifications" />
-                                </div>
-                                <!-- Shield (Safe/Protected) -->
-                                <div class="hdr-btn">
-                                    <img src="images/ps-podcast.svg" alt="Protected" />
-                                </div>
-                                <!-- Star (Favourites) -->
-                                <div class="hdr-btn hdr-btn-star">
-                                    <img src="images/star.svg" alt="Favourites" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Search Bar -->
-                        <div class="search-wrap">
-                            <div class="search-bar">
-                                <img src="images/search.svg" alt="Search" />
-                                <span class="search-placeholder">Search knowledge base...</span>
-                                <span class="search-all-link">Search all</span>
-                            </div>
-                            <div class="filter-btn">
-                                <img src="images/filter.svg" alt="Filter"
-                                    style="filter: brightness(0.2) saturate(0);" />
-                            </div>
-                        </div>
-
-                    </div><!-- /app-header -->
-
-                    <!-- ── FILTER TABS ────────────────────────────────── -->
-                    <div class="tab-row">
-                        <!-- All (active) -->
-                        <button class="tab tab-active">
-                            <img src="images/all.svg" alt="All" />
-                            All
-                        </button>
-                        <!-- Summary -->
-                        <button class="tab tab-inactive">
-                            <img src="images/summary.svg" alt="Summary"
-                                style="filter: brightness(0.4) saturate(0.5);" />
-                            Summary
-                        </button>
-                        <!-- Either way -->
-                        <button class="tab tab-inactive">
-                            <img src="images/either-way.svg" alt="Either way"
-                                style="filter: brightness(0.4) saturate(0.5);" />
-                            Either way
-                        </button>
-                        <!-- Indictable -->
-                        <button class="tab tab-inactive">
-                            <img src="images/Indictable.svg" alt="Indictable"
-                                style="filter: brightness(0.4) saturate(0.5);" />
-                            Indictable
-                        </button>
-                    </div>
-
-                    <!-- ── LIST ───────────────────────────────────────── -->
-                    <div class="list-scroll">
-
-                        <!-- Section Header -->
-                        <div class="section-hdr">
-                            <span class="section-label">0–9</span>
-                            <span class="section-count">5 items</span>
-                        </div>
-
-                        <div class="card-list">
-
-                            <!-- Card 1 -->
-                            <div class="card">
-                                <div class="card-bar" style="background:linear-gradient(180deg,#4a63b4,#6366f1)"></div>
-                                <div class="card-body">
-                                    <div class="card-title">3×5×2 Intelligence Submission</div>
-                                    <div class="card-subtitle">Forces Gradually Adopting from April 2016</div>
-                                    <div class="card-meta">
-                                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#9aa5c4"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10" />
-                                            <polyline points="12 6 12 12 16 14" />
-                                        </svg>
-                                        <span class="card-date">02-05-2025</span>
-                                    </div>
-                                </div>
-                                <div class="card-side">
-                                    <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
-                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment"
-                                            data-icon="images/attech.svg" class="cat-icon" /></div>
-                                    <div class="icon-chevron">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 2 -->
-                            <div class="card">
-                                <div class="card-bar" style="background:linear-gradient(180deg,#6366f1,#818cf8)"></div>
-                                <div class="card-body">
-                                    <div class="card-title">4 R's – Detained Person<br>Observation List</div>
-                                    <div class="card-subtitle">PACE Code C – Annex H</div>
-                                    <div class="card-meta">
-                                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#9aa5c4"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10" />
-                                            <polyline points="12 6 12 12 16 14" />
-                                        </svg>
-                                        <span class="card-date">02-05-2025</span>
-                                    </div>
-                                </div>
-                                <div class="card-side">
-                                    <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
-                                    <div class="icon-clip"><img src="images/summary.svg" alt="Summary"
-                                            data-icon="images/summary.svg" class="cat-icon" /></div>
-                                    <div class="icon-chevron">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 3 — unstarred -->
-                            <div class="card">
-                                <div class="card-bar" style="background:linear-gradient(180deg,#a855f7,#d946ef)"></div>
-                                <div class="card-body">
-                                    <div class="card-title">5 statutory principles of<br>Mental Capacity Act 2005</div>
-                                    <div class="card-subtitle">Mental Capacity Act 2005</div>
-                                    <div class="card-meta">
-                                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#9aa5c4"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10" />
-                                            <polyline points="12 6 12 12 16 14" />
-                                        </svg>
-                                        <span class="card-date">02-05-2025</span>
-                                    </div>
-                                </div>
-                                <div class="card-side">
-                                    <!-- unstarred — use Icon-3 with grey filter -->
-                                    <div class="icon-star">
-                                        <img src="images/star-sm.svg" alt="Star"
-                                            style="filter:grayscale(1) opacity(0.35);" />
-                                    </div>
-                                    <div class="icon-clip"><img src="images/either-way.svg" alt="Either-way"
-                                            data-icon="images/either-way.svg" class="cat-icon" /></div>
-                                    <div class="icon-chevron">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 4 -->
-                            <div class="card">
-                                <div class="card-bar" style="background:linear-gradient(180deg,#0ea5e9,#38bdf8)"></div>
-                                <div class="card-body">
-                                    <div class="card-title">5×5×5 Intelligence Submission</div>
-                                    <div class="card-subtitle">Source Grading</div>
-                                    <div class="card-meta">
-                                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#9aa5c4"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10" />
-                                            <polyline points="12 6 12 12 16 14" />
-                                        </svg>
-                                        <span class="card-date">02-05-2025</span>
-                                    </div>
-                                </div>
-                                <div class="card-side">
-                                    <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
-                                    <div class="icon-clip"><img src="images/Indictable.svg" alt="Indictable"
-                                            data-icon="images/Indictable.svg" class="cat-icon" /></div>
-                                    <div class="icon-chevron">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 5 -->
-                            <div class="card">
-                                <div class="card-bar" style="background:linear-gradient(180deg,#10b981,#34d399)"></div>
-                                <div class="card-body">
-                                    <div class="card-title">5×5×5 Intelligence Submission</div>
-                                    <div class="card-subtitle">Source Grading</div>
-                                    <div class="card-meta">
-                                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#9aa5c4"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10" />
-                                            <polyline points="12 6 12 12 16 14" />
-                                        </svg>
-                                        <span class="card-date">02-05-2025</span>
-                                    </div>
-                                </div>
-                                <div class="card-side">
-                                    <div class="icon-star"><img src="images/star-sm.svg" alt="Star" /></div>
-                                    <div class="icon-clip"><img src="images/attech.svg" alt="Attachment" /></div>
-                                    <div class="icon-chevron">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div style="height:10px"></div>
-                        </div>
-                    </div><!-- /list-scroll -->
-
-                    <!-- ── BOTTOM TAB BAR ─────────────────────────────── -->
-                    <div class="tab-bar">
-
-                        <!-- Search (active) -->
-                        <div class="tb-item active">
-                            <div class="tb-icon-wrap">
-                                <img src="images/search.svg" alt="Search" />
-                            </div>
-                            <span class="tb-label">Search</span>
-                        </div>
-
-                        <!-- Crime -->
-                        <div class="tb-item inactive">
-                            <div class="tb-icon-wrap">
-                                <img src="images/crime-cat.svg" alt="Crime" />
-                            </div>
-                            <span class="tb-label">Crime</span>
-                        </div>
-
-                        <!-- Checklist -->
-                        <div class="tb-item inactive">
-                            <div class="tb-icon-wrap">
-                                <img src="images/checklist.svg" alt="Checklist" />
-                            </div>
-                            <span class="tb-label">Checklist</span>
-                        </div>
-
-                        <!-- Contact Us -->
-                        <div class="tb-item inactive">
-                            <div class="tb-icon-wrap">
-                                <img src="images/contact-us.svg" alt="Contact Us" />
-                            </div>
-                            <span class="tb-label">Contact Us</span>
-                        </div>
-
-                        <!-- Menu -->
-                        <div class="tb-item inactive">
-                            <div class="tb-icon-wrap">
-                                <img src="images/bar.svg" alt="Menu" />
-                            </div>
-                            <span class="tb-label">Menu</span>
-                        </div>
-
-                        <div class="home-bar"></div>
-                    </div>
-
-                </div><!-- /screen -->
-            </div><!-- /bezel -->
-        </div><!-- /iphone -->
-    </div><!-- /scene -->
-
-    <!-- Dynamic Interactions -->
     <script>
-        // 1. Tab Switching Logic
-        const tabs = document.querySelectorAll('.tab');
+        // High-Performance Smooth Scroll Triggers
+        const scroller = document.querySelector('.scroller');
+        let lastScrollY = scroller.scrollTop;
+
+        scroller.addEventListener('scroll', () => {
+            const currentScrollY = scroller.scrollTop;
+
+            // Scrolling down
+            if (currentScrollY > lastScrollY && currentScrollY > 70) {
+                document.body.classList.add('nav-hidden');
+            }
+            // Scrolling up
+            else if (currentScrollY < lastScrollY) {
+                // Prevent bottom rubber-band bounce from falsely revealing the menu
+                if (currentScrollY + scroller.clientHeight < scroller.scrollHeight - 10) {
+                    document.body.classList.remove('nav-hidden');
+                }
+            }
+
+            // Always show at absolute top
+            if (currentScrollY <= 70) {
+                document.body.classList.remove('nav-hidden');
+            }
+
+            // Toggle nice border logic for sticky container
+            if (currentScrollY > 10) {
+                document.body.classList.add('scrolled');
+            } else {
+                document.body.classList.remove('scrolled');
+            }
+
+            lastScrollY = currentScrollY;
+        }, { passive: true });
+
+        // View Toggle Logic
+        const gridBtn = document.querySelector('.grid-view-btn');
+        const listBtn = document.querySelector('.list-view-btn');
+        const container = document.getElementById('cards-container');
+
+        gridBtn.addEventListener('click', () => {
+            if (!gridBtn.classList.contains('active')) {
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+                container.classList.remove('list-view');
+                container.classList.add('grid-view');
+            }
+        });
+
+        listBtn.addEventListener('click', () => {
+            if (!listBtn.classList.contains('active')) {
+                listBtn.classList.add('active');
+                gridBtn.classList.remove('active');
+                container.classList.remove('grid-view');
+                container.classList.add('list-view');
+            }
+        });
+
+        // Star Toggle Logic
+        const starBtns = document.querySelectorAll('.star-btn');
+        starBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('active');
+            });
+        });
+
+        // Tab Selection & Pin-Icon Linking Logic
+        const tabs = document.querySelectorAll('.m-tab');
         const spatialIcons = document.querySelectorAll('.cat-icon');
+        const tabIndicator = document.getElementById('tab-bg');
 
-        tabs.forEach(tab => {
+        tabs.forEach((tab, index) => {
             tab.addEventListener('click', () => {
-                // Update active tab UI
                 tabs.forEach(t => {
-                    t.classList.remove('tab-active');
-                    t.classList.add('tab-inactive');
+                    t.classList.remove('m-tab-active');
+                    t.classList.add('m-tab-inactive');
                 });
-                tab.classList.add('tab-active');
-                tab.classList.remove('tab-inactive');
+                tab.classList.add('m-tab-active');
+                tab.classList.remove('m-tab-inactive');
 
-                const tabText = tab.textContent.trim();
+                // Slide the fluid active pill indicator
+                tabIndicator.style.transform = `translateX(${index * 100}%)`;
+
+                const tabText = tab.querySelector('span').textContent.trim().toLowerCase();
                 const tabIconSrc = tab.querySelector('img') ? tab.querySelector('img').src : null;
 
                 spatialIcons.forEach(icon => {
-                    if (tabText.toLowerCase() === 'all') {
-                        // Restore original icons from data-icon attribute
+                    if (tabText === 'all') {
                         const originalIcon = icon.getAttribute('data-icon');
-                        if (originalIcon) {
-                            icon.src = originalIcon;
-                        }
+                        if (originalIcon) icon.src = originalIcon;
                     } else if (tabIconSrc) {
-                        // All cards show the active tab's icon
                         icon.src = tabIconSrc;
                     }
                 });
             });
         });
 
-        // 2. Optimized Scroll Interaction
-        const scroller = document.querySelector('.card-list, .list-scroll');
-        const header = document.querySelector('.app-header');
-        const thumbDock = document.querySelector('.tab-bar, .nav-dock');
+        // Bottom Nav Selection Logic
+        const navBtns = document.querySelectorAll('.bottom-nav .nav-btn');
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    </script>
 
-        if (scroller && header && thumbDock) {
-            let lastScrollTop = 0;
-            let ticking = false;
-
-            scroller.addEventListener('scroll', () => {
-                if (!ticking) {
-                    window.requestAnimationFrame(() => {
-                        const scrollTop = scroller.scrollTop;
-
-                        if (scrollTop > 40 && scrollTop > lastScrollTop) {
-                            header.classList.add('header-collapsed');
-                            thumbDock.classList.add('nav-collapsed');
-                        } else if (scrollTop < lastScrollTop - 10 || scrollTop <= 20) {
-                            header.classList.remove('header-collapsed');
-                            thumbDock.classList.remove('nav-collapsed');
-                        }
-
-                        lastScrollTop = Math.max(0, scrollTop);
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            }, { passive: true });
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Registration Failed', err));
+            });
         }
     </script>
 </body>
