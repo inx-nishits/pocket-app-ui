@@ -640,6 +640,127 @@
                 box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
             }
         }
+
+        /* ----- Version Switcher (Discrete Bottom Bar) ----- */
+        .version-switcher {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 12px 0 calc(env(safe-area-inset-bottom, 0px) + 12px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            z-index: 99999;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .version-switcher.hidden {
+            transform: translateY(100%);
+        }
+
+        .switcher-label {
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-right: 4px;
+        }
+
+        .v-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .v-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .v-btn.active {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            border-color: #fff;
+            pointer-events: none;
+        }
+
+        .hide-switcher-btn {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .hide-switcher-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Floating Restore Button (Visible only when bar is hidden) */
+        .switcher-restore-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 99998;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        .switcher-restore-btn.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .switcher-restore-btn:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        .switcher-restore-btn img {
+            width: 16px;
+            height: 16px;
+            filter: invert(1);
+        }
     </style>
 </head>
 
@@ -1306,6 +1427,45 @@
                     .catch(err => console.log('SW Registration Failed', err));
             });
         }
+    </script>
+
+    <!-- Version Switcher (Discrete Bottom Bar) -->
+    <div class="version-switcher" id="versionSwitcher">
+        <span class="switcher-label">Design Variant</span>
+        <a href="index-a.html" class="v-btn">A</a>
+        <a href="index-b.html" class="v-btn active">B</a>
+        <a href="index-c.html" class="v-btn">C</a>
+        <a href="index-d.html" class="v-btn">D</a>
+        <button class="hide-switcher-btn" onclick="toggleSwitcher(true)">✕ Hide</button>
+    </div>
+
+    <!-- Restore Switcher Button -->
+    <div class="switcher-restore-btn" id="switcherRestore" onclick="toggleSwitcher(false)">
+        <img src="images/filter.svg" alt="Switch">
+        Switch Design Variant
+    </div>
+
+    <script>
+        function toggleSwitcher(hide) {
+            const switcher = document.getElementById('versionSwitcher');
+            const restore = document.getElementById('switcherRestore');
+            if (hide) {
+                switcher.classList.add('hidden');
+                restore.classList.add('visible');
+                localStorage.setItem('switcherHidden', 'true');
+            } else {
+                switcher.classList.remove('hidden');
+                restore.classList.remove('visible');
+                localStorage.setItem('switcherHidden', 'false');
+            }
+        }
+
+        // Apply saved state on load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('switcherHidden') === 'true') {
+                toggleSwitcher(true);
+            }
+        });
     </script>
 </body>
 
