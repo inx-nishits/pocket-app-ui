@@ -655,16 +655,16 @@
             left: 0;
             width: 100%;
             background: rgba(15, 23, 42, 0.98);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 12px 0 calc(env(safe-area-inset-bottom, 0px) + 12px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 8px 0 calc(env(safe-area-inset-bottom, 0px) + 6px);
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             z-index: 99999;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -674,38 +674,38 @@
 
         .switcher-label {
             color: #94a3b8;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-right: 4px;
+            letter-spacing: 0.8px;
+            margin-right: 2px;
         }
 
         .v-btn {
-            width: 36px;
-            height: 36px;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
+            border-radius: 8px;
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .v-btn:hover {
             background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .v-btn.active {
             background: #ffffff;
             color: #0f172a;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25);
             border-color: #fff;
             pointer-events: none;
         }
@@ -766,7 +766,7 @@
         .switcher-restore-btn img {
             width: 16px;
             height: 16px;
-            filter: invert(1);
+            filter: brightness(0) invert(1);
         }
     </style>
 </head>
