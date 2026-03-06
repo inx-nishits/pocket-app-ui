@@ -1,6 +1,12 @@
-import sys, re
+import sys, re, os
+if len(sys.argv) < 2:
+    print("Usage: python apply_design_refresh.py <target_file>")
+    sys.exit(1)
+path = sys.argv[1]
+if not os.path.exists(path):
+    print(f"Error: {path} not found")
+    sys.exit(1)
 
-path = './index-b.html'
 with open(path, 'r', encoding='utf-8') as f:
     content = f.read()
 

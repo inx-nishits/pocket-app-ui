@@ -24,10 +24,11 @@
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
             --accent-blue: #546EA4;
+            --accent-slate: #475569;
             --pill-bg: #ffffff;
-            --shadow-sm: 0 4px 16px rgba(84, 110, 164, 0.08);
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
             /* Derived from 546EA4 */
-            --shadow-md: 0 8px 32px rgba(84, 110, 164, 0.12);
+            --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.12);
             --safe-area-top: env(safe-area-inset-top, 24px);
             --safe-area-bottom: env(safe-area-inset-bottom, 24px);
         }
@@ -190,7 +191,7 @@
             border: none;
             background: transparent;
             padding: 14px 0;
-            font-size: 15px;
+            font-size: 16px;
             outline: none;
             color: var(--text-primary);
             min-width: 0;
@@ -213,8 +214,8 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            color: var(--accent-blue);
-            font-size: 13px;
+            color: var(--accent-slate);
+            font-size: 14px;
             font-weight: 700;
             text-decoration: underline;
             text-decoration-thickness: 1.5px;
@@ -226,7 +227,7 @@
         .search-all-cta svg {
             width: 14px;
             height: 14px;
-            stroke: var(--accent-blue);
+            stroke: var(--accent-slate);
             stroke-width: 2.5;
         }
 
@@ -259,7 +260,7 @@
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             z-index: 100;
-            border-bottom: 1px solid rgba(84, 110, 164, 0.15);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.1);
         }
 
         .magic-tabs-wrapper {
@@ -279,7 +280,7 @@
             width: calc(25% - 2.5px);
             background: #ffffff;
             border-radius: 18px;
-            box-shadow: 0 4px 12px rgba(84, 110, 164, 0.15);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 1;
         }
@@ -299,7 +300,7 @@
         }
 
         .m-tab span {
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 700;
             white-space: nowrap;
         }
@@ -312,11 +313,11 @@
         }
 
         .m-tab.m-tab-active {
-            color: var(--accent-blue);
+            color: var(--accent-slate);
         }
 
         .m-tab.m-tab-active img {
-            filter: brightness(0) saturate(100%) invert(41%) sepia(28%) saturate(677%) hue-rotate(185deg) brightness(92%) contrast(87%);
+            filter: brightness(0) saturate(100%) invert(31%) sepia(19%) saturate(464%) hue-rotate(176deg) brightness(95%) contrast(88%);
             transform: translateY(-2px);
         }
 
@@ -355,11 +356,11 @@
         }
 
         .scrolled .section-header {
-            border-bottom: 1px solid rgba(84, 110, 164, 0.1);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
         }
 
         .section-header h2 {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 500;
         }
 
@@ -387,8 +388,11 @@
 
         .view-btn.active {
             background: #f1f5f9;
+            /* Soft, true neutral grey */
             color: #334155;
+            /* Dark grey for contrast, not blue */
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+            /* Soft subtle neutral shadow */
         }
 
         .view-btn svg {
@@ -454,7 +458,7 @@
         }
 
         .card-title {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 700;
             line-height: 1.25;
             letter-spacing: -0.2px;
@@ -475,7 +479,7 @@
         }
 
         .cjs-code {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             color: #475569;
             background: #f1f5f9;
@@ -550,17 +554,6 @@
             opacity: 1;
         }
 
-        .pin-btn {
-            background: #e0f2fe;
-            border: 1px solid #bae6fd;
-        }
-
-        .pin-btn img {
-            width: 14px;
-            filter: invert(43%) sepia(21%) saturate(1478%) hue-rotate(184deg) brightness(91%) contrast(89%);
-            opacity: 0.7;
-        }
-
         /* ----- Bottom Nav ----- */
         .bottom-nav-wrapper {
             position: absolute;
@@ -588,9 +581,9 @@
             padding: 8px 12px;
             border-radius: 40px;
             /* Inner track design: thin darker border + inner white glow */
-            border: 1px solid rgba(84, 110, 164, 0.2);
+            border: 1px solid rgba(15, 23, 42, 0.15);
             box-shadow:
-                0 12px 32px -8px rgba(84, 110, 164, 0.25),
+                0 12px 32px -8px rgba(15, 23, 42, 0.2),
                 /* Deep floating shadow */
                 inset 0 0 0 1.5px rgba(255, 255, 255, 0.8);
             /* Inner white track glow */
@@ -874,8 +867,6 @@
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -895,8 +886,6 @@
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -915,8 +904,6 @@
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -937,8 +924,6 @@
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -973,8 +958,6 @@
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -993,8 +976,6 @@
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1013,8 +994,6 @@
                             </svg><span>01-14-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1033,8 +1012,6 @@
                             </svg><span>12-10-2024</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1053,8 +1030,6 @@
                             </svg><span>03-21-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1075,8 +1050,6 @@
                             </svg><span>11-05-2024</span></div>
                         <div class="card-icons">
                             <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1095,8 +1068,6 @@
                             </svg><span>09-12-2024</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1115,8 +1086,6 @@
                             </svg><span>06-30-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1135,8 +1104,6 @@
                             </svg><span>08-22-2024</span></div>
                         <div class="card-icons">
                             <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1157,8 +1124,6 @@
                             </svg><span>04-18-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1177,8 +1142,6 @@
                             </svg><span>05-11-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1197,8 +1160,6 @@
                             </svg><span>08-01-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1217,8 +1178,6 @@
                             </svg><span>02-28-2026</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1237,8 +1196,6 @@
                             </svg><span>10-15-2024</span></div>
                         <div class="card-icons">
                             <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1257,8 +1214,6 @@
                             </svg><span>07-09-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1277,8 +1232,6 @@
                             </svg><span>04-04-2026</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1297,8 +1250,6 @@
                             </svg><span>01-19-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1317,8 +1268,6 @@
                             </svg><span>09-30-2025</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1337,8 +1286,6 @@
                             </svg><span>11-22-2024</span></div>
                         <div class="card-icons">
                             <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1357,8 +1304,6 @@
                             </svg><span>06-05-2026</span></div>
                         <div class="card-icons">
                             <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
-                            <button class="pin-btn"><img src="images/attech.svg" data-icon="images/attech.svg"
-                                    class="cat-icon" alt="Pin"></button>
                         </div>
                     </div>
                 </div>
@@ -1445,9 +1390,8 @@
             });
         });
 
-        // Tab Selection & Pin-Icon Linking Logic
+        // Tab Selection Logic
         const tabs = document.querySelectorAll('.m-tab');
-        const spatialIcons = document.querySelectorAll('.cat-icon');
         const tabIndicator = document.getElementById('tab-bg');
 
         tabs.forEach((tab, index) => {
@@ -1461,18 +1405,6 @@
 
                 // Slide the fluid active pill indicator
                 tabIndicator.style.transform = `translateX(${index * 100}%)`;
-
-                const tabText = tab.querySelector('span').textContent.trim().toLowerCase();
-                const tabIconSrc = tab.querySelector('img') ? tab.querySelector('img').src : null;
-
-                spatialIcons.forEach(icon => {
-                    if (tabText === 'all') {
-                        const originalIcon = icon.getAttribute('data-icon');
-                        if (originalIcon) icon.src = originalIcon;
-                    } else if (tabIconSrc) {
-                        icon.src = tabIconSrc;
-                    }
-                });
             });
         });
 
@@ -1502,8 +1434,6 @@
         <span class="switcher-label">Design Variant</span>
         <a href="index-a.html" class="v-btn active">A</a>
         <a href="index-b.html" class="v-btn">B</a>
-        <a href="index-c.html" class="v-btn">C</a>
-        <a href="index-d.html" class="v-btn">D</a>
         <button class="hide-switcher-btn" onclick="toggleSwitcher(true)">✕ Hide</button>
     </div>
 
