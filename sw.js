@@ -1,12 +1,14 @@
-const CACHE_NAME = 'pocket-app-v1';
+const CACHE_NAME = 'pocket-app-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './variant-a/index.html',
   './variant-a/menu.html',
+  './variant-a/checklist.html',
   './variant-a/manifest.json',
   './variant-b/index.html',
+  './variant-b/menu.html',
   './variant-b/manifest.json',
   './images/Ps-pro-logo.png',
   './images/search.svg',
@@ -23,15 +25,31 @@ const ASSETS = [
   './images/checklist.svg',
   './images/contact-us.svg',
   './images/megaphone.svg',
-  './images/ps-podcast.svg'
+  './images/ps-podcast.svg',
+  './images/tags.svg',
+  './images/phone-call.svg'
 ];
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS);
     })
   );
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys
+          .filter((key) => key !== CACHE_NAME)
+          .map((key) => caches.delete(key))
+      )
+    )
+  );
+  self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
