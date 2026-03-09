@@ -1,12 +1,13 @@
 const CACHE_NAME = 'pocket-app-v1';
 const ASSETS = [
   './',
-  './index-a.html',
-  './index-b.html',
   './index.html',
   './manifest.json',
-  './manifest-a.json',
-  './manifest-b.json',
+  './variant-a/index.html',
+  './variant-a/menu.html',
+  './variant-a/manifest.json',
+  './variant-b/index.html',
+  './variant-b/manifest.json',
   './images/Ps-pro-logo.png',
   './images/search.svg',
   './images/filter.svg',
