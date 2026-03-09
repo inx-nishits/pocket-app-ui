@@ -1295,8 +1295,8 @@
         <!-- Bottom Nav Dock -->
         <div class="bottom-nav-wrapper">
             <nav class="bottom-nav">
-                <button class="nav-btn" onclick="window.location.href='/variant-a/index.html'"><img
-                        src="../images/search.svg" alt="Search"></button>
+                <button class="nav-btn" onclick="window.location.href='index.html'"><img src="../images/search.svg"
+                        alt="Search"></button>
                 <button class="nav-btn"><img src="../images/tags.svg" alt="Tags"></button>
                 <button class="nav-btn"><img src="../images/checklist.svg" alt="Clipboard"></button>
                 <button class="nav-btn"><img src="../images/phone-call.svg" alt="Contact"></button>
@@ -1336,9 +1336,28 @@
         }
 
         // Header scroll effect
-        let lastScrollY = window.scrollY;
-        window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
+        const scroller = document.querySelector('.menu-scroller');
+        let lastScrollY = scroller.scrollTop;
+
+        scroller.addEventListener('scroll', () => {
+            const currentScrollY = scroller.scrollTop;
+
+            // Scrolling down
+            if (currentScrollY > lastScrollY && currentScrollY > 70) {
+                document.body.classList.add('nav-hidden');
+            }
+            // Scrolling up
+            else if (currentScrollY < lastScrollY) {
+                // Prevent bottom rubber-band bounce from falsely revealing the menu
+                if (currentScrollY + scroller.clientHeight < scroller.scrollHeight - 10) {
+                    document.body.classList.remove('nav-hidden');
+                }
+            }
+
+            // Always show at absolute top
+            if (currentScrollY <= 70) {
+                document.body.classList.remove('nav-hidden');
+            }
 
             // Toggle nice border logic for sticky container
             if (currentScrollY > 10) {
