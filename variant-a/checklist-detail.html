@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#546EA4">
+    <link rel="manifest" href="manifest.json">
+    <title>Checklist Detail - Spatial iOS 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #546EA4;
+            --accent-slate: #475569;
+            --pill-bg: #ffffff;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow: hidden;
+            overscroll-behavior-y: none;
+        }
+
+        html {
+            height: -webkit-fill-available;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ----- Detail Header (Blue Theme from Old UI) ----- */
+        .detail-header {
+            padding-top: var(--safe-area-top);
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+            box-shadow: 0 10px 30px rgba(84, 110, 164, 0.2);
+            position: relative;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 24px;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            padding: 10px 24px 0;
+            text-align: center;
+        }
+
+        .title-block h1 {
+            font-size: 22px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.4px;
+            margin-bottom: 6px;
+        }
+
+        .title-block p {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: 0.2px;
+        }
+
+        /* ----- Scroller ----- */
+        .scroller {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 20px 0 60px;
+            scrollbar-width: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ----- Intro Text ----- */
+        .intro-text-wrapper {
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .intro-text-wrapper p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .note-box {
+            background: #ffffff;
+            border-left: 4px solid var(--accent-blue);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .note-box strong {
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-right: 4px;
+        }
+
+        /* ----- Interactive Checklist Items ----- */
+        .checklist-items {
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            margin: 0 20px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            border: 1px solid rgba(15, 23, 42, 0.05);
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 20px;
+            cursor: pointer;
+            position: relative;
+            background: #ffffff;
+            border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+            transition: background-color 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .check-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Alternating Highlight Style from old UI */
+        .check-item.highlight {
+            background-color: #f1f5f9;
+            /* Gentle blue-grey tint */
+        }
+
+        .check-item:active {
+            background-color: #e2e8f0;
+        }
+
+        /* Native Hidden Checkbox */
+        .check-item input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Custom iOS Style Checkbox */
+        .custom-checkbox {
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            border: 2px solid #cbd5e1;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Checkmark Icon inside the box */
+        .custom-checkbox::after {
+            content: '';
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2.5px 2.5px 0;
+            transform: rotate(45deg) scale(0);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Checked State Styling */
+        .check-item input:checked~.custom-checkbox {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            box-shadow: 0 4px 10px rgba(84, 110, 164, 0.3);
+            transform: scale(1.05);
+        }
+
+        .check-item input:checked~.custom-checkbox::after {
+            transform: rotate(45deg) scale(1);
+        }
+
+        /* Strikethrough effect on text when checked (optional, adds nice UX) */
+        .check-item input:checked~.check-text {
+            color: var(--text-dim);
+            text-decoration: line-through;
+            text-decoration-color: rgba(148, 163, 184, 0.5);
+        }
+
+        .check-text {
+            font-size: 15px;
+            line-height: 1.4;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.2s;
+            flex: 1;
+        }
+
+        /* Mockup Mobile Wrapper */
+        @media (min-width: 500px) {
+            body {
+                background-color: #e2e8f0;
+                padding: 40px 0;
+                overflow: auto;
+            }
+
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                border: 12px solid #000;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Modern Blue Detail Header -->
+        <div class="detail-header">
+            <div class="header-nav">
+                <button class="nav-btn" onclick="window.history.back()">
+                    <!-- SVG Chevron Left -->
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="header-actions">
+                    <button class="nav-btn" onclick="resetCheckboxes()">
+                        <!-- SVG Refresh / Replace -->
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 2v6h-6"></path>
+                            <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+                            <path d="M3 22v-6h6"></path>
+                            <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="title-block">
+                <h1>10 point check list for Offences in Children's homes</h1>
+                <p>Crown Prosecution Service (CPS)</p>
+            </div>
+        </div>
+
+        <!-- Content Scroller -->
+        <div class="scroller">
+            <div class="intro-text-wrapper">
+                <p>The 10-Point Checklist requires a systematic approach to the decision to prosecute a child in care,
+                    referring to those in local authority care or accommodation, and must be completed before submitting
+                    to the CPS.</p>
+                <p>Whilst current practice dictates that this be completed for all cases going to CPS, best practice
+                    would be for this checklist to be completed for all cases involving a child looked after.</p>
+                <div class="note-box">
+                    <strong>NOTE:</strong> The 10-Point Checklist is currently being reviewed and will be replaced with
+                    a 5-Point Checklist. We will update this to the new 5-point checklist once available.
+                </div>
+            </div>
+
+            <!-- Single Container for List Items with alternating backgrounds -->
+            <div class="checklist-items">
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Disciplinary policy of the children's home</span>
+                </label>
+
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Why have the Police been involved and is it agreed in the policy? There
+                        should be an explanation from the home regarding their decision to involve the Police which
+                        should refer to the procedures and guidance on police involvement</span>
+                </label>
+
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Any informal action / disciplinary action already taken?</span>
+                </label>
+
+                <!-- Additional Dummy Items to show scrolling -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Are there any underlying health or behavioral issues documented that may
+                        have contributed to the offense?</span>
+                </label>
+
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Has risk management regarding the welfare of staff and other children been
+                        considered?</span>
+                </label>
+
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Confirm the local authority has been notified formally regarding the police
+                        intervention.</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script to Reset Checkboxes -->
+    <script>
+        function resetCheckboxes() {
+            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                cb.checked = false;
+            });
+        }
+    </script>
+</body>
+
+</html>

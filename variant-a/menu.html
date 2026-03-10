@@ -1064,7 +1064,7 @@
             }
         }
 
-        .hidden-features.expanded~.see-more-wrapper .see-more-btn svg {
+        .see-more-btn svg.rotated {
             transform: rotate(180deg);
         }
 
@@ -1327,14 +1327,17 @@
 
         if (seeMoreBtn && hiddenFeatures) {
             const btnText = seeMoreBtn.querySelector('.btn-text');
+            const btnSvg = seeMoreBtn.querySelector('svg');
             seeMoreBtn.addEventListener('click', () => {
                 if (hiddenFeatures.classList.contains('expanded')) {
                     hiddenFeatures.classList.remove('expanded');
                     seeMoreBtn.classList.remove('active');
+                    if (btnSvg) btnSvg.classList.remove('rotated');
                     if (btnText) btnText.textContent = 'See More';
                 } else {
                     hiddenFeatures.classList.add('expanded');
                     seeMoreBtn.classList.add('active');
+                    if (btnSvg) btnSvg.classList.add('rotated');
                     if (btnText) btnText.textContent = 'See Less';
                 }
             });
