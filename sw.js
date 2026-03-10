@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pocket-app-v7';
+const CACHE_NAME = 'pocket-app-v8';
 const ASSETS = [
   './',
   './index.html',
@@ -11,6 +11,7 @@ const ASSETS = [
   './variant-b/index.html',
   './variant-b/menu.html',
   './variant-b/checklist.html',
+  './variant-b/checklist-detail.html',
   './variant-b/manifest.json',
   './images/Ps-pro-logo.png',
   './images/search.svg',
