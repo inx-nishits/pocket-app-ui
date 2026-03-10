@@ -3,6 +3,7 @@
   "short_name": "Pocket App",
   "description": "Spatial iOS 2026 App Experience",
   "start_url": "./index.html",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#f7f9fc",
