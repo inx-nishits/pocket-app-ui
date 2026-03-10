@@ -846,6 +846,30 @@
                 cb.checked = false;
             });
         }
+
+        // Handle Dynamic Title and Preservation of Links
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const title = urlParams.get('title');
+            const sub = urlParams.get('sub');
+
+            if (title) {
+                document.querySelector('.title-block h1').textContent = title;
+                document.title = title + " - Variant A";
+            }
+            if (sub) {
+                document.querySelector('.title-block p').textContent = sub;
+            }
+
+            // Sync Switcher Link with current Params
+            const switcherLinks = document.querySelectorAll('.v-btn');
+            switcherLinks.forEach(link => {
+                const baseHref = link.getAttribute('href').split('?')[0];
+                if (window.location.search) {
+                    link.setAttribute('href', baseHref + window.location.search);
+                }
+            });
+        });
     </script>
 </body>
 
