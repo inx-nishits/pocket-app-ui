@@ -75,6 +75,12 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            max-height: 200px;
+            overflow: hidden;
+            transition:
+                max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s ease-out;
         }
 
         /* Always-visible gradient shimmer separator line */
@@ -91,6 +97,12 @@
                     rgba(84, 110, 164, 0.35) 50%,
                     rgba(84, 110, 164, 0.2) 80%,
                     transparent 100%);
+        }
+
+        .nav-hidden .checklist-header {
+            max-height: 0;
+            transform: translateY(-30%);
+            box-shadow: none;
         }
 
         .header-top-row {
@@ -930,14 +942,27 @@
         let lastScrollY = scroller.scrollTop;
         scroller.addEventListener('scroll', () => {
             const currentScrollY = scroller.scrollTop;
+
+            // Scrolling down – hide header + bottom nav
             if (currentScrollY > lastScrollY && currentScrollY > 70) {
                 document.body.classList.add('nav-hidden');
-            } else if (currentScrollY < lastScrollY) {
+            }
+            // Scrolling up – show again (but ignore bottom rubber-band bounce)
+            else if (currentScrollY < lastScrollY) {
+                if (currentScrollY + scroller.clientHeight < scroller.scrollHeight - 10) {
+                    document.body.classList.remove('nav-hidden');
+                }
+            }
+
+            // Always show when near the very top
+            if (currentScrollY <= 70) {
                 document.body.classList.remove('nav-hidden');
             }
+
             // Scroll-reveal header border (like Home page)
             if (currentScrollY > 10) appContainer.classList.add('scrolled');
             else appContainer.classList.remove('scrolled');
+
             lastScrollY = currentScrollY;
         }, { passive: true });
 

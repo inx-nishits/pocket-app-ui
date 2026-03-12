@@ -77,6 +77,22 @@
             border-bottom: 1px solid rgba(15, 23, 42, 0.08);
             /* sharper defining line */
             flex-shrink: 0;
+            max-height: 200px;
+            overflow: hidden;
+            transition:
+                max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s ease-out;
+        }
+
+        .nav-hidden .top-nav-group {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            border: 0;
+            background: transparent;
+            transform: translateY(-30%);
+            box-shadow: none;
         }
 
         .header-main {
@@ -803,11 +819,26 @@
 
         scroller.addEventListener('scroll', () => {
             const currentScrollY = scroller.scrollTop;
+            const atBottom = currentScrollY + scroller.clientHeight >= scroller.scrollHeight - 1;
 
-            // Hide nav on scroll down, show on scroll up
+            // Hide header + bottom nav on scroll down
             if (currentScrollY > lastScrollY && currentScrollY > 70) {
                 document.body.classList.add('nav-hidden');
-            } else if (currentScrollY < lastScrollY) {
+            }
+            // Show again on scroll up (ignore bottom rubber-band bounce)
+            else if (currentScrollY < lastScrollY) {
+                if (currentScrollY + scroller.clientHeight < scroller.scrollHeight - 10) {
+                    document.body.classList.remove('nav-hidden');
+                }
+            }
+
+            // Force hidden state at absolute bottom so no header sliver shows
+            if (atBottom && currentScrollY > 120) {
+                document.body.classList.add('nav-hidden');
+            }
+
+            // Always show when near the very top
+            if (currentScrollY <= 70) {
                 document.body.classList.remove('nav-hidden');
             }
 
