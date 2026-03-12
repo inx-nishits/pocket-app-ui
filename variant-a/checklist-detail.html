@@ -86,7 +86,7 @@
             padding-bottom: 12px;
             padding-left: 8px;
             padding-right: 8px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, var(--accent-blue) 24px);
+            background: var(--accent-blue);
             color: #ffffff;
             border-bottom-left-radius: 28px;
             border-bottom-right-radius: 28px;
@@ -909,12 +909,33 @@
             let lastScrollY = scroller.scrollTop;
             scroller.addEventListener('scroll', () => {
                 const currentScrollY = scroller.scrollTop;
-                if (currentScrollY > lastScrollY && currentScrollY > 70) {
-                    headerWrapper.classList.add('header-hidden');
-                } else if (currentScrollY < lastScrollY) {
+                const delta = currentScrollY - lastScrollY;
+                const nearTop = currentScrollY <= 70;
+                const distanceFromBottom = scroller.scrollHeight - scroller.clientHeight - currentScrollY;
+                const nearBottom = distanceFromBottom <= 40;
+
+                // Ignore tiny deltas from momentum/rounding to prevent rapid toggles.
+                if (Math.abs(delta) <= 6) return;
+
+                // At/near top, keep header visible and stable.
+                if (nearTop) {
                     headerWrapper.classList.remove('header-hidden');
+                    lastScrollY = currentScrollY;
+                    return;
                 }
-                if (currentScrollY <= 70) {
+
+                // At/near bottom, ignore "bounce" upward deltas that cause the header to flash.
+                // Only allow showing the header again once the user has scrolled up away from bottom.
+                if (nearBottom && delta < 0) {
+                    lastScrollY = currentScrollY;
+                    return;
+                }
+
+                // Normal behavior everywhere else (including at bottom):
+                // scrolling down hides, scrolling up shows.
+                if (delta > 0) {
+                    headerWrapper.classList.add('header-hidden');
+                } else if (delta < 0) {
                     headerWrapper.classList.remove('header-hidden');
                 }
                 lastScrollY = currentScrollY;

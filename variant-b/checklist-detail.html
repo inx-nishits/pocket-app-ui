@@ -915,12 +915,31 @@
             let lastScrollY = scroller.scrollTop;
             scroller.addEventListener('scroll', () => {
                 const currentScrollY = scroller.scrollTop;
-                if (currentScrollY > lastScrollY && currentScrollY > 70) {
-                    headerWrapper.classList.add('header-hidden');
-                } else if (currentScrollY < lastScrollY) {
+                const delta = currentScrollY - lastScrollY;
+                const nearTop = currentScrollY <= 70;
+                const distanceFromBottom = scroller.scrollHeight - scroller.clientHeight - currentScrollY;
+                const nearBottom = distanceFromBottom <= 40;
+
+                // Ignore tiny deltas from momentum/rounding to prevent rapid toggles.
+                if (Math.abs(delta) <= 6) return;
+
+                // At/near top, keep header visible and stable.
+                if (nearTop) {
                     headerWrapper.classList.remove('header-hidden');
+                    lastScrollY = currentScrollY;
+                    return;
                 }
-                if (currentScrollY <= 70) {
+
+                // At/near bottom, ignore "bounce" upward deltas that cause the header to flash.
+                // Only allow showing the header again once the user has scrolled up away from bottom.
+                if (nearBottom && delta < 0) {
+                    lastScrollY = currentScrollY;
+                    return;
+                }
+
+                if (delta > 0 && currentScrollY > 70) {
+                    headerWrapper.classList.add('header-hidden');
+                } else if (delta < 0) {
                     headerWrapper.classList.remove('header-hidden');
                 }
                 lastScrollY = currentScrollY;
