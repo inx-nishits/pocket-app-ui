@@ -68,36 +68,55 @@
         }
 
         /* ----- Variant B Premium Header ----- */
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0 0 32px 32px;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
         .detail-header {
-            padding-top: var(--safe-area-top);
-            background: rgba(255, 255, 255, 0.85);
-            /* Glass effect */
+            padding-top: calc(var(--safe-area-top) + 10px);
+            padding-bottom: 12px;
+            padding-left: 8px;
+            padding-right: 8px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             color: var(--text-primary);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
             display: flex;
             flex-direction: column;
-            padding-bottom: 24px;
-            flex-shrink: 0;
+            gap: 12px;
             border-radius: 0 0 32px 32px;
-            box-shadow: 0 4px 30px rgba(15, 23, 42, 0.06);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                0 4px 16px rgba(15, 23, 42, 0.08),
+                0 2px 6px rgba(0, 0, 0, 0.04);
         }
 
         .header-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px;
+        }
+
+        .header-actions {
+            flex-shrink: 0;
         }
 
         .nav-btn {
+            flex-shrink: 0;
             background: #ffffff;
             border: 2px solid #e2e8f0;
-            /* Thicker and clearer border */
             width: 44px;
             height: 44px;
             border-radius: 50%;
@@ -130,17 +149,22 @@
         }
 
         .title-block {
-            padding: 8px 24px 0;
+            min-width: 0;
+            padding: 0 8px;
             text-align: left;
-            /* Variant B prefers left-aligned titles */
         }
 
         .title-block h1 {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
             line-height: 1.2;
-            letter-spacing: -0.8px;
-            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
             background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
             -webkit-background-clip: text;
             background-clip: text;
@@ -148,11 +172,12 @@
         }
 
         .title-block p {
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 500;
             color: var(--text-dim);
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin: 1px 0 0;
+            line-height: 1.2;
         }
 
         /* ----- Scroller ----- */
@@ -476,17 +501,16 @@
 <body>
     <div class="app-container">
         <!-- Variant B Minimal Header -->
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
         <div class="detail-header">
             <div class="header-nav">
-                <button class="nav-btn" onclick="window.history.back()">
-                    <!-- SVG Chevron Left -->
+                <button class="nav-btn" onclick="window.location.href='checklist.html'">
                     <svg viewBox="0 0 24 24">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </button>
                 <div class="header-actions">
                     <button class="nav-btn" onclick="resetCheckboxes()">
-                        <!-- SVG Refresh / Replace -->
                         <svg viewBox="0 0 24 24">
                             <path d="M21 2v6h-6"></path>
                             <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
@@ -500,6 +524,7 @@
                 <h1>Checklist for Offences in Children's Homes</h1>
                 <p>Crown Prosecution Service (CPS) Audit</p>
             </div>
+        </div>
         </div>
 
         <!-- Content Scroller -->
@@ -881,6 +906,26 @@
                 }
             });
         });
+
+        // Header hide on scroll down, show on scroll up (same as Search page)
+        (function () {
+            const scroller = document.querySelector('.scroller');
+            const headerWrapper = document.getElementById('detailHeaderWrapper');
+            if (!scroller || !headerWrapper) return;
+            let lastScrollY = scroller.scrollTop;
+            scroller.addEventListener('scroll', () => {
+                const currentScrollY = scroller.scrollTop;
+                if (currentScrollY > lastScrollY && currentScrollY > 70) {
+                    headerWrapper.classList.add('header-hidden');
+                } else if (currentScrollY < lastScrollY) {
+                    headerWrapper.classList.remove('header-hidden');
+                }
+                if (currentScrollY <= 70) {
+                    headerWrapper.classList.remove('header-hidden');
+                }
+                lastScrollY = currentScrollY;
+            }, { passive: true });
+        })();
     </script>
 </body>
 

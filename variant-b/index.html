@@ -388,6 +388,16 @@
         .section-header h2 {
             font-size: 28px;
             font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+            .section-header h2 {
+                background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
         }
 
         .view-toggles {
