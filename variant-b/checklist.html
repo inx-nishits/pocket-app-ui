@@ -70,40 +70,45 @@
         /* ----- Variant B Top Header Group ----- */
         .top-nav-group {
             background: #ffffff;
-            padding-top: var(--safe-area-top);
-            padding-bottom: 20px;
+            padding-top: calc(var(--safe-area-top) * 0.75);
+            padding-bottom: 12px;
             position: relative;
-            z-index: 100;
+            /* scrolls naturally with content (not sticky) */
+            z-index: 1;
             border-bottom: 1px solid rgba(15, 23, 42, 0.08);
             /* sharper defining line */
             flex-shrink: 0;
-            max-height: 200px;
-            overflow: hidden;
-            transition:
-                max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-                box-shadow 0.3s ease-out;
         }
 
-        .nav-hidden .top-nav-group {
-            max-height: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-            border: 0;
-            background: transparent;
-            transform: translateY(-30%);
-            box-shadow: none;
+        /* Play a subtle slide-down when header is snapped back to viewport top */
+        .top-nav-group.is-fixed {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: headerSlideDown 220ms ease-out;
+        }
+
+        @keyframes headerSlideDown {
+            from {
+                transform: translateY(-12px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .header-main {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
+            padding: 10px 20px;
         }
 
         .page-title {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: var(--text-primary);
@@ -237,7 +242,7 @@
         }
 
         .list-row {
-            padding: 20px 20px 20px 16px;
+            padding: 12px 12px 12px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -490,23 +495,23 @@
 <body>
     <div class="app-container">
 
-        <!-- Variant B Top Area -->
-        <div class="top-nav-group">
-            <div class="header-main">
-                <h1 class="page-title">Checklists</h1>
-                <div class="header-action">
-                    <img src="../images/star.svg" alt="Starred">
-                </div>
-            </div>
-            <div class="search-container">
-                <div class="search-box">
-                    <img src="../images/search.svg" alt="Search">
-                    <input type="text" placeholder="Search checklists...">
-                </div>
-            </div>
-        </div>
-
         <div class="scroller">
+
+            <!-- Variant B Top Area (scrolls with content) -->
+            <div class="top-nav-group">
+                <div class="header-main">
+                    <h1 class="page-title">Checklists</h1>
+                    <div class="header-action">
+                        <img src="../images/star.svg" alt="Starred">
+                    </div>
+                </div>
+                <div class="search-container">
+                    <div class="search-box">
+                        <img src="../images/search.svg" alt="Search">
+                        <input type="text" placeholder="Search checklists...">
+                    </div>
+                </div>
+            </div>
 
             <!-- Category 1 -->
             <div class="dictionary-section">
@@ -814,36 +819,44 @@
     </div>
 
     <script>
+        // Header behaviour:
+        // - Flows with content while scrolling down (not fixed)
+        // - As soon as user starts scrolling UP (even 1px), snap it to top with a quick animation
         const scroller = document.querySelector('.scroller');
-        let lastScrollY = scroller.scrollTop;
+        const topNavGroup = document.querySelector('.top-nav-group');
+        let lastScrollY = scroller ? scroller.scrollTop : 0;
+        let lastDirection = 'down';
 
-        scroller.addEventListener('scroll', () => {
-            const currentScrollY = scroller.scrollTop;
-            const atBottom = currentScrollY + scroller.clientHeight >= scroller.scrollHeight - 1;
+        if (scroller && topNavGroup) {
+            const headerInitialOffset = topNavGroup.offsetTop;
 
-            // Hide header + bottom nav on scroll down
-            if (currentScrollY > lastScrollY && currentScrollY > 70) {
-                document.body.classList.add('nav-hidden');
-            }
-            // Show again on scroll up (ignore bottom rubber-band bounce)
-            else if (currentScrollY < lastScrollY) {
-                if (currentScrollY + scroller.clientHeight < scroller.scrollHeight - 10) {
-                    document.body.classList.remove('nav-hidden');
+            scroller.addEventListener('scroll', () => {
+                const currentScrollY = scroller.scrollTop;
+
+                const scrollingUp = currentScrollY < lastScrollY;
+                const scrollingDown = currentScrollY > lastScrollY;
+
+                // When direction changes from down -> up AND header is off-screen above,
+                // snap it to viewport top (is-fixed) with an animation.
+                if (scrollingUp && lastDirection === 'down' && currentScrollY > headerInitialOffset + 10) {
+                    topNavGroup.classList.add('is-fixed');
+                    lastDirection = 'up';
+                } else if (scrollingDown) {
+                    lastDirection = 'down';
+                    // Once user scrolls down again from the fixed state, let header flow with content again
+                    if (topNavGroup.classList.contains('is-fixed') && currentScrollY > headerInitialOffset + 10) {
+                        topNavGroup.classList.remove('is-fixed');
+                    }
                 }
-            }
 
-            // Force hidden state at absolute bottom so no header sliver shows
-            if (atBottom && currentScrollY > 120) {
-                document.body.classList.add('nav-hidden');
-            }
+                // When we naturally reach the top again, remove fixed state
+                if (currentScrollY <= headerInitialOffset) {
+                    topNavGroup.classList.remove('is-fixed');
+                }
 
-            // Always show when near the very top
-            if (currentScrollY <= 70) {
-                document.body.classList.remove('nav-hidden');
-            }
-
-            lastScrollY = currentScrollY;
-        }, { passive: true });
+                lastScrollY = currentScrollY;
+            }, { passive: true });
+        }
 
         // Version Switcher Logic
         function toggleSwitcher(hide) {

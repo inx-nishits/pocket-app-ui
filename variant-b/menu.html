@@ -71,8 +71,30 @@
             align-items: center;
             background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
             position: relative;
+            /* flows with content by default */
             z-index: 10;
             border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+            /* inside .scroller padding; make header full-bleed */
+            margin: -24px -20px 0;
+        }
+
+        .hdr.is-fixed {
+            position: sticky;
+            top: -24px;
+            z-index: 20;
+            animation: hdrSlideDown 220ms ease-out;
+        }
+
+        @keyframes hdrSlideDown {
+            from {
+                transform: translateY(-12px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .hdr h1 {
@@ -524,12 +546,12 @@
 
 <body>
     <div class="app-container">
-        <header class="hdr">
-            <h1>Operational Deck</h1>
-            <div class="hdr-ver">V 50.5 PREMIUM</div>
-        </header>
 
         <div class="scroller">
+            <header class="hdr">
+                <h1>Operational Deck</h1>
+                <div class="hdr-ver">V 50.5 PREMIUM</div>
+            </header>
             <!-- UNIFORM 3-COLUMN DASHBOARD (VER 50.5) -->
             <div class="section-label">Tactical Dashboard</div>
             <div class="grid-system">
@@ -667,22 +689,49 @@
         window.onload = () => {
             if (localStorage.getItem('switcherHidden') === 'true') toggleSwitcher(true);
 
-            // --- SCROLL HIDE NAVIGATION ---
+            // --- SCROLL HIDE NAVIGATION + HEADER SNAP BEHAVIOUR ---
             const scroller = document.querySelector('.scroller');
+            const hdr = document.querySelector('.hdr');
             let lastScrollY = scroller.scrollTop;
+            let lastDirection = 'down';
 
-            scroller.addEventListener('scroll', () => {
-                const currentScrollY = scroller.scrollTop;
-                if (currentScrollY > lastScrollY && currentScrollY > 70) {
-                    document.body.classList.add('nav-hidden');
-                } else if (currentScrollY < lastScrollY) {
-                    if (currentScrollY + scroller.clientHeight < scroller.scrollHeight - 10) {
-                        document.body.classList.remove('nav-hidden');
+            if (hdr) {
+                const hdrInitialOffset = hdr.offsetTop;
+
+                scroller.addEventListener('scroll', () => {
+                    const currentScrollY = scroller.scrollTop;
+                    const scrollingUp = currentScrollY < lastScrollY;
+                    const scrollingDown = currentScrollY > lastScrollY;
+
+                    // Bottom nav hide/show (existing behaviour)
+                    if (scrollingDown && currentScrollY > 70) {
+                        document.body.classList.add('nav-hidden');
+                    } else if (scrollingUp) {
+                        if (currentScrollY + scroller.clientHeight < scroller.scrollHeight - 10) {
+                            document.body.classList.remove('nav-hidden');
+                        }
                     }
-                }
-                if (currentScrollY <= 70) { document.body.classList.remove('nav-hidden'); }
-                lastScrollY = currentScrollY;
-            }, { passive: true });
+                    if (currentScrollY <= 70) { document.body.classList.remove('nav-hidden'); }
+
+                    // Header snap: flows with content on way down,
+                    // but when user starts scrolling up after it's off-screen,
+                    // pin it to top with a small slide-down animation.
+                    if (scrollingUp && lastDirection === 'down' && currentScrollY > hdrInitialOffset + 10) {
+                        hdr.classList.add('is-fixed');
+                        lastDirection = 'up';
+                    } else if (scrollingDown) {
+                        lastDirection = 'down';
+                        if (hdr.classList.contains('is-fixed') && currentScrollY > hdrInitialOffset + 10) {
+                            hdr.classList.remove('is-fixed');
+                        }
+                    }
+                    if (currentScrollY <= hdrInitialOffset) {
+                        hdr.classList.remove('is-fixed');
+                    }
+
+                    lastScrollY = currentScrollY;
+                }, { passive: true });
+            }
 
             if ('serviceWorker' in navigator) {
                 // AGGRESSIVE CACHE CLEARING
