@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="manifest.json">
+    <title>Abuse of Position - Variant B</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #546EA4;
+            --shadow-premium: 0 10px 40px -10px rgba(15, 23, 42, 0.12);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--text-primary);
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* ----- Variant B Premium Header ----- */
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0 0 32px 32px;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 12px);
+            padding-bottom: 16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-radius: 0 0 32px 32px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+            transition: all 0.2s;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.92);
+        }
+
+        .nav-btn svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            min-width: 0;
+            padding: 0;
+            text-align: left;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .title-block h1 {
+            font-size: 22px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
+            margin: 0;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .title-block p {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-dim);
+            letter-spacing: 0.3px;
+            margin: 1px 0 0;
+            line-height: 1.2;
+        }
+
+        /* ----- Scroller ----- */
+        .scroller {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 24px 20px 120px;
+            display: flex;
+            flex-direction: column;
+            scrollbar-width: none;
+            overscroll-behavior-y: contain;
+            touch-action: pan-y;
+            width: 100%;
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ----- Simple Section Card ----- */
+        .section-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-premium);
+            border: 1px solid rgba(15, 23, 42, 0.05);
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(84, 110, 164, 0.1);
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        strong {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        li:last-child {
+            margin-bottom: 0;
+        }
+
+        .sub-item {
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #edf2f7;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .case-file-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: #ffffff;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1.5px solid #f1f5f9;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .case-file-pill:active {
+            background: #f8fafc;
+            transform: scale(0.97);
+            border-color: var(--accent-blue);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .case-file-pill span {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .case-file-pill svg.chevron {
+            width: 18px;
+            height: 18px;
+            stroke: var(--accent-blue);
+            stroke-width: 2.5;
+            fill: none;
+            opacity: 0.6;
+            margin-left: 12px;
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-align: center;
+            margin-top: 24px;
+            font-style: italic;
+        }
+
+        /* Mockup Mobile Wrapper */
+        @media (min-width: 500px) {
+            body {
+                background-color: #e2e8f0;
+                padding: 40px 0;
+                overflow: auto;
+            }
+
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                border: 12px solid #000;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+            }
+        }
+
+        /* Version Switcher */
+        .version-switcher {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 8px 0 calc(env(safe-area-inset-bottom, 0px) + 6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 99999;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .v-btn-link {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .v-btn-link.active {
+            background: #ffffff;
+            color: #0f172a;
+        }
+
+        /* Simple Modal - constrained to app-container */
+        .modal {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15,23,42,0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 100000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            animation: modalFadeIn 0.3s ease;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal.active { display: flex; }
+        .modal-card {
+            background: #fff;
+            border-radius: 32px;
+            max-width: 380px;
+            width: 100%;
+            padding: 0;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-height: 75vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(0);
+            animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes modalSlideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-card-header {
+            padding: 24px 28px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            background: #fff;
+            border-radius: 32px 32px 0 0;
+        }
+        .modal-card h2 { 
+            font-size: 18px; 
+            margin: 0; 
+            color: var(--accent-blue); 
+            line-height: 1.3;
+            flex: 1;
+        }
+        .modal-body-content {
+            padding: 24px 28px;
+            overflow-y: auto;
+            flex: 1;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .modal-body-content::-webkit-scrollbar {
+            display: none;
+        }
+        .modal-body-content p { margin-bottom: 12px; }
+        .modal-body-content strong { color: var(--text-primary); font-weight: 700; }
+        .modal-body-content ul, .modal-body-content ol { margin-left: 20px; margin-bottom: 16px; }
+        .modal-body-content li { margin-bottom: 8px; }
+        .close-btn { 
+            border: none; background: #f1f5f9; width: 32px; height: 32px; border-radius: 50%; 
+            font-size: 16px; font-weight: 800; cursor: pointer; color: var(--text-secondary);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Variant B Premium Header -->
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <button class="nav-btn" onclick="window.history.back()">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="title-block">
+                    <h1>Abuse of Position</h1>
+                    <p>Section 4 Fraud Act 2006</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Scroller -->
+        <div class="scroller">
+            <!-- Case Files Section -->
+            <div class="section-card">
+                <h2 class="section-title">Case Files</h2>
+                <div class="case-file-pill" onclick="openModal('gap_police')">
+                    <span>Anticipated Guilty Plea (GAP) - Police Charged</span>
+                    <svg class="chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+                <div class="case-file-pill" onclick="openModal('ngap_police')">
+                    <span>Anticipated Not Guilty Plea (NGAP) - Police Charged</span>
+                    <svg class="chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+                <div class="case-file-pill" onclick="openModal('disclosure')">
+                    <span>Disclosure (Meeting the test)</span>
+                    <svg class="chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+                <div class="case-file-pill" onclick="openModal('charging')">
+                    <span>Charging Decision - Information Required</span>
+                    <svg class="chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <!-- Definition Section -->
+            <div class="section-card">
+                <h2 class="section-title">Definition</h2>
+                <p><strong>(1)</strong> A person is in breach of this section if he:</p>
+                <div class="sub-item">(a) occupies a position in which he is expected to safeguard, or not to act against, the financial interests of another person,</div>
+                <div class="sub-item">(b) abused that position</div>
+                <div class="sub-item">(c) dishonestly</div>
+                <div class="sub-item">(d) intending by that abuse to make a gain / cause a loss</div>
+            </div>
+
+            <!-- Points to Prove -->
+            <div class="section-card">
+                <h2 class="section-title">Points to Prove</h2>
+                <ul>
+                    <li>Occupies a position of expectation to safeguard financial interests</li>
+                    <li>Abused that position</li>
+                    <li>Acted dishonestly</li>
+                    <li>Intended to make a gain or cause a loss</li>
+                </ul>
+            </div>
+
+            <!-- Powers & Punishment -->
+            <div class="section-card">
+                <h2 class="section-title">Powers & Punishment</h2>
+                <p><strong>Recordable:</strong> Yes | <strong>Notifiable:</strong> Yes</p>
+                <p style="margin-top: 12px;"><strong>Triable:</strong> Either way</p>
+                <ul style="margin-top: 8px;">
+                    <li><strong>Indictment:</strong> Up to 10 years' imprisonment</li>
+                    <li><strong>Summary:</strong> Up to 6 months' imprisonment and/or fine</li>
+                </ul>
+            </div>
+
+            <!-- Sufficient to Charge? -->
+            <div class="section-card">
+                <h2 class="section-title">Sufficient to Charge?</h2>
+                <p><em>Anticipated Guilty Plea?</em></p>
+                <p>Police have authority to charge unless loss > £5000, context is exceptionally serious, or suspect is subject to Crown Court order.</p>
+                <p style="margin-top: 12px;"><em>Anticipated Not Guilty Plea?</em></p>
+                <p>CPS advice must be sought for all contested triable either way offences.</p>
+            </div>
+
+            <!-- Stated Cases -->
+            <div class="section-card">
+                <h2 class="section-title">Stated Cases</h2>
+                <p><strong>R v Clark (1998)</strong></p>
+                <p>Established that breach of trust by professionals (accountants, solicitors, etc.) usually requires immediate imprisonment unless sums are very small.</p>
+                <p style="margin-top: 12px;"><strong>R v Kefford (2002)</strong></p>
+                <p>Confirmed that while Clarke guidelines apply, alternative sentences may be considered for economic crimes where imprisonment is not strictly necessary for protection of public.</p>
+            </div>
+
+            <p class="footer-note">Fraud Act 2006 Standards</p>
+        </div>
+
+        <!-- Single Modal -->
+        <div id="simpleModal" class="modal">
+            <div class="modal-card">
+                <div class="modal-card-header">
+                    <h2 id="modalTitle">Case File Details</h2>
+                    <button class="close-btn" onclick="closeModal()">✕</button>
+                </div>
+                <div id="modalBody" class="modal-body-content">
+                    <p>Details about this case file category will be displayed here in a simplified view.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Version Switcher -->
+        <div class="version-switcher">
+            <span style="color: #fff; font-size: 9px; font-weight: 800; text-transform: uppercase;">Design Variant</span>
+            <a href="../variant-a/abuse-of-position-detail.html" class="v-btn-link">A</a>
+            <a href="abuse-of-position-detail.html" class="v-btn-link active">B</a>
+        </div>
+    </div>
+
+    <script>
+        const modalData = {
+            'gap_police': {
+                title: 'Anticipated Guilty Plea (GAP) - Police Charged',
+                html: `
+                    <p>The request for a charging decision must be submitted through the digital interface between the police and CPS where available, supported by the following information, in any form indicated in the National File Standard.</p>
+                    <p><strong>You need to ask yourself three questions:</strong></p>
+                    <ol>
+                        <li>Does the case file contain the material needed to make the next hearing fully effective?</li>
+                        <li>Does the case meet appropriate evidential standards (Full Code or Threshold Test)?</li>
+                        <li>Was sufficient information provided to meet victim and witness requirements?</li>
+                    </ol>
+                    <hr style="border:none; border-top:1px dashed #e2e8f0; margin:16px 0;">
+                    <p style="font-size:11px; text-transform:uppercase; color:var(--accent-blue); font-weight:800;">Anticipated Guilty Plea (GAP) Guidelines</p>
+                    <p><strong>Is the anticipation of plea correct?</strong></p>
+                    <p>A guilty plea may be anticipated where the suspect has been interviewed and has made a clear admission or offered no explanation capable of being used as a defence.</p>
+                    <p><strong>Non-interviewed suspects:</strong> Plea can be anticipated if identification is wholly established by police witnesses or clear visually recorded evidence.</p>
+                `
+            },
+            'ngap_police': {
+                title: 'Anticipated Not Guilty Plea (NGAP) - Police Charged',
+                html: `
+                    <p>Categorized as NGAP where the suspect denies the offence or maintains silence, and a trial is anticipated.</p>
+                    <p><strong>Key Requirements:</strong></p>
+                    <ul>
+                        <li>Full evidential review under Director’s Guidance (DG6).</li>
+                        <li>Identification of all digital and forensic evidence early.</li>
+                        <li>Initial disclosure schedules (MG6 series) must be accurate.</li>
+                    </ul>
+                    <p><em>Remind: Police can only charge specific summary-only offences without CPS authority.</em></p>
+                `
+            },
+            'disclosure': {
+                title: 'Disclosure (Meeting the test)',
+                html: `
+                    <p>Relevant to all NGAP cases to ensure fairness and trial integrity as per CPIA 1996.</p>
+                    <p><strong>The Disclosure Test:</strong></p>
+                    <p>Material which might reasonably be considered capable of undermining the case for the prosecution or of assisting the case for the accused.</p>
+                    <p><strong>Required Schedules:</strong></p>
+                    <ul>
+                        <li>MG6C: Non-sensitive material.</li>
+                        <li>MG6D: Sensitive material.</li>
+                        <li>MG6E: Disclosure Officer's Report.</li>
+                    </ul>
+                `
+            },
+            'charging': {
+                title: 'Charging Decision - Information Required',
+                html: `
+                    <p>Standard data pack required for any referral to the CPS for a formal charging decision.</p>
+                    <p><strong>Minimum File Content:</strong></p>
+                    <ul>
+                        <li>Summaries of interview and facts (MG5).</li>
+                        <li>Witness statements (MG11) for all key facts.</li>
+                        <li>Exhibits and digital evidence logs.</li>
+                        <li>Victim Personal Statements (VPS).</li>
+                    </ul>
+                    <p>Ensure the <strong>Full Code Test</strong> is considered before referral.</p>
+                `
+            }
+        };
+
+        function openModal(key) {
+            const entry = modalData[key];
+            if (entry) {
+                document.getElementById('modalTitle').innerText = entry.title;
+                document.getElementById('modalBody').innerHTML = entry.html;
+            } else {
+                document.getElementById('modalTitle').innerText = key;
+                document.getElementById('modalBody').innerHTML = '<p>Details about this case file category will be displayed here.</p>';
+            }
+            document.getElementById('simpleModal').classList.add('active');
+        }
+        function closeModal() {
+            document.getElementById('simpleModal').classList.remove('active');
+        }
+        const modalOverlay = document.getElementById('simpleModal');
+        
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        const scroller = document.querySelector('.scroller');
+        const header = document.getElementById('detailHeaderWrapper');
+        let lastY = 0;
+        scroller.addEventListener('scroll', () => {
+            const y = scroller.scrollTop;
+            header.classList.toggle('header-hidden', y > 60 && y > lastY);
+            lastY = y;
+        }, { passive: true });
+    </script>
+</body>
+
+</html>

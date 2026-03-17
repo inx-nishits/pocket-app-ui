@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="manifest.json">
+    <title>Mental Capacity Act - Variant B</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #546EA4;
+            --shadow-premium: 0 10px 40px -10px rgba(15, 23, 42, 0.12);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--text-primary);
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* ----- Variant B Premium Header ----- */
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0 0 32px 32px;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 12px);
+            padding-bottom: 16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-radius: 0 0 32px 32px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+            transition: all 0.2s;
+        }
+
+        .nav-btn:active { transform: scale(0.92); }
+
+        .nav-btn svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            min-width: 0;
+            padding: 0;
+            text-align: left;
+            flex: 1;
+        }
+
+        .title-block h1 {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
+            margin: 0;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .title-block p {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* Scroller */
+        .scroller {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px 120px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            scrollbar-width: none;
+        }
+
+        .scroller::-webkit-scrollbar { display: none; }
+
+        /* Premium Section Cards */
+        .section {
+            margin-bottom: 24px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-premium);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-icon-wrapper {
+            width: 42px;
+            height: 42px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            flex-shrink: 0;
+        }
+
+        .section-icon-wrapper svg {
+            width: 22px;
+            height: 22px;
+            stroke-width: 2.5;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .principle-box {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .principle-num { font-weight: 800; color: var(--accent-blue); font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .principle-title { font-weight: 800; font-size: 16px; color: var(--text-primary); display: block; margin-bottom: 8px; }
+
+        ol { padding-left: 20px; }
+        li { margin-bottom: 12px; font-size: 15px; color: var(--text-primary); }
+
+        /* Version Switcher */
+        .version-switcher {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 8px 0 calc(env(safe-area-inset-bottom, 0px) + 6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 99999;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .v-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .v-btn.active { background: #fff; color: #0f172a; }
+
+        @media (min-width: 500px) {
+            body { background: #e2e8f0; padding: 40px 0; }
+            .app-container {
+                max-width: 430px; border-radius: 50px; height: 932px;
+                border: 12px solid #000; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <button class="nav-btn" onclick="window.location.href='index.html'">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="title-block">
+                    <h1>Mental Capacity Act</h1>
+                    <p>Legal Guidelines & Codes</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="scroller">
+            <div class="section">
+                <p>The Mental Capacity Act 2005 (MCA) provides a legal framework for making decisions on behalf of people who for any reason lack the mental capacity to make their own decisions.</p>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon-wrapper"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
+                    <span class="section-title">The 5 Statutory Principles</span>
+                </div>
+                
+                <div class="principle-box">
+                    <span class="principle-num">Principle 1</span>
+                    <span class="principle-title">Presumption of Capacity</span>
+                    <p>A person must be assumed to have capacity unless it is established that they lack capacity. You cannot assume a person lacks capacity just because of their age, disability, appearance or condition.</p>
+                </div>
+
+                <div class="principle-box">
+                    <span class="principle-num">Principle 2</span>
+                    <span class="principle-title">Support to Make Decisions</span>
+                    <p>A person is not to be treated as unable to make a decision unless all practicable steps to help them to do so have been taken without success. This might involve using different communication methods or choosing a specific time of day.</p>
+                </div>
+
+                <div class="principle-box">
+                    <span class="principle-num">Principle 3</span>
+                    <span class="principle-title">Unwise Decisions</span>
+                    <p>A person is not to be treated as unable to make a decision merely because they make an unwise decision. People have the right to make choices that others might think are strange or risky, provided they have the capacity to understand the risks.</p>
+                </div>
+
+                <div class="principle-box">
+                    <span class="principle-num">Principle 4</span>
+                    <span class="principle-title">Best Interests</span>
+                    <p>An act done, or decision made, under this Act for or on behalf of a person who lacks capacity must be done, or made, in their best interests. This involves consulting with family, friends, and considering the person's past wishes or values.</p>
+                </div>
+
+                <div class="principle-box">
+                    <span class="principle-num">Principle 5</span>
+                    <span class="principle-title">Least Restrictive Option</span>
+                    <p>Before the act is done, or the decision is made, regard must be had to whether the purpose for which it is needed can be as effectively achieved in a way that is less restrictive of the person's rights and freedom of action.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon-wrapper"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></div>
+                    <span class="section-title">The Two-Stage Functional Test</span>
+                </div>
+                <p>To establish if a person lacks capacity, you must apply the functional test:</p>
+                <ol>
+                    <li>Does the person have an impairment of, or a disturbance in the functioning of, the mind or brain?</li>
+                    <li>Does that impairment or disturbance mean the person is unable to make the specific decision at the time it needs to be made?</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Version Switcher -->
+    <div class="version-switcher" id="versionSwitcher">
+        <span style="color: #fff; font-size: 9px; font-weight: 800; text-transform: uppercase;">Design</span>
+        <a href="../variant-a/mental-capacity-detail.html" class="v-btn">A</a>
+        <a href="mental-capacity-detail.html" class="v-btn active">B</a>
+    </div>
+
+    <script>
+        (function () {
+            const s = document.querySelector('.scroller');
+            const h = document.getElementById('detailHeaderWrapper');
+            let lastY = 0;
+            s.addEventListener('scroll', () => {
+                let y = s.scrollTop;
+                if (Math.abs(y - lastY) < 10) return;
+                h.classList.toggle('header-hidden', y > 60 && y > lastY);
+                lastY = y;
+            }, { passive: true });
+        })();
+    </script>
+</body>
+
+</html>
