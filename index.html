@@ -649,6 +649,48 @@
         }
 
         /* ----- Version Switcher (Discrete Bottom Bar) ----- */
+
+        .version-switcher.hidden {
+            transform: translateY(100%);
+        }
+
+        .v-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .v-btn.active {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25);
+            border-color: #fff;
+            pointer-events: none;
+        }
+
+        .hide-switcher-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Floating Restore Button (Visible only when bar is hidden) */
+
+        .switcher-restore-btn.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .switcher-restore-btn:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        .switcher-restore-btn img {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+    </style>
+<style>
+        /* ----- Version Switcher (Discrete Bottom Bar) - Standardized ----- */
         .version-switcher {
             position: fixed;
             bottom: 0;
@@ -759,16 +801,12 @@
             opacity: 1;
         }
 
-        .switcher-restore-btn:active {
-            transform: translateX(-50%) scale(0.95);
-        }
-
         .switcher-restore-btn img {
             width: 16px;
             height: 16px;
             filter: brightness(0) invert(1);
         }
-    </style>
+</style>
 </head>
 
 <body>
@@ -1518,11 +1556,27 @@
         }
     </script>
 
+    <script>
+         else {
+                switcher.classList.remove('hidden');
+                restore.classList.remove('visible');
+                localStorage.setItem('switcherHidden', 'false');
+            }
+        }
+
+        // Apply saved state on load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('switcherHidden') === 'true') {
+                toggleSwitcher(true);
+            }
+        });
+    </script>
+
     <!-- Version Switcher (Discrete Bottom Bar) -->
     <div class="version-switcher" id="versionSwitcher">
         <span class="switcher-label">Design Variant</span>
-        <a href="variant-a/index.html" class="v-btn active">A</a>
-        <a href="variant-b/index.html" class="v-btn">B</a>
+        <a href="variant-a/index.html" class="v-btn ">A</a>
+        <a href="variant-b/index.html" class="v-btn ">B</a>
         <button class="hide-switcher-btn" onclick="toggleSwitcher(true)">✕ Hide</button>
     </div>
 
@@ -1532,10 +1586,11 @@
         Switch Design Variant
     </div>
 
-    <script>
+    <script id="version-switcher-script">
         function toggleSwitcher(hide) {
             const switcher = document.getElementById('versionSwitcher');
             const restore = document.getElementById('switcherRestore');
+            if (!switcher || !restore) return;
             if (hide) {
                 switcher.classList.add('hidden');
                 restore.classList.add('visible');
@@ -1547,7 +1602,6 @@
             }
         }
 
-        // Apply saved state on load
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('switcherHidden') === 'true') {
                 toggleSwitcher(true);

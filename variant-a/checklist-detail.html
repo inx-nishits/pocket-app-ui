@@ -350,6 +350,48 @@
         }
 
         /* Design Variant Switcher (Discrete Bottom Bar) */
+
+        .version-switcher.hidden {
+            transform: translateY(100%);
+        }
+
+        .v-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .v-btn.active {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25);
+            border-color: #fff;
+            pointer-events: none;
+        }
+
+        .hide-switcher-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Floating Restore Button (Visible only when bar is hidden) */
+
+        .switcher-restore-btn.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .switcher-restore-btn:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        .switcher-restore-btn img {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+    </style>
+<style>
+        /* ----- Version Switcher (Discrete Bottom Bar) - Standardized ----- */
         .version-switcher {
             position: fixed;
             bottom: 0;
@@ -460,16 +502,12 @@
             opacity: 1;
         }
 
-        .switcher-restore-btn:active {
-            transform: translateX(-50%) scale(0.95);
-        }
-
         .switcher-restore-btn img {
             width: 16px;
             height: 16px;
             filter: brightness(0) invert(1);
         }
-    </style>
+</style>
 </head>
 
 <body>
@@ -478,7 +516,7 @@
         <div class="detail-header-wrapper" id="detailHeaderWrapper">
         <div class="detail-header">
             <div class="header-nav">
-                <button class="nav-btn" onclick="window.location.href='checklist.html'">
+                <button class="nav-btn" onclick="location.href='checklist.html'">
                     <svg viewBox="0 0 24 24">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
@@ -837,30 +875,8 @@
         </div>
     </div>
 
-
-    <!-- Version Switcher (Discrete Bottom Bar) -->
-    <div class="version-switcher" id="versionSwitcher">
-        <span class="switcher-label">Design Variant</span>
-        <a href="checklist-detail.html" class="v-btn active">A</a>
-        <a href="../variant-b/checklist-detail.html" class="v-btn">B</a>
-        <button class="hide-switcher-btn" onclick="toggleSwitcher(true)">✕ Hide</button>
-    </div>
-
-    <!-- Restore Switcher Button -->
-    <div class="switcher-restore-btn" id="switcherRestore" onclick="toggleSwitcher(false)">
-        <img src="../images/filter.svg" alt="Switch">
-        Switch Design Variant
-    </div>
-
     <script>
-        function toggleSwitcher(hide) {
-            const switcher = document.getElementById('versionSwitcher');
-            const restore = document.getElementById('switcherRestore');
-            if (hide) {
-                switcher.classList.add('hidden');
-                restore.classList.add('visible');
-                localStorage.setItem('switcherHidden', 'true');
-            } else {
+         else {
                 switcher.classList.remove('hidden');
                 restore.classList.remove('visible');
                 localStorage.setItem('switcherHidden', 'false');
@@ -945,6 +961,43 @@
                 lastScrollY = currentScrollY;
             }, { passive: true });
         })();
+    </script>
+
+    <!-- Version Switcher (Discrete Bottom Bar) -->
+    <div class="version-switcher" id="versionSwitcher">
+        <span class="switcher-label">Design Variant</span>
+        <a href="checklist-detail.html" class="v-btn active">A</a>
+        <a href="../variant-b/checklist-detail.html" class="v-btn ">B</a>
+        <button class="hide-switcher-btn" onclick="toggleSwitcher(true)">✕ Hide</button>
+    </div>
+
+    <!-- Restore Switcher Button -->
+    <div class="switcher-restore-btn" id="switcherRestore" onclick="toggleSwitcher(false)">
+        <img src="../images/filter.svg" alt="Switch">
+        Switch Design Variant
+    </div>
+
+    <script id="version-switcher-script">
+        function toggleSwitcher(hide) {
+            const switcher = document.getElementById('versionSwitcher');
+            const restore = document.getElementById('switcherRestore');
+            if (!switcher || !restore) return;
+            if (hide) {
+                switcher.classList.add('hidden');
+                restore.classList.add('visible');
+                localStorage.setItem('switcherHidden', 'true');
+            } else {
+                switcher.classList.remove('hidden');
+                restore.classList.remove('visible');
+                localStorage.setItem('switcherHidden', 'false');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('switcherHidden') === 'true') {
+                toggleSwitcher(true);
+            }
+        });
     </script>
 </body>
 

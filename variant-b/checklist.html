@@ -186,7 +186,6 @@
             color: #94a3b8;
         }
 
-
         /* ----- Unique "Index Rail" Listing UI ----- */
         .scroller {
             flex: 1;
@@ -381,6 +380,36 @@
         }
 
         /* Design Variant Switcher */
+
+        .version-switcher.hidden {
+            transform: translateY(100%);
+        }
+
+        .v-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .v-btn.active {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25);
+            border-color: #fff;
+            pointer-events: none;
+        }
+
+        .hide-switcher-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .switcher-restore-btn.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+<style>
+        /* ----- Version Switcher (Discrete Bottom Bar) - Standardized ----- */
         .version-switcher {
             position: fixed;
             bottom: 0;
@@ -460,6 +489,7 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
+        /* Floating Restore Button (Visible only when bar is hidden) */
         .switcher-restore-btn {
             position: fixed;
             bottom: 6px;
@@ -489,7 +519,13 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
-    </style>
+
+        .switcher-restore-btn img {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+</style>
 </head>
 
 <body>
@@ -808,15 +844,6 @@
     </div>
 
     <!-- Switcher -->
-    <div class="version-switcher" id="versionSwitcher">
-        <span class="switcher-label">Design Variant</span>
-        <a href="../variant-a/checklist.html" class="v-btn">A</a>
-        <a href="checklist.html" class="v-btn active">B</a>
-        <button class="hide-switcher-btn" onclick="toggleSwitcher(true)">✕ Hide</button>
-    </div>
-    <div class="switcher-restore-btn" id="switcherRestore" onclick="toggleSwitcher(false)">
-        Switch Design Variant
-    </div>
 
     <script>
         // Header behaviour:
@@ -859,9 +886,39 @@
         }
 
         // Version Switcher Logic
+         else {
+                switcher.classList.remove('hidden');
+                restore.classList.remove('visible');
+                localStorage.setItem('switcherHidden', 'false');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('switcherHidden') === 'true') {
+                toggleSwitcher(true);
+            }
+        });
+    </script>
+
+    <!-- Version Switcher (Discrete Bottom Bar) -->
+    <div class="version-switcher" id="versionSwitcher">
+        <span class="switcher-label">Design Variant</span>
+        <a href="../variant-a/checklist.html" class="v-btn ">A</a>
+        <a href="checklist.html" class="v-btn active">B</a>
+        <button class="hide-switcher-btn" onclick="toggleSwitcher(true)">✕ Hide</button>
+    </div>
+
+    <!-- Restore Switcher Button -->
+    <div class="switcher-restore-btn" id="switcherRestore" onclick="toggleSwitcher(false)">
+        <img src="../images/filter.svg" alt="Switch">
+        Switch Design Variant
+    </div>
+
+    <script id="version-switcher-script">
         function toggleSwitcher(hide) {
             const switcher = document.getElementById('versionSwitcher');
             const restore = document.getElementById('switcherRestore');
+            if (!switcher || !restore) return;
             if (hide) {
                 switcher.classList.add('hidden');
                 restore.classList.add('visible');
