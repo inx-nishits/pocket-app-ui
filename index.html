@@ -1557,13 +1557,6 @@
     </script>
 
     <script>
-         else {
-                switcher.classList.remove('hidden');
-                restore.classList.remove('visible');
-                localStorage.setItem('switcherHidden', 'false');
-            }
-        }
-
         // Apply saved state on load
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('switcherHidden') === 'true') {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pocket-app-v9';
+const CACHE_NAME = 'pocket-app-v10';
 const ASSETS = [
   './',
   './index.html',
@@ -56,6 +56,24 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // Network First strategy for HTML files to avoid stale data
+  if (request.headers.get('accept').includes('text/html')) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          const cacheCopy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, cacheCopy));
+          return response;
+        })
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  // Cache First for everything else (images, styles, scripts)
   event.respondWith(
     caches.match(event.request).then((response) => {
       return response || fetch(event.request);

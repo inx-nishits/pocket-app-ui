@@ -516,7 +516,7 @@
         <div class="detail-header-wrapper" id="detailHeaderWrapper">
         <div class="detail-header">
             <div class="header-nav">
-                <button class="nav-btn" onclick="location.href='checklist.html'">
+                <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='checklist.html'">
                     <svg viewBox="0 0 24 24">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
@@ -876,20 +876,6 @@
     </div>
 
     <script>
-         else {
-                switcher.classList.remove('hidden');
-                restore.classList.remove('visible');
-                localStorage.setItem('switcherHidden', 'false');
-            }
-        }
-
-        // Apply saved state on load
-        window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('switcherHidden') === 'true') {
-                toggleSwitcher(true);
-            }
-        });
-
         function resetCheckboxes() {
             const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
             checkboxes.forEach(cb => {
