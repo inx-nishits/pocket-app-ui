@@ -721,39 +721,34 @@
             overflow: hidden;
         }
 
-        .menu-header {
-            padding: calc(var(--safe-area-top) + 12px) 16px 16px;
-            background: rgba(247, 249, 252, 0.85);
+        /* ----- Header Sections ----- */
+        .header-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            z-index: 1000;
+            background: rgba(247, 249, 252, 0.95);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+            will-change: transform;
+        }
+
+        .header-wrapper.header-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .menu-header {
+            padding: calc(var(--safe-area-top) + 12px) 16px 16px;
             position: relative;
-            /* flows with content by default */
-            z-index: 10;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-            /* inside .menu-scroller (which has horizontal padding) */
-            margin: -16px -16px 12px;
-        }
-
-        .menu-header.is-fixed {
-            position: sticky;
-            top: -16px;
-            z-index: 20;
-            animation: menuHeaderSlideDown 220ms ease-out;
-        }
-
-        @keyframes menuHeaderSlideDown {
-            from {
-                transform: translateY(-12px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         .menu-header-left {
@@ -819,12 +814,21 @@
         }
 
         .menu-scroller {
-            flex: 1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             overflow-y: auto;
-            padding: 16px 16px 120px 16px;
-            /* Hide scrollbar completely to match native iOS */
+            padding: 0 16px 120px 16px;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            z-index: 1;
+        }
+
+        .scroller-spacer {
+            height: calc(var(--safe-area-top, 24px) + 72px);
+            flex-shrink: 0;
         }
 
         .menu-scroller::-webkit-scrollbar {
@@ -1290,9 +1294,11 @@
         <!-- Standalone Menu Content -->
 
         <!-- Menu Overlay Screen -->
+        <!-- Menu Overlay Screen -->
         <div class="menu-screen" id="menu-screen">
-
-            <div class="menu-scroller">
+            
+            <!-- Fixed Header Segment (Hide on scroll) -->
+            <div class="header-wrapper" id="headerWrapper">
                 <div class="menu-header">
                     <div class="menu-header-left">
                         <h1>Pocket Sergeant</h1>
@@ -1303,6 +1309,10 @@
                     </div>
                     <button class="menu-star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                 </div>
+            </div>
+
+            <div class="menu-scroller">
+                <div class="scroller-spacer"></div>
                 <div class="menu-section">
                     <h3 class="menu-section-title">Top Features</h3>
                     <div class="menu-grid">
@@ -1474,39 +1484,27 @@
             });
         }
 
-        const menuScroller = document.querySelector('.menu-scroller');
-        const menuHeader = document.querySelector('.menu-header');
-        let menuLastScrollY = menuScroller ? menuScroller.scrollTop : 0;
-        let menuLastDirection = 'down';
-
-        if (menuScroller && menuHeader) {
-            const menuHeaderInitialOffset = menuHeader.offsetTop;
-
-            menuScroller.addEventListener('scroll', () => {
-                const currentScrollY = menuScroller.scrollTop;
-
-                const scrollingUp = currentScrollY < menuLastScrollY;
-                const scrollingDown = currentScrollY > menuLastScrollY;
-
-                // When direction changes from down -> up AND header has been scrolled past,
-                // pin it to the top with the slide-down animation.
-                if (scrollingUp && menuLastDirection === 'down' && currentScrollY > menuHeaderInitialOffset + 10) {
-                    menuHeader.classList.add('is-fixed');
-                    menuLastDirection = 'up';
-                } else if (scrollingDown) {
-                    menuLastDirection = 'down';
-                    // When user scrolls down again from fixed state, let header rejoin the flow
-                    if (menuHeader.classList.contains('is-fixed') && currentScrollY > menuHeaderInitialOffset + 10) {
-                        menuHeader.classList.remove('is-fixed');
-                    }
+        const scroller = document.querySelector('.menu-scroller');
+        const headerWrapper = document.getElementById('headerWrapper');
+        let lastScrollY = scroller ? scroller.scrollTop : 0;
+        if (scroller && headerWrapper) {
+            let ticking = false;
+            scroller.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const currentScrollY = scroller.scrollTop;
+                        const delta = currentScrollY - lastScrollY;
+                        
+                        if (Math.abs(delta) > 5) {
+                            // Header Hide on Scroll Down, Show on Scroll Up
+                            const scrollingDown = delta > 0;
+                            headerWrapper.classList.toggle('header-hidden', currentScrollY > 100 && scrollingDown);
+                            lastScrollY = currentScrollY;
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-
-                // At the extreme top, always clear fixed state
-                if (currentScrollY <= menuHeaderInitialOffset) {
-                    menuHeader.classList.remove('is-fixed');
-                }
-
-                menuLastScrollY = currentScrollY;
             }, { passive: true });
         }
     </script>
@@ -1522,7 +1520,15 @@
     </script>
 
     <script>
-         else {
+        function toggleSwitcher(hide) {
+            const switcher = document.getElementById('versionSwitcher');
+            const restore = document.getElementById('switcherRestore');
+            if (!switcher || !restore) return;
+            if (hide) {
+                switcher.classList.add('hidden');
+                restore.classList.add('visible');
+                localStorage.setItem('switcherHidden', 'true');
+            } else {
                 switcher.classList.remove('hidden');
                 restore.classList.remove('visible');
                 localStorage.setItem('switcherHidden', 'false');

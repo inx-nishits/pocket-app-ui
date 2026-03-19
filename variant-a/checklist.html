@@ -67,55 +67,30 @@
         }
 
         /* ----- Premium Header (Spatial Home Style) ----- */
-        .checklist-header {
-            padding-top: var(--safe-area-top);
-            background: rgba(247, 249, 252, 0.92);
+        .header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 160px; /* Reduced from 240px */
+            transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
+            z-index: 100;
+            background: rgba(247, 249, 252, 0.95);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+            will-change: max-height;
             position: relative;
-            /* flows with content by default */
-            max-height: 200px;
+        }
+
+        .header-wrapper.header-hidden {
+            max-height: 0;
+            opacity: 0;
+            border-bottom: none;
+        }
+
+        .checklist-header {
+            padding-top: var(--safe-area-top);
+            position: relative;
             overflow: hidden;
-        }
-
-        /* Always-visible gradient shimmer separator line */
-        .checklist-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg,
-                    transparent 0%,
-                    rgba(84, 110, 164, 0.2) 20%,
-                    rgba(84, 110, 164, 0.35) 50%,
-                    rgba(84, 110, 164, 0.2) 80%,
-                    transparent 100%);
-        }
-
-        .nav-hidden .checklist-header {
-            /* nav-hidden no longer collapses header on this screen */
-        }
-
-        /* When we snap the header back to the top on upward scroll */
-        .checklist-header.is-fixed {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            animation: checklistHeaderSlideDown 220ms ease-out;
-        }
-
-        @keyframes checklistHeaderSlideDown {
-            from {
-                transform: translateY(-12px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         .header-top-row {
@@ -219,7 +194,7 @@
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 120px;
+            padding-bottom: 200px;
             scrollbar-width: none;
         }
 
@@ -568,9 +543,8 @@
 <body>
     <div class="app-container">
 
-        <div class="scroller">
-
-            <!-- Exact Spatial Home Style Header (now scrolls with content) -->
+        <!-- Fixed Header Segment (Hide on scroll) -->
+        <div class="header-wrapper" id="headerWrapper">
             <header class="checklist-header">
                 <div class="header-top-row">
                     <div class="header-title-pill">
@@ -589,6 +563,9 @@
                     </div>
                 </div>
             </header>
+        </div>
+
+        <div class="scroller">
             <!-- Category 1 -->
             <div class="category-header">
                 <span>1</span>
@@ -992,54 +969,49 @@
     <!-- Switcher -->
 
     <script>
-        // Header scroll behaviour for variant A checklist:
-        // - Header scrolls away with content on the way down (not fixed)
-        // - As soon as user starts scrolling up (even 1px) after it's off-screen,
-        //   it snaps to the top with a small slide-down animation.
-        const aScroller = document.querySelector('.scroller');
-        const checklistHeader = document.querySelector('.checklist-header');
-        let aLastScrollY = aScroller ? aScroller.scrollTop : 0;
-        let aLastDirection = 'down';
+        const scroller = document.querySelector('.scroller');
+        const headerWrapper = document.getElementById('headerWrapper');
+        let lastScrollY = scroller ? scroller.scrollTop : 0;
 
-        if (aScroller && checklistHeader) {
-            const headerInitialOffset = checklistHeader.offsetTop;
+        if (scroller && headerWrapper) {
+            let ticking = false;
+            scroller.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const currentScrollY = scroller.scrollTop;
+                        const delta = currentScrollY - lastScrollY;
+                        
+                        if (Math.abs(delta) > 5) {
+                            // Hiding condition
+                            if (currentScrollY > 100 && delta > 5) {
+                                headerWrapper.classList.add('header-hidden');
+                            } 
+                            // Showing condition (intentional scroll up)
+                            else if (delta < -10 || currentScrollY < 20) {
+                                headerWrapper.classList.remove('header-hidden');
+                            }
+                            
+                            // Bottom Nav hide/show
+                            if (delta > 5 && currentScrollY > 100) {
+                                document.body.classList.add('nav-hidden');
+                            } else if (delta < -5 || currentScrollY < 100) {
+                                document.body.classList.remove('nav-hidden');
+                            }
 
-            aScroller.addEventListener('scroll', () => {
-                const currentScrollY = aScroller.scrollTop;
-
-                const scrollingUp = currentScrollY < aLastScrollY;
-                const scrollingDown = currentScrollY > aLastScrollY;
-
-                // When direction changes from down -> up AND header has been scrolled past,
-                // pin it to the top with the slide-down animation.
-                if (scrollingUp && aLastDirection === 'down' && currentScrollY > headerInitialOffset + 10) {
-                    checklistHeader.classList.add('is-fixed');
-                    aLastDirection = 'up';
-                } else if (scrollingDown) {
-                    aLastDirection = 'down';
-                    // When user scrolls down again from fixed state, let header rejoin the flow
-                    if (checklistHeader.classList.contains('is-fixed') && currentScrollY > headerInitialOffset + 10) {
-                        checklistHeader.classList.remove('is-fixed');
-                    }
+                            lastScrollY = currentScrollY;
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-
-                // At the extreme top, always clear fixed state
-                if (currentScrollY <= headerInitialOffset) {
-                    checklistHeader.classList.remove('is-fixed');
-                }
-
-                aLastScrollY = currentScrollY;
             }, { passive: true });
         }
 
-         else {
-                switcher.classList.remove('hidden');
-                restore.classList.remove('visible');
-                localStorage.setItem('switcherHidden', 'false');
-            }
-        }
+        // Apply saved state on load
         window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('switcherHidden') === 'true') toggleSwitcher(true);
+            if (localStorage.getItem('switcherHidden') === 'true') {
+                toggleSwitcher(true);
+            }
         });
     </script>
 
@@ -1080,5 +1052,4 @@
         });
     </script>
 </body>
-
 </html>

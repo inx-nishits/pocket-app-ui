@@ -64,37 +64,32 @@
         }
 
         /* ----- Header (Premium Refined) ----- */
+        .header-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            z-index: 1000;
+            background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+            border-radius: 0 0 0px 0px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+            will-change: transform;
+        }
+
+        .header-wrapper.header-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .hdr {
             padding: calc(var(--safe-top) + 24px) 20px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
             position: relative;
-            /* flows with content by default */
-            z-index: 10;
-            border-bottom: 1px solid rgba(15, 23, 42, 0.04);
-            /* inside .scroller padding; make header full-bleed */
-            margin: -24px -20px 0;
-        }
-
-        .hdr.is-fixed {
-            position: sticky;
-            top: -24px;
-            z-index: 20;
-            animation: hdrSlideDown 220ms ease-out;
-        }
-
-        @keyframes hdrSlideDown {
-            from {
-                transform: translateY(-12px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         .hdr h1 {
@@ -125,10 +120,20 @@
 
         /* ----- Scroller ----- */
         .scroller {
-            flex: 1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             overflow-y: auto;
-            padding: 24px 20px 180px;
+            padding: 0 20px 180px;
             scrollbar-width: none;
+            z-index: 1;
+        }
+
+        .scroller-spacer {
+            height: calc(var(--safe-top, 24px) + 72px);
+            flex-shrink: 0;
         }
 
         .scroller::-webkit-scrollbar {
@@ -144,7 +149,7 @@
             line-height: 1.4;
         }
 
-        .scroller .section-label:first-child {
+        .scroller .section-label:first-of-type {
             padding-top: 0;
         }
 
@@ -445,7 +450,7 @@
             filter: brightness(0) invert(1);
         }
     </style>
-<style>
+    <style>
         /* ----- Version Switcher (Discrete Bottom Bar) - Standardized ----- */
         .version-switcher {
             position: fixed;
@@ -562,17 +567,22 @@
             height: 16px;
             filter: brightness(0) invert(1);
         }
-</style>
+    </style>
 </head>
 
 <body>
     <div class="app-container">
 
-        <div class="scroller">
+        <!-- Fixed Header Segment (Hide on scroll) -->
+        <div class="header-wrapper" id="headerWrapper">
             <header class="hdr">
                 <h1>Operational Deck</h1>
                 <div class="hdr-ver">V 50.5 PREMIUM</div>
             </header>
+        </div>
+
+        <div class="scroller">
+            <div class="scroller-spacer"></div>
             <!-- UNIFORM 3-COLUMN DASHBOARD (VER 50.5) -->
             <div class="section-label">Tactical Dashboard</div>
             <div class="grid-system">
@@ -679,7 +689,15 @@
     </div>
 
     <script>
-         else {
+        function toggleSwitcher(hide) {
+            const switcher = document.getElementById('versionSwitcher');
+            const restore = document.getElementById('switcherRestore');
+            if (!switcher || !restore) return;
+            if (hide) {
+                switcher.classList.add('hidden');
+                restore.classList.add('visible');
+                localStorage.setItem('switcherHidden', 'true');
+            } else {
                 switcher.classList.remove('hidden');
                 restore.classList.remove('visible');
                 localStorage.setItem('switcherHidden', 'false');
@@ -691,45 +709,28 @@
 
             // --- SCROLL HIDE NAVIGATION + HEADER SNAP BEHAVIOUR ---
             const scroller = document.querySelector('.scroller');
-            const hdr = document.querySelector('.hdr');
-            let lastScrollY = scroller.scrollTop;
+            const headerWrapper = document.getElementById('headerWrapper');
+            let lastScrollY = scroller ? scroller.scrollTop : 0;
             let lastDirection = 'down';
 
-            if (hdr) {
-                const hdrInitialOffset = hdr.offsetTop;
-
+            if (scroller && headerWrapper) {
+                let ticking = false;
                 scroller.addEventListener('scroll', () => {
-                    const currentScrollY = scroller.scrollTop;
-                    const scrollingUp = currentScrollY < lastScrollY;
-                    const scrollingDown = currentScrollY > lastScrollY;
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            const currentScrollY = scroller.scrollTop;
+                            const delta = currentScrollY - lastScrollY;
 
-                    // Bottom nav hide/show (existing behaviour)
-                    if (scrollingDown && currentScrollY > 70) {
-                        document.body.classList.add('nav-hidden');
-                    } else if (scrollingUp) {
-                        if (currentScrollY + scroller.clientHeight < scroller.scrollHeight - 10) {
-                            document.body.classList.remove('nav-hidden');
-                        }
+                            if (Math.abs(delta) > 5) {
+                                // Header Hide on Scroll Down, Show on Scroll Up
+                                const scrollingDown = delta > 0;
+                                headerWrapper.classList.toggle('header-hidden', currentScrollY > 80 && scrollingDown);
+                                lastScrollY = currentScrollY;
+                            }
+                            ticking = false;
+                        });
+                        ticking = true;
                     }
-                    if (currentScrollY <= 70) { document.body.classList.remove('nav-hidden'); }
-
-                    // Header snap: flows with content on way down,
-                    // but when user starts scrolling up after it's off-screen,
-                    // pin it to top with a small slide-down animation.
-                    if (scrollingUp && lastDirection === 'down' && currentScrollY > hdrInitialOffset + 10) {
-                        hdr.classList.add('is-fixed');
-                        lastDirection = 'up';
-                    } else if (scrollingDown) {
-                        lastDirection = 'down';
-                        if (hdr.classList.contains('is-fixed') && currentScrollY > hdrInitialOffset + 10) {
-                            hdr.classList.remove('is-fixed');
-                        }
-                    }
-                    if (currentScrollY <= hdrInitialOffset) {
-                        hdr.classList.remove('is-fixed');
-                    }
-
-                    lastScrollY = currentScrollY;
                 }, { passive: true });
             }
 

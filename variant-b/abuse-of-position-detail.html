@@ -404,10 +404,25 @@
         .modal-body-content ul, .modal-body-content ol { margin-left: 20px; margin-bottom: 16px; }
         .modal-body-content li { margin-bottom: 8px; }
         .close-btn { 
-            border: none; background: #f1f5f9; width: 32px; height: 32px; border-radius: 50%; 
-            font-size: 16px; font-weight: 800; cursor: pointer; color: var(--text-secondary);
-            display: flex; align-items: center; justify-content: center;
+            border: none; 
+            background: #e5e9f0; 
+            width: 42px; 
+            height: 42px; 
+            border-radius: 50%; 
+            font-size: 18px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            color: var(--text-secondary);
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
             flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:active {
+            transform: scale(0.9);
+            background: #d1d5db;
         }
     </style>
 <style>

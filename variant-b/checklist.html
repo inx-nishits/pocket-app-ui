@@ -68,36 +68,29 @@
         }
 
         /* ----- Variant B Top Header Group ----- */
-        .top-nav-group {
+        .header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
+            z-index: 100;
             background: #ffffff;
+            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: 0 0 32px 32px;
+            will-change: max-height;
+            position: relative;
+        }
+
+        .header-wrapper.header-hidden {
+            max-height: 0;
+            opacity: 0;
+            border-bottom: none;
+        }
+
+        .top-nav-group {
             padding-top: calc(var(--safe-area-top) * 0.75);
             padding-bottom: 12px;
             position: relative;
-            /* scrolls naturally with content (not sticky) */
-            z-index: 1;
-            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-            /* sharper defining line */
-            flex-shrink: 0;
-        }
-
-        /* Play a subtle slide-down when header is snapped back to viewport top */
-        .top-nav-group.is-fixed {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            animation: headerSlideDown 220ms ease-out;
-        }
-
-        @keyframes headerSlideDown {
-            from {
-                transform: translateY(-12px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         .header-main {
@@ -408,7 +401,7 @@
             opacity: 1;
         }
     </style>
-<style>
+    <style>
         /* ----- Version Switcher (Discrete Bottom Bar) - Standardized ----- */
         .version-switcher {
             position: fixed;
@@ -525,15 +518,14 @@
             height: 16px;
             filter: brightness(0) invert(1);
         }
-</style>
+    </style>
 </head>
 
 <body>
     <div class="app-container">
 
-        <div class="scroller">
-
-            <!-- Variant B Top Area (scrolls with content) -->
+        <!-- Variant B Top Area (Fixed segment with hide on scroll) -->
+        <div class="header-wrapper" id="headerWrapper">
             <div class="top-nav-group">
                 <div class="header-main">
                     <h1 class="page-title">Checklists</h1>
@@ -548,6 +540,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="scroller">
 
             <!-- Category 1 -->
             <div class="dictionary-section">
@@ -846,53 +841,45 @@
     <!-- Switcher -->
 
     <script>
-        // Header behaviour:
-        // - Flows with content while scrolling down (not fixed)
-        // - As soon as user starts scrolling UP (even 1px), snap it to top with a quick animation
         const scroller = document.querySelector('.scroller');
-        const topNavGroup = document.querySelector('.top-nav-group');
+        const headerWrapper = document.getElementById('headerWrapper');
         let lastScrollY = scroller ? scroller.scrollTop : 0;
-        let lastDirection = 'down';
 
-        if (scroller && topNavGroup) {
-            const headerInitialOffset = topNavGroup.offsetTop;
-
+        if (scroller && headerWrapper) {
+            let ticking = false;
             scroller.addEventListener('scroll', () => {
-                const currentScrollY = scroller.scrollTop;
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const currentScrollY = scroller.scrollTop;
+                        const delta = currentScrollY - lastScrollY;
+                        
+                        if (Math.abs(delta) > 5) {
+                            // Hiding condition
+                            if (currentScrollY > 100 && delta > 5) {
+                                headerWrapper.classList.add('header-hidden');
+                            } 
+                            // Showing condition (intentional scroll up)
+                            else if (delta < -10 || currentScrollY < 20) {
+                                headerWrapper.classList.remove('header-hidden');
+                            }
+                            
+                            // Bottom Nav hide/show
+                            if (delta > 5 && currentScrollY > 100) {
+                                document.body.classList.add('nav-hidden');
+                            } else if (delta < -5 || currentScrollY < 100) {
+                                document.body.classList.remove('nav-hidden');
+                            }
 
-                const scrollingUp = currentScrollY < lastScrollY;
-                const scrollingDown = currentScrollY > lastScrollY;
-
-                // When direction changes from down -> up AND header is off-screen above,
-                // snap it to viewport top (is-fixed) with an animation.
-                if (scrollingUp && lastDirection === 'down' && currentScrollY > headerInitialOffset + 10) {
-                    topNavGroup.classList.add('is-fixed');
-                    lastDirection = 'up';
-                } else if (scrollingDown) {
-                    lastDirection = 'down';
-                    // Once user scrolls down again from the fixed state, let header flow with content again
-                    if (topNavGroup.classList.contains('is-fixed') && currentScrollY > headerInitialOffset + 10) {
-                        topNavGroup.classList.remove('is-fixed');
-                    }
+                            lastScrollY = currentScrollY;
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-
-                // When we naturally reach the top again, remove fixed state
-                if (currentScrollY <= headerInitialOffset) {
-                    topNavGroup.classList.remove('is-fixed');
-                }
-
-                lastScrollY = currentScrollY;
             }, { passive: true });
         }
 
-        // Version Switcher Logic
-         else {
-                switcher.classList.remove('hidden');
-                restore.classList.remove('visible');
-                localStorage.setItem('switcherHidden', 'false');
-            }
-        }
-
+        // Apply saved state on load
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('switcherHidden') === 'true') {
                 toggleSwitcher(true);
