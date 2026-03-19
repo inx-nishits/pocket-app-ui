@@ -77,7 +77,7 @@
             z-index: 1000;
             background: #ffffff;
             border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-            border-radius: 0 0 32px 32px;
+            border-radius: 0px;
             transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
             will-change: transform;
         }
@@ -197,7 +197,7 @@
         }
 
         .scroller-spacer {
-            height: calc(var(--safe-area-top, 24px) + 140px);
+            height: calc(var(--safe-area-top, 24px) + 122px);
             flex-shrink: 0;
         }
 
@@ -864,17 +864,17 @@
                     window.requestAnimationFrame(() => {
                         const currentScrollY = scroller.scrollTop;
                         const delta = currentScrollY - lastScrollY;
-                        
+
                         if (Math.abs(delta) > 5) {
                             // Hiding condition
                             if (currentScrollY > 100 && delta > 5) {
                                 headerWrapper.classList.add('header-hidden');
-                            } 
+                            }
                             // Showing condition (intentional scroll up)
                             else if (delta < -10 || currentScrollY < 20) {
                                 headerWrapper.classList.remove('header-hidden');
                             }
-                            
+
                             // Bottom Nav hide/show
                             if (delta > 5 && currentScrollY > 100) {
                                 document.body.classList.add('nav-hidden');
