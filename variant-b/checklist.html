@@ -69,22 +69,23 @@
 
         /* ----- Variant B Top Header Group ----- */
         .header-wrapper {
-            flex-shrink: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             overflow: hidden;
-            max-height: 180px;
-            transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
-            z-index: 100;
+            z-index: 1000;
             background: #ffffff;
             border-bottom: 1px solid rgba(15, 23, 42, 0.08);
             border-radius: 0 0 32px 32px;
-            will-change: max-height;
-            position: relative;
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
+            will-change: transform;
         }
 
         .header-wrapper.header-hidden {
-            max-height: 0;
+            transform: translateY(-100%);
             opacity: 0;
-            border-bottom: none;
+            pointer-events: none;
         }
 
         .top-nav-group {
@@ -181,13 +182,23 @@
 
         /* ----- Unique "Index Rail" Listing UI ----- */
         .scroller {
-            flex: 1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 140px;
+            padding: 0 0 140px;
             scrollbar-width: none;
             display: flex;
             flex-direction: column;
+            z-index: 1;
+        }
+
+        .scroller-spacer {
+            height: calc(var(--safe-area-top, 24px) + 140px);
+            flex-shrink: 0;
         }
 
         .scroller::-webkit-scrollbar {
@@ -543,6 +554,7 @@
         </div>
 
         <div class="scroller">
+            <div class="scroller-spacer"></div>
 
             <!-- Category 1 -->
             <div class="dictionary-section">

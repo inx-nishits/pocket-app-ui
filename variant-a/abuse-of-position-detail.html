@@ -164,7 +164,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
-            padding: 16px 0 140px; 
+            padding: 16px 0 140px;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -689,7 +689,7 @@
         }
 
         .close-modal {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
             border: none;
             width: 42px;
             height: 42px;
@@ -698,7 +698,7 @@
             align-items: center;
             justify-content: center;
             color: #fff;
-            font-size: 16px;
+            font-size: 20px;
             cursor: pointer;
             flex-shrink: 0;
             margin-left: 12px;
@@ -940,7 +940,8 @@
             width: 54px;
             height: 54px;
             background: #ffffff;
-            border-radius: 16px; /* Squircle shape */
+            border-radius: 16px;
+            /* Squircle shape */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -983,7 +984,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            box-shadow: 
+            box-shadow:
                 0 25px 50px -12px rgba(0, 0, 0, 0.15),
                 inset 0 0 20px rgba(255, 255, 255, 0.2);
             opacity: 0;
@@ -992,7 +993,8 @@
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             transform-origin: bottom right;
             position: absolute;
-            bottom: 138px; /* High elevation to avoid Print CTA stack */
+            bottom: 138px;
+            /* High elevation to avoid Print CTA stack */
             right: 0;
             z-index: 9200;
         }
@@ -1654,8 +1656,10 @@
                 </div>
                 <div class="dock-item" data-label="Points to Prove" onclick="jumpTo('pointsAnchor')">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23.3145 3.28081C22.9614 2.92714 22.3886 2.92653 22.0355 3.27931L11.1843 14.1019L7.26917 9.84973C6.93087 9.48251 6.3589 9.4587 5.99108 9.79695C5.62353 10.1352 5.6 10.7075 5.93829 11.075L10.4911 16.0195C10.6578 16.2007 10.8912 16.3059 11.1372 16.311C11.1438 16.3113 11.1502 16.3113 11.1565 16.3113C11.3956 16.3113 11.6256 16.2163 11.7951 16.0475L23.3127 4.56007C23.6667 4.20734 23.6673 3.63448 23.3145 3.28081Z" />
-                        <path d="M23.0955 11.0955C22.5959 11.0955 22.191 11.5004 22.191 12C22.191 17.6195 17.6195 22.191 12 22.191C6.38081 22.191 1.80905 17.6195 1.80905 12C1.80905 6.38081 6.38081 1.80905 12 1.80905C12.4996 1.80905 12.9045 1.40414 12.9045 0.904547C12.9045 0.404906 12.4996 0 12 0C5.38312 0 0 5.38312 0 12C0 18.6166 5.38312 24 12 24C18.6166 24 24 18.6166 24 12C24 11.5004 23.5951 11.0955 23.0955 11.0955Z" />
+                        <path
+                            d="M23.3145 3.28081C22.9614 2.92714 22.3886 2.92653 22.0355 3.27931L11.1843 14.1019L7.26917 9.84973C6.93087 9.48251 6.3589 9.4587 5.99108 9.79695C5.62353 10.1352 5.6 10.7075 5.93829 11.075L10.4911 16.0195C10.6578 16.2007 10.8912 16.3059 11.1372 16.311C11.1438 16.3113 11.1502 16.3113 11.1565 16.3113C11.3956 16.3113 11.6256 16.2163 11.7951 16.0475L23.3127 4.56007C23.6667 4.20734 23.6673 3.63448 23.3145 3.28081Z" />
+                        <path
+                            d="M23.0955 11.0955C22.5959 11.0955 22.191 11.5004 22.191 12C22.191 17.6195 17.6195 22.191 12 22.191C6.38081 22.191 1.80905 17.6195 1.80905 12C1.80905 6.38081 6.38081 1.80905 12 1.80905C12.4996 1.80905 12.9045 1.40414 12.9045 0.904547C12.9045 0.404906 12.4996 0 12 0C5.38312 0 0 5.38312 0 12C0 18.6166 5.38312 24 12 24C18.6166 24 24 18.6166 24 12C24 11.5004 23.5951 11.0955 23.0955 11.0955Z" />
                     </svg>
                 </div>
                 <div class="dock-item" data-label="Powers & Punishment" onclick="jumpTo('powersAnchor')">

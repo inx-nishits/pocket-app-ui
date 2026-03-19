@@ -240,7 +240,8 @@
             color: var(--text-primary);
         }
 
-        ul, ol {
+        ul,
+        ol {
             padding-left: 20px;
             margin-bottom: 16px;
         }
@@ -337,8 +338,11 @@
         /* Simple Modal - constrained to app-container */
         .modal {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15,23,42,0.4);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 1000000;
@@ -348,11 +352,21 @@
             padding: 24px;
             animation: modalFadeIn 0.3s ease;
         }
+
         @keyframes modalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
-        .modal.active { display: flex; }
+
+        .modal.active {
+            display: flex;
+        }
+
         .modal-card {
             background: #fff;
             border-radius: 32px;
@@ -367,10 +381,19 @@
             transform: translateY(0);
             animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         @keyframes modalSlideUp {
-            from { transform: translateY(40px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
+
         .modal-card-header {
             padding: 20px 28px;
             border-bottom: 1px solid #f1f5f9;
@@ -382,13 +405,15 @@
             background: #fff;
             border-radius: 32px 32px 0 0;
         }
-        .modal-card h2 { 
-            font-size: 18px; 
-            margin: 0; 
-            color: var(--accent-blue); 
+
+        .modal-card h2 {
+            font-size: 18px;
+            margin: 0;
+            color: var(--accent-blue);
             line-height: 1.3;
             flex: 1;
         }
+
         .modal-body-content {
             padding: 24px 28px;
             overflow-y: auto;
@@ -396,25 +421,42 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
+
         .modal-body-content::-webkit-scrollbar {
             display: none;
         }
-        .modal-body-content p { margin-bottom: 12px; }
-        .modal-body-content strong { color: var(--text-primary); font-weight: 700; }
-        .modal-body-content ul, .modal-body-content ol { margin-left: 20px; margin-bottom: 16px; }
-        .modal-body-content li { margin-bottom: 8px; }
-        .close-btn { 
-            border: none; 
-            background: #e5e9f0; 
-            width: 42px; 
-            height: 42px; 
-            border-radius: 50%; 
-            font-size: 18px; 
-            font-weight: 800; 
-            cursor: pointer; 
+
+        .modal-body-content p {
+            margin-bottom: 12px;
+        }
+
+        .modal-body-content strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .modal-body-content ul,
+        .modal-body-content ol {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .modal-body-content li {
+            margin-bottom: 8px;
+        }
+
+        .close-btn {
+            border: none;
+            background: #e5e9f0;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
             color: var(--text-secondary);
-            display: flex; 
-            align-items: center; 
+            display: flex;
+            align-items: center;
             justify-content: center;
             flex-shrink: 0;
             transition: all 0.2s ease;
@@ -425,7 +467,7 @@
             background: #d1d5db;
         }
     </style>
-<style>
+    <style>
         /* ----- Version Switcher (Discrete Bottom Bar) - Standardized ----- */
         .version-switcher {
             position: fixed;
@@ -631,7 +673,7 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
-            box-shadow: 
+            box-shadow:
                 0 25px 50px -12px rgba(0, 0, 0, 0.15),
                 inset 0 0 20px rgba(255, 255, 255, 0.2);
             opacity: 0;
@@ -761,27 +803,40 @@
                 </div>
                 <div class="case-file-pill" onclick="openModal('gap_police')">
                     <span>Anticipated Guilty Plea (GAP) - Initial Hearing - Police Charged</span>
-                    <svg class="chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </div>
                 <div class="case-file-pill" onclick="openModal('ngap_police')">
-                    <span>Anticipated Not Guilty Plea (NGAP) - Initial Hearing - Police Charged (including custody cases)</span>
-                    <svg class="chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <span>Anticipated Not Guilty Plea (NGAP) - Initial Hearing - Police Charged (including custody
+                        cases)</span>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </div>
                 <div class="case-file-pill" onclick="openModal('disclosure')">
                     <span>Disclosure (Meeting the test) - NGAP and CPS Charging Decisions</span>
-                    <svg class="chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </div>
                 <div class="case-file-pill" onclick="openModal('charging')">
                     <span>Charging Decision - Information Required</span>
-                    <svg class="chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </div>
                 <div class="case-file-pill" onclick="openModal('gap_cps')">
                     <span>Anticipated Guilty Plea (GAP) - Initial Hearing - CPS Charged</span>
-                    <svg class="chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </div>
                 <div class="case-file-pill" onclick="openModal('ngap_cps')">
                     <span>Anticipated Not Guilty Plea (NGAP) - Initial Hearing - CPS Charged</span>
-                    <svg class="chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </div>
             </div>
 
@@ -794,7 +849,8 @@
                     <h2 class="section-title">Definition</h2>
                 </div>
                 <p><strong>(1)</strong> A person is in breach of this section if he:</p>
-                <div class="sub-item"><strong>(a)</strong> occupies a position in which he is expected to safeguard, or not to act against, the financial interests of another person,</div>
+                <div class="sub-item"><strong>(a)</strong> occupies a position in which he is expected to safeguard, or
+                    not to act against, the financial interests of another person,</div>
                 <div class="sub-item"><strong>(b)</strong> abused that position</div>
                 <div class="sub-item"><strong>(c)</strong> dishonestly</div>
                 <div class="sub-item"><strong>(d)</strong> intending by that abuse to make a gain / cause a loss</div>
@@ -809,7 +865,8 @@
                     <h2 class="section-title">Points to Prove</h2>
                 </div>
                 <ul>
-                    <li>occupies a position in which he is expected to safeguard, or not to act against, the financial interests of another person,</li>
+                    <li>occupies a position in which he is expected to safeguard, or not to act against, the financial
+                        interests of another person,</li>
                     <li>abused that position</li>
                     <li>dishonestly</li>
                     <li>intending by that abuse to make a gain / cause a loss</li>
@@ -839,15 +896,25 @@
                     </div>
                     <h2 class="section-title">Sufficient to Charge?</h2>
                 </div>
-                <p><strong><em>Anticipated Guilty Plea? - Clear and unambiguous admission and has said nothing that cannot be used as a defence OR the defendant has made no admission / defence & the evidence can be established by reliable evidence or the defendant is seen committing the offence on a good quality visual recording</em></strong></p>
-                <p>If this is an anticipated guilty plea, the police have the authority to charge <strong>unless</strong>:</p>
+                <p><strong><em>Anticipated Guilty Plea? - Clear and unambiguous admission and has said nothing that
+                            cannot be used as a defence OR the defendant has made no admission / defence & the evidence
+                            can be established by reliable evidence or the defendant is seen committing the offence on a
+                            good quality visual recording</em></strong></p>
+                <p>If this is an anticipated guilty plea, the police have the authority to charge
+                    <strong>unless</strong>:
+                </p>
                 <ul>
-                    <li>the loss or damage relating to the charge is more than £5000 or would exceed that sum if more than one offence is charged (or taken into consideration), or</li>
-                    <li>the overall circumstances of the offence are so serious that the court may decide that a sentence of more than six months imprisonment justifies sending the case to the crown court, or</li>
-                    <li>the offence has been committed whilst the suspect was subject to a Crown Court order then in force.</li>
+                    <li>the loss or damage relating to the charge is more than £5000 or would exceed that sum if more
+                        than one offence is charged (or taken into consideration), or</li>
+                    <li>the overall circumstances of the offence are so serious that the court may decide that a
+                        sentence of more than six months imprisonment justifies sending the case to the crown court, or
+                    </li>
+                    <li>the offence has been committed whilst the suspect was subject to a Crown Court order then in
+                        force.</li>
                 </ul>
                 <p>If any of the above points apply, CPS advice should be sought.</p>
-                <p><strong><em>Anticipated Not Guilty Plea? Had denied the offence / said something which could be used as a defence</em></strong></p>
+                <p><strong><em>Anticipated Not Guilty Plea? Had denied the offence / said something which could be used
+                            as a defence</em></strong></p>
                 <p>CPS advice will need to be sought and this is a triable either way offence.</p>
             </div>
 
@@ -859,10 +926,17 @@
                     </div>
                     <h2 class="section-title">Stated Cases</h2>
                 </div>
-                <p style="color: var(--accent-blue); font-weight: 800; font-size: 15px; margin-bottom: 8px;">Guideline Breach of Trust Case</p>
+                <p style="color: var(--accent-blue); font-weight: 800; font-size: 15px; margin-bottom: 8px;">Guideline
+                    Breach of Trust Case</p>
                 <p><strong>R v Clark 1998</strong></p>
-                <p>Save in very exceptional circumstances, where a person in a position of trust, for example an accountant, a solicitor, a bank employee or a postman has used his trusted and privileged position to defraud his partners, clients employers or the general public of sizeable sums of money immediate imprisonment is inevitable unless there are exceptional circumstances or the amount of money involved is very small. The amount defrauded is an important factor and the following guidelines apply where the sums involved are:</p>
-                <ul style="font-size: 14px; background: #f8fafc; padding: 16px 16px 16px 36px; border-radius: 16px; border: 1px solid #edf2f7;">
+                <p>Save in very exceptional circumstances, where a person in a position of trust, for example an
+                    accountant, a solicitor, a bank employee or a postman has used his trusted and privileged position
+                    to defraud his partners, clients employers or the general public of sizeable sums of money immediate
+                    imprisonment is inevitable unless there are exceptional circumstances or the amount of money
+                    involved is very small. The amount defrauded is an important factor and the following guidelines
+                    apply where the sums involved are:</p>
+                <ul
+                    style="font-size: 14px; background: #f8fafc; padding: 16px 16px 16px 36px; border-radius: 16px; border: 1px solid #edf2f7;">
                     <li>Less than £17,500 up to 21 months imprisonment</li>
                     <li>£17,500 to £100,000 2-3 years</li>
                     <li>£100,000 to £250,000 3-4 years</li>
@@ -872,7 +946,15 @@
                 <hr style="border: none; border-top: 1px solid #f1f5f9; margin: 20px 0;">
                 <p><strong>R v Kefford (Mark James) 2002</strong></p>
                 <p>For economic crimes, alternative sentences to imprisonment could be appropriate punishment.</p>
-                <p>K was employed by a building society and opened false accounts into which he made windfall payments and then withdrew money as needed. The amount of £11,120 was taken. When interviewed the appellant immediately made full and frank confessions. He had no previous convictions. After the discovery of the offences the appellant sold his home so as to be able to repay the sums he had taken. Convicted of theft and false accounting. On appeal his sentence was reduced from 12 months imprisonment to 4 months. The court commented that even in the present circumstances, in cases involving breach of trust where the sum involved was not small, the guidance in Clarke was still applicable even where it was a first offence, however, a sentence of imprisonment should only be imposed when necessary and only for as long as was necessary in view of the overcrowded prison system.</p>
+                <p>K was employed by a building society and opened false accounts into which he made windfall payments
+                    and then withdrew money as needed. The amount of £11,120 was taken. When interviewed the appellant
+                    immediately made full and frank confessions. He had no previous convictions. After the discovery of
+                    the offences the appellant sold his home so as to be able to repay the sums he had taken. Convicted
+                    of theft and false accounting. On appeal his sentence was reduced from 12 months imprisonment to 4
+                    months. The court commented that even in the present circumstances, in cases involving breach of
+                    trust where the sum involved was not small, the guidance in Clarke was still applicable even where
+                    it was a first offence, however, a sentence of imprisonment should only be imposed when necessary
+                    and only for as long as was necessary in view of the overcrowded prison system.</p>
             </div>
 
             <!-- Crime Report Section -->
@@ -883,9 +965,14 @@
                     </div>
                     <h2 class="section-title">Crime Report</h2>
                 </div>
-                <p>A crime report should be submitted on victim confirmation or (as of 1st April 2015) if reported by <strong>parents, carers and professionals</strong> made on behalf of a victim.</p>
-                <p>Persons acting in a <strong>professional capacity</strong> e.g. doctors, nurses, social workers and teachers reporting crimes, (often of a safeguarding nature), on behalf of victims of any age.</p>
-                <p><strong>Parents or carers</strong> acting as a guardian or responsible adult, ('in loco parentis') reporting crime in the best interests of and/or to ensure that a child or young person has appropriate access to police services.</p>
+                <p>A crime report should be submitted on victim confirmation or (as of 1st April 2015) if reported by
+                    <strong>parents, carers and professionals</strong> made on behalf of a victim.
+                </p>
+                <p>Persons acting in a <strong>professional capacity</strong> e.g. doctors, nurses, social workers and
+                    teachers reporting crimes, (often of a safeguarding nature), on behalf of victims of any age.</p>
+                <p><strong>Parents or carers</strong> acting as a guardian or responsible adult, ('in loco parentis')
+                    reporting crime in the best interests of and/or to ensure that a child or young person has
+                    appropriate access to police services.</p>
             </div>
 
             <!-- More Section -->
@@ -896,15 +983,34 @@
                     </div>
                     <h2 class="section-title">More</h2>
                 </div>
-                <p style="color: var(--accent-blue); font-weight: 700;">The abuse may consist of an omission rather than an act</p>
-                <p>Like the other two Section 1 offences, Section 4 is entirely offender focused. It is complete once the Defendant carries out the act that is the abuse of his position. It is immaterial whether or not he is successful in his enterprise and whether or not any gain or loss is actually made.</p>
-                <p>As with all the Section 1 offences, though there need be no consequences to the offending, the existence and extent of those consequences will be very material to sentence, compensation and confiscation. It will still therefore be necessary to gather that evidence. In many instances it is the fact of the gain or loss that will prove the Defendant's dishonesty beyond reasonable doubt.</p>
-                
+                <p style="color: var(--accent-blue); font-weight: 700;">The abuse may consist of an omission rather than
+                    an act</p>
+                <p>Like the other two Section 1 offences, Section 4 is entirely offender focused. It is complete once
+                    the Defendant carries out the act that is the abuse of his position. It is immaterial whether or not
+                    he is successful in his enterprise and whether or not any gain or loss is actually made.</p>
+                <p>As with all the Section 1 offences, though there need be no consequences to the offending, the
+                    existence and extent of those consequences will be very material to sentence, compensation and
+                    confiscation. It will still therefore be necessary to gather that evidence. In many instances it is
+                    the fact of the gain or loss that will prove the Defendant's dishonesty beyond reasonable doubt.</p>
+
                 <p style="color: var(--accent-blue); font-weight: 700; margin-top: 16px;">Position</p>
-                <p>The "position" required by section 4 is one that may be described as a position of trust. It could include company directors, trustees, business partners or employees. In many cases it will be one where there is a legal 'fiduciary' duty; but such a duty is not essential. It is, however, a position that carries something more than a moral obligation.</p>
-                
-                <p style="color: var(--text-primary); font-weight: 800; margin-top: 16px;">The Law Commission explained the meaning of "position" as follows:</p>
-                <p style="font-style: italic; background: #f8fafc; padding: 16px; border-radius: 12px; border-left: 4px solid var(--accent-blue);">"The necessary relationship will be present between trustee and beneficiary, director and company, professional person and client, agent and principal, employee and employer, or between partners. It may arise otherwise, for example within a family, or in the context of voluntary work, or in any context where the parties are not at arm's length. In nearly all cases where it arises, it will be recognised by the civil law as importing fiduciary duties, and any relationship that is so recognised will suffice. We see no reason, however, why the existence of such duties should be essential. This does not, of course, mean that it would be entirely a matter for the fact finders whether the necessary relationship exists."</p>
+                <p>The "position" required by section 4 is one that may be described as a position of trust. It could
+                    include company directors, trustees, business partners or employees. In many cases it will be one
+                    where there is a legal 'fiduciary' duty; but such a duty is not essential. It is, however, a
+                    position that carries something more than a moral obligation.</p>
+
+                <p style="color: var(--text-primary); font-weight: 800; margin-top: 16px;">The Law Commission explained
+                    the meaning of "position" as follows:</p>
+                <p
+                    style="font-style: italic; background: #f8fafc; padding: 16px; border-radius: 12px; border-left: 4px solid var(--accent-blue);">
+                    "The necessary relationship will be present between trustee and beneficiary, director and company,
+                    professional person and client, agent and principal, employee and employer, or between partners. It
+                    may arise otherwise, for example within a family, or in the context of voluntary work, or in any
+                    context where the parties are not at arm's length. In nearly all cases where it arises, it will be
+                    recognised by the civil law as importing fiduciary duties, and any relationship that is so
+                    recognised will suffice. We see no reason, however, why the existence of such duties should be
+                    essential. This does not, of course, mean that it would be entirely a matter for the fact finders
+                    whether the necessary relationship exists."</p>
             </div>
 
             <!-- CJS Codes Section -->
@@ -916,16 +1022,20 @@
                     <h2 class="section-title">CJS Codes</h2>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #f8fafc; border-radius: 14px; border: 1px solid #edf2f7;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #f8fafc; border-radius: 14px; border: 1px solid #edf2f7;">
                         <span style="font-weight: 700; font-size: 14px;">Fraud by abuse of position</span>
                         <strong style="color: var(--accent-blue); font-family: monospace;">FA06003</strong>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #f8fafc; border-radius: 14px; border: 1px solid #edf2f7;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #f8fafc; border-radius: 14px; border: 1px solid #edf2f7;">
                         <span style="font-weight: 700; font-size: 14px;">Attempt fraud by abuse of position</span>
                         <strong style="color: var(--accent-blue); font-family: monospace;">FA06003A</strong>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #f8fafc; border-radius: 14px; border: 1px solid #edf2f7;">
-                        <span style="font-weight: 700; font-size: 14px;">Conspire to commit fraud by abuse of position</span>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #f8fafc; border-radius: 14px; border: 1px solid #edf2f7;">
+                        <span style="font-weight: 700; font-size: 14px;">Conspire to commit fraud by abuse of
+                            position</span>
                         <strong style="color: var(--accent-blue); font-family: monospace;">FA06003C</strong>
                     </div>
                 </div>
@@ -1107,7 +1217,7 @@
             scroller.style.overflowY = 'auto';
         }
         const modalOverlay = document.getElementById('simpleModal');
-        
+
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) {
                 closeModal();
