@@ -724,7 +724,7 @@
             filter: brightness(0) invert(1);
         }
     </style>
-<style>
+    <style>
         /* ----- Version Switcher (Discrete Bottom Bar) - Standardized ----- */
         .version-switcher {
             position: fixed;
@@ -841,7 +841,255 @@
             height: 16px;
             filter: brightness(0) invert(1);
         }
-</style>
+
+        /* ----- Bottom Sheet ----- */
+        .bottom-sheet-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .bottom-sheet-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .bottom-sheet {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            padding: 16px 20px calc(var(--safe-area-bottom) + 20px);
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.1);
+            display: flex;
+            flex-direction: column;
+            max-height: 80%;
+        }
+
+        .bottom-sheet.active {
+            transform: translateY(0);
+        }
+
+        .sheet-drag-handle {
+            width: 40px;
+            height: 5px;
+            background: #cbd5e1;
+            border-radius: 3px;
+            margin: 0 auto 20px;
+            flex-shrink: 0;
+        }
+
+        .sheet-header {
+            position: relative;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+            flex-shrink: 0;
+        }
+
+        .sheet-title {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -0.6px;
+            text-align: center;
+            background: linear-gradient(135deg, #0f172a, var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sheet-close-btn {
+            position: absolute;
+            right: 0;
+            top: 34%;
+            transform: translateY(-50%);
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .sheet-content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-left: 20px;
+            padding-right: 8px;
+        }
+
+        .sheet-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .announcement-item {
+            position: relative;
+            padding: 0 0 40px 32px;
+            border-left: 2px solid #e2e8f0;
+        }
+
+        .announcement-item:first-child {
+            padding-top: 8px;
+        }
+
+        .announcement-item:last-child {
+            border-left-color: transparent;
+            padding-bottom: 32px;
+        }
+
+        .announcement-title {
+            position: sticky;
+            top: 0px;
+            display: inline-flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #1e293b 0%, var(--accent-blue) 100%);
+            padding: 8px 18px;
+            border-radius: 24px;
+            margin-bottom: 20px;
+            z-index: 15;
+            border: 2px solid #ffffff;
+            box-shadow:
+                0 8px 24px rgba(84, 110, 164, 0.35),
+                inset 0 1px 3px rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes timeline-pulse {
+            0% {
+                box-shadow:
+                    0 0 0 4px rgba(84, 110, 164, 0.15),
+                    0 4px 12px rgba(84, 110, 164, 0.3),
+                    0 0 0 0 rgba(84, 110, 164, 0.4);
+            }
+
+            70% {
+                box-shadow:
+                    0 0 0 4px rgba(84, 110, 164, 0.15),
+                    0 4px 12px rgba(84, 110, 164, 0.3),
+                    0 0 0 10px rgba(84, 110, 164, 0);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 4px rgba(84, 110, 164, 0.15),
+                    0 4px 12px rgba(84, 110, 164, 0.3),
+                    0 0 0 0 rgba(84, 110, 164, 0);
+            }
+        }
+
+        .announcement-title::after {
+            content: '';
+            position: absolute;
+            left: -43px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border: 4px solid var(--accent-blue);
+            border-radius: 50%;
+            box-sizing: border-box;
+            box-shadow:
+                0 0 0 4px rgba(84, 110, 164, 0.15),
+                0 4px 12px rgba(84, 110, 164, 0.3);
+            z-index: 20;
+            animation: timeline-pulse 2.5s infinite cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .announcement-desc {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-weight: 500;
+            letter-spacing: -0.1px;
+            border: 1px solid rgba(15, 23, 42, 0.04);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
+            position: relative;
+        }
+
+        .announcement-desc::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 24px;
+            width: 10px;
+            height: 10px;
+            background: #f8fafc;
+            border-left: 1px solid rgba(15, 23, 42, 0.04);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+            transform: rotate(45deg);
+        }
+
+        .announcement-desc p {
+            margin-bottom: 16px;
+            color: #334155;
+        }
+
+        .announcement-desc p:last-child {
+            margin-bottom: 0;
+        }
+
+        .announcement-desc ul {
+            margin: 16px 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .announcement-desc li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+            color: #475569;
+        }
+
+        .announcement-desc li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            opacity: 0.8;
+            box-shadow: 0 0 0 3px rgba(84, 110, 164, 0.15);
+        }
+    </style>
 </head>
 
 <body>
@@ -859,7 +1107,7 @@
                         </div>
                         <div class="top-actions">
                             <div class="action-item announcements">
-                                <img src="../images/megaphone.svg" alt="Announcements">
+                                <img src="../images/megaphone.svg" alt="What's New">
                             </div>
                             <div class="action-item podcast">
                                 <img src="../images/ps-podcast.svg" alt="Podcast">
@@ -1516,6 +1764,107 @@
             </nav>
         </div>
 
+        <!-- Announcements Bottom Sheet -->
+        <div class="bottom-sheet-overlay" id="announcementsSheetOverlay"></div>
+        <div class="bottom-sheet" id="announcementsSheet">
+            <div class="sheet-drag-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">What's New</div>
+                <button class="sheet-close-btn" id="closeAnnouncementsBtn">✕</button>
+            </div>
+            <div class="sheet-content">
+                <div class="announcement-item">
+                    <div class="announcement-title">FEBRUARY 2026</div>
+                    <div class="announcement-desc">
+                        <p>We hope you’ve been enjoying using Pocket Sergeant and listening to the podcast. While this
+                            section hasn’t been updated for a little while, a lot has been happening behind the scenes —
+                            including a full rebuild of the AI chatbot.</p>
+                        <p>The original chatbot was intentionally released as a test, allowing us to understand how you
+                            would use it and whether it genuinely added value. We limited monthly tokens at that stage,
+                            but they were quickly used, particularly for suspect interview planning which confirmed just
+                            how useful the tool had become.</p>
+                        <p>We’re now preparing to re-launch the chatbot in early March 2026, with a much stronger focus
+                            on usability and functionality from day one. This next version is a significant step
+                            forward, and while it will launch in a far more refined state, we’ll continue developing and
+                            improving it over time. The chatbot is now being treated as a product in its own right,
+                            shaped directly by how you use it.</p>
+                        <p>Intentionally or recklessly causing public nuisance offence updated.</p>
+                        <p>New category added for Border Security, Asylum and Immigration Act 2025 and the below items
+                            added:</p>
+                        <ul>
+                            <li>Collecting information for use in immigration crime</li>
+                            <li>Supplying articles for use in immigration crime</li>
+                            <li>Handling articles for use in immigration crime</li>
+                            <li>Meaning of key expressions</li>
+                            <li>Powers of authorised officers to search for relevant articles</li>
+                            <li>Powers to seize and retain relevant articles</li>
+                            <li>Duty to pass on items seized under section 24</li>
+                            <li>Powers to access, copy and use information stored on relevant articles</li>
+                            <li>Extension of powers to other persons</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="announcement-item">
+                    <div class="announcement-title">MAY 2025</div>
+                    <div class="announcement-desc">
+                        <p>We have now added Hughes Guides (Traffic Law) into the main menu of the app. This brings you
+                            over 1000 reference items / crimes that can be accessed via Hughes Guides in the "Search
+                            All" function.</p>
+                        <p>Amendments made to: Stop and Search.</p>
+                        <p>Categorisation of vehicle defects added to reference library.</p>
+                        <p>We have been approached by the National Crime Agency to reference their Missing Person Unit.
+                            We have added their contact details to the contacts section. We have also added how they can
+                            assist you with your misper investigation. These points have been added to the Missing
+                            Persons Actions / Considerations checklist. Many officers are unaware how they can assist
+                            with the investigation and save you time.</p>
+                        <p>Victim Statement Checklist for Assault - 5 part statement added.</p>
+                        <p>Domestic Assault Statement checklist for assault - 5 part statement added.</p>
+                    </div>
+                </div>
+
+                <div class="announcement-item">
+                    <div class="announcement-title">MARCH 2025</div>
+                    <div class="announcement-desc">
+                        <p>If you have received a push notifcation, it was to let you know our Founder, Paul has just
+                            released a book. The book is From Trauma To Triumph: The Pocket Sergeant Journey. The book
+                            is available for pre order today on Amazon Kindle.</p>
+                        <p>We are currently upgrading our push notification feature and are aware you may not have
+                            receive the message in full.</p>
+                        <p>We have a new features / content coming week commencing 24th March 2025 (or maybe before!).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="announcement-item">
+                    <div class="announcement-title">FEBRUARY 2025</div>
+                    <div class="announcement-desc">
+                        <p>We cannot wait to share with you what we have been working on of late. We are in the final
+                            stages of implementing a feature requested via the App Incubator. We will therefore be in
+                            touch with that user soon to reward them. You will see once the new build begins filtering
+                            its way through to you, we have other features coming too! Remember, what you don't see in
+                            terms of content - we will be working actively behind the scenes on ways to help make your
+                            role that bit easier!</p>
+                    </div>
+                </div>
+
+                <div class="announcement-item">
+                    <div class="announcement-title">JANUARY 2025</div>
+                    <div class="announcement-desc">
+                        <p>Happy New Year! As you will have noticed, we have now increased pricing by £1 per month
+                            across both platforms. We thank you for your continued support. The increased pricing covers
+                            increased overheads for example: development costs, servers, AI funcitonality etc. The
+                            increase will also contribute towards some upcoming features / content. This will be
+                            unveiled soon. Also, an update on the App Incubator: we have received MANY entried - which
+                            is great! However, it is taking us time to get back back to those who have made suggestions
+                            as we are busy in the background checking whether they are viable.</p>
+                        <p>Dog Abduction offence added.</p>
+                        <p>Cat Abduction offence added.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -1657,6 +2006,86 @@
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('switcherHidden') === 'true') {
                 toggleSwitcher(true);
+            }
+        });
+    </script>
+
+    <script>
+        // Bottom Sheet Logic for Announcements
+        document.addEventListener('DOMContentLoaded', () => {
+            const announcementsBtn = document.querySelector('.action-item.announcements');
+            const sheetOverlay = document.getElementById('announcementsSheetOverlay');
+            const bottomSheet = document.getElementById('announcementsSheet');
+            const closeSheetBtn = document.getElementById('closeAnnouncementsBtn');
+            const sheetContent = document.querySelector('.sheet-content');
+
+            if (announcementsBtn && sheetOverlay && bottomSheet && closeSheetBtn) {
+                function openSheet() {
+                    sheetOverlay.classList.add('active');
+                    bottomSheet.classList.add('active');
+                    bottomSheet.style.transform = ''; // Reset transform on open
+                }
+
+                function closeSheet() {
+                    sheetOverlay.classList.remove('active');
+                    bottomSheet.classList.remove('active');
+                    // Reset inline styles after transition to cleanly open next time
+                    setTimeout(() => {
+                        bottomSheet.style.transform = '';
+                        bottomSheet.style.transition = '';
+                    }, 400);
+                }
+
+                announcementsBtn.addEventListener('click', openSheet);
+                closeSheetBtn.addEventListener('click', closeSheet);
+                sheetOverlay.addEventListener('click', closeSheet);
+
+                // Swipe down to close logic for PWA
+                let startY = 0;
+                let currentY = 0;
+                let isDragging = false;
+
+                const onTouchStart = (e) => {
+                    // Prevent drag if touching within scrollable content that is NOT at the top
+                    const isInsideContent = e.target.closest('.sheet-content');
+                    if (isInsideContent && sheetContent.scrollTop > 0) return;
+
+                    startY = e.touches[0].clientY;
+                    currentY = startY;
+                    isDragging = true;
+                    bottomSheet.style.transition = 'none'; // remove transition for real-time drag
+                };
+
+                const onTouchMove = (e) => {
+                    if (!isDragging) return;
+                    currentY = e.touches[0].clientY;
+                    const deltaY = currentY - startY;
+
+                    // Only drag down
+                    if (deltaY > 0) {
+                        e.preventDefault(); // prevents background scroll/native pull-to-refresh
+                        bottomSheet.style.transform = `translateY(${deltaY}px)`;
+                    } else {
+                        bottomSheet.style.transform = `translateY(0px)`;
+                    }
+                };
+
+                const onTouchEnd = () => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    bottomSheet.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+
+                    const deltaY = currentY - startY;
+                    if (deltaY > 100) {
+                        closeSheet();
+                    } else {
+                        bottomSheet.style.transform = ''; // Snap back to open
+                    }
+                };
+
+                bottomSheet.addEventListener('touchstart', onTouchStart, { passive: true });
+                bottomSheet.addEventListener('touchmove', onTouchMove, { passive: false });
+                bottomSheet.addEventListener('touchend', onTouchEnd);
             }
         });
     </script>
