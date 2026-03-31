@@ -1,0 +1,157 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Theme Design Tokens */
+      --text-primary: #0f172a;
+      --accent-blue: #546EA4;
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      background-color: #ffffff;
+      font-family: var(--font-main);
+      display: flex;
+      justify-content: center;
+    }
+
+    /* 
+       NEW CLASS IMPLEMENTATION: .points-to-prove-content
+       We now use this specific class instead of .content-wrapper for styling.
+    */
+    .points-to-prove-content {
+      width: 100%;
+      word-break: break-word;
+    }
+
+    /* 
+       THEME NORMALIZER:
+       Neutralizes CKEditor's inline styles using the new .points-to-prove-content class.
+    */
+    .points-to-prove-content p,
+    .points-to-prove-content span,
+    .points-to-prove-content strong,
+    .points-to-prove-content li {
+      font-size: 14px !important;
+      line-height: 1.6 !important;
+      font-family: var(--font-main) !important;
+      color: var(--text-primary) !important;
+      text-decoration: none !important;
+      text-shadow: none !important;
+    }
+
+    .points-to-prove-content span {
+      background: transparent !important;
+    }
+
+    .points-to-prove-content p {
+      margin-bottom: 16px;
+    }
+
+    .points-to-prove-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Professional List Styling */
+    .points-to-prove-content ul {
+      list-style: none !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+      margin: 12px 0 !important;
+      padding: 0 !important;
+    }
+
+    .points-to-prove-content li {
+      position: relative !important;
+      padding: 16px 18px !important;
+      padding-left: 52px !important;
+      background: #f8fafc !important;
+      border: 1px solid #edf2f7 !important;
+      border-radius: 12px !important;
+      font-weight: 500 !important;
+      transition: all 0.2s ease !important;
+      margin: 0 !important;
+    }
+
+    .points-to-prove-content li::before {
+      content: "✓" !important;
+      position: absolute !important;
+      left: 16px !important;
+      top: 18px !important;
+      width: 20px !important;
+      height: 20px !important;
+      background: #ffffff !important;
+      color: var(--accent-blue) !important;
+      border-radius: 6px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 11px !important;
+      font-weight: 900 !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+      border: 1px solid #f1f5f9 !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Nested List Styling */
+    .points-to-prove-content ul ul {
+      margin: 12px 0 0 0 !important;
+      gap: 8px !important;
+    }
+
+    .points-to-prove-content ul ul li {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      padding: 12px 14px !important;
+      padding-left: 42px !important;
+      border-radius: 10px !important;
+    }
+
+    .points-to-prove-content ul ul li::before {
+      content: "•" !important;
+      box-shadow: none !important;
+      border: 1px solid #e2e8f0 !important;
+      background: #f8fafc !important;
+      color: var(--accent-blue) !important;
+      width: 16px !important;
+      height: 16px !important;
+      left: 14px !important;
+      top: 14px !important;
+      border-radius: 4px !important;
+      font-size: 14px !important;
+    }
+
+    .points-to-prove-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Added the 'points-to-prove-content' class as requested -->
+  <div class="content-wrapper points-to-prove-content" id="targetContainer">
+    <ul>
+      <li><span style="font-size:20px;"><span style="font-family:Tahoma,Geneva,sans-serif;">occupies a position in which
+            he is expected to safeguard, or not to act against, the financial interests of another person,</span></span>
+      </li>
+      <li><span style="font-size:20px;"><span style="font-family:Tahoma,Geneva,sans-serif;">abused that
+            position&nbsp;</span></span></li>
+      <li><span style="font-size:20px;"><span style="font-family:Tahoma,Geneva,sans-serif;">dishonestly</span></span>
+      </li>
+      <li><span style="font-size:20px;"><span style="font-family:Tahoma,Geneva,sans-serif;">intending by that abuse to
+            make a gain / cause a loss</span></span></li>
+    </ul>
+  </div>
+
+</body>
+
+</html>
