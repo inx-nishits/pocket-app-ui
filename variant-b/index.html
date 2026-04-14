@@ -1282,22 +1282,34 @@
             box-shadow: 0 0 0 3px rgba(84, 110, 164, 0.15);
         }
 
-        /* Points-to-prove sheet: keep timeline line visible for single item */
-        #ptpSheet .announcement-item:last-child {
-            border-left-color: #cbd5e1;
-            padding-bottom: 40px;
+        /* Points-to-prove sheet list styles */
+        .ptp-list {
+            margin: 0 0 24px 0;
+            padding: 0;
+            list-style: none;
         }
 
-        #ptpSheet .announcement-item::before {
+        .ptp-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+            color: #334155;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .ptp-list li::before {
             content: '';
             position: absolute;
-            left: -7px;
-            top: 31px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
+            left: 0;
+            top: 7px;
+            width: 8px;
+            height: 8px;
             background: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(84, 110, 164, 0.2);
+            border-radius: 50%;
+            opacity: 0.8;
+            box-shadow: 0 0 0 3px rgba(84, 110, 164, 0.15);
         }
     </style>
 </head>
@@ -2116,17 +2128,13 @@
                 <div class="sheet-title">Points to Prove</div>
                 <button class="sheet-close-btn" id="closePtpBtn">✕</button>
             </div>
-            <div class="sheet-content">
-                <div class="announcement-item">
-                    <div class="announcement-desc">
-                        <ul>
-                            <li>occupies a position in which he is expected to safeguard, or not to act against, the financial interests of another person,</li>
-                            <li>abused that position</li>
-                            <li>dishonestly</li>
-                            <li>intending by that abuse to make a gain / cause a loss</li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="sheet-content" style="padding-left: 16px; padding-right: 16px;">
+                <ul class="ptp-list">
+                    <li>occupies a position in which he is expected to safeguard, or not to act against, the financial interests of another person,</li>
+                    <li>abused that position</li>
+                    <li>dishonestly</li>
+                    <li>intending by that abuse to make a gain / cause a loss</li>
+                </ul>
             </div>
         </div>
 
