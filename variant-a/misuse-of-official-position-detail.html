@@ -447,17 +447,34 @@
             margin-bottom: 0;
         }
 
-        /* Definition Sub-items Styling */
+        /* Definition Sub-items Group Styling */
+        .sub-item-group {
+            background: #f8fafc;
+            border-radius: 16px;
+            margin-top: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+            width: 100%;
+        }
+
         .definition-content .sub-item {
-            padding: 14px 16px;
-            background: #fdfdfe;
-            border-radius: 12px;
-            margin-top: 12px;
-            border: 1px solid #f1f5f9;
+            padding: 16px 20px;
+            background: transparent;
+            border-radius: 0;
+            margin-top: 0;
+            border: none;
             font-weight: 500;
             color: var(--text-primary);
             display: flex;
             gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .definition-content .sub-item:hover {
+            background-color: #ffffff;
         }
 
         .definition-content .sub-item strong {
@@ -466,7 +483,6 @@
         }
 
         /* Professional List Styling */
-        .points-content ul,
         .sufficient-content ul,
         .stated-cases-content ul {
             list-style: none;
@@ -476,7 +492,20 @@
             margin: 0px 0 12px;
         }
 
-        .points-content li,
+        /* Points to Prove List Styling: Unified into one common box */
+        .points-content ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 0px 0 12px;
+            background: #f8fafc;
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+
         .sufficient-content li,
         .stated-cases-content li {
             position: relative;
@@ -492,7 +521,23 @@
             transition: all 0.2s ease;
         }
 
-        .points-content li::before,
+        .points-content li {
+            position: relative;
+            padding: 18px 20px;
+            padding-left: 56px;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.6;
+            transition: all 0.2s ease;
+        }
+
+        .points-content li:hover {
+            background-color: #ffffff;
+        }
+
         .sufficient-content li::before,
         .stated-cases-content li::before {
             content: "✓";
@@ -511,6 +556,25 @@
             font-weight: 900;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             border: 1px solid #f1f5f9;
+        }
+
+        .points-content li::before {
+            content: "✓";
+            position: absolute;
+            left: 18px;
+            top: 20px;
+            width: 22px;
+            height: 22px;
+            background: #ffffff;
+            color: var(--accent-blue);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 900;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: none;
         }
 
         /* Stated Cases specifics */
@@ -1272,11 +1336,13 @@
                 </div>
                 <div class="definition-content">
                     <p><strong>(1)</strong> A person is in breach of this section if he:</p>
-                    <p class="sub-item"><strong>(a)</strong> occupies a position in which he is expected to safeguard,
-                        or not to act against, the financial interests of another person,</p>
-                    <p class="sub-item"><strong>(b)</strong> abused that position</p>
-                    <p class="sub-item"><strong>(c)</strong> dishonestly</p>
-                    <p class="sub-item"><strong>(d)</strong> intending by that abuse to make a gain / cause a loss</p>
+                    <div class="sub-item-group">
+                        <p class="sub-item"><strong>(a)</strong> occupies a position in which he is expected to safeguard,
+                            or not to act against, the financial interests of another person,</p>
+                        <p class="sub-item"><strong>(b)</strong> abused that position</p>
+                        <p class="sub-item"><strong>(c)</strong> dishonestly</p>
+                        <p class="sub-item"><strong>(d)</strong> intending by that abuse to make a gain / cause a loss</p>
+                    </div>
                 </div>
             </div>
 

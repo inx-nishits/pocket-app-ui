@@ -67,21 +67,51 @@
       white-space: nowrap;
     }
 
-    /* Sub-items (a, b) - Nested grey boxes targeted by new class */
+    /* Sub-item Grouping (Common Box) */
+    .sub-item-group {
+      background: #f8fafc !important;
+      border-radius: 16px !important;
+      margin: 16px 0 20px 0 !important;
+      overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+    }
+
     .definition-content p.sub-item {
-      padding: 14px 16px;
-      background: #fdfdfe !important;
-      border-radius: 12px;
-      margin-top: 12px;
-      border: 1px solid #f1f5f9;
+      padding: 18px 20px !important;
+      padding-left: 24px !important;
+      background: transparent !important;
+      margin: 0 !important;
+      border: none !important;
+      border-radius: 0 !important;
       font-weight: 500;
-      box-shadow: none;
+      gap: 16px !important;
+    }
+
+    .definition-content p.sub-item:last-child {
+      border-bottom: none !important;
+    }
+
+    .definition-content p.sub-item:hover {
+      background-color: #ffffff !important;
+    }
+
+    .definition-content p.sub-item strong {
+      background: #ffffff !important;
+      padding: 2px 8px !important;
+      border-radius: 6px !important;
+      font-size: 13px !important;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+      color: var(--accent-blue) !important;
+      min-width: 24px;
+      text-align: center;
     }
 
     .definition-content img {
       max-width: 100%;
       height: auto;
-      border-radius: 8px;
+      border-radius: 12px;
     }
   </style>
 </head>
@@ -115,12 +145,31 @@
       fixedHtml = fixedHtml.replace(/<br\s*\/?>\s*&nbsp;<\/p>/g, '</span></p>');
       container.innerHTML = fixedHtml;
 
-      // Sub-point Detection logic
-      const paragraphs = container.querySelectorAll('p');
-      paragraphs.forEach(p => {
+      // Sub-point Detection
+      const paragraphs = Array.from(container.querySelectorAll('p'));
+      paragraphs.forEach((p) => {
         const text = p.textContent.trim();
         if (text.startsWith('(a)') || text.startsWith('(b)') || text.startsWith('(c)') || text.startsWith('(d)')) {
           p.classList.add('sub-item');
+        }
+      });
+
+      // Group sub-items into a common box
+      let currentGroup = [];
+      const allPs = Array.from(container.querySelectorAll('p'));
+      allPs.forEach((p, idx) => {
+        if (p.classList.contains('sub-item')) {
+          currentGroup.push(p);
+          const isLastItem = idx === allPs.length - 1;
+          const nextIsNoSub = !isLastItem && !allPs[idx + 1].classList.contains('sub-item');
+          
+          if (isLastItem || nextIsNoSub) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'sub-item-group';
+            p.parentNode.insertBefore(wrapper, currentGroup[0]);
+            currentGroup.forEach(item => wrapper.appendChild(item));
+            currentGroup = [];
+          }
         }
       });
     });
