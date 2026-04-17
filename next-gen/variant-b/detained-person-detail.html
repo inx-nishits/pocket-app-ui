@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="manifest.json">
+    <title>Detained Person - Variant B</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #546EA4;
+            --shadow-premium: 0 10px 40px -10px rgba(15, 23, 42, 0.12);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--text-primary);
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* ----- Variant B Premium Header ----- */
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0 0 32px 32px;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 12px);
+            padding-bottom: 16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-radius: 0 0 32px 32px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+            transition: all 0.2s;
+        }
+
+        .nav-btn:active { transform: scale(0.92); }
+
+        .nav-btn svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            min-width: 0;
+            padding: 0;
+            text-align: left;
+            flex: 1;
+        }
+
+        .title-block h1 {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
+            margin: 0;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .title-block p {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* Scroller */
+        .scroller {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px 120px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            scrollbar-width: none;
+        }
+
+        .scroller::-webkit-scrollbar { display: none; }
+
+        /* Premium Section Cards */
+        .section {
+            margin-bottom: 24px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-premium);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-icon-wrapper {
+            width: 42px;
+            height: 42px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            flex-shrink: 0;
+        }
+
+        .section-icon-wrapper svg {
+            width: 22px;
+            height: 22px;
+            stroke-width: 2.5;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .r-box {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .r-title { font-weight: 900; font-size: 18px; color: var(--accent-blue); margin-bottom: 8px; display: block; }
+        strong { font-weight: 800; color: #000; }
+
+        ul { padding-left: 20px; }
+        li { margin-bottom: 12px; font-size: 15px; color: var(--text-primary); }
+
+        .v-btn.active { background: #fff; color: #0f172a; }
+
+        @media (min-width: 500px) {
+            body { background: #e2e8f0; padding: 40px 0; }
+            .app-container {
+                max-width: 430px; border-radius: 50px; height: 932px;
+                border: 12px solid #000; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            }
+        }
+    </style>
+<style>
+        /* ----- Version Switcher (Discrete Bottom Bar) - Standardized ----- */
+        .version-switcher {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 8px 0 calc(env(safe-area-inset-bottom, 0px) + 6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 99999;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .version-switcher.hidden {
+            transform: translateY(100%);
+        }
+
+        .switcher-label {
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-right: 2px;
+        }
+
+        .v-btn {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .v-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .v-btn.active {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25);
+            border-color: #fff;
+            pointer-events: none;
+        }
+
+        .hide-switcher-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .hide-switcher-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Floating Restore Button (Visible only when bar is hidden) */
+        .switcher-restore-btn {
+            position: fixed;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 99998;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        .switcher-restore-btn.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .switcher-restore-btn img {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+</style>
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='index.html'">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="title-block">
+                    <h1>Detained Person</h1>
+                    <p>Guidance on PACE Rights</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="scroller">
+            <div class="section">
+                <p><strong>PACE Code C - Annex H</strong> sets out the protocol for checking on detained persons in custody who are under influence of alcohol or drugs, or have medical conditions.</p>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon-wrapper"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
+                    <span class="section-title">The Observation Checklist</span>
+                </div>
+                
+                <div class="r-box">
+                    <span class="r-title">1. Rousability</span>
+                    <p>Can the person be woken up? You must use <strong>physical contact</strong> (e.g., shaking their shoulder) and <strong>verbal stimuli</strong>. Do not just look through the wicket. If the person doesn't rouse, they need immediate medical attention.</p>
+                </div>
+
+                <div class="r-box">
+                    <span class="r-title">2. Response</span>
+                    <p>When roused, does the person Respond appropriately? Ask them specific questions: <i>"What is your name?", "Where are you?", "What day is it?"</i>. Observe if their speech is slurred, coherent, or if they appear confused.</p>
+                </div>
+
+                <div class="r-box">
+                    <span class="r-title">3. Recording</span>
+                    <p>Every check must be recorded in the <strong>Custody Record</strong> immediately. Include what was said, the level of response, and the exact time of the check. Generic phrases like "looked okay" are insufficient and legally dangerous.</p>
+                </div>
+
+                <div class="r-box">
+                    <span class="r-title">4. Review</span>
+                    <p>The Custody Officer must Review the frequency of checks. If a person's condition is deteriorating, the level of observation must be <strong>escalated</strong> (e.g., from 30-minute checks to constant supervision or hospitalization).</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-icon-wrapper"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+                    <span class="section-title">Critical Warnings</span>
+                </div>
+                <p>If a person shows any of the following, do not wait for the next check—call for a Healthcare Professional (HCP) or Ambulance:</p>
+                <ul>
+                    <li>Difficulty breathing or unusual sounds.</li>
+                    <li>Inability to follow simple commands.</li>
+                    <li>Significant change in skin color or temperature.</li>
+                    <li>Evidence of head injury or significant bleeding.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const s = document.querySelector('.scroller');
+            const h = document.getElementById('detailHeaderWrapper');
+            let lastY = 0;
+            s.addEventListener('scroll', () => {
+                let y = s.scrollTop;
+                if (Math.abs(y - lastY) < 10) return;
+                h.classList.toggle('header-hidden', y > 60 && y > lastY);
+                lastY = y;
+            }, { passive: true });
+        })();
+    </script>
+
+    <!-- Version Switcher (Discrete Bottom Bar) -->
+    <div class="version-switcher" id="versionSwitcher">
+        <span class="switcher-label">Design Variant</span>
+        <a href="../variant-a/detained-person-detail.html" class="v-btn ">A</a>
+        <a href="detained-person-detail.html" class="v-btn active">B</a>
+        <button class="hide-switcher-btn" onclick="toggleSwitcher(true)">✕ Hide</button>
+    </div>
+
+    <!-- Restore Switcher Button -->
+    <div class="switcher-restore-btn" id="switcherRestore" onclick="toggleSwitcher(false)">
+        <img src="../images/filter.svg" alt="Switch">
+        Switch Design Variant
+    </div>
+
+    <script id="version-switcher-script">
+        function toggleSwitcher(hide) {
+            const switcher = document.getElementById('versionSwitcher');
+            const restore = document.getElementById('switcherRestore');
+            if (!switcher || !restore) return;
+            if (hide) {
+                switcher.classList.add('hidden');
+                restore.classList.add('visible');
+                localStorage.setItem('switcherHidden', 'true');
+            } else {
+                switcher.classList.remove('hidden');
+                restore.classList.remove('visible');
+                localStorage.setItem('switcherHidden', 'false');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('switcherHidden') === 'true') {
+                toggleSwitcher(true);
+            }
+        });
+    </script>
+</body>
+
+</html>
