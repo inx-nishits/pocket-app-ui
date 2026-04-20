@@ -378,7 +378,9 @@
         /* ----- Main Scrollable Content ----- */
         .scroller {
             flex: 1;
+            min-height: 0;
             overflow-y: auto;
+            overflow-x: visible;
             -webkit-overflow-scrolling: touch;
             padding-bottom: 120px;
             /* space for bottom nav */
@@ -498,12 +500,16 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            overflow: hidden;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .card:active {
             transform: scale(0.98);
+        }
+
+        /* Ensure card with open tooltip stays on top of neighbors */
+        .card:has(.cjs-reveal-btn.revealed) {
+            z-index: 1000 !important;
         }
 
         .pro-tag {
@@ -520,6 +526,7 @@
             letter-spacing: 0.5px;
             box-shadow: 0 2px 4px rgba(217, 119, 6, 0.2);
             z-index: 5;
+            border-top-right-radius: 20px;
         }
 
         .card-content {
@@ -557,24 +564,126 @@
             overflow: hidden;
         }
 
-        .cjs-code {
-            font-size: 11px;
-            font-weight: 700;
-            color: #475569;
+        .code-cta-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            overflow: visible !important;
+            position: relative;
+            z-index: 5;
+        }
+
+        .cjs-reveal-btn {
+            position: relative;
             background: #f1f5f9;
-            padding: 0 8px;
+            border: 1px solid #e2e8f0;
+            width: 28px;
+            height: 28px;
             border-radius: 6px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-            border: 1px solid #e2e8f0;
-            height: 32px;
-            box-sizing: border-box;
-            width: fit-content;
-            min-width: 60px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-bottom: 0;
+            flex-shrink: 0;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            z-index: 10;
         }
+
+        .cjs-reveal-btn:active {
+            transform: scale(0.95);
+        }
+
+        .cjs-reveal-btn img {
+            width: 15px;
+            height: 15px;
+            filter: brightness(0) saturate(100%) invert(43%) sepia(12%) saturate(1637%) hue-rotate(184deg) brightness(93%) contrast(85%);
+            transition: filter 0.2s;
+        }
+
+        /* CJS Bottom Sheet Content Styles - Side-Accent Record Design */
+        .cjs-sheet-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px 8px;
+        }
+
+        .cjs-sheet-item {
+            background: #ffffff;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            position: relative;
+        }
+
+        .cjs-sheet-accent {
+            width: 6px;
+            background: var(--accent-blue);
+            flex-shrink: 0;
+        }
+
+        .cjs-sheet-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .cjs-sheet-code-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: -2px;
+        }
+
+        .cjs-sheet-code {
+            font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .cjs-sheet-divider {
+            height: 1px;
+            background: #f1f5f9;
+            width: 100%;
+            margin: 4px 0;
+        }
+
+        .cjs-sheet-title {
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+
+
+        /* Grid View Precision */
+        .grid-view .code-cta-row .cjs-reveal-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            margin-bottom: 0 !important;
+        }
+
+        .grid-view .code-cta-row .cjs-reveal-btn img {
+            width: 15px;
+            height: 15px;
+        }
+
 
         .card-footer {
             display: flex;
@@ -1272,9 +1381,9 @@
         .card-action-btn {
             background: #f8fafc;
             border: 1px solid #ebf0f5;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1290,8 +1399,8 @@
         }
 
         .card-action-btn img {
-            width: 18px;
-            height: 18px;
+            width: 15px;
+            height: 15px;
             object-fit: contain;
             /* Precise filter for #546EA4 */
             filter: brightness(0) saturate(100%) invert(43%) sepia(12%) saturate(1637%) hue-rotate(184deg) brightness(93%) contrast(85%);
@@ -1318,6 +1427,18 @@
         }
 
         .grid-view .card-action-btn img {
+            width: 15px;
+            height: 15px;
+        }
+
+        .grid-view .code-cta-row .cjs-reveal-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            margin-bottom: 0 !important;
+        }
+        
+        .grid-view .code-cta-row .cjs-reveal-btn img {
             width: 15px;
             height: 15px;
         }
@@ -1439,7 +1560,9 @@
                             someone in a position of trust violates rules, ethics, or responsibilities, potentially
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
-                            <div class="cjs-code">FA06003</div>
+                            <button class="cjs-reveal-btn" data-cjs="FA06003|Fraud by abuse of position;FA06003A|Attempt fraud by abuse of position;FA06003C|Conspire to commit fraud by abuse of position">
+                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                            </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
@@ -1471,7 +1594,9 @@
                             someone in a position of trust violates rules, ethics, or responsibilities, potentially
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
-                            <div class="cjs-code">FA06003</div>
+                            <button class="cjs-reveal-btn">
+                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                            </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
@@ -1503,7 +1628,9 @@
                             someone in a position of trust violates rules, ethics, or responsibilities, potentially
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
-                            <div class="cjs-code">FA06003</div>
+                            <button class="cjs-reveal-btn">
+                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                            </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
@@ -1535,7 +1662,9 @@
                             someone in a position of trust violates rules, ethics, or responsibilities, potentially
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
-                            <div class="cjs-code">FA06003</div>
+                            <button class="cjs-reveal-btn">
+                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                            </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
@@ -1567,7 +1696,9 @@
                             someone in a position of trust violates rules, ethics, or responsibilities, potentially
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
-                            <div class="cjs-code">FA06003</div>
+                            <button class="cjs-reveal-btn">
+                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                            </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
@@ -1596,7 +1727,9 @@
                     <div class="card-content">
                         <div class="card-title">3x5x2 Intelligence Submission</div>
                         <div class="card-subtitle">Forces Gradually Adopting from April 2016</div>
-                        <div class="cjs-code">TH68058</div>
+                        <button class="cjs-reveal-btn">
+                            <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                        </button>
                     </div>
                     <div class="card-footer">
                         <div class="card-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -2173,13 +2306,31 @@
                 <div class="sheet-title">Points to Prove</div>
                 <button class="sheet-close-btn" id="closePtpBtn">✕</button>
             </div>
-            <div class="sheet-content" style="padding-left: 16px; padding-right: 16px;">
-                <ul class="ptp-list">
-                    <li>occupies a position in which he is expected to safeguard, or not to act against, the financial interests of another person,</li>
-                    <li>abused that position</li>
-                    <li>dishonestly</li>
-                    <li>intending by that abuse to make a gain / cause a loss</li>
-                </ul>
+            <div class="sheet-content">
+                <div class="announcement-item">
+                    <div class="announcement-desc">
+                        <ul>
+                            <li>occupies a position in which he is expected to safeguard, or not to act against, the
+                                financial interests of another person,</li>
+                            <li>abused that position</li>
+                            <li>dishonestly</li>
+                            <li>intending by that abuse to make a gain / cause a loss</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CJS Codes Bottom Sheet -->
+        <div class="bottom-sheet-overlay" id="cjsSheetOverlay"></div>
+        <div class="bottom-sheet" id="cjsSheet">
+            <div class="sheet-drag-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title">CJS Codes</div>
+                <button class="sheet-close-btn" id="closeCjsBtn">✕</button>
+            </div>
+            <div class="sheet-content cjs-sheet-content" id="cjsSheetContent">
+                <!-- Content injected via JS -->
             </div>
         </div>
 
@@ -2595,6 +2746,97 @@
                 ptpBottomSheet.addEventListener('touchstart', ptpOnTouchStart, { passive: true });
                 ptpBottomSheet.addEventListener('touchmove', ptpOnTouchMove, { passive: false });
                 ptpBottomSheet.addEventListener('touchend', ptpOnTouchEnd);
+            }
+
+            // CJS Bottom Sheet Logic
+            const cjsBtns = document.querySelectorAll('.cjs-reveal-btn');
+            const cjsSheetOverlay = document.getElementById('cjsSheetOverlay');
+            const cjsBottomSheet = document.getElementById('cjsSheet');
+            const cjsCloseSheetBtn = document.getElementById('closeCjsBtn');
+            const cjsSheetContent = document.getElementById('cjsSheetContent');
+
+            if (cjsBtns && cjsSheetOverlay && cjsBottomSheet && cjsCloseSheetBtn && cjsSheetContent) {
+                function openCjsSheet(dataStr) {
+                    const items = dataStr.split(';').map(item => {
+                        const [code, title] = item.split('|');
+                        return { code, title };
+                    });
+
+                    let html = '';
+                    items.forEach(item => {
+                        html += `
+                            <div class="cjs-sheet-item">
+                                <div class="cjs-sheet-accent"></div>
+                                <div class="cjs-sheet-body">
+                                    <div class="cjs-sheet-code-label">CJS Code</div>
+                                    <div class="cjs-sheet-code">${item.code}</div>
+                                    <div class="cjs-sheet-divider"></div>
+                                    <div class="cjs-sheet-title">${item.title}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    cjsSheetContent.innerHTML = html;
+                    cjsSheetOverlay.classList.add('active');
+                    cjsBottomSheet.classList.add('active');
+                    cjsBottomSheet.style.transform = '';
+                }
+
+                function closeCjsSheet() {
+                    cjsSheetOverlay.classList.remove('active');
+                    cjsBottomSheet.classList.remove('active');
+                    setTimeout(() => {
+                        cjsBottomSheet.style.transform = '';
+                        cjsBottomSheet.style.transition = '';
+                    }, 400);
+                }
+
+                cjsBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        let cjsData = btn.getAttribute('data-cjs');
+                        if (!cjsData) {
+                            const tooltip = btn.querySelector('.cjs-tooltip');
+                            const code = tooltip ? tooltip.textContent : 'Unknown';
+                            const cardTitle = btn.closest('.card').querySelector('.card-title').textContent;
+                            cjsData = `${code}|${cardTitle}`;
+                        }
+                        openCjsSheet(cjsData);
+                    });
+                });
+
+                cjsCloseSheetBtn.addEventListener('click', closeCjsSheet);
+                cjsSheetOverlay.addEventListener('click', closeCjsSheet);
+
+                let cjsStartY = 0, cjsCurrentY = 0, cjsIsDragging = false;
+                const cjsOnTouchStart = (e) => {
+                    if (cjsSheetContent.scrollTop > 0) return;
+                    cjsStartY = e.touches[0].clientY;
+                    cjsCurrentY = cjsStartY;
+                    cjsIsDragging = true;
+                    cjsBottomSheet.style.transition = 'none';
+                };
+                const cjsOnTouchMove = (e) => {
+                    if (!cjsIsDragging) return;
+                    cjsCurrentY = e.touches[0].clientY;
+                    const deltaY = cjsCurrentY - cjsStartY;
+                    if (deltaY > 0) {
+                        e.preventDefault();
+                        cjsBottomSheet.style.transform = `translateY(${deltaY}px)`;
+                    }
+                };
+                const cjsOnTouchEnd = () => {
+                    if (!cjsIsDragging) return;
+                    cjsIsDragging = false;
+                    cjsBottomSheet.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                    if (cjsCurrentY - cjsStartY > 100) closeCjsSheet();
+                    else cjsBottomSheet.style.transform = '';
+                };
+                cjsBottomSheet.addEventListener('touchstart', cjsOnTouchStart, { passive: true });
+                cjsBottomSheet.addEventListener('touchmove', cjsOnTouchMove, { passive: false });
+                cjsBottomSheet.addEventListener('touchend', cjsOnTouchEnd);
             }
 
             // Sticky Intersection Observer
