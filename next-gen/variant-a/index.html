@@ -14,7 +14,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="../images/Ps-pro-logo.png">
     <title>Pocket App - Spatial iOS 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #f7f9fc;
@@ -92,36 +92,40 @@
         }
 
         .ai-spatial-pill {
-            background: var(--pill-bg);
+            background: transparent;
             padding: 0 14px 0 6px;
             border-radius: 50px;
             display: flex;
             align-items: center;
-            gap: 4px;
-            box-shadow: var(--shadow-sm);
+            gap: 8px;
             height: 40px;
         }
 
         .ai-pulse-wrap {
-            width: 32px;
-            height: 32px;
+            width: 44px;
+            height: 44px;
             background: transparent;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .ai-pulse-wrap img {
-            width: 24px;
-            height: 24px;
+            height: 40px;
+            width: auto;
             object-fit: contain;
+            filter: brightness(0) invert(1);
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         .ai-hint {
-            color: var(--accent-blue);
-            font-weight: 800;
-            font-size: 14px;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 18px;
+            font-family: 'Poppins', sans-serif;
             letter-spacing: -0.3px;
         }
 
@@ -1403,7 +1407,7 @@
                 <div class="top-nav-group">
                     <div class="top-nav">
                         <div class="ai-spatial-pill">
-                            <div class="ai-pulse-wrap"><img src="../images/Ps-pro-logo.png" alt="Logo"></div>
+                            <div class="ai-pulse-wrap"><img src="../images/pocket-icon.svg" alt="Logo"></div>
                             <span class="ai-hint">Pocket Sergeant</span>
                         </div>
                         <div class="top-actions">
