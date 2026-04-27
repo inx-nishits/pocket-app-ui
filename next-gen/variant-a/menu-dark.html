@@ -17,18 +17,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f7f9fc;
-            --card-bg: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-dim: #94a3b8;
-            --border-color: #e2e8f0;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-dim: #64748b;
+            --border-color: #334155;
             --accent-blue: #546EA4;
-            --accent-slate: #475569;
-            --pill-bg: #ffffff;
-            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
+            --accent-slate: #94a3b8;
+            --pill-bg: #1e293b;
+            --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.4);
             /* Derived from 546EA4 */
-            --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.12);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.6);
             --safe-area-top: env(safe-area-inset-top, 24px);
             --safe-area-bottom: env(safe-area-inset-bottom, 24px);
         }
@@ -265,11 +265,11 @@
             position: sticky;
             top: -1px;
             padding: calc(var(--safe-area-top) + 8px) 0 10px 0;
-            background: rgba(247, 249, 252, 0.92);
+            background: rgba(15, 23, 42, 0.92);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             z-index: 100;
-            border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .magic-tabs-wrapper {
@@ -357,8 +357,8 @@
             padding: 20px 20px;
             position: sticky;
             top: calc(var(--safe-area-top) + 83px);
-            background: rgba(247, 249, 252, 0.85);
-            /* Matched to #f7f9fc variable */
+            background: rgba(15, 23, 42, 0.85);
+            /* Matched to dark bg-color */
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             z-index: 50;
@@ -596,7 +596,7 @@
         }
 
         .bottom-nav {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             display: flex;
@@ -605,11 +605,11 @@
             padding: 8px 12px;
             border-radius: 40px;
             /* Inner track design: thin darker border + inner white glow */
-            border: 1px solid rgba(15, 23, 42, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow:
-                0 12px 32px -8px rgba(15, 23, 42, 0.2),
+                0 12px 32px -8px rgba(0, 0, 0, 0.4),
                 /* Deep floating shadow */
-                inset 0 0 0 1.5px rgba(255, 255, 255, 0.8);
+                inset 0 0 0 1.5px rgba(255, 255, 255, 0.05);
             /* Inner white track glow */
             position: relative;
         }
@@ -637,7 +637,7 @@
         .nav-btn img {
             width: 26px;
             height: 26px;
-            filter: brightness(0);
+            filter: brightness(0) invert(1);
             opacity: 0.5;
             transition: all 0.3s;
         }
@@ -729,10 +729,10 @@
             width: 100%;
             overflow: hidden;
             z-index: 1000;
-            background: rgba(247, 249, 252, 0.95);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
             will-change: transform;
         }
@@ -1421,11 +1421,11 @@
                                     alt="Subscription"></div>
                             <span>Subscription</span>
                         </div>
-                        <div class="menu-list-item" onclick="window.location.href='index-dark.html'">
+                        <div class="menu-list-item" onclick="window.location.href='index.html'">
                             <div class="menu-list-item-icon"><img src="../images/menu-icons/dark-mode.png"
-                                    alt="Dark Mode">
+                                    alt="Light Mode" style="filter: brightness(0) invert(1);">
                             </div>
-                            <span>Dark Mode</span>
+                            <span>Light Mode</span>
                         </div>
                         <div class="menu-list-item">
                             <div class="menu-list-item-icon"><img src="../images/menu-icons/check-updates.png"
@@ -1440,7 +1440,7 @@
         <!-- Bottom Nav Dock -->
         <div class="bottom-nav-wrapper">
             <nav class="bottom-nav">
-                <button class="nav-btn" onclick="window.location.href='index.html'"><img src="../images/search.svg"
+                <button class="nav-btn" onclick="window.location.href='index-dark.html'"><img src="../images/search.svg"
                         alt="Search"></button>
                 <button class="nav-btn"><img src="../images/tags.svg" alt="Tags"></button>
                 <button class="nav-btn" onclick="window.location.href='checklist.html'"><img
