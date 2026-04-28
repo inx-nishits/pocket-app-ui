@@ -259,7 +259,7 @@
         }
 
         .sticky-tabs-container {
-            padding: 0;
+            padding: 0 0 12px 0;
             background: rgba(247, 249, 252, 0.92);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
@@ -269,7 +269,7 @@
             margin: 0;
             background: var(--accent-blue);
             border-radius: 0;
-            padding: 5px 16px;
+            padding: 5px 16px 15px;
             position: relative;
             display: flex;
             justify-content: space-between;
@@ -280,7 +280,7 @@
         .tab-indicator {
             position: absolute;
             top: 5px;
-            bottom: 5px;
+            bottom: 15px;
             left: 0;
             width: 0;
             /* Dynamic */
@@ -403,12 +403,9 @@
         }
 
         .view-btn.active {
-            background: #f1f5f9;
-            /* Soft, true neutral grey */
-            color: #334155;
-            /* Dark grey for contrast, not blue */
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-            /* Soft subtle neutral shadow */
+            background: var(--accent-blue);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(84, 110, 164, 0.3);
         }
 
         .view-btn svg {

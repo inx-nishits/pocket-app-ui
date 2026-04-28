@@ -276,7 +276,7 @@
         }
 
         .sticky-tabs-container {
-            padding: 0;
+            padding: 0 0 12px 0;
             background: rgba(247, 249, 252, 0.92);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
@@ -287,7 +287,7 @@
         }
 
         .sticky-tabs-container.is-sticky {
-            padding: 0;
+            padding: 0 0 12px 0;
         }
 
         .sticky-tabs-container.is-sticky .m-tab {
@@ -301,25 +301,26 @@
 
         .magic-tabs-wrapper {
             margin: 0;
-            background: rgba(84, 110, 164, 0.12);
+            background: var(--accent-blue);
             border-radius: 0;
-            padding: 5px 16px;
+            padding: 5px 16px 15px;
             position: relative;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 12px rgba(84, 110, 164, 0.15);
         }
 
         .tab-indicator {
             position: absolute;
             top: 5px;
-            bottom: 5px;
+            bottom: 15px;
             left: 0;
             width: 0;
             /* Dynamic */
-            background: var(--accent-blue);
+            background: #ffffff;
             border-radius: 18px;
-            box-shadow: 0 4px 12px rgba(84, 110, 164, 0.25);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 1;
         }
@@ -334,7 +335,7 @@
             /* Increased side padding for better clickable area */
             cursor: pointer;
             z-index: 2;
-            color: var(--text-secondary);
+            color: #ffffff;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             min-width: 0;
         }
@@ -350,16 +351,16 @@
             width: 18px;
             height: 18px;
             flex-shrink: 0;
-            filter: opacity(0.85) brightness(0.8);
+            filter: brightness(0) invert(1);
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .m-tab.m-tab-active {
-            color: #ffffff;
+            color: var(--accent-blue);
         }
 
         .m-tab.m-tab-active img {
-            filter: brightness(0) invert(1);
+            filter: brightness(0) saturate(100%) invert(43%) sepia(12%) saturate(1637%) hue-rotate(184deg) brightness(93%) contrast(85%);
             transform: scale(1.1);
         }
 
@@ -439,12 +440,9 @@
         }
 
         .view-btn.active {
-            background: #f1f5f9;
-            /* Soft, true neutral grey */
-            color: #334155;
-            /* Dark grey for contrast, not blue */
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-            /* Soft subtle neutral shadow */
+            background: var(--accent-blue);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(84, 110, 164, 0.3);
         }
 
         .view-btn svg {
