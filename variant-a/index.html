@@ -259,18 +259,17 @@
         }
 
         .sticky-tabs-container {
-            padding: calc(var(--safe-area-top) + 8px) 0 10px 0;
+            padding: 0;
             background: rgba(247, 249, 252, 0.92);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(15, 23, 42, 0.1);
         }
 
         .magic-tabs-wrapper {
-            margin: 0 16px;
+            margin: 0;
             background: var(--accent-blue);
-            border-radius: 22px;
-            padding: 5px;
+            border-radius: 0;
+            padding: 5px 16px;
             position: relative;
             display: flex;
             justify-content: space-between;
@@ -283,7 +282,8 @@
             top: 5px;
             bottom: 5px;
             left: 0;
-            width: 0; /* Dynamic */
+            width: 0;
+            /* Dynamic */
             background: #ffffff;
             border-radius: 18px;
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
@@ -297,7 +297,8 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            padding: 10px 16px; /* Increased side padding for better clickable area */
+            padding: 10px 16px;
+            /* Increased side padding for better clickable area */
             cursor: pointer;
             z-index: 2;
             color: #ffffff;
@@ -721,7 +722,8 @@
         }
 
         .list-view .card-content {
-            padding-right: 40px; /* Prevent text from overlapping the chevron */
+            padding-right: 40px;
+            /* Prevent text from overlapping the chevron */
         }
 
         .list-view .card .card-subtitle {
@@ -744,8 +746,10 @@
             padding-bottom: 0;
             border-width: 0;
             overflow: hidden;
-            display: block; /* prevents hidden line-height gap */
-            width: fit-content; /* prevents full stretch from display: block */
+            display: block;
+            /* prevents hidden line-height gap */
+            width: fit-content;
+            /* prevents full stretch from display: block */
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -806,6 +810,7 @@
             stroke: currentColor;
             stroke-width: 3;
         }
+
         .ptp-cta {
             background: rgba(84, 110, 164, 0.1);
             color: var(--accent-blue);
@@ -837,7 +842,7 @@
             transform: scale(0.95);
             background: rgba(84, 110, 164, 0.2);
         }
-        
+
         .code-cta-row {
             display: flex;
             align-items: center;
@@ -845,10 +850,11 @@
             gap: 8px;
             margin-bottom: 12px;
         }
-        
+
         .code-cta-row .cjs-code {
             margin-bottom: 0 !important;
-            max-height: 30px; /* Keep consistent with list-view expanded code */
+            max-height: 30px;
+            /* Keep consistent with list-view expanded code */
         }
 
         /* Keep CTA compact in 2-column grid cards */
@@ -870,7 +876,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-        
+
         /* Smooth metadata hide/show in default list view */
         .list-view .card .code-cta-row {
             max-height: 0;
@@ -879,13 +885,12 @@
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
+
         .list-view .card.expanded .code-cta-row {
             max-height: 40px;
             opacity: 1;
             margin-bottom: 12px;
         }
-
     </style>
     <style>
         /* ----- Version Switcher (Discrete Bottom Bar) - Standardized ----- */
@@ -2007,7 +2012,8 @@
                 <div class="announcement-item">
                     <div class="announcement-desc">
                         <ul>
-                            <li>occupies a position in which he is expected to safeguard, or not to act against, the financial interests of another person,</li>
+                            <li>occupies a position in which he is expected to safeguard, or not to act against, the
+                                financial interests of another person,</li>
                             <li>abused that position</li>
                             <li>dishonestly</li>
                             <li>intending by that abuse to make a gain / cause a loss</li>
@@ -2117,13 +2123,13 @@
 
             const isListView = container.classList.contains('list-view');
             const clickedIndicator = e.target.closest('.expand-indicator');
-            
+
             if (isListView && clickedIndicator) {
                 // Toggle expansion ONLY if clicking the chevron
                 e.preventDefault();
                 e.stopPropagation();
                 card.classList.toggle('expanded');
-                
+
                 // Haptic-like feedback if supported
                 if (window.navigator.vibrate) window.navigator.vibrate(5);
             } else {
@@ -2309,7 +2315,7 @@
                 bottomSheet.addEventListener('touchmove', onTouchMove, { passive: false });
                 bottomSheet.addEventListener('touchend', onTouchEnd);
             }
-            
+
             // Logic for Points to Prove Bottom Sheet
             const ptpBtns = [
                 document.getElementById('openPtpBtn1'),
@@ -2348,7 +2354,7 @@
                         openPtpSheet();
                     });
                 });
-                
+
                 ptpCloseSheetBtn.addEventListener('click', closePtpSheet);
                 ptpSheetOverlay.addEventListener('click', closePtpSheet);
 
@@ -2373,7 +2379,7 @@
                     const deltaY = ptpCurrentY - ptpStartY;
 
                     if (deltaY > 0) {
-                        e.preventDefault(); 
+                        e.preventDefault();
                         ptpBottomSheet.style.transform = `translateY(${deltaY}px)`;
                     } else {
                         ptpBottomSheet.style.transform = `translateY(0px)`;
