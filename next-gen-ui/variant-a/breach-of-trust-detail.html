@@ -208,7 +208,7 @@
         .content-section.is-open .accordion-bar {
             border-radius: 16px 16px 0 0;
             box-shadow: none;
-            border-bottom: 1px solid #c7ecfc;
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .accordion-bar::before {
@@ -237,7 +237,7 @@
         .case-icon-wrapper svg {
             width: 20px;
             height: 20px;
-            stroke: #02235a;
+            stroke: var(--accent-blue);
             /* Theme Blue */
         }
 
@@ -286,7 +286,7 @@
             font-size: 14px;
             font-weight: 500;
             color: var(--text-primary);
-            border-bottom: 1px solid #c7ecfc;
+            border-bottom: 1px solid #f1f5f9;
             transition: all 0.2s ease;
             cursor: pointer;
             line-height: 1.5;
@@ -304,7 +304,7 @@
         }
 
         .case-file-item:active {
-            background-color: #c7ecfc;
+            background-color: #f1f5f9;
             padding-left: 24px;
         }
 
@@ -353,11 +353,11 @@
             font-weight: 800;
             font-size: 15px;
             letter-spacing: -0.3px;
-            border-bottom: 1px solid #c7ecfc;
+            border-bottom: 1px solid #f1f5f9;
             position: relative;
             z-index: 2;
             border: 1px solid rgba(15, 23, 42, 0.05);
-            border-bottom: 1px solid #c7ecfc;
+            border-bottom: 1px solid #f1f5f9;
         }
 
         /* Left accent bar on header */
@@ -688,7 +688,7 @@
         }
 
         .points-icon-wrapper svg path {
-            fill: #02235a !important;
+            fill: var(--accent-blue) !important;
             /* Force Theme Blue */
         }
 
@@ -810,7 +810,232 @@
             margin: 20px 0;
         }
 
-        
+        /* --- Spatial Progress Dock (FAB Premium Glass) --- */
+        .nav-fab-container {
+            position: absolute;
+            bottom: calc(var(--safe-area-bottom) + 85px);
+            right: 16px;
+            z-index: 9000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            pointer-events: none;
+        }
+
+        /* --- Simple Navigation FAB --- */
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(84, 110, 164, 0.35);
+            cursor: pointer;
+            pointer-events: auto;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 9001;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .fab-main svg.icon-fab {
+            width: 24px;
+            height: 24px;
+            stroke: #ffffff;
+            stroke-width: 2.8;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-fab-container.active .fab-main svg.icon-fab {
+            transform: scale(0.85) rotate(22.5deg);
+        }
+
+        .fab-main svg.icon-fab rect {
+            fill: rgba(255, 255, 255, 0.2);
+            /* Subtle inner fill for depth */
+        }
+
+        /* Secondary Print CTA (Tactile Squircle Design) */
+        .fab-secondary {
+            width: 54px;
+            height: 54px;
+            background: #ffffff;
+            border-radius: 16px;
+            /* Squircle shape */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 30px rgba(84, 110, 164, 0.25);
+            cursor: pointer;
+            pointer-events: auto;
+            position: relative;
+            margin-bottom: 12px;
+            border: 1px solid rgba(84, 110, 164, 0.15);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 9050;
+        }
+
+        .fab-secondary svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-blue);
+            stroke-width: 2.5;
+            fill: none;
+        }
+
+        .fab-secondary:active {
+            transform: scale(0.92) translateY(2px);
+            background: #f1f5f9;
+        }
+
+        .fab-main:active {
+            transform: scale(0.92);
+        }
+
+        /* The Dock (Ultra-Glass 'Frosted Crystal' Menu) */
+        .fab-dock {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            border-radius: 28px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.15),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transform: scale(0.6) translateY(50px);
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: bottom right;
+            position: absolute;
+            bottom: 138px;
+            /* High elevation to avoid Print CTA stack */
+            right: 0;
+            z-index: 9200;
+        }
+
+        .nav-fab-container.active .fab-dock {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+}
+
+        .dock-item {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            color: var(--accent-blue);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            border: 1px solid rgba(84, 110, 164, 0.15);
+        }
+
+        .dock-item.active {
+            background: var(--accent-blue);
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(84, 110, 164, 0.3);
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .dock-item:active {
+            transform: scale(0.9);
+        }
+
+        .dock-item img,
+        .dock-item svg {
+            width: 18px;
+            height: 18px;
+            transition: all 0.2s;
+        }
+
+        /* Ensure Blue when inactive (#02235a) */
+        .dock-item img {
+            filter: brightness(0) saturate(100%) invert(12%) sepia(21%) saturate(6613%) hue-rotate(206deg) brightness(96%) contrast(106%);
+        }
+
+        .dock-item svg,
+        .dock-item svg * {
+            stroke: var(--accent-blue) !important;
+            fill: none !important;
+            stroke-width: 2.5;
+        }
+
+        .dock-item[data-label="Points to Prove"] svg * {
+            fill: var(--accent-blue) !important;
+            stroke: none !important;
+        }
+
+        /* Ensure White when active */
+        .dock-item.active img {
+            filter: brightness(0) invert(1) !important;
+        }
+
+        .dock-item.active svg,
+        .dock-item.active svg * {
+            stroke: #ffffff !important;
+        }
+
+        .dock-item.active[data-label="Points to Prove"] svg * {
+            fill: #ffffff !important;
+            stroke: none !important;
+        }
+
+        /* Background Overlay (No Blur as requested) */
+        .fab-glass-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.05);
+            /* Very subtle tint, no blur */
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 8000;
+        }
+
+        .nav-fab-container.active~.fab-glass-overlay {
+            opacity: 1;
+            /* pointer-events: none; -- Keep it purely visual so background remains scrollable */
+        }
+
+        /* Label on hover/long press simulated */
+        .dock-item::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 130%;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s ease;
+            transform: translateX(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-fab-container.active .dock-item:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
 
         @media (min-width: 500px) {
             body {
@@ -856,7 +1081,7 @@
                 <div class="accordion-bar" onclick="toggleAccordion()">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div class="case-icon-wrapper">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#02235a"
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#546EA4"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
@@ -1202,8 +1427,7 @@
             </div>
         </div>
 
-
-        <!-- Modals moved inside app-container -->
+        <!-- Modals moved outside scroller but inside app-container -->
         <!-- 1. GAP Police -->
         <div class="modal-overlay" id="gapPoliceModal">
             <div class="modal-container">
@@ -1359,7 +1583,7 @@
                     <p>Continued review by CPS is required to maintain the Full Code Test.</p>
                 </div>
             </div>
-        </div> <!-- End scroller -->
+        </div>
 
         <!-- Spatial Progress Dock (FAB Premium) HTML -->
         <div class="nav-fab-container" id="navFabContainer">
