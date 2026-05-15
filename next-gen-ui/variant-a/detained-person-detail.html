@@ -135,7 +135,15 @@
             flex: 1;
             overflow-y: auto;
             padding: 24px 20px 100px;
+            /* Hide scrollbar */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+
 
         .section-title {
             font-size: 14px;
