@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235a">
+    <meta name="theme-color" content="#02235A">
     <link rel="manifest" href="manifest.json">
     <title>3x5x2 Intelligence Submission</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,13 +18,11 @@
         :root {
             --bg-color: #f7f9fc;
             --card-bg: #ffffff;
-            --text-primary: #000000;
+            --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235a;
-            --vibrant-blue: #074bdc;
-            --highlight-blue: #c7ecfc;
+            --accent-blue: #02235A;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
             --safe-area-top: env(safe-area-inset-top, 24px);
             --safe-area-bottom: env(safe-area-inset-bottom, 24px);
@@ -82,10 +80,11 @@
         }
 
         .detail-header {
+            padding-top: calc(var(--safe-area-top) + 16px);
             padding-bottom: 12px;
             padding-left: 16px;
             padding-right: 16px;
-            background: transparent;
+            background: var(--accent-blue);
             color: #ffffff;
             border-bottom-left-radius: 28px;
             border-bottom-right-radius: 28px;
@@ -231,7 +230,6 @@
             font-style: italic;
         }
 
-        
 
         @media (min-width: 500px) {
             body { background: #e2e8f0; padding: 40px 0; }
@@ -244,7 +242,6 @@
             }
         }
     </style>
-
 </head>
 
 <body>
@@ -334,7 +331,7 @@
             }, { passive: true });
         })();
     </script>
+
 </body>
 
 </html>
-

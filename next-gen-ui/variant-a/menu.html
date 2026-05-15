@@ -10,26 +10,24 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235a">
+    <meta name="theme-color" content="#f7f9fc">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="images/Ps-pro-logo.png">
+    <link rel="apple-touch-icon" href="../images/Ps-pro-logo.png">
     <title>Pocket App - Spatial iOS 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #f7f9fc;
             --card-bg: #ffffff;
-            --text-primary: #000000;
+            --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235a;
-            --vibrant-blue: #074bdc;
-            --highlight-blue: #c7ecfc;
+            --accent-blue: #02235A;
             --accent-slate: #475569;
             --pill-bg: #ffffff;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
-            /* Derived from 546EA4 */
+            /* Derived from 02235A */
             --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.12);
             --safe-area-top: env(safe-area-inset-top, 24px);
             --safe-area-bottom: env(safe-area-inset-bottom, 24px);
@@ -80,7 +78,7 @@
         }
 
         .top-nav-group {
-            background: var(--accent-blue);
+            background: var(--bg-color);
             padding-top: var(--safe-area-top);
             position: relative;
             z-index: 1;
@@ -265,8 +263,8 @@
 
         .sticky-tabs-container {
             position: sticky;
-            top: 0;
-            padding: calc(var(--safe-area-top) + 12px) 0 12px 0;
+            top: -1px;
+            padding: calc(var(--safe-area-top) + 8px) 0 10px 0;
             background: rgba(247, 249, 252, 0.92);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
@@ -276,7 +274,7 @@
 
         .magic-tabs-wrapper {
             margin: 0 20px;
-            background: #c7ecfc;
+            background: #f1f5f9;
             border-radius: 16px;
             padding: 6px;
             position: relative;
@@ -326,11 +324,11 @@
         }
 
         .m-tab.m-tab-active {
-            color: var(--accent-blue);
+            color: var(--accent-slate);
         }
 
         .m-tab.m-tab-active img {
-            filter: brightness(0) saturate(100%) invert(12%) sepia(21%) saturate(6613%) hue-rotate(206deg) brightness(96%) contrast(106%);
+            filter: brightness(0) saturate(100%) invert(31%) sepia(19%) saturate(464%) hue-rotate(176deg) brightness(95%) contrast(88%);
             transform: translateY(-2px);
         }
 
@@ -358,7 +356,7 @@
             align-items: center;
             padding: 20px 20px;
             position: sticky;
-            top: calc(var(--safe-area-top) + 78px);
+            top: calc(var(--safe-area-top) + 83px);
             background: rgba(247, 249, 252, 0.85);
             /* Matched to #f7f9fc variable */
             backdrop-filter: blur(16px);
@@ -404,7 +402,7 @@
         }
 
         .view-btn.active {
-            background: #c7ecfc;
+            background: #f1f5f9;
             /* Soft, true neutral grey */
             color: #334155;
             /* Dark grey for contrast, not blue */
@@ -462,7 +460,7 @@
             font-size: 11px;
             font-weight: 700;
             color: #ffffff;
-            background: linear-gradient(135deg, #fec604, #d97706);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             padding: 4px 10px;
             border-bottom-left-radius: 12px;
             text-transform: uppercase;
@@ -501,7 +499,7 @@
             font-size: 13px;
             font-weight: 600;
             color: #475569;
-            background: #c7ecfc;
+            background: #f1f5f9;
             padding: 4px 8px;
             border-radius: 6px;
             display: inline-block;
@@ -547,7 +545,7 @@
 
         .star-btn,
         .pin-btn {
-            background: #ffffff;
+            background: #f8fafc;
             border: none;
             width: 44px;
             height: 44px;
@@ -562,8 +560,8 @@
         }
 
         .star-btn.active {
-            background: #fec604;
-            box-shadow: 0 4px 10px rgba(254, 198, 4, 0.3);
+            background: #FFD049;
+            box-shadow: 0 4px 10px rgba(255, 208, 73, 0.3);
         }
 
         .star-btn img {
@@ -667,47 +665,6 @@
             }
         }
 
-        /* ----- Version Switcher (Discrete Bottom Bar) ----- */
-
-        .version-switcher.hidden {
-            transform: translateY(100%);
-        }
-
-        .v-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-1px);
-        }
-
-        .v-btn.active {
-            background: #ffffff;
-            color: #000000;
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25);
-            border-color: #fff;
-            pointer-events: none;
-        }
-
-        .hide-switcher-btn:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* Floating Restore Button (Visible only when bar is hidden) */
-
-        .switcher-restore-btn.visible {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .switcher-restore-btn:active {
-            transform: translateX(-50%) scale(0.95);
-        }
-
-        .switcher-restore-btn img {
-            width: 16px;
-            height: 16px;
-            filter: brightness(0) invert(1);
-        }
-
         /* ----- Menu Screen Layout (Standalone) ----- */
         body {
             overflow: hidden;
@@ -731,10 +688,10 @@
             width: 100%;
             overflow: hidden;
             z-index: 1000;
-            background: var(--accent-blue);
+            background: rgba(247, 249, 252, 0.95);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
             will-change: transform;
         }
@@ -762,7 +719,7 @@
         .menu-header h1 {
             font-size: 24px;
             font-weight: 800;
-            color: #ffffff;
+            color: var(--text-primary);
             letter-spacing: -0.6px;
             margin: 0;
             line-height: 1.1;
@@ -776,9 +733,9 @@
         }
 
         .menu-version {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-dim);
             font-weight: 700;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(148, 163, 184, 0.15);
             padding: 3px 8px;
             border-radius: 8px;
             font-size: 12px;
@@ -786,7 +743,7 @@
         }
 
         .menu-disclaimer {
-            color: #ffffff;
+            color: var(--accent-slate);
             font-weight: 700;
             cursor: pointer;
         }
@@ -1090,7 +1047,7 @@
             min-width: 44px;
             min-height: 44px;
             border-radius: 12px;
-            background: #c7ecfc;
+            background: #f1f5f9;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1128,48 +1085,7 @@
             display: block;
         }
 
-        /* Design Variant Switcher (Discrete Bottom Bar) */
-
-        .version-switcher.hidden {
-            transform: translateY(100%);
-        }
-
-        .v-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-1px);
-        }
-
-        .v-btn.active {
-            background: #ffffff;
-            color: #000000;
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25);
-            border-color: #fff;
-            pointer-events: none;
-        }
-
-        .hide-switcher-btn:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* Floating Restore Button (Visible only when bar is hidden) */
-
-        .switcher-restore-btn.visible {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .switcher-restore-btn:active {
-            transform: translateX(-50%) scale(0.95);
-        }
-
-        .switcher-restore-btn img {
-            width: 16px;
-            height: 16px;
-            filter: brightness(0) invert(1);
-        }
     </style>
-
 </head>
 
 <body>
@@ -1192,7 +1108,7 @@
                             <span class="menu-disclaimer">Disclaimer</span>
                         </div>
                     </div>
-                    <button class="menu-star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                    <button class="menu-star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                 </div>
             </div>
 
@@ -1325,13 +1241,13 @@
         <!-- Bottom Nav Dock -->
         <div class="bottom-nav-wrapper">
             <nav class="bottom-nav">
-                <button class="nav-btn" onclick="window.location.href='index.html'"><img src="images/search.svg"
+                <button class="nav-btn" onclick="window.location.href='index.html'"><img src="../images/search.svg"
                         alt="Search"></button>
-                <button class="nav-btn"><img src="images/tags.svg" alt="Tags"></button>
+                <button class="nav-btn"><img src="../images/tags.svg" alt="Tags"></button>
                 <button class="nav-btn" onclick="window.location.href='checklist.html'"><img
-                        src="images/checklist.svg" alt="Clipboard"></button>
-                <button class="nav-btn"><img src="images/phone-call.svg" alt="Contact"></button>
-                <button class="nav-btn active"><img src="images/bar.svg" alt="Menu"></button>
+                        src="../images/checklist.svg" alt="Clipboard"></button>
+                <button class="nav-btn"><img src="../images/phone-call.svg" alt="Contact"></button>
+                <button class="nav-btn active"><img src="../images/bar.svg" alt="Menu"></button>
             </nav>
         </div>
 
@@ -1404,32 +1320,7 @@
         }
     </script>
 
-    <script>
-        function toggleSwitcher(hide) {
-            const switcher = document.getElementById('versionSwitcher');
-            const restore = document.getElementById('switcherRestore');
-            if (!switcher || !restore) return;
-            if (hide) {
-                switcher.classList.add('hidden');
-                restore.classList.add('visible');
-                localStorage.setItem('switcherHidden', 'true');
-            } else {
-                switcher.classList.remove('hidden');
-                restore.classList.remove('visible');
-                localStorage.setItem('switcherHidden', 'false');
-            }
-        }
-
-        // Apply saved state on load
-        window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('switcherHidden') === 'true') {
-                toggleSwitcher(true);
-            }
-        });
-    </script>
-
 
 </body>
 
 </html>
-

@@ -8,7 +8,11 @@ const ASSETS = [
   './variant-a/checklist.html',
   './variant-a/checklist-detail.html',
   './variant-a/manifest.json',
-
+  './variant-b/index.html',
+  './variant-b/menu.html',
+  './variant-b/checklist.html',
+  './variant-b/checklist-detail.html',
+  './variant-b/manifest.json',
   './images/Ps-pro-logo.png',
   './images/search.svg',
   './images/filter.svg',
@@ -26,26 +30,7 @@ const ASSETS = [
   './images/megaphone.svg',
   './images/ps-podcast.svg',
   './images/tags.svg',
-  './images/phone-call.svg',
-  './images/menu_icons/app_incubator.png',
-  './images/menu_icons/books.png',
-  './images/menu_icons/cake-offences.png',
-  './images/menu_icons/case-file.png',
-  './images/menu_icons/check-updates.png',
-  './images/menu_icons/dark-mode.png',
-  './images/menu_icons/find-a-mispar.png',
-  './images/menu_icons/get-in-touch.png',
-  './images/menu_icons/hughes-guides.png',
-  './images/menu_icons/light-mode.png',
-  './images/menu_icons/more-apps.png',
-  './images/menu_icons/notifications.png',
-  './images/menu_icons/pnd-codes.png',
-  './images/menu_icons/police-regulation.png',
-  './images/menu_icons/reference-library.png',
-  './images/menu_icons/self-care.png',
-  './images/menu_icons/subscription.png',
-  './images/menu_icons/vehicle-check.png',
-  './images/menu_icons/what-three-words.png'
+  './images/phone-call.svg'
 ];
 
 self.addEventListener('install', (event) => {

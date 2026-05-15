@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235a">
+    <meta name="theme-color" content="#02235A">
     <link rel="manifest" href="manifest.json">
     <title>Misconduct in Public Office - Case Files</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,13 +18,11 @@
         :root {
             --bg-color: #f7f9fc;
             --card-bg: #ffffff;
-            --text-primary: #000000;
+            --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235a;
-            --vibrant-blue: #074bdc;
-            --highlight-blue: #c7ecfc;
+            --accent-blue: #02235A;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
             --safe-area-top: env(safe-area-inset-top, 24px);
             --safe-area-bottom: env(safe-area-inset-bottom, 24px);
@@ -86,7 +84,7 @@
             padding-bottom: 12px;
             padding-left: 16px;
             padding-right: 16px;
-            background: transparent;
+            background: var(--accent-blue);
             color: #ffffff;
             border-bottom-left-radius: 28px;
             border-bottom-right-radius: 28px;
@@ -230,16 +228,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--highlight-blue);
+            background: #f8fafc;
             border-radius: 10px;
-            border: 1px solid rgba(7, 75, 220, 0.1);
+            border: 1px solid #ebf0f5;
             flex-shrink: 0;
         }
 
         .case-icon-wrapper svg {
             width: 20px;
             height: 20px;
-            stroke: var(--accent-blue);
+            stroke: #02235A;
             /* Theme Blue */
         }
 
@@ -394,8 +392,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--highlight-blue);
-            border: 1px solid rgba(7, 75, 220, 0.1);
+            background: #f8fafc;
+            border: 1px solid #ebf0f5;
             border-radius: 10px;
             flex-shrink: 0;
             transition: all 0.2s ease;
@@ -501,8 +499,8 @@
             flex-direction: column;
             gap: 0;
             margin: 0px 0 12px;
-            background: #f0f7ff;
-            border: 1px solid var(--highlight-blue);
+            background: #f8fafc;
+            border: none;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
@@ -557,7 +555,7 @@
             font-size: 11px;
             font-weight: 900;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--highlight-blue);
+            border: 1px solid #f1f5f9;
         }
 
         .points-content li::before {
@@ -596,7 +594,7 @@
             content: "";
             flex: 1;
             height: 1px;
-            background: #c7ecfc;
+            background: #f1f5f9;
         }
 
         .case-title {
@@ -632,7 +630,7 @@
             padding: 16px 20px;
             background: #ffffff;
             border-radius: 14px;
-            border: 1px solid #c7ecfc;
+            border: 1px solid #f1f5f9;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
         }
 
@@ -649,11 +647,20 @@
             border-radius: 10px;
             font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
             font-size: 12px;
-            border: 1px solid #c7ecfc;
+            border: 1px solid #f1f5f9;
             font-weight: 800;
         }
 
         /* More Section Specifics */
+        .more-content h4 {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 28px 0 14px;
+            line-height: 1.4;
+            letter-spacing: -0.2px;
+        }
+
         .more-content h4:first-child {
             margin-top: 0;
         }
@@ -670,8 +677,8 @@
             width: 22px;
             height: 22px;
             object-fit: contain;
-            /* Precise filter for #02235a */
-            filter: brightness(0) saturate(100%) invert(12%) sepia(21%) saturate(6613%) hue-rotate(206deg) brightness(96%) contrast(106%);
+            /* Precise filter for #02235A */
+            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
         }
 
         /* Points to Prove SVG specific */
@@ -681,7 +688,7 @@
         }
 
         .points-icon-wrapper svg path {
-            fill: var(--accent-blue) !important;
+            fill: #02235A !important;
             /* Force Theme Blue */
         }
 
@@ -803,6 +810,24 @@
             margin: 20px 0;
         }
 
+
+        @media (min-width: 500px) {
+            body {
+                background: #e2e8f0;
+                padding: 40px 0;
+            }
+
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                border: 12px solid #000;
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            }
+        }
+    </style>
+    <style>
+
         /* --- Spatial Progress Dock (FAB Premium Glass) --- */
         .nav-fab-container {
             position: absolute;
@@ -830,7 +855,7 @@
             position: relative;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 9001;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .fab-main svg.icon-fab {
@@ -883,6 +908,7 @@
             background: #f1f5f9;
         }
 
+
         .fab-main:active {
             transform: scale(0.92);
         }
@@ -922,24 +948,24 @@
         .dock-item {
             width: 34px;
             height: 34px;
-            flex-shrink: 0;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f0f9ff;
+            background: #ffffff;
+            /* Solid White for original look */
             color: var(--accent-blue);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
-            border: 1px solid rgba(84, 110, 164, 0.1);
+            border: 1px solid rgba(84, 110, 164, 0.15);
         }
 
         .dock-item.active {
             background: var(--accent-blue);
             color: #ffffff;
-            box-shadow: 0 8px 20px rgba(2, 35, 90, 0.25);
+            box-shadow: 0 4px 10px rgba(84, 110, 164, 0.3);
             transform: scale(1.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .dock-item:active {
@@ -953,16 +979,16 @@
             transition: all 0.2s;
         }
 
-        /* Ensure Blue when inactive (#02235a) */
+        /* Ensure Blue when inactive (#02235A) */
         .dock-item img {
-            filter: brightness(0) saturate(100%) invert(12%) sepia(21%) saturate(6613%) hue-rotate(206deg) brightness(96%) contrast(106%);
+            /* Force to black first, then colorize to #02235A */
+            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
         }
 
         .dock-item svg,
         .dock-item svg * {
             stroke: var(--accent-blue) !important;
-            fill: none !important;
-            stroke-width: 2.5;
+            fill: none;
         }
 
         .dock-item[data-label="Points to Prove"] svg * {
@@ -1029,23 +1055,7 @@
             opacity: 1;
             transform: translateX(0);
         }
-
-        @media (min-width: 500px) {
-            body {
-                background: #e2e8f0;
-                padding: 40px 0;
-            }
-
-            .app-container {
-                max-width: 430px;
-                border-radius: 50px;
-                height: 932px;
-                border: 12px solid #000;
-                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
-            }
-        }
     </style>
-    
 </head>
 
 <body>
@@ -1074,7 +1084,7 @@
                 <div class="accordion-bar" onclick="toggleAccordion()">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div class="case-icon-wrapper">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#546EA4"
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#02235A"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
@@ -1219,10 +1229,10 @@
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M23.3145 3.28081C22.9614 2.92714 22.3886 2.92653 22.0355 3.27931L11.1843 14.1019L7.26917 9.84973C6.93087 9.48251 6.3589 9.4587 5.99108 9.79695C5.62353 10.1352 5.6 10.7075 5.93829 11.075L10.4911 16.0195C10.6578 16.2007 10.8912 16.3059 11.1372 16.311C11.1438 16.3113 11.1502 16.3113 11.1565 16.3113C11.3956 16.3113 11.6256 16.2163 11.7951 16.0475L23.3127 4.56007C23.6667 4.20734 23.6673 3.63448 23.3145 3.28081Z"
-                                fill="#02235a" />
+                                fill="#02235A" />
                             <path
                                 d="M23.0955 11.0955C22.5959 11.0955 22.191 11.5004 22.191 12C22.191 17.6195 17.6195 22.191 12 22.191C6.38081 22.191 1.80905 17.6195 1.80905 12C1.80905 6.38081 6.38081 1.80905 12 1.80905C12.4996 1.80905 12.9045 1.40414 12.9045 0.904547C12.9045 0.404906 12.4996 0 12 0C5.38312 0 0 5.38312 0 12C0 18.6166 5.38312 24 12 24C18.6166 24 24 18.6166 24 12C24 11.5004 23.5951 11.0955 23.0955 11.0955Z"
-                                fill="#02235a" />
+                                fill="#02235A" />
                         </svg>
                     </div>
                     <span>Points to Prove</span>
@@ -1420,7 +1430,8 @@
             </div>
         </div>
 
-        <!-- Modals moved outside scroller but inside app-container -->
+
+        <!-- Modals moved inside app-container -->
         <!-- 1. GAP Police -->
         <div class="modal-overlay" id="gapPoliceModal">
             <div class="modal-container">
@@ -1446,7 +1457,7 @@
                     <hr class="modal-divider">
 
                     <strong
-                        style="display: block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #02235a; margin-bottom: 8px;">ANTICIPATED
+                        style="display: block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #02235A; margin-bottom: 8px;">ANTICIPATED
                         GUILTY PLEA (GAP) CASES - Initial Hearing - Police Charged</strong>
                     <p><strong>Is the anticipation of plea correct?</strong></p>
                     <p>A guilty plea may be anticipated where the suspect:</p>
@@ -1576,7 +1587,7 @@
                     <p>Continued review by CPS is required to maintain the Full Code Test.</p>
                 </div>
             </div>
-        </div>
+        </div> <!-- End scroller -->
 
         <!-- Spatial Progress Dock (FAB Premium) HTML -->
         <div class="nav-fab-container" id="navFabContainer">
@@ -1723,7 +1734,6 @@
             if (e.target.classList.contains('modal-overlay')) closeModal();
         }
 
-        
 
         (function () {
             const s = document.querySelector('.scroller');
@@ -1737,7 +1747,7 @@
             }, { passive: true });
         })();
     </script>
+
 </body>
 
 </html>
-

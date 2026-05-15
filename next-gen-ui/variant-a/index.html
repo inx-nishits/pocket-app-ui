@@ -10,30 +10,26 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235a">
+    <meta name="theme-color" content="#02235A">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="images/Ps-pro-logo.png">
+    <link rel="apple-touch-icon" href="../images/Ps-pro-logo.png">
     <title>Pocket App - Spatial iOS 2026</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
             --bg-color: #f7f9fc;
             --card-bg: #ffffff;
-            --text-primary: #000000;
+            --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235a;
-            --vibrant-blue: #074bdc;
-            --highlight-blue: #c7ecfc;
+            --accent-blue: #02235A;
             --accent-slate: #475569;
             --pill-bg: #ffffff;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
-            /* Derived from 546EA4 */
+            /* Derived from 02235A */
             --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.12);
             --safe-area-top: env(safe-area-inset-top, 24px);
             --safe-area-bottom: env(safe-area-inset-bottom, 24px);
@@ -190,7 +186,7 @@
         }
 
         .search-section {
-            padding: 4px 16px 0px;
+            padding: 4px 16px 8px;
             display: flex;
             gap: 12px;
             align-items: center;
@@ -320,7 +316,6 @@
             left: 0;
             width: 0;
             /* Dynamic */
-            /* background: #ffffff; */
             background: #ffffff;
             border-radius: 18px;
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
@@ -363,7 +358,7 @@
         }
 
         .m-tab.m-tab-active img {
-            filter: brightness(0) saturate(100%) invert(12%) sepia(21%) saturate(6613%) hue-rotate(206deg) brightness(96%) contrast(106%);
+            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
             transform: scale(1.1);
         }
 
@@ -443,9 +438,9 @@
         }
 
         .view-btn.active {
-            background: var(--vibrant-blue);
+            background: var(--accent-blue);
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(7, 75, 220, 0.3);
+            box-shadow: 0 4px 12px rgba(84, 110, 164, 0.3);
         }
 
         .view-btn svg {
@@ -456,7 +451,7 @@
 
         /* ----- Cards ----- */
         .cards-container {
-            padding: 0 12px; /* Slightly wider cards */
+            padding: 0 16px;
             transition: all 0.3s ease;
         }
 
@@ -476,27 +471,13 @@
 
         .card {
             background: var(--card-bg);
-            border-radius: 24px; /* Rounder, more premium */
-            padding: 20px; /* More internal space */
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
             position: relative;
-            transition: transform 0.2s;
-            border: 1px solid rgba(15, 23, 42, 0.03); /* Subtle definition */
-        }
-
-        /* Pure left-side shadow only - no top or bottom bleed */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 20%;
-            bottom: 20%;
-            left: 0;
-            width: 1px;
-            background: transparent;
-            box-shadow: -12px 0 20px 8px rgba(15, 23, 42, 0.1);
-            z-index: -1;
-            pointer-events: none;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .card:active {
@@ -515,7 +496,7 @@
             font-size: 8px;
             font-weight: 800;
             color: #ffffff;
-            background: linear-gradient(135deg, #fec604, #d97706);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             padding: 2px 8px;
             border-bottom-left-radius: 10px;
             text-transform: uppercase;
@@ -572,7 +553,7 @@
 
         .cjs-reveal-btn {
             position: relative;
-            background: #c7ecfc;
+            background: #f1f5f9;
             border: 1px solid #e2e8f0;
             width: 28px;
             height: 28px;
@@ -596,7 +577,7 @@
         .cjs-reveal-btn img {
             width: 15px;
             height: 15px;
-            filter: brightness(0) saturate(100%) invert(12%) sepia(21%) saturate(6613%) hue-rotate(206deg) brightness(96%) contrast(106%);
+            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
             transition: filter 0.2s;
         }
 
@@ -644,7 +625,7 @@
 
         .cjs-sheet-divider {
             height: 1px;
-            background: #c7ecfc;
+            background: #f1f5f9;
             width: 100%;
             margin: 4px 0;
         }
@@ -662,7 +643,6 @@
             height: 28px;
             border-radius: 6px;
             margin-bottom: 0 !important;
-            background: #f8fafc !important;
         }
 
         .grid-view .code-cta-row .cjs-reveal-btn img {
@@ -706,7 +686,7 @@
 
         .star-btn,
         .pin-btn {
-            background: #ffffff;
+            background: #f8fafc;
             border: none;
             width: 28px;
             height: 28px;
@@ -716,13 +696,11 @@
             align-items: center;
             cursor: pointer;
             transition: transform 0.2s;
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
-            border: 1px solid rgba(15, 23, 42, 0.05);
         }
 
         .star-btn.active {
-            background: #fec604;
-            box-shadow: 0 4px 10px rgba(254, 198, 4, 0.3);
+            background: #FFD049;
+            box-shadow: 0 4px 10px rgba(255, 208, 73, 0.3);
         }
 
         .star-btn img {
@@ -823,66 +801,18 @@
             }
         }
 
-        /* ----- Version Switcher (Discrete Bottom Bar) ----- */
-
-        .version-switcher.hidden {
-            transform: translateY(100%);
-        }
-
-        .v-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-1px);
-        }
-
-        .v-btn.active {
-            background: #ffffff;
-            color: #000000;
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25);
-            border-color: #fff;
-            pointer-events: none;
-        }
-
-        .hide-switcher-btn:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* Floating Restore Button (Visible only when bar is hidden) */
-
-        .switcher-restore-btn.visible {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .switcher-restore-btn:active {
-            transform: translateX(-50%) scale(0.95);
-        }
-
-        .switcher-restore-btn img {
-            width: 16px;
-            height: 16px;
-            filter: brightness(0) invert(1);
-        }
 
         /* ----- Expandable Card Styles ----- */
         .list-view .card {
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             border: 1px solid transparent;
-            border-left: 4px solid transparent;
         }
 
         .list-view .card.expanded {
-            background: rgba(199, 236, 252, 0.2);
             box-shadow: var(--shadow-md);
             transform: translateY(-2px);
             border-color: rgba(84, 110, 164, 0.1);
-            border-left: 4px solid var(--accent-blue);
-        }
-
-        .list-view .card .cjs-reveal-btn,
-        .list-view .card .card-action-btn {
-            background: #ffffff;
         }
 
         .list-view .card-content {
@@ -951,13 +881,11 @@
             display: none;
             align-items: center;
             justify-content: center;
-            background: #ffffff;
-            border: 1px solid #dcdcdc;
+            background: #f1f5f9;
             border-radius: 50%;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.3s;
             z-index: 2;
             cursor: pointer;
-            color: #02235a;
         }
 
         .list-view .expand-indicator {
@@ -965,35 +893,17 @@
         }
 
         .card.expanded .expand-indicator {
-            background: #c7ecfc;
-            border-color: #c7ecfc;
-            color: #02235a;
-            transform: scale(1.05);
+            transform: rotate(180deg);
+            background: var(--accent-blue);
+            color: white;
         }
 
-        .expand-indicator .plus-icon,
-        .expand-indicator .minus-icon {
-            width: 16px;
-            height: 16px;
-            position: absolute;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        .expand-indicator svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            stroke-width: 3;
         }
-
-        .expand-indicator .minus-icon {
-            opacity: 0;
-            transform: rotate(-90deg);
-        }
-
-        .card.expanded .expand-indicator .plus-icon {
-            opacity: 0;
-            transform: rotate(90deg);
-        }
-
-        .card.expanded .expand-indicator .minus-icon {
-            opacity: 1;
-            transform: rotate(0deg);
-        }
-
 
         .ptp-cta {
             background: rgba(84, 110, 164, 0.1);
@@ -1057,7 +967,6 @@
             height: 28px;
             border-radius: 6px;
             margin-bottom: 0 !important;
-            background: #f8fafc !important;
         }
 
         .grid-view .code-cta-row .cjs-reveal-btn img {
@@ -1105,15 +1014,15 @@
 
         .card-action-btn:active {
             transform: scale(0.9);
-            background: #c7ecfc;
+            background: #f1f5f9;
         }
 
         .card-action-btn img {
             width: 15px;
             height: 15px;
             object-fit: contain;
-            /* Precise filter for #02235a */
-            filter: brightness(0) saturate(100%) invert(12%) sepia(21%) saturate(6613%) hue-rotate(206deg) brightness(96%) contrast(106%);
+            /* Precise filter for #02235A */
+            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
             transition: all 0.2s;
         }
 
@@ -1141,10 +1050,8 @@
             height: 15px;
         }
     </style>
-
-
-
     <style>
+
         /* ----- Bottom Sheet ----- */
         .bottom-sheet-overlay {
             position: absolute;
@@ -1212,7 +1119,7 @@
         }
 
         .sheet-close-btn {
-            background: #c7ecfc;
+            background: #f1f5f9;
             border: none;
             width: 32px;
             height: 32px;
@@ -1262,7 +1169,7 @@
             font-size: 24px;
             font-weight: 900;
             letter-spacing: -0.6px;
-            color: #000000;
+            color: #0f172a;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
@@ -1341,36 +1248,39 @@
                 <div class="top-nav-group">
                     <div class="top-nav">
                         <div class="ai-spatial-pill">
-                            <div class="ai-pulse-wrap"><img src="images/pocket-icon.svg" alt="Logo"></div>
+                            <div class="ai-pulse-wrap"><img src="../images/pocket-icon.svg" alt="Logo"></div>
                             <span class="ai-hint">Pocket Sergeant</span>
                         </div>
                         <div class="top-actions">
                             <div class="action-item ai-assistant">
-                                <img src="images/ai.svg" alt="AI Assistant">
+                                <img src="../images/ai.svg" alt="AI Assistant">
                             </div>
                             <div class="action-item announcements">
-                                <img src="images/megaphone.svg" alt="What's New">
+                                <img src="../images/megaphone.svg" alt="What's New">
                             </div>
                             <div class="action-item podcast">
-                                <img src="images/ps-podcast.svg" alt="Podcast">
+                                <img src="../images/ps-podcast.svg" alt="Podcast">
                             </div>
                             <div class="action-item favorites">
-                                <img src="images/star.svg" alt="Favorites">
+                                <img src="../images/star.svg" alt="Favorites">
                             </div>
                         </div>
                     </div>
 
                     <div class="search-section">
                         <div class="search-input-wrapper">
-                            <img src="images/search.svg" alt="Search Icon">
+                            <img src="../images/search.svg" alt="Search Icon">
                             <input type="text" placeholder="Search...">
                             <a href="#" class="search-all-cta">
                                 Search All
-                                <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
                             </a>
                         </div>
                         <button class="filter-btn">
-                            <img src="images/filter.svg" alt="Filter">
+                            <img src="../images/filter.svg" alt="Filter">
                         </button>
                     </div>
                 </div> <!-- Ends top-nav-group -->
@@ -1379,14 +1289,14 @@
                 <div class="sticky-tabs-container" style="display: none;">
                     <div class="magic-tabs-wrapper">
                         <div class="tab-indicator" id="tab-bg-backup"></div>
-                        <div class="m-tab m-tab-active"><img src="images/all.svg" alt="All"> <span>All</span></div>
-                        <div class="m-tab m-tab-inactive"><img src="images/summary.svg" alt="Summary">
+                        <div class="m-tab m-tab-active"><img src="../images/all.svg" alt="All"> <span>All</span></div>
+                        <div class="m-tab m-tab-inactive"><img src="../images/summary.svg" alt="Summary">
                             <span>Summary</span>
                         </div>
-                        <div class="m-tab m-tab-inactive"><img src="images/either-way.svg" alt="Either Way">
+                        <div class="m-tab m-tab-inactive"><img src="../images/either-way.svg" alt="Either Way">
                             <span>Either Way</span>
                         </div>
-                        <div class="m-tab m-tab-inactive"><img src="images/Indictable.svg" alt="Indictable">
+                        <div class="m-tab m-tab-inactive"><img src="../images/Indictable.svg" alt="Indictable">
                             <span>Indictable</span>
                         </div>
                     </div>
@@ -1397,14 +1307,14 @@
                 <div class="sticky-tabs-container">
                     <div class="magic-tabs-wrapper">
                         <div class="tab-indicator" id="tab-bg"></div>
-                        <div class="m-tab m-tab-active"><img src="images/all.svg" alt="ALL"> <span>ALL</span></div>
-                        <div class="m-tab m-tab-inactive"><img src="images/handcuffs.svg" alt="CRIME">
+                        <div class="m-tab m-tab-active"><img src="../images/all.svg" alt="ALL"> <span>ALL</span></div>
+                        <div class="m-tab m-tab-inactive"><img src="../images/handcuffs.svg" alt="CRIME">
                             <span>CRIME</span>
                         </div>
-                        <div class="m-tab m-tab-inactive"><img src="images/either-way.svg" alt="POWERS">
+                        <div class="m-tab m-tab-inactive"><img src="../images/either-way.svg" alt="POWERS">
                             <span>POWERS</span>
                         </div>
-                        <div class="m-tab m-tab-inactive"><img src="images/policy.svg" alt="POLICY">
+                        <div class="m-tab m-tab-inactive"><img src="../images/policy.svg" alt="POLICY">
                             <span>POLICY</span>
                         </div>
                     </div>
@@ -1414,7 +1324,7 @@
             <div class="section-header">
                 <h2>0-9</h2>
                 <div class="view-toggles">
-                    <button class="view-btn list-view-btn active">
+                    <button class="view-btn list-view-btn">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
                             <line x1="8" y1="6" x2="21" y2="6"></line>
                             <line x1="8" y1="12" x2="21" y2="12"></line>
@@ -1424,7 +1334,7 @@
                             <line x1="3" y1="18" x2="3.01" y2="18"></line>
                         </svg>
                     </button>
-                    <button class="view-btn grid-view-btn">
+                    <button class="view-btn grid-view-btn active">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"
                             stroke-linejoin="round">
                             <rect x="4" y="4" width="6" height="6" rx="1"></rect>
@@ -1436,7 +1346,7 @@
                 </div>
             </div>
 
-            <div class="cards-container list-view" id="cards-container">
+            <div class="cards-container grid-view" id="cards-container">
                 <!-- Card: Abuse of Position -->
                 <div class="card" onclick="window.location.href='abuse-of-position-detail.html'">
                     <div class="card-content">
@@ -1448,14 +1358,14 @@
                         <div class="code-cta-row">
                             <button class="cjs-reveal-btn"
                                 data-cjs="FA06003|Fraud by abuse of position;FA06003A|Attempt fraud by abuse of position;FA06003C|Conspire to commit fraud by abuse of position">
-                                <img src="images/icons/cjs-codes.svg" alt="CJS">
+                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
                             </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
-                                    <img src="images/icons/definition.svg" alt="Definition">
+                                    <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
-                                    <img src="images/icons/points-to-prove.svg" alt="PTP">
+                                    <img src="../images/icons/points-to-prove.svg" alt="PTP">
                                 </button>
                             </div>
                         </div>
@@ -1467,7 +1377,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1482,14 +1392,14 @@
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
                             <button class="cjs-reveal-btn">
-                                <img src="images/icons/cjs-codes.svg" alt="CJS">
+                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
                             </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
-                                    <img src="images/icons/definition.svg" alt="Definition">
+                                    <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
-                                    <img src="images/icons/points-to-prove.svg" alt="PTP">
+                                    <img src="../images/icons/points-to-prove.svg" alt="PTP">
                                 </button>
                             </div>
                         </div>
@@ -1501,7 +1411,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1516,14 +1426,14 @@
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
                             <button class="cjs-reveal-btn">
-                                <img src="images/icons/cjs-codes.svg" alt="CJS">
+                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
                             </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
-                                    <img src="images/icons/definition.svg" alt="Definition">
+                                    <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
-                                    <img src="images/icons/points-to-prove.svg" alt="PTP">
+                                    <img src="../images/icons/points-to-prove.svg" alt="PTP">
                                 </button>
                             </div>
                         </div>
@@ -1535,7 +1445,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1550,14 +1460,14 @@
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
                             <button class="cjs-reveal-btn">
-                                <img src="images/icons/cjs-codes.svg" alt="CJS">
+                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
                             </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
-                                    <img src="images/icons/definition.svg" alt="Definition">
+                                    <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
-                                    <img src="images/icons/points-to-prove.svg" alt="PTP">
+                                    <img src="../images/icons/points-to-prove.svg" alt="PTP">
                                 </button>
                             </div>
                         </div>
@@ -1569,7 +1479,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1584,14 +1494,14 @@
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
                             <button class="cjs-reveal-btn">
-                                <img src="images/icons/cjs-codes.svg" alt="CJS">
+                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
                             </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
-                                    <img src="images/icons/definition.svg" alt="Definition">
+                                    <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
-                                    <img src="images/icons/points-to-prove.svg" alt="PTP">
+                                    <img src="../images/icons/points-to-prove.svg" alt="PTP">
                                 </button>
                             </div>
                         </div>
@@ -1603,7 +1513,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1615,7 +1525,7 @@
                         <div class="card-title">3x5x2 Intelligence Submission</div>
                         <div class="card-subtitle">Forces Gradually Adopting from April 2016</div>
                         <button class="cjs-reveal-btn">
-                            <img src="images/icons/cjs-codes.svg" alt="CJS">
+                            <img src="../images/icons/cjs-codes.svg" alt="CJS">
                         </button>
                     </div>
                     <div class="card-footer">
@@ -1625,7 +1535,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1636,7 +1546,7 @@
                         <div class="card-title">4 R's - Detained Person Observation List</div>
                         <div class="card-subtitle">PACE Code C - Annex H</div>
                         <button class="cjs-reveal-btn">
-                            <img src="images/icons/cjs-codes.svg" alt="CJS">
+                            <img src="../images/icons/cjs-codes.svg" alt="CJS">
                         </button>
                     </div>
                     <div class="card-footer">
@@ -1646,7 +1556,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn active"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1664,7 +1574,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn active"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1676,7 +1586,7 @@
                         <div class="card-title">5x5x5 Intelligence Submission</div>
                         <div class="card-subtitle">Source Grading</div>
                         <button class="cjs-reveal-btn">
-                            <img src="images/icons/cjs-codes.svg" alt="CJS">
+                            <img src="../images/icons/cjs-codes.svg" alt="CJS">
                         </button>
                     </div>
                     <div class="card-footer">
@@ -1686,7 +1596,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1703,7 +1613,7 @@
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
-                        <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                        <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                     </div>
                 </div>
 
@@ -1720,7 +1630,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1738,7 +1648,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-05-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1756,7 +1666,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>01-14-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn active"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1774,7 +1684,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>12-10-2024</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1792,7 +1702,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>03-21-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1812,7 +1722,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>11-05-2024</span></div>
                         <div class="card-icons">
-                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn active"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1830,7 +1740,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>09-12-2024</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1848,7 +1758,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>06-30-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1866,7 +1776,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>08-22-2024</span></div>
                         <div class="card-icons">
-                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn active"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1886,7 +1796,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>04-18-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1904,7 +1814,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>05-11-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn active"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1922,7 +1832,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>08-01-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1940,7 +1850,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>02-28-2026</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1958,7 +1868,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>10-15-2024</span></div>
                         <div class="card-icons">
-                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn active"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1976,7 +1886,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>07-09-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -1994,7 +1904,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>04-04-2026</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -2012,7 +1922,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>01-19-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn active"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -2030,7 +1940,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>09-30-2025</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -2048,7 +1958,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>11-22-2024</span></div>
                         <div class="card-icons">
-                            <button class="star-btn"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -2066,7 +1976,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg><span>06-05-2026</span></div>
                         <div class="card-icons">
-                            <button class="star-btn active"><img src="images/star-sm.svg" alt="Star"></button>
+                            <button class="star-btn active"><img src="../images/star-sm.svg" alt="Star"></button>
                         </div>
                     </div>
                 </div>
@@ -2077,12 +1987,12 @@
         <!-- Bottom Nav Dock -->
         <div class="bottom-nav-wrapper">
             <nav class="bottom-nav">
-                <button class="nav-btn active"><img src="images/search.svg" alt="Search"></button>
-                <button class="nav-btn"><img src="images/tags.svg" alt="Tags"></button>
-                <button class="nav-btn" onclick="window.location.href='checklist.html'"><img src="images/checklist.svg"
-                        alt="Clipboard"></button>
-                <button class="nav-btn"><img src="images/phone-call.svg" alt="Contact"></button>
-                <button class="nav-btn" onclick="window.location.href='menu.html'"><img src="images/bar.svg"
+                <button class="nav-btn active"><img src="../images/search.svg" alt="Search"></button>
+                <button class="nav-btn"><img src="../images/tags.svg" alt="Tags"></button>
+                <button class="nav-btn" onclick="window.location.href='checklist.html'"><img
+                        src="../images/checklist.svg" alt="Clipboard"></button>
+                <button class="nav-btn"><img src="../images/phone-call.svg" alt="Contact"></button>
+                <button class="nav-btn" onclick="window.location.href='menu.html'"><img src="../images/bar.svg"
                         alt="Scan"></button>
             </nav>
         </div>
@@ -2303,18 +2213,14 @@
                     }
                 }
 
-                // 2. Inject Expand Indicator (Plus/Minus)
+                // 2. Inject Expand Indicator (Chevron)
                 if (!card.querySelector('.expand-indicator')) {
                     const indicator = document.createElement('div');
                     indicator.className = 'expand-indicator';
-                    indicator.innerHTML = `
-                        <i data-lucide="plus" class="plus-icon"></i>
-                        <i data-lucide="minus" class="minus-icon"></i>
-                    `;
+                    indicator.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
                     card.appendChild(indicator);
                 }
             });
-            if (window.lucide) lucide.createIcons();
         }
 
         // Main Card Interaction
@@ -2402,9 +2308,6 @@
             });
         }
     </script>
-
-
-
 
 
 
@@ -2740,4 +2643,3 @@
 </body>
 
 </html>
-

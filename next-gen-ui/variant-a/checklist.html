@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235a">
+    <meta name="theme-color" content="#f7f9fc">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="../images/Ps-pro-logo.png">
     <title>Checklist - Spatial iOS 2026</title>
@@ -19,13 +19,11 @@
         :root {
             --bg-color: #f7f9fc;
             --card-bg: #ffffff;
-            --text-primary: #000000;
+            --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235a;
-            --vibrant-blue: #074bdc;
-            --highlight-blue: #c7ecfc;
+            --accent-blue: #02235A;
             --accent-slate: #475569;
             --pill-bg: #ffffff;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
@@ -76,10 +74,10 @@
             width: 100%;
             overflow: hidden;
             z-index: 1000;
-            background: var(--accent-blue);
+            background: rgba(247, 249, 252, 0.95);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
             transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
             will-change: transform;
         }
@@ -104,19 +102,20 @@
         }
 
         .header-title-pill {
-            background: transparent;
-            padding: 0;
+            background: var(--pill-bg);
+            padding: 0 16px;
+            border-radius: 50px;
             display: flex;
             align-items: center;
             height: 40px;
+            box-shadow: var(--shadow-sm);
         }
 
         .header-title-pill h1 {
-            font-size: 20px;
+            font-size: 15px;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
             margin: 0;
-            color: #ffffff;
         }
 
         .header-actions {
@@ -274,7 +273,7 @@
             width: 44px;
             height: 44px;
             border-radius: 12px;
-            background: #c7ecfc;
+            background: #f1f5f9;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -389,8 +388,8 @@
                 border: 12px solid #000;
                 box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
             }
-        }</style>
-
+        }
+    </style>
 </head>
 
 <body>
@@ -861,12 +860,7 @@
             }, { passive: true });
         }
 
-        // Apply saved state on load
-        window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('switcherHidden') === 'true') {
-                toggleSwitcher(true);
-            }
-        });
     </script>
+
 </body>
 </html>

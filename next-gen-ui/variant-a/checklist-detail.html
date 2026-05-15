@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235a">
+    <meta name="theme-color" content="#02235A">
     <link rel="manifest" href="manifest.json">
     <title>Checklist Detail - Spatial iOS 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,11 +18,11 @@
         :root {
             --bg-color: #f7f9fc;
             --card-bg: #ffffff;
-            --text-primary: #000000;
+            --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235a;
+            --accent-blue: #02235A;
             --accent-slate: #475569;
             --pill-bg: #ffffff;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
@@ -257,7 +257,7 @@
 
         /* Alternating Highlight Style from old UI */
         .check-item.highlight {
-            background-color: #c7ecfc;
+            background-color: #f1f5f9;
             /* Gentle blue-grey tint */
         }
 
@@ -347,8 +347,9 @@
                 box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
                 overflow: hidden;
             }
-        }</style>
+        }
 
+    </style>
 </head>
 
 <body>
@@ -738,14 +739,6 @@
                 document.querySelector('.title-block p').textContent = sub;
             }
 
-            // Sync Switcher Link with current Params
-            const switcherLinks = document.querySelectorAll('.v-btn');
-            switcherLinks.forEach(link => {
-                const baseHref = link.getAttribute('href').split('?')[0];
-                if (window.location.search) {
-                    link.setAttribute('href', baseHref + window.location.search);
-                }
-            });
         });
 
         // Header hide on scroll down, show on scroll up (same as Search page)
@@ -789,7 +782,7 @@
             }, { passive: true });
         })();
     </script>
+
 </body>
 
 </html>
-
