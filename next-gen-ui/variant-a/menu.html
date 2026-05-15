@@ -10,9 +10,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#f7f9fc">
+    <meta name="theme-color" content="#02235A">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="../images/Ps-pro-logo.png">
+    <link rel="apple-touch-icon" href="images/Ps-pro-logo.png">
     <title>Pocket App - Spatial iOS 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -688,10 +688,8 @@
             width: 100%;
             overflow: hidden;
             z-index: 1000;
-            background: rgba(247, 249, 252, 0.95);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+            background: var(--accent-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
             will-change: transform;
         }
@@ -719,10 +717,11 @@
         .menu-header h1 {
             font-size: 24px;
             font-weight: 800;
-            color: var(--text-primary);
+            color: #ffffff;
             letter-spacing: -0.6px;
             margin: 0;
             line-height: 1.1;
+            font-family: 'Poppins', sans-serif;
         }
 
         .menu-subtitle {
@@ -733,9 +732,9 @@
         }
 
         .menu-version {
-            color: var(--text-dim);
+            color: #ffffff;
             font-weight: 700;
-            background: rgba(148, 163, 184, 0.15);
+            background: rgba(255, 255, 255, 0.15);
             padding: 3px 8px;
             border-radius: 8px;
             font-size: 12px;
@@ -743,7 +742,7 @@
         }
 
         .menu-disclaimer {
-            color: var(--accent-slate);
+            color: rgba(255, 255, 255, 0.8);
             font-weight: 700;
             cursor: pointer;
         }
@@ -1118,13 +1117,11 @@
                     <h3 class="menu-section-title">Top Features</h3>
                     <div class="menu-grid">
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/app_incubator.png"
-                                    alt="App Incubator"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/app_incubator.png" alt="App Incubator"></div>
                             <span>App Incubator</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/find-a-mispar.png"
-                                    alt="Find a Misper"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/find-a-mispar.png" alt="Find a Misper"></div>
                             <span>Find a Misper</span>
                         </div>
                         <div class="menu-card">
@@ -1132,18 +1129,15 @@
                             <span>Books</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/reference-library.png"
-                                    alt="Reference Library"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/reference-library.png" alt="Reference Library"></div>
                             <span>Reference Library</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/hughes-guides.png"
-                                    alt="Hughes Guides"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/hughes-guides.png" alt="Hughes Guides"></div>
                             <span>Hughes Guides</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/vehicle-check.png"
-                                    alt="Vehicle Check"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/vehicle-check.png" alt="Vehicle Check"></div>
                             <span>Vehicle Check</span>
                         </div>
                         <div class="menu-card">
@@ -1157,18 +1151,15 @@
                             <span>PND Codes</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/what-three-words.png"
-                                    alt="What3Words"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/what-three-words.png" alt="What3Words"></div>
                             <span>What3Words</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/cake-offences.png"
-                                    alt="Cake Offences"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/cake-offences.png" alt="Cake Offences"></div>
                             <span>Cake Offences</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/police-regulation.png"
-                                    alt="Police Regulations"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/police-regulation.png" alt="Police Regulations"></div>
                             <span>Police Regulations</span>
                         </div>
                         <div class="menu-card">
@@ -1180,24 +1171,20 @@
                         <!-- Hidden Features -->
                         <div class="hidden-features" id="hidden-features">
                             <div class="menu-card">
-                                <div class="menu-card-icon"><img src="../images/menu_icons/case-file.png"
-                                        alt="Case Files"></div>
+                                <div class="menu-card-icon"><img src="../images/menu_icons/case-file.png" alt="Case Files"></div>
                                 <span>Case Files</span>
                             </div>
                             <div class="menu-card">
-                                <div class="menu-card-icon"><img src="../images/menu_icons/self-care.png"
-                                        alt="Self-Care"></div>
+                                <div class="menu-card-icon"><img src="../images/menu_icons/self-care.png" alt="Self-Care"></div>
                                 <span>Self-Care</span>
                             </div>
                             <div class="menu-card">
-                                <div class="menu-card-icon"><img src="../images/menu_icons/get-in-touch.png"
-                                        alt="Get in touch">
+                                <div class="menu-card-icon"><img src="../images/menu_icons/get-in-touch.png" alt="Get in touch">
                                 </div>
                                 <span>Get in touch</span>
                             </div>
                             <div class="menu-card">
-                                <div class="menu-card-icon"><img src="../images/menu_icons/notifications.png"
-                                        alt="Notifications">
+                                <div class="menu-card-icon"><img src="../images/menu_icons/notifications.png" alt="Notifications">
                                 </div>
                                 <span>Notifications</span>
                             </div>
@@ -1218,19 +1205,16 @@
                     <h3 class="menu-section-title">Support & Information</h3>
                     <div class="menu-list">
                         <div class="menu-list-item">
-                            <div class="menu-list-item-icon"><img src="../images/menu_icons/subscription.png"
-                                    alt="Subscription"></div>
+                            <div class="menu-list-item-icon"><img src="../images/menu_icons/subscription.png" alt="Subscription"></div>
                             <span>Subscription</span>
                         </div>
                         <div class="menu-list-item">
-                            <div class="menu-list-item-icon"><img src="../images/menu_icons/dark-mode.png"
-                                    alt="Dark Mode">
+                            <div class="menu-list-item-icon"><img src="../images/menu_icons/dark-mode.png" alt="Dark Mode">
                             </div>
                             <span>Dark Mode</span>
                         </div>
                         <div class="menu-list-item">
-                            <div class="menu-list-item-icon"><img src="../images/menu_icons/check-updates.png"
-                                    alt="Check for Updates"></div>
+                            <div class="menu-list-item-icon"><img src="../images/menu_icons/check-updates.png" alt="Check for Updates"></div>
                             <span>Check for Updates</span>
                         </div>
                     </div>
@@ -1324,3 +1308,4 @@
 </body>
 
 </html>
+

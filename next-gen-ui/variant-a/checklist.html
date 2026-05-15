@@ -10,9 +10,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#f7f9fc">
+    <meta name="theme-color" content="#02235A">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="../images/Ps-pro-logo.png">
+    <link rel="apple-touch-icon" href="./images/Ps-pro-logo.png">
     <title>Checklist - Spatial iOS 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -74,10 +74,8 @@
             width: 100%;
             overflow: hidden;
             z-index: 1000;
-            background: rgba(247, 249, 252, 0.95);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+            background: var(--accent-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
             will-change: transform;
         }
@@ -102,20 +100,20 @@
         }
 
         .header-title-pill {
-            background: var(--pill-bg);
-            padding: 0 16px;
-            border-radius: 50px;
+            background: transparent;
+            padding: 0;
             display: flex;
             align-items: center;
             height: 40px;
-            box-shadow: var(--shadow-sm);
         }
 
         .header-title-pill h1 {
-            font-size: 15px;
+            font-size: 18px;
             font-weight: 800;
             letter-spacing: -0.3px;
             margin: 0;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
         }
 
         .header-actions {
@@ -143,7 +141,8 @@
         .action-item img {
             width: 16px;
             height: 16px;
-            opacity: 0.9;
+            filter: brightness(0);
+            opacity: 0.8;
         }
 
         /* Search Section - Exact Home Style */
@@ -169,8 +168,7 @@
         .search-input-wrapper img {
             width: 18px;
             height: 18px;
-            filter: invert(1) brightness(0) opacity(0.9);
-            /* FIXED SEARCH ICON */
+            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
             margin-right: 8px;
             flex-shrink: 0;
         }
