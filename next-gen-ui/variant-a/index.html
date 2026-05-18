@@ -222,7 +222,6 @@
         .search-input-wrapper>img {
             width: 18px;
             height: 18px;
-            filter: invert(1) brightness(0) opacity(0.9);
             margin-right: 8px;
             flex-shrink: 0;
         }
@@ -272,7 +271,7 @@
             width: 22px;
             height: 22px;
             opacity: 0.8;
-            filter: invert(1) brightness(0);
+            /* filter: invert(1) brightness(0); */
         }
 
         .sticky-tabs-container {
@@ -920,7 +919,8 @@
         .expand-indicator svg {
             width: 14px;
             height: 14px;
-            stroke: currentColor;
+            /* stroke: currentColor; */
+            stroke: var(--accent-blue);
             stroke-width: 3.5;
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -1151,7 +1151,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: var(--text-secondary);
+            color: var(--accent-blue);
             font-size: 16px;
             font-weight: bold;
         }
