@@ -28,6 +28,7 @@ const ASSETS = [
   './images/checklist.svg',
   './images/contact-us.svg',
   './images/megaphone.svg',
+  './images/megaphone-black.svg',
   './images/ps-podcast.svg',
   './images/tags.svg',
   './images/phone-call.svg'

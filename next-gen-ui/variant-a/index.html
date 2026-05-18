@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235A">
+    <meta name="theme-color" content="#466ba9">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./images/Ps-pro-logo.png">
     <title>Pocket App - Spatial iOS 2026</title>
@@ -19,13 +19,13 @@
         rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f7f9fc;
+            --bg-color: #e9f5ff;
             --card-bg: #ffffff;
             --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235A;
+            --accent-blue: #466ba9;
             --accent-slate: #475569;
             --pill-bg: #ffffff;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
@@ -182,11 +182,11 @@
         .action-item img {
             width: 16px;
             height: 16px;
-            opacity: 0.9;
+            opacity: 1;
         }
 
         .search-section {
-            padding: 4px 16px 12px;
+            padding: 4px 16px 0px;
             display: flex;
             gap: 12px;
             align-items: center;
@@ -307,7 +307,6 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 12px rgba(84, 110, 164, 0.15);
-            border-top: 1px solid rgb(255 255 255 / 40%);
         }
 
         .tab-indicator {
@@ -337,6 +336,23 @@
             color: #ffffff;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             min-width: 0;
+            position: relative;
+        }
+
+        .m-tab:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 25%;
+            height: 50%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.25);
+            transition: opacity 0.3s ease;
+        }
+
+        .m-tab.m-tab-active::after,
+        .m-tab:has(+ .m-tab-active)::after {
+            opacity: 0;
         }
 
         .m-tab span {
@@ -359,8 +375,7 @@
         }
 
         .m-tab.m-tab-active img {
-            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
-            transform: scale(1.1);
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
         }
 
         /* ----- Main Scrollable Content ----- */
@@ -391,8 +406,7 @@
             margin-bottom: 8px;
             position: sticky;
             top: calc(var(--safe-area-top) + 58px);
-            background: rgba(247, 249, 252, 0.85);
-            /* Matched to #f7f9fc variable */
+            background: var(--bg-color);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             z-index: 50;
@@ -554,7 +568,7 @@
 
         .cjs-reveal-btn {
             position: relative;
-            background: #f1f5f9;
+            background: var(--bg-color);
             border: 1px solid #e2e8f0;
             width: 28px;
             height: 28px;
@@ -578,7 +592,7 @@
         .cjs-reveal-btn img {
             width: 15px;
             height: 15px;
-            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
             transition: filter 0.2s;
         }
 
@@ -594,7 +608,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 0;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--bg-color);
             gap: 16px;
         }
 
@@ -613,13 +627,14 @@
         .cjs-sheet-code {
             background: var(--accent-blue);
             color: #ffffff;
-            padding: 6px 14px;
+            padding: 6px 0;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 700;
             letter-spacing: 0.5px;
             white-space: nowrap;
-            min-width: 80px;
+            width: 100px;
+            flex-shrink: 0;
             text-align: center;
             box-shadow: 0 2px 8px rgba(2, 35, 90, 0.2);
         }
@@ -673,7 +688,7 @@
 
         .star-btn,
         .pin-btn {
-            background: #f8fafc;
+            background: var(--bg-color);
             border: none;
             width: 28px;
             height: 28px;
@@ -686,8 +701,8 @@
         }
 
         .star-btn.active {
-            background: #FFD049;
-            box-shadow: 0 4px 10px rgba(255, 208, 73, 0.3);
+            background: #fec604;
+            box-shadow: 0 4px 10px rgba(254, 198, 4, 0.3);
         }
 
         .star-btn img {
@@ -1007,7 +1022,7 @@
         }
 
         .card-action-btn {
-            background: #f8fafc;
+            background: var(--bg-color);
             border: 1px solid #ebf0f5;
             width: 28px;
             height: 28px;
@@ -1023,15 +1038,15 @@
 
         .card-action-btn:active {
             transform: scale(0.9);
-            background: #f1f5f9;
+            background: var(--bg-color);
         }
 
         .card-action-btn img {
             width: 15px;
             height: 15px;
             object-fit: contain;
-            /* Precise filter for #02235A */
-            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
+            /* Precise filter for #466ba9 */
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
             transition: all 0.2s;
         }
 
@@ -1041,7 +1056,7 @@
         }
 
         .card-action-btn:hover img {
-            filter: brightness(0) saturate(100%) invert(41%) sepia(15%) saturate(1500%) hue-rotate(185deg) brightness(90%) contrast(90%);
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
         }
 
         .grid-view .card-actions {
@@ -1127,7 +1142,7 @@
         }
 
         .sheet-close-btn {
-            background: #f1f5f9;
+            background: var(--bg-color);
             border: none;
             width: 32px;
             height: 32px;
@@ -1264,7 +1279,7 @@
                                 <img src="../images/ai.svg" alt="AI Assistant">
                             </div>
                             <div class="action-item announcements">
-                                <img src="../images/megaphone.svg" alt="What's New">
+                                <img src="../images/megaphone-black.svg" alt="What's New">
                             </div>
                             <div class="action-item podcast">
                                 <img src="../images/ps-podcast.svg" alt="Podcast">
@@ -1366,7 +1381,7 @@
                         <div class="code-cta-row">
                             <button class="cjs-reveal-btn"
                                 data-cjs="FA06003|Fraud by abuse of position;FA06003A|Attempt fraud by abuse of position;FA06003C|Conspire to commit fraud by abuse of position">
-                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                                <img src="../images/icons/cjs-codes-up.svg" alt="CJS">
                             </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
@@ -1400,7 +1415,7 @@
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
                             <button class="cjs-reveal-btn">
-                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                                <img src="../images/icons/cjs-codes-up.svg" alt="CJS">
                             </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
@@ -1434,7 +1449,7 @@
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
                             <button class="cjs-reveal-btn">
-                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                                <img src="../images/icons/cjs-codes-up.svg" alt="CJS">
                             </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
@@ -1468,7 +1483,7 @@
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
                             <button class="cjs-reveal-btn">
-                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                                <img src="../images/icons/cjs-codes-up.svg" alt="CJS">
                             </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
@@ -1502,7 +1517,7 @@
                             causing harm to an organization, system, or individuals.</div>
                         <div class="code-cta-row">
                             <button class="cjs-reveal-btn">
-                                <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                                <img src="../images/icons/cjs-codes-up.svg" alt="CJS">
                             </button>
                             <div class="card-actions">
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
@@ -1533,7 +1548,7 @@
                         <div class="card-title">3x5x2 Intelligence Submission</div>
                         <div class="card-subtitle">Forces Gradually Adopting from April 2016</div>
                         <button class="cjs-reveal-btn">
-                            <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                            <img src="../images/icons/cjs-codes-up.svg" alt="CJS">
                         </button>
                     </div>
                     <div class="card-footer">
@@ -1554,7 +1569,7 @@
                         <div class="card-title">4 R's - Detained Person Observation List</div>
                         <div class="card-subtitle">PACE Code C - Annex H</div>
                         <button class="cjs-reveal-btn">
-                            <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                            <img src="../images/icons/cjs-codes-up.svg" alt="CJS">
                         </button>
                     </div>
                     <div class="card-footer">
@@ -1594,7 +1609,7 @@
                         <div class="card-title">5x5x5 Intelligence Submission</div>
                         <div class="card-subtitle">Source Grading</div>
                         <button class="cjs-reveal-btn">
-                            <img src="../images/icons/cjs-codes.svg" alt="CJS">
+                            <img src="../images/icons/cjs-codes-up.svg" alt="CJS">
                         </button>
                     </div>
                     <div class="card-footer">

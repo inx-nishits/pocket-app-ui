@@ -10,19 +10,19 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235A">
+    <meta name="theme-color" content="#466ba9">
     <link rel="manifest" href="manifest.json">
     <title>Checklist Detail - Spatial iOS 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f7f9fc;
+            --bg-color: #e9f5ff;
             --card-bg: #ffffff;
             --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235A;
+            --accent-blue: #466ba9;
             --accent-slate: #475569;
             --pill-bg: #ffffff;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
@@ -74,7 +74,7 @@
             transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 100;
             background: var(--accent-blue);
-            border-radius: 0 0 28px 28px;
+            border-radius: 0;
         }
 
         .detail-header-wrapper.header-hidden {
@@ -88,8 +88,8 @@
             padding-right: 16px;
             background: var(--accent-blue);
             color: #ffffff;
-            border-bottom-left-radius: 28px;
-            border-bottom-right-radius: 28px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.25),
                 0 4px 12px rgba(84, 110, 164, 0.15),
@@ -257,7 +257,7 @@
 
         /* Alternating Highlight Style from old UI */
         .check-item.highlight {
-            background-color: #f1f5f9;
+            background-color: var(--bg-color);
             /* Gentle blue-grey tint */
         }
 

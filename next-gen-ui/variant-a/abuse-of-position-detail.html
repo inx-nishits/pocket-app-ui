@@ -10,19 +10,19 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235A">
+    <meta name="theme-color" content="#466ba9">
     <link rel="manifest" href="manifest.json">
     <title>Abuse of Position - Case Files</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f7f9fc;
+            --bg-color: #e9f5ff;
             --card-bg: #ffffff;
             --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235A;
+            --accent-blue: #466ba9;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
             --safe-area-top: env(safe-area-inset-top, 24px);
             --safe-area-bottom: env(safe-area-inset-bottom, 24px);
@@ -72,7 +72,7 @@
             transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 100;
             background: var(--accent-blue);
-            border-radius: 0 0 28px 28px;
+            border-radius: 0;
         }
 
         .detail-header-wrapper.header-hidden {
@@ -86,8 +86,8 @@
             padding-right: 16px;
             background: var(--accent-blue);
             color: #ffffff;
-            border-bottom-left-radius: 28px;
-            border-bottom-right-radius: 28px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.25),
                 0 4px 12px rgba(84, 110, 164, 0.15),
@@ -208,7 +208,7 @@
         .content-section.is-open .accordion-bar {
             border-radius: 16px 16px 0 0;
             box-shadow: none;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--bg-color);
         }
 
         .accordion-bar::before {
@@ -228,7 +228,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f8fafc;
+            background: var(--bg-color);
             border-radius: 10px;
             border: 1px solid #ebf0f5;
             flex-shrink: 0;
@@ -237,14 +237,14 @@
         .case-icon-wrapper svg {
             width: 20px;
             height: 20px;
-            stroke: #02235A;
+            stroke: #466ba9;
             /* Theme Blue */
         }
 
         .accordion-bar .chevron-icon {
             width: 18px;
             height: 18px;
-            color: var(--text-dim);
+            color: var(--accent-blue);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -286,7 +286,7 @@
             font-size: 14px;
             font-weight: 500;
             color: var(--text-primary);
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--bg-color);
             transition: all 0.2s ease;
             cursor: pointer;
             line-height: 1.5;
@@ -300,11 +300,11 @@
         }
 
         .case-file-item:hover {
-            background-color: #f8fafc;
+            background-color: var(--bg-color);
         }
 
         .case-file-item:active {
-            background-color: #f1f5f9;
+            background-color: var(--bg-color);
             padding-left: 24px;
         }
 
@@ -318,7 +318,7 @@
         .case-file-item .chevron {
             margin-left: auto;
             align-self: center;
-            color: #94a3b8;
+            color: var(--accent-blue);
         }
 
         /* Professional White Detail Cards */
@@ -353,11 +353,11 @@
             font-weight: 800;
             font-size: 15px;
             letter-spacing: -0.3px;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--bg-color);
             position: relative;
             z-index: 2;
             border: 1px solid rgba(15, 23, 42, 0.05);
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--bg-color);
         }
 
         /* Left accent bar on header */
@@ -392,7 +392,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f8fafc;
+            background: var(--bg-color);
             border: 1px solid #ebf0f5;
             border-radius: 10px;
             flex-shrink: 0;
@@ -449,7 +449,7 @@
 
         /* Definition Sub-items Group Styling */
         .sub-item-group {
-            background: #f8fafc;
+            background: var(--bg-color);
             border-radius: 16px;
             margin-top: 16px;
             overflow: hidden;
@@ -465,6 +465,7 @@
             background: transparent;
             border-radius: 0;
             margin-top: 0;
+            margin-bottom: 0px;
             border: none;
             font-weight: 500;
             color: var(--text-primary);
@@ -499,7 +500,7 @@
             flex-direction: column;
             gap: 0;
             margin: 0px 0 12px;
-            background: #f8fafc;
+            background: var(--bg-color);
             border: none;
             border-radius: 16px;
             overflow: hidden;
@@ -511,7 +512,7 @@
             position: relative;
             padding: 16px 18px;
             padding-left: 52px;
-            background: #f8fafc;
+            background: var(--bg-color);
             border: 1px solid #edf2f7;
             border-radius: 12px;
             color: var(--text-primary);
@@ -555,7 +556,7 @@
             font-size: 11px;
             font-weight: 900;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            border: 1px solid #f1f5f9;
+            border: 1px solid var(--bg-color);
         }
 
         .points-content li::before {
@@ -594,7 +595,7 @@
             content: "";
             flex: 1;
             height: 1px;
-            background: #f1f5f9;
+            background: var(--bg-color);
         }
 
         .case-title {
@@ -610,7 +611,7 @@
 
         .case-divider {
             height: 2px;
-            background: #f8fafc;
+            background: var(--bg-color);
             border: none;
             margin: 30px 0;
             border-radius: 2px;
@@ -620,35 +621,44 @@
         .cjs-content {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 0;
+            padding-top: 0px;
         }
 
         .cjs-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
-            background: #ffffff;
-            border-radius: 14px;
-            border: 1px solid #f1f5f9;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            padding: 16px 0;
+            border-bottom: 1px solid var(--bg-color);
+            gap: 16px;
+        }
+
+        .cjs-item:last-child {
+            border-bottom: none;
         }
 
         .cjs-item span {
-            font-weight: 700;
-            font-size: 13.5px;
             color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            flex: 1;
         }
 
         .cjs-item strong {
-            background: #f8fafc;
-            color: var(--accent-blue);
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
-            font-size: 12px;
-            border: 1px solid #f1f5f9;
-            font-weight: 800;
+            background: var(--accent-blue);
+            color: #ffffff;
+            padding: 6px 0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            width: 100px;
+            flex-shrink: 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(2, 35, 90, 0.2);
         }
 
         /* More Section Specifics */
@@ -677,8 +687,8 @@
             width: 22px;
             height: 22px;
             object-fit: contain;
-            /* Precise filter for #02235A */
-            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
+            /* Precise filter for #466ba9 */
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
         }
 
         /* Points to Prove SVG specific */
@@ -688,7 +698,7 @@
         }
 
         .points-icon-wrapper svg path {
-            fill: #02235A !important;
+            fill: #466ba9 !important;
             /* Force Theme Blue */
         }
 
@@ -827,7 +837,6 @@
         }
     </style>
     <style>
-
         /* --- Spatial Progress Dock (FAB Premium Glass) --- */
         .nav-fab-container {
             position: absolute;
@@ -905,7 +914,7 @@
 
         .fab-secondary:active {
             transform: scale(0.92) translateY(2px);
-            background: #f1f5f9;
+            background: var(--bg-color);
         }
 
 
@@ -979,10 +988,10 @@
             transition: all 0.2s;
         }
 
-        /* Ensure Blue when inactive (#02235A) */
+        /* Ensure Blue when inactive (#466ba9) */
         .dock-item img {
-            /* Force to black first, then colorize to #02235A */
-            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
+            /* Force to black first, then colorize to #466ba9 */
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
         }
 
         .dock-item svg,
@@ -1084,7 +1093,7 @@
                 <div class="accordion-bar" onclick="toggleAccordion()">
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div class="case-icon-wrapper">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#02235A"
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#466ba9"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
@@ -1213,11 +1222,13 @@
                 <div class="definition-content">
                     <p><strong>(1)</strong> A person is in breach of this section if he:</p>
                     <div class="sub-item-group">
-                        <p class="sub-item"><strong>(a)</strong> occupies a position in which he is expected to safeguard,
+                        <p class="sub-item"><strong>(a)</strong> occupies a position in which he is expected to
+                            safeguard,
                             or not to act against, the financial interests of another person,</p>
                         <p class="sub-item"><strong>(b)</strong> abused that position</p>
                         <p class="sub-item"><strong>(c)</strong> dishonestly</p>
-                        <p class="sub-item"><strong>(d)</strong> intending by that abuse to make a gain / cause a loss</p>
+                        <p class="sub-item"><strong>(d)</strong> intending by that abuse to make a gain / cause a loss
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1229,10 +1240,10 @@
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M23.3145 3.28081C22.9614 2.92714 22.3886 2.92653 22.0355 3.27931L11.1843 14.1019L7.26917 9.84973C6.93087 9.48251 6.3589 9.4587 5.99108 9.79695C5.62353 10.1352 5.6 10.7075 5.93829 11.075L10.4911 16.0195C10.6578 16.2007 10.8912 16.3059 11.1372 16.311C11.1438 16.3113 11.1502 16.3113 11.1565 16.3113C11.3956 16.3113 11.6256 16.2163 11.7951 16.0475L23.3127 4.56007C23.6667 4.20734 23.6673 3.63448 23.3145 3.28081Z"
-                                fill="#02235A" />
+                                fill="#466ba9" />
                             <path
                                 d="M23.0955 11.0955C22.5959 11.0955 22.191 11.5004 22.191 12C22.191 17.6195 17.6195 22.191 12 22.191C6.38081 22.191 1.80905 17.6195 1.80905 12C1.80905 6.38081 6.38081 1.80905 12 1.80905C12.4996 1.80905 12.9045 1.40414 12.9045 0.904547C12.9045 0.404906 12.4996 0 12 0C5.38312 0 0 5.38312 0 12C0 18.6166 5.38312 24 12 24C18.6166 24 24 18.6166 24 12C24 11.5004 23.5951 11.0955 23.0955 11.0955Z"
-                                fill="#02235A" />
+                                fill="#466ba9" />
                         </svg>
                     </div>
                     <span>Points to Prove</span>
@@ -1409,7 +1420,7 @@
             <div class="cjs-section" id="cjsAnchor">
                 <div class="cjs-header">
                     <div class="cjs-icon-wrapper">
-                        <img src="../images/icons/cjs-codes.svg" alt="CJS Codes">
+                        <img src="../images/icons/cjs-codes-up.svg" alt="CJS Codes">
                     </div>
                     <span>CJS Codes</span>
                 </div>
@@ -1457,7 +1468,7 @@
                     <hr class="modal-divider">
 
                     <strong
-                        style="display: block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #02235A; margin-bottom: 8px;">ANTICIPATED
+                        style="display: block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #466ba9; margin-bottom: 8px;">ANTICIPATED
                         GUILTY PLEA (GAP) CASES - Initial Hearing - Police Charged</strong>
                     <p><strong>Is the anticipation of plea correct?</strong></p>
                     <p>A guilty plea may be anticipated where the suspect:</p>
@@ -1620,7 +1631,7 @@
                     <img src="../images/icons/more.svg">
                 </div>
                 <div class="dock-item" data-label="CJS Codes" onclick="jumpTo('cjsAnchor')">
-                    <img src="../images/icons/cjs-codes.svg">
+                    <img src="../images/icons/cjs-codes-up.svg">
                 </div>
             </div>
 
@@ -1735,17 +1746,17 @@
         }
 
 
-        (function () {
-            const s = document.querySelector('.scroller');
-            const h = document.getElementById('detailHeaderWrapper');
-            let lastY = 0;
-            s.addEventListener('scroll', () => {
-                let y = s.scrollTop;
-                if (Math.abs(y - lastY) < 10) return;
-                h.classList.toggle('header-hidden', y > 60 && y > lastY);
-                lastY = y;
-            }, { passive: true });
-        })();
+            (function () {
+                const s = document.querySelector('.scroller');
+                const h = document.getElementById('detailHeaderWrapper');
+                let lastY = 0;
+                s.addEventListener('scroll', () => {
+                    let y = s.scrollTop;
+                    if (Math.abs(y - lastY) < 10) return;
+                    h.classList.toggle('header-hidden', y > 60 && y > lastY);
+                    lastY = y;
+                }, { passive: true });
+            })();
     </script>
 
 </body>

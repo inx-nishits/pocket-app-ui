@@ -10,20 +10,20 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235A">
+    <meta name="theme-color" content="#466ba9">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="images/Ps-pro-logo.png">
     <title>Pocket App - Spatial iOS 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f7f9fc;
+            --bg-color: #e9f5ff;
             --card-bg: #ffffff;
             --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235A;
+            --accent-blue: #466ba9;
             --accent-slate: #475569;
             --pill-bg: #ffffff;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
@@ -169,7 +169,7 @@
         .action-item img {
             width: 20px;
             height: 20px;
-            opacity: 0.9;
+            opacity: 1;
         }
 
         .search-section {
@@ -274,7 +274,7 @@
 
         .magic-tabs-wrapper {
             margin: 0 20px;
-            background: #f1f5f9;
+            background: var(--bg-color);
             border-radius: 16px;
             padding: 6px;
             position: relative;
@@ -307,6 +307,23 @@
             z-index: 2;
             color: var(--text-secondary);
             transition: color 0.3s;
+            position: relative;
+        }
+
+        .m-tab:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 25%;
+            height: 50%;
+            width: 1px;
+            background: rgba(15, 23, 42, 0.12);
+            transition: opacity 0.3s ease;
+        }
+
+        .m-tab.m-tab-active::after,
+        .m-tab:has(+ .m-tab-active)::after {
+            opacity: 0;
         }
 
         .m-tab span {
@@ -324,11 +341,11 @@
         }
 
         .m-tab.m-tab-active {
-            color: var(--accent-slate);
+            color: var(--accent-blue);
         }
 
         .m-tab.m-tab-active img {
-            filter: brightness(0) saturate(100%) invert(31%) sepia(19%) saturate(464%) hue-rotate(176deg) brightness(95%) contrast(88%);
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
             transform: translateY(-2px);
         }
 
@@ -357,8 +374,7 @@
             padding: 20px 20px;
             position: sticky;
             top: calc(var(--safe-area-top) + 83px);
-            background: rgba(247, 249, 252, 0.85);
-            /* Matched to #f7f9fc variable */
+            background: rgba(233, 245, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             z-index: 50;
@@ -402,7 +418,7 @@
         }
 
         .view-btn.active {
-            background: #f1f5f9;
+            background: var(--bg-color);
             /* Soft, true neutral grey */
             color: #334155;
             /* Dark grey for contrast, not blue */
@@ -499,7 +515,7 @@
             font-size: 13px;
             font-weight: 600;
             color: #475569;
-            background: #f1f5f9;
+            background: var(--bg-color);
             padding: 4px 8px;
             border-radius: 6px;
             display: inline-block;
@@ -545,7 +561,7 @@
 
         .star-btn,
         .pin-btn {
-            background: #f8fafc;
+            background: var(--bg-color);
             border: none;
             width: 44px;
             height: 44px;
@@ -560,8 +576,8 @@
         }
 
         .star-btn.active {
-            background: #FFD049;
-            box-shadow: 0 4px 10px rgba(255, 208, 73, 0.3);
+            background: #fec604;
+            box-shadow: 0 4px 10px rgba(254, 198, 4, 0.3);
         }
 
         .star-btn img {
@@ -1037,7 +1053,7 @@
         }
 
         .menu-list-item:active {
-            background: #f8fafc;
+            background: var(--bg-color);
         }
 
         .menu-list-item-icon {
@@ -1046,7 +1062,7 @@
             min-width: 44px;
             min-height: 44px;
             border-radius: 12px;
-            background: #f1f5f9;
+            background: var(--bg-color);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1083,7 +1099,6 @@
             opacity: 0.7;
             display: block;
         }
-
     </style>
 </head>
 
@@ -1096,7 +1111,7 @@
         <!-- Menu Overlay Screen -->
         <!-- Menu Overlay Screen -->
         <div class="menu-screen" id="menu-screen">
-            
+
             <!-- Fixed Header Segment (Hide on scroll) -->
             <div class="header-wrapper" id="headerWrapper">
                 <div class="menu-header">
@@ -1117,11 +1132,13 @@
                     <h3 class="menu-section-title">Top Features</h3>
                     <div class="menu-grid">
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/app_incubator.png" alt="App Incubator"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/app_incubator.png"
+                                    alt="App Incubator"></div>
                             <span>App Incubator</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/find-a-mispar.png" alt="Find a Misper"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/find-a-mispar.png"
+                                    alt="Find a Misper"></div>
                             <span>Find a Misper</span>
                         </div>
                         <div class="menu-card">
@@ -1129,15 +1146,18 @@
                             <span>Books</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/reference-library.png" alt="Reference Library"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/reference-library.png"
+                                    alt="Reference Library"></div>
                             <span>Reference Library</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/hughes-guides.png" alt="Hughes Guides"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/hughes-guides.png"
+                                    alt="Hughes Guides"></div>
                             <span>Hughes Guides</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/vehicle-check.png" alt="Vehicle Check"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/vehicle-check.png"
+                                    alt="Vehicle Check"></div>
                             <span>Vehicle Check</span>
                         </div>
                         <div class="menu-card">
@@ -1151,15 +1171,18 @@
                             <span>PND Codes</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/what-three-words.png" alt="What3Words"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/what-three-words.png"
+                                    alt="What3Words"></div>
                             <span>What3Words</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/cake-offences.png" alt="Cake Offences"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/cake-offences.png"
+                                    alt="Cake Offences"></div>
                             <span>Cake Offences</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/police-regulation.png" alt="Police Regulations"></div>
+                            <div class="menu-card-icon"><img src="../images/menu_icons/police-regulation.png"
+                                    alt="Police Regulations"></div>
                             <span>Police Regulations</span>
                         </div>
                         <div class="menu-card">
@@ -1171,20 +1194,24 @@
                         <!-- Hidden Features -->
                         <div class="hidden-features" id="hidden-features">
                             <div class="menu-card">
-                                <div class="menu-card-icon"><img src="../images/menu_icons/case-file.png" alt="Case Files"></div>
+                                <div class="menu-card-icon"><img src="../images/menu_icons/case-file.png"
+                                        alt="Case Files"></div>
                                 <span>Case Files</span>
                             </div>
                             <div class="menu-card">
-                                <div class="menu-card-icon"><img src="../images/menu_icons/self-care.png" alt="Self-Care"></div>
+                                <div class="menu-card-icon"><img src="../images/menu_icons/self-care.png"
+                                        alt="Self-Care"></div>
                                 <span>Self-Care</span>
                             </div>
                             <div class="menu-card">
-                                <div class="menu-card-icon"><img src="../images/menu_icons/get-in-touch.png" alt="Get in touch">
+                                <div class="menu-card-icon"><img src="../images/menu_icons/get-in-touch.png"
+                                        alt="Get in touch">
                                 </div>
                                 <span>Get in touch</span>
                             </div>
                             <div class="menu-card">
-                                <div class="menu-card-icon"><img src="../images/menu_icons/notifications.png" alt="Notifications">
+                                <div class="menu-card-icon"><img src="../images/menu_icons/notifications.png"
+                                        alt="Notifications">
                                 </div>
                                 <span>Notifications</span>
                             </div>
@@ -1205,16 +1232,19 @@
                     <h3 class="menu-section-title">Support & Information</h3>
                     <div class="menu-list">
                         <div class="menu-list-item">
-                            <div class="menu-list-item-icon"><img src="../images/menu_icons/subscription.png" alt="Subscription"></div>
+                            <div class="menu-list-item-icon"><img src="../images/menu_icons/subscription.png"
+                                    alt="Subscription"></div>
                             <span>Subscription</span>
                         </div>
                         <div class="menu-list-item">
-                            <div class="menu-list-item-icon"><img src="../images/menu_icons/dark-mode.png" alt="Dark Mode">
+                            <div class="menu-list-item-icon"><img src="../images/menu_icons/dark-mode.png"
+                                    alt="Dark Mode">
                             </div>
                             <span>Dark Mode</span>
                         </div>
                         <div class="menu-list-item">
-                            <div class="menu-list-item-icon"><img src="../images/menu_icons/check-updates.png" alt="Check for Updates"></div>
+                            <div class="menu-list-item-icon"><img src="../images/menu_icons/check-updates.png"
+                                    alt="Check for Updates"></div>
                             <span>Check for Updates</span>
                         </div>
                     </div>
@@ -1279,7 +1309,7 @@
                     window.requestAnimationFrame(() => {
                         const currentScrollY = scroller.scrollTop;
                         const delta = currentScrollY - lastScrollY;
-                        
+
                         if (Math.abs(delta) > 5) {
                             // Header Hide on Scroll Down, Show on Scroll Up
                             const scrollingDown = delta > 0;
@@ -1308,4 +1338,3 @@
 </body>
 
 </html>
-

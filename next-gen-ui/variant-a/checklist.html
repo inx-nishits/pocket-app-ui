@@ -10,20 +10,20 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Pocket App">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#02235A">
+    <meta name="theme-color" content="#466ba9">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./images/Ps-pro-logo.png">
     <title>Checklist - Spatial iOS 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f7f9fc;
+            --bg-color: #e9f5ff;
             --card-bg: #ffffff;
             --text-primary: #0f172a;
             --text-secondary: #475569;
             --text-dim: #94a3b8;
             --border-color: #e2e8f0;
-            --accent-blue: #02235A;
+            --accent-blue: #466ba9;
             --accent-slate: #475569;
             --pill-bg: #ffffff;
             --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
@@ -141,8 +141,7 @@
         .action-item img {
             width: 16px;
             height: 16px;
-            filter: brightness(0);
-            opacity: 0.8;
+            opacity: 1;
         }
 
         /* Search Section - Exact Home Style */
@@ -168,7 +167,7 @@
         .search-input-wrapper img {
             width: 18px;
             height: 18px;
-            filter: brightness(0) saturate(100%) invert(10%) sepia(85%) saturate(2782%) hue-rotate(215deg) brightness(91%) contrast(104%);
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
             margin-right: 8px;
             flex-shrink: 0;
         }
@@ -221,8 +220,7 @@
             position: sticky;
             top: 0;
             z-index: 50;
-            background: rgba(247, 249, 252, 0.85);
-            /* matches --bg-color */
+            background: var(--bg-color);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
@@ -237,7 +235,7 @@
         .category-line {
             flex: 1;
             height: 1px;
-            background: rgba(15, 23, 42, 0.05);
+            background: rgb(70 107 169 / 30%);
         }
 
         /* Items Grid / List */
@@ -271,7 +269,7 @@
             width: 44px;
             height: 44px;
             border-radius: 12px;
-            background: #f1f5f9;
+            background: var(--bg-color);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -467,8 +465,7 @@
                 <div class="category-line"></div>
             </div>
             <div class="items-container">
-                <a href="abuse-of-position-detail.html"
-                    class="checklist-card">
+                <a href="abuse-of-position-detail.html" class="checklist-card">
                     <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
                     <div class="content-box">
                         <span class="item-title">Abuse of Position</span>
@@ -831,17 +828,17 @@
                     window.requestAnimationFrame(() => {
                         const currentScrollY = scroller.scrollTop;
                         const delta = currentScrollY - lastScrollY;
-                        
+
                         if (Math.abs(delta) > 5) {
                             // Hiding condition
                             if (currentScrollY > 100 && delta > 5) {
                                 headerWrapper.classList.add('header-hidden');
-                            } 
+                            }
                             // Showing condition (intentional scroll up)
                             else if (delta < -10 || currentScrollY < 20) {
                                 headerWrapper.classList.remove('header-hidden');
                             }
-                            
+
                             // Bottom Nav hide/show
                             if (delta > 5 && currentScrollY > 100) {
                                 document.body.classList.add('nav-hidden');
@@ -861,4 +858,5 @@
     </script>
 
 </body>
+
 </html>
