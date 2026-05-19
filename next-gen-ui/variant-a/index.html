@@ -569,8 +569,8 @@
             position: relative;
             background: var(--bg-color);
             border: 1px solid #e2e8f0;
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 6px;
             display: inline-flex;
             align-items: center;
@@ -589,8 +589,8 @@
         }
 
         .cjs-reveal-btn img {
-            width: 15px;
-            height: 15px;
+            width: 18px;
+            height: 18px;
             filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
             transition: filter 0.2s;
         }
@@ -640,15 +640,15 @@
 
         /* Grid View Precision */
         .grid-view .code-cta-row .cjs-reveal-btn {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 6px;
             margin-bottom: 0 !important;
         }
 
         .grid-view .code-cta-row .cjs-reveal-btn img {
-            width: 15px;
-            height: 15px;
+            width: 18px;
+            height: 18px;
         }
 
 
@@ -737,10 +737,11 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
-            padding: 8px 12px;
-            border-radius: 40px;
+            height: 54px;
+            padding: 0 24px;
+            border-radius: 27px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow:
                 0 12px 32px -8px rgba(15, 23, 42, 0.3),
@@ -751,9 +752,9 @@
         .nav-btn {
             background: transparent;
             border: none;
-            height: 50px;
-            width: 50px;
-            border-radius: 25px;
+            height: 38px;
+            width: 38px;
+            border-radius: 19px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -763,7 +764,7 @@
 
         .nav-btn.active {
             background: #ffffff;
-            width: 80px;
+            width: 60px;
         }
 
         .nav-btn img {
@@ -883,8 +884,8 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             display: none;
             align-items: center;
             justify-content: center;
@@ -984,15 +985,15 @@
         }
 
         .grid-view .code-cta-row .cjs-reveal-btn {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 6px;
             margin-bottom: 0 !important;
         }
 
         .grid-view .code-cta-row .cjs-reveal-btn img {
-            width: 15px;
-            height: 15px;
+            width: 18px;
+            height: 18px;
         }
 
         /* Smooth metadata hide/show in default list view */
@@ -1021,8 +1022,8 @@
         .card-action-btn {
             background: var(--bg-color);
             border: 1px solid #ebf0f5;
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 6px;
             display: flex;
             justify-content: center;
@@ -1039,8 +1040,8 @@
         }
 
         .card-action-btn img {
-            width: 15px;
-            height: 15px;
+            width: 18px;
+            height: 18px;
             object-fit: contain;
             /* Precise filter for #466ba9 */
             filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
@@ -1061,14 +1062,14 @@
         }
 
         .grid-view .card-action-btn {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 6px;
         }
 
         .grid-view .card-action-btn img {
-            width: 15px;
-            height: 15px;
+            width: 18px;
+            height: 18px;
         }
     </style>
     <style>
@@ -1384,8 +1385,14 @@
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
+                                <button class="card-action-btn" data-type="powers-and-punishment" aria-label="Powers and Punishment">
+                                    <img src="../images/icons/powers-and-punishment.svg" alt="Powers">
+                                </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
                                     <img src="../images/icons/points-to-prove.svg" alt="PTP">
+                                </button>
+                                <button class="card-action-btn" data-type="crime-report" aria-label="Crime Report">
+                                    <img src="../images/icons/crime-report.svg" alt="Report">
                                 </button>
                             </div>
                         </div>
@@ -1418,8 +1425,14 @@
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
+                                <button class="card-action-btn" data-type="powers-and-punishment" aria-label="Powers and Punishment">
+                                    <img src="../images/icons/powers-and-punishment.svg" alt="Powers">
+                                </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
                                     <img src="../images/icons/points-to-prove.svg" alt="PTP">
+                                </button>
+                                <button class="card-action-btn" data-type="crime-report" aria-label="Crime Report">
+                                    <img src="../images/icons/crime-report.svg" alt="Report">
                                 </button>
                             </div>
                         </div>
@@ -1452,8 +1465,14 @@
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
+                                <button class="card-action-btn" data-type="powers-and-punishment" aria-label="Powers and Punishment">
+                                    <img src="../images/icons/powers-and-punishment.svg" alt="Powers">
+                                </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
                                     <img src="../images/icons/points-to-prove.svg" alt="PTP">
+                                </button>
+                                <button class="card-action-btn" data-type="crime-report" aria-label="Crime Report">
+                                    <img src="../images/icons/crime-report.svg" alt="Report">
                                 </button>
                             </div>
                         </div>
@@ -1486,8 +1505,14 @@
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
+                                <button class="card-action-btn" data-type="powers-and-punishment" aria-label="Powers and Punishment">
+                                    <img src="../images/icons/powers-and-punishment.svg" alt="Powers">
+                                </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
                                     <img src="../images/icons/points-to-prove.svg" alt="PTP">
+                                </button>
+                                <button class="card-action-btn" data-type="crime-report" aria-label="Crime Report">
+                                    <img src="../images/icons/crime-report.svg" alt="Report">
                                 </button>
                             </div>
                         </div>
@@ -1520,8 +1545,14 @@
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
+                                <button class="card-action-btn" data-type="powers-and-punishment" aria-label="Powers and Punishment">
+                                    <img src="../images/icons/powers-and-punishment.svg" alt="Powers">
+                                </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
                                     <img src="../images/icons/points-to-prove.svg" alt="PTP">
+                                </button>
+                                <button class="card-action-btn" data-type="crime-report" aria-label="Crime Report">
+                                    <img src="../images/icons/crime-report.svg" alt="Report">
                                 </button>
                             </div>
                         </div>
@@ -2429,6 +2460,66 @@
                                 <p style="margin-top: 6px;"><strong>(b)</strong> abused that position</p>
                                 <p style="margin-top: 6px;"><strong>(c)</strong> dishonestly</p>
                                 <p style="margin-top: 6px;"><strong>(d)</strong> intending by that abuse to make a gain / cause a loss</p>
+                            </div>
+                        </div>`
+                },
+
+                "powers-and-punishment": {
+                    title: 'Powers & Punishment',
+                    content: `
+                        <div class="announcement-item">
+                            <div class="announcement-desc">
+                                <p style="margin-bottom: 10px;"><strong>Fraud Act 2006, Section 4</strong></p>
+                                <p><strong>Maximum Sentence:</strong></p>
+                                <ul style="list-style: none; padding-left: 0; margin: 6px 0 12px 0;">
+                                    <li style="margin-bottom: 4px; position: relative; padding-left: 20px;">
+                                        <span style="position: absolute; left: 0; color: var(--accent-blue);">•</span>
+                                        <strong>Summary:</strong> 12 months' imprisonment or a fine, or both
+                                    </li>
+                                    <li style="margin-bottom: 4px; position: relative; padding-left: 20px;">
+                                        <span style="position: absolute; left: 0; color: var(--accent-blue);">•</span>
+                                        <strong>Indictment:</strong> 10 years' imprisonment or a fine, or both
+                                    </li>
+                                </ul>
+                                <p><strong>Police Powers:</strong></p>
+                                <ul style="list-style: none; padding-left: 0; margin: 6px 0 0 0;">
+                                    <li style="position: relative; padding-left: 20px;">
+                                        <span style="position: absolute; left: 0; color: var(--accent-blue);">•</span>
+                                        Indictable offence - Power of arrest under PACE Section 24.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>`
+                },
+
+                "crime-report": {
+                    title: 'Crime Report',
+                    content: `
+                        <div class="announcement-item">
+                            <div class="announcement-desc">
+                                <p style="margin-bottom: 10px;"><strong>National Crime Recording Standards (NCRS)</strong></p>
+                                <p><strong>Recording Classifications:</strong></p>
+                                <ul style="list-style: none; padding-left: 0; margin: 6px 0 12px 0;">
+                                    <li style="margin-bottom: 4px; position: relative; padding-left: 20px;">
+                                        <span style="position: absolute; left: 0; color: var(--accent-blue);">•</span>
+                                        <strong>Home Office Code:</strong> 115/21
+                                    </li>
+                                    <li style="margin-bottom: 4px; position: relative; padding-left: 20px;">
+                                        <span style="position: absolute; left: 0; color: var(--accent-blue);">•</span>
+                                        <strong>Offence Title:</strong> Fraud by Abuse of Position
+                                    </li>
+                                    <li style="margin-bottom: 4px; position: relative; padding-left: 20px;">
+                                        <span style="position: absolute; left: 0; color: var(--accent-blue);">•</span>
+                                        <strong>Recording Category:</strong> Fraud Act Offence
+                                    </li>
+                                </ul>
+                                <p><strong>Reporting Guidance:</strong></p>
+                                <ul style="list-style: none; padding-left: 0; margin: 6px 0 0 0;">
+                                    <li style="position: relative; padding-left: 20px;">
+                                        <span style="position: absolute; left: 0; color: var(--accent-blue);">•</span>
+                                        All reports of fraud should be referred to Action Fraud unless there is a known local suspect or vulnerable victim.
+                                    </li>
+                                </ul>
                             </div>
                         </div>`
                 },
