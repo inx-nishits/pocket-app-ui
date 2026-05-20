@@ -977,8 +977,38 @@
 
         /* Keep CTA compact in 2-column grid cards */
         .grid-view .code-cta-row {
-            flex-wrap: wrap;
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr);
             gap: 6px;
+            width: 100%;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+
+        .grid-view .card-actions {
+            display: contents;
+        }
+
+        .grid-view .code-cta-row .card-action-btn {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: 1 / 1 !important;
+            border-radius: 6px;
+        }
+
+        .grid-view .code-cta-row .cjs-reveal-btn {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: 1 / 1 !important;
+            border-radius: 6px;
+            margin-left: 0;
+            margin-bottom: 0 !important;
+        }
+
+        .grid-view .code-cta-row .card-action-btn img,
+        .grid-view .code-cta-row .cjs-reveal-btn img {
+            width: 16px !important;
+            height: 16px !important;
         }
 
         .grid-view .ptp-cta {
@@ -1010,9 +1040,40 @@
         }
 
         .list-view .card.expanded .code-cta-row {
-            max-height: 40px;
+            max-height: 120px;
             opacity: 1;
             margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: calc(100% + 40px);
+            margin-right: -40px;
+            gap: 8px;
+        }
+
+        .list-view .card.expanded .card-actions {
+            display: contents; /* Direct flex siblings layout */
+        }
+
+        .list-view .card.expanded .card-action-btn {
+            flex: 1 1 0%;
+            width: auto;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+            border: 1px solid #ebf0f5;
+        }
+
+        .list-view .card.expanded .cjs-reveal-btn {
+            flex: 1 1 0%;
+            width: auto;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+            border: 1px solid #e2e8f0;
+            margin-left: 0;
         }
 
         /* ----- Multi-Action Icons ----- */
