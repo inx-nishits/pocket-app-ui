@@ -1224,30 +1224,94 @@
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
-            padding: 0 20px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0 20px 60px;
         }
 
         .sheet-content::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-            display: block;
+            display: none;
         }
 
-        .sheet-content::-webkit-scrollbar-track {
-            background: transparent;
+        /* ----- Premium Scroll Indicators & Fade overlays ----- */
+        .sheet-fade-overlay {
+            position: absolute;
+            bottom: calc(var(--safe-area-bottom) + 20px);
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .sheet-content::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.35);
-            border: 2.5px solid transparent;
-            border-radius: 10px;
-            background-clip: padding-box;
+        .sheet-fade-overlay.visible {
+            opacity: 1;
         }
 
-        .sheet-content::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(0, 0, 0, 0.5);
+        .scroll-indicator-wrap {
+            position: absolute;
+            bottom: calc(var(--safe-area-bottom) + 25px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            z-index: 11;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .scroll-indicator-wrap.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .scroll-indicator-btn {
+            background: rgba(241, 245, 249, 0.9);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 8px 16px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .scroll-indicator-btn:active {
+            transform: scale(0.95);
+            background: rgba(226, 232, 240, 0.95);
+        }
+
+        .scroll-indicator-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #466ba9;
+            animation: bounce-chevron 1.6s infinite ease-in-out;
+        }
+
+        .scroll-indicator-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.2px;
+        }
+
+        @keyframes bounce-chevron {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(3px);
+            }
         }
 
         .announcement-item {
@@ -2257,6 +2321,18 @@
                     </div>
                 </div>
             </div>
+            <!-- Fade overlay and scroll indicator -->
+            <div class="sheet-fade-overlay"></div>
+            <div class="scroll-indicator-wrap">
+                <div class="scroll-indicator-btn">
+                    <span class="scroll-indicator-icon">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M7 13l5 5 5-5M7 7l5 5 5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        </svg>
+                    </span>
+                    <span class="scroll-indicator-text">Scroll for more</span>
+                </div>
+            </div>
         </div>
         <!-- Points to Prove Bottom Sheet -->
         <div class="bottom-sheet-overlay" id="ptpSheetOverlay"></div>
@@ -2278,6 +2354,18 @@
                     </div>
                 </div>
             </div>
+            <!-- Fade overlay and scroll indicator -->
+            <div class="sheet-fade-overlay"></div>
+            <div class="scroll-indicator-wrap">
+                <div class="scroll-indicator-btn">
+                    <span class="scroll-indicator-icon">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M7 13l5 5 5-5M7 7l5 5 5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        </svg>
+                    </span>
+                    <span class="scroll-indicator-text">Scroll for more</span>
+                </div>
+            </div>
         </div>
 
         <!-- CJS Codes Bottom Sheet -->
@@ -2289,6 +2377,18 @@
             </div>
             <div class="sheet-content cjs-sheet-content" id="cjsSheetContent">
                 <!-- Content injected via JS -->
+            </div>
+            <!-- Fade overlay and scroll indicator -->
+            <div class="sheet-fade-overlay"></div>
+            <div class="scroll-indicator-wrap">
+                <div class="scroll-indicator-btn">
+                    <span class="scroll-indicator-icon">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M7 13l5 5 5-5M7 7l5 5 5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        </svg>
+                    </span>
+                    <span class="scroll-indicator-text">Scroll for more</span>
+                </div>
             </div>
         </div>
 
@@ -2474,6 +2574,42 @@
     <script>
         // Bottom Sheet Logic for Announcements
         document.addEventListener('DOMContentLoaded', () => {
+            // Scroll indicator dynamic updater
+            function updateScrollIndicator(sheetElement) {
+                const content = sheetElement.querySelector('.sheet-content');
+                const indicator = sheetElement.querySelector('.scroll-indicator-wrap');
+                const fade = sheetElement.querySelector('.sheet-fade-overlay');
+                if (!content || !indicator) return;
+
+                function checkScroll() {
+                    const isScrollable = content.scrollHeight > content.clientHeight + 10;
+                    const isAtBottom = content.scrollTop + content.clientHeight >= content.scrollHeight - 15;
+
+                    if (isScrollable && !isAtBottom) {
+                        indicator.classList.add('visible');
+                        if (fade) fade.classList.add('visible');
+                    } else {
+                        indicator.classList.remove('visible');
+                        if (fade) fade.classList.remove('visible');
+                    }
+                }
+
+                content.scrollTop = 0;
+                setTimeout(checkScroll, 100);
+
+                content.removeEventListener('scroll', checkScroll);
+                content.addEventListener('scroll', checkScroll);
+
+                const btn = indicator.querySelector('.scroll-indicator-btn');
+                if (btn) {
+                    btn.onclick = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        content.scrollBy({ top: 180, behavior: 'smooth' });
+                    };
+                }
+            }
+
             const announcementsBtn = document.querySelector('.action-item.announcements');
             const sheetOverlay = document.getElementById('announcementsSheetOverlay');
             const bottomSheet = document.getElementById('announcementsSheet');
@@ -2485,6 +2621,7 @@
                     sheetOverlay.classList.add('active');
                     bottomSheet.classList.add('active');
                     bottomSheet.style.transform = ''; // Reset transform on open
+                    updateScrollIndicator(bottomSheet);
                 }
 
                 function closeSheet() {
@@ -2690,6 +2827,7 @@
                     ptpSheetOverlay.classList.add('active');
                     ptpBottomSheet.classList.add('active');
                     ptpBottomSheet.style.transform = ''; // Reset transform on open
+                    updateScrollIndicator(ptpBottomSheet);
                 }
 
                 function closePtpSheet() {
@@ -2788,6 +2926,7 @@
                     cjsSheetOverlay.classList.add('active');
                     cjsBottomSheet.classList.add('active');
                     cjsBottomSheet.style.transform = '';
+                    updateScrollIndicator(cjsBottomSheet);
                 }
 
                 function closeCjsSheet() {
