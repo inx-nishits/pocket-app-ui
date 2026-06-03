@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <title>Mental Capacity Act - 5 Principles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #e9f5ff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent-blue: #466ba9;
+            --border-color: #e2e8f0;
+            --safe-area-top: env(safe-area-inset-top, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            background: var(--accent-blue);
+            border-radius: 0 0 28px 28px;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 16px);
+            padding-bottom: 12px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                0 4px 12px rgba(84, 110, 164, 0.15),
+                0 2px 4px rgba(0, 0, 0, 0.06);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            min-width: 0;
+            padding: 0 8px;
+            text-align: center;
+        }
+
+        .title-block h1 {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.2px;
+            margin: 0;
+        }
+
+        .title-block p {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 4px 0 0;
+        }
+
+        .scroller {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px 100px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin: 32px 0 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .section-title:first-child { margin-top: 0; }
+
+        p { margin-bottom: 16px; font-size: 15px; }
+
+        .principle-box {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .principle-num {
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .principle-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        @media (min-width: 500px) {
+            body { background: #e2e8f0; padding: 40px 0; }
+            .app-container {
+                max-width: 430px; border-radius: 50px; height: 932px;
+                border: 12px solid #000; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+                margin: 0 auto;
+                background: var(--bg-color);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <div class="header-nav">
+                    <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='index.html'">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="title-block">
+                        <h1>Mental Capacity Act</h1>
+                        <p>5 Statutory Principles</p>
+                    </div>
+                    <div style="width: 40px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroller">
+            <p>The Mental Capacity Act 2005 (MCA) provides a legal framework for making decisions on behalf of people who for any reason lack the mental capacity to make their own decisions.</p>
+            
+            <h2 class="section-title">The 5 Statutory Principles</h2>
+            
+            <div class="principle-box">
+                <span class="principle-num">Principle 1</span>
+                <span class="principle-title">Presumption of Capacity</span>
+                <p>A person must be assumed to have capacity unless it is established that they lack capacity. You cannot assume a person lacks capacity just because of their age, disability, appearance or condition.</p>
+            </div>
+
+            <div class="principle-box">
+                <span class="principle-num">Principle 2</span>
+                <span class="principle-title">Support to Make Decisions</span>
+                <p>A person is not to be treated as unable to make a decision unless all practicable steps to help them to do so have been taken without success. This might involve using different communication methods or choosing a specific time of day.</p>
+            </div>
+
+            <div class="principle-box">
+                <span class="principle-num">Principle 3</span>
+                <span class="principle-title">Unwise Decisions</span>
+                <p>A person is not to be treated as unable to make a decision merely because they make an unwise decision. People have the right to make choices that others might think are strange or risky, provided they have the capacity to understand the risks.</p>
+            </div>
+
+            <div class="principle-box">
+                <span class="principle-num">Principle 4</span>
+                <span class="principle-title">Best Interests</span>
+                <p>An act done, or decision made, under this Act for or on behalf of a person who lacks capacity must be done, or made, in their best interests. This involves consulting with family, friends, and considering the person's past wishes or values.</p>
+            </div>
+
+            <div class="principle-box">
+                <span class="principle-num">Principle 5</span>
+                <span class="principle-title">Least Restrictive Option</span>
+                <p>Before the act is done, or the decision is made, regard must be had to whether the purpose for which it is needed can be as effectively achieved in a way that is less restrictive of the person's rights and freedom of action.</p>
+            </div>
+
+            <h2 class="section-title">The Two-Stage Functional Test</h2>
+            <p>To establish if a person lacks capacity, you must apply the functional test:</p>
+            <ol style="margin-top: 12px; padding-left: 20px;">
+                <li>Does the person have an impairment of, or a disturbance in the functioning of, the mind or brain?</li>
+                <li>Does that impairment or disturbance mean the person is unable to make the specific decision at the time it needs to be made?</li>
+            </ol>
+        </div>
+    </div>
+
+</body>
+
+</html>

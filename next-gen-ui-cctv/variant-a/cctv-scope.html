@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="./images/Ps-pro-logo.png">
+    <title>New CCTV Scope - Pocket App</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #e9f5ff;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #466ba9;
+            --accent-slate: #475569;
+            --pill-bg: #ffffff;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.12);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            color: var(--text-primary);
+            overflow: hidden;
+            overscroll-behavior-y: none;
+        }
+
+        html {
+            height: -webkit-fill-available;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ----- Detail Header ----- */
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            background: var(--accent-blue);
+            border-radius: 0;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 16px);
+            padding-bottom: 12px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                0 4px 12px rgba(84, 110, 164, 0.15),
+                0 2px 4px rgba(0, 0, 0, 0.06);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            min-width: 0;
+            padding: 0 8px;
+            text-align: center;
+        }
+
+        .title-block h1 {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.2px;
+            margin: 0;
+        }
+
+        .title-block p {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 4px 0 0;
+        }
+
+        /* ----- Main Scrollable Content ----- */
+        .scroller {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px 0 140px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        .content-section {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+        }
+
+        /* ----- iOS Settings-Style Form List cells ----- */
+        .form-list {
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(15, 23, 42, 0.05);
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+
+        .form-list-header {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 16px 16px 8px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--bg-color);
+        }
+
+        .form-cell {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--bg-color);
+            transition: background-color 0.2s;
+            position: relative;
+        }
+
+        .form-cell:last-child {
+            border-bottom: none;
+        }
+
+        .form-cell:focus-within {
+            background-color: rgba(70, 107, 169, 0.015);
+        }
+
+        .form-cell-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(70, 107, 169, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            flex-shrink: 0;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .form-cell:focus-within .form-cell-icon {
+            background-color: var(--accent-blue);
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .form-cell-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2.25;
+            fill: none;
+        }
+
+        .form-cell-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .form-cell-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+            transition: color 0.2s;
+        }
+
+        .form-cell:focus-within .form-cell-label {
+            color: var(--accent-blue);
+        }
+
+        .form-cell-input, .form-cell-select, .form-cell-textarea {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            outline: none;
+            padding: 2px 0;
+        }
+
+        .form-cell-input::placeholder, .form-cell-textarea::placeholder {
+            color: var(--text-dim);
+            font-weight: 400;
+        }
+
+        .form-cell-textarea {
+            resize: none;
+            height: 64px;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .form-cell-action-btn {
+            background: rgba(70, 107, 169, 0.08);
+            border: 1px solid rgba(70, 107, 169, 0.15);
+            border-radius: 8px;
+            height: 36px;
+            width: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--accent-blue);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .form-cell-action-btn:active {
+            transform: scale(0.92);
+            background: rgba(70, 107, 169, 0.16);
+        }
+
+        .form-cell-action-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2.25;
+            fill: none;
+        }
+
+        /* ----- Sticky Footer ----- */
+        .sticky-footer-btn {
+            width: 100%;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(70, 107, 169, 0.3);
+            transition: transform 0.2s, background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .sticky-footer-btn:active {
+            transform: scale(0.98);
+            background-color: #3b5c92;
+        }
+
+        /* Spinner Animation */
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 150;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -35;
+            }
+            100% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -124;
+            }
+        }
+
+        /* ----- Desktop Frame Mockup ----- */
+        @media (min-width: 500px) {
+            body {
+                padding: 40px 0;
+                background-color: #e2e8f0;
+                overflow: auto;
+            }
+
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                border: 12px solid #000;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- Header -->
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <div class="header-nav">
+                    <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='cctv-hub.html'">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="title-block">
+                        <h1>New CCTV Scope</h1>
+                        <p>CCTV Survey & Scoping Form</p>
+                    </div>
+                    <div style="width: 40px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable content area -->
+        <div class="scroller">
+                
+            <!-- Card 1: Location & Contact Details -->
+            <div class="content-section">
+                <div class="form-list">
+                    <div class="form-list-header">Location Details</div>
+                    
+                    <!-- Operation Name -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Operation Name</label>
+                            <input type="text" class="form-cell-input" placeholder="e.g. Op Sunrise">
+                        </div>
+                    </div>
+
+                    <!-- Officer Completing -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M8.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM17 11h6M20 8v6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Officer Completing (Name/Number)</label>
+                            <input type="text" class="form-cell-input" placeholder="e.g. PC 1234 Smith">
+                        </div>
+                    </div>
+
+                    <!-- Premises Name -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 21h18M3 7v14M21 7v14M12 3h6v4h-6zM8 11h2v2H8zM8 15h2v2H8zM14 11h2v2h-2zM14 15h2v2h-2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Business / Premises Name</label>
+                            <input type="text" class="form-cell-input" placeholder="e.g. The Red Lion Pub">
+                        </div>
+                    </div>
+                    
+                    <!-- Address with GPS lookup -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Incident Address</label>
+                            <input type="text" class="form-cell-input" id="addressInput" value="24 High Street, London, E1">
+                        </div>
+                        <button class="form-cell-action-btn" title="Locate via GPS" onclick="locateGPS()">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Contact Person -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Contact Person</label>
+                            <input type="text" class="form-cell-input" placeholder="e.g. John Smith (Manager)">
+                        </div>
+                    </div>
+
+                    <!-- Contact Phone -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Contact Phone</label>
+                            <input type="tel" class="form-cell-input" placeholder="e.g. 07700 900123">
+                        </div>
+                    </div>
+
+                    <!-- Contact Email -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Contact Email</label>
+                            <input type="email" class="form-cell-input" placeholder="e.g. manager@redlion.co.uk">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: CCTV System Details -->
+            <div class="content-section">
+                <div class="form-list">
+                    <div class="form-list-header">CCTV System Details</div>
+                    
+                    <!-- System Make -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><rect x="2" y="2" width="20" height="20" rx="2.5" ry="2.5"/><path d="M12 2v20M2 12h20" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">System Make</label>
+                            <select class="form-cell-select" id="systemMakeSelect">
+                                <option>Select Make...</option>
+                                <option selected>Hikvision</option>
+                                <option>Dahua</option>
+                                <option>Samsung</option>
+                                <option>Swann</option>
+                                <option>Lorex</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- System Model -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><rect x="2" y="2" width="20" height="20" rx="2.5" ry="2.5"/><path d="M12 2v20M2 12h20" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">System Model</label>
+                            <input type="text" class="form-cell-input" placeholder="e.g. DS-7208HUHI-K1">
+                        </div>
+                    </div>
+
+                    <!-- System Password -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">System Password / Passcode</label>
+                            <input type="text" class="form-cell-input" placeholder="e.g. Admin123 or Pattern Lock">
+                        </div>
+                    </div>
+
+                    <!-- Storage Capacity & Location -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M22 12H2M22 6H2M22 18H2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Storage Capacity / Location</label>
+                            <input type="text" class="form-cell-input" placeholder="e.g. 2TB (Office DVR Room)">
+                        </div>
+                    </div>
+
+                    <!-- Retention Period -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Retention Period (Days)</label>
+                            <input type="number" class="form-cell-input" id="retentionPeriodInput" value="14" placeholder="e.g. 30" oninput="calculateOverwriteDate()">
+                        </div>
+                    </div>
+
+                    <!-- Motion Activated -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12h8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Motion Activated System</label>
+                            <select class="form-cell-select">
+                                <option value="NO" selected>NO (Continuous Recording)</option>
+                                <option value="YES">YES (Motion Activated Only)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Overwrite Alert Banner (matches cctv-hub.html alerts!) -->
+            <div class="content-section" id="overwriteAlertBox" style="transition: opacity 0.3s; display: flex;">
+                <div class="card" style="border: 1px solid #fee2e2; background: #fef2f2; padding: 16px; border-radius: 20px; box-shadow: 0 4px 16px rgba(239, 68, 68, 0.04); display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                    <div style="display: flex; gap: 12px; align-items: flex-start;">
+                        <div style="background: #ffe4e6; padding: 10px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #fecaca; color: #dc2626;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                            <div style="font-size: 15px; color: #991b1b; font-weight: 700; line-height: 1.4;">Footage Overwrite Alert</div>
+                            <div style="font-size: 13.5px; color: #b91c1c; font-weight: 600; line-height: 1.4; margin-top: 4px;" id="overwriteAlertText">
+                                Based on a 14-day retention, footage will overwrite on <strong>16 May 2026</strong>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Speaking Clock Time Check Details -->
+            <div class="content-section">
+                <div class="form-list">
+                    <div class="form-list-header">Evidential Time Check (Speaking Clock)</div>
+
+                    <!-- Altered check -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Time altered since incident?</label>
+                            <select class="form-cell-select" id="timeAlteredSelect" onchange="toggleTimeCheckFields()">
+                                <option value="NO" selected>NO (Perform Time Check)</option>
+                                <option value="YES">YES (Skip Time Check)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="timeCheckInputsContainer">
+                        <!-- Speaking Clock check -->
+                        <div class="form-cell">
+                            <div class="form-cell-icon">
+                                <svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <div class="form-cell-content">
+                                <label class="form-cell-label">Speaking Clock Date & Time</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="date" class="form-cell-input" id="scDate" style="flex: 1.2; font-size: 14px;" oninput="calculateScopeDrift()">
+                                    <input type="time" class="form-cell-input" id="scTime" step="1" style="flex: 1; font-size: 14px;" oninput="calculateScopeDrift()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CCTV Screen check -->
+                        <div class="form-cell">
+                            <div class="form-cell-icon">
+                                <svg viewBox="0 0 24 24" stroke="currentColor"><rect x="2" y="2" width="20" height="20" rx="2.5" ry="2.5"></rect><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+                            </div>
+                            <div class="form-cell-content">
+                                <label class="form-cell-label">CCTV Screen Date & Time</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="date" class="form-cell-input" id="dvrDate" style="flex: 1.2; font-size: 14px;" oninput="calculateScopeDrift()">
+                                    <input type="time" class="form-cell-input" id="dvrTime" step="1" style="flex: 1; font-size: 14px;" oninput="calculateScopeDrift()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculated drift -->
+                    <div class="form-cell" style="cursor: pointer;">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div class="form-cell-content" onclick="window.location.href='cctv-time-slip.html'">
+                            <label class="form-cell-label">CCTV Clock Drift (Calculated)</label>
+                            <span style="font-size: 15px; font-weight: 700; color: #1e40af;" id="scopeDriftVal">+00:05:00 (Drift Verified)</span>
+                        </div>
+                        <button class="form-cell-action-btn" title="Open full calculator" onclick="window.location.href='cctv-time-slip.html'">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Scope & Camera Coverage -->
+            <div class="content-section">
+                <div class="form-list">
+                    <div class="form-list-header">Camera & Coverage Scope</div>
+
+                    <!-- Camera Count -->
+                    <div class="form-cell">
+                        <div class="form-cell-icon">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Number of Active Cameras</label>
+                            <input type="number" class="form-cell-input" placeholder="e.g. 3" value="3">
+                        </div>
+                    </div>
+
+                    <!-- Coverage Details -->
+                    <div class="form-cell" style="align-items: flex-start;">
+                        <div class="form-cell-icon" style="margin-top: 4px;">
+                            <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="form-cell-content">
+                            <label class="form-cell-label">Camera Coverage Details</label>
+                            <textarea class="form-cell-textarea" placeholder="e.g. Camera 1 covers front entrance, Camera 2 covers till counter...">Camera 1 covers main entrance door. Camera 2 points directly at the till register. Camera 3 covers front lounge seating area.</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Legal & Policy Guidance (ICO Warning) -->
+            <div class="content-section" style="margin-bottom: 24px;">
+                <div class="form-list" style="background: rgba(70, 107, 169, 0.04); border: 1px dashed rgba(70, 107, 169, 0.25);">
+                    <div class="form-list-header" style="color: var(--accent-blue); background: transparent;">Legal & Policy Guidelines</div>
+                    <div style="padding: 14px 16px; font-size: 12.5px; line-height: 1.5; color: var(--text-secondary); display: flex; flex-direction: column; gap: 8px;">
+                        <p>⚠️ <strong>Information Commissioner's Office (ICO):</strong> If the CCTV is for business use and records views beyond the property boundary (e.g. public footpaths), the system MUST be registered with the ICO under the Data Protection Act.</p>
+                        <p>📋 <strong>Evidential Retrieval:</strong> If you identify footage capturing the event, contact the CCTV Coordinator to arrange download and exhibiting in native formats. Seized media must comply with EMSOU Major Crime policies.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sticky Bottom Action Button -->
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; padding-bottom: max(16px, env(safe-area-inset-bottom)); background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border-top: 1px solid rgba(15, 23, 42, 0.1); z-index: 200;">
+            <button onclick="saveRecord()" class="sticky-footer-btn">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="white" stroke-width="2.5" fill="none" style="flex-shrink: 0;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Save Scoping Record
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Header hide on scroll down, show on scroll up
+        (function () {
+            const scroller = document.querySelector('.scroller');
+            const headerWrapper = document.getElementById('detailHeaderWrapper');
+            if (!scroller || !headerWrapper) return;
+            let lastScrollY = scroller.scrollTop;
+            scroller.addEventListener('scroll', () => {
+                const currentScrollY = scroller.scrollTop;
+                const delta = currentScrollY - lastScrollY;
+                const nearTop = currentScrollY <= 50;
+
+                if (nearTop) {
+                    headerWrapper.classList.remove('header-hidden');
+                } else if (delta > 10) {
+                    headerWrapper.classList.add('header-hidden');
+                } else if (delta < -15) {
+                    headerWrapper.classList.remove('header-hidden');
+                }
+                lastScrollY = currentScrollY;
+            }, { passive: true });
+        })();
+
+        // Dynamic Overwrite Date Calculator
+        function calculateOverwriteDate() {
+            const input = document.getElementById('retentionPeriodInput');
+            const alertBox = document.getElementById('overwriteAlertBox');
+            const alertText = document.getElementById('overwriteAlertText');
+            if (!input || !alertBox || !alertText) return;
+
+            const days = parseInt(input.value);
+            if (isNaN(days) || days <= 0) {
+                alertBox.style.opacity = '0';
+                setTimeout(() => {
+                    if (alertBox.style.opacity === '0') alertBox.style.display = 'none';
+                }, 300);
+                return;
+            }
+
+            alertBox.style.display = 'flex';
+            alertBox.style.opacity = '1';
+            
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + days);
+
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const formattedDate = `${targetDate.getDate()} ${months[targetDate.getMonth()]} ${targetDate.getFullYear()}`;
+
+            alertText.innerHTML = `Based on a ${days}-day retention, footage will overwrite on <strong style="color: #78350f; font-weight: 800;">${formattedDate}</strong>.`;
+        }
+
+        // Toggle time check fields
+        function toggleTimeCheckFields() {
+            const altered = document.getElementById('timeAlteredSelect').value;
+            const container = document.getElementById('timeCheckInputsContainer');
+            const driftVal = document.getElementById('scopeDriftVal');
+            
+            if (altered === 'YES') {
+                container.style.display = 'none';
+                driftVal.textContent = 'Skip Check - Time Altered';
+                driftVal.style.color = 'var(--text-secondary)';
+            } else {
+                container.style.display = 'block';
+                calculateScopeDrift();
+            }
+        }
+
+        // Calculate scoping drift dynamically
+        function calculateScopeDrift() {
+            const altered = document.getElementById('timeAlteredSelect').value;
+            if (altered === 'YES') return;
+
+            const scDateVal = document.getElementById('scDate').value;
+            const scTimeVal = document.getElementById('scTime').value;
+            const dvrDateVal = document.getElementById('dvrDate').value;
+            const dvrTimeVal = document.getElementById('dvrTime').value;
+            const driftVal = document.getElementById('scopeDriftVal');
+
+            if (!scDateVal || !scTimeVal || !dvrDateVal || !dvrTimeVal) {
+                driftVal.textContent = 'Pending comparison entries...';
+                driftVal.style.color = 'var(--text-dim)';
+                return;
+            }
+
+            const parseDateTime = (dStr, tStr) => {
+                const dParts = dStr.split('-');
+                const tParts = tStr.split(':');
+                return new Date(
+                    parseInt(dParts[0]),
+                    parseInt(dParts[1]) - 1,
+                    parseInt(dParts[2]),
+                    parseInt(tParts[0]),
+                    parseInt(tParts[1]),
+                    parseInt(tParts[2]) || 0
+                );
+            };
+
+            const scDate = parseDateTime(scDateVal, scTimeVal);
+            const dvrDate = parseDateTime(dvrDateVal, dvrTimeVal);
+
+            const diffMs = dvrDate.getTime() - scDate.getTime();
+            let status = 'Fast';
+            let absDiff = Math.abs(diffMs);
+
+            if (diffMs < 0) {
+                status = 'Slow';
+            }
+
+            const totalSeconds = Math.floor(absDiff / 1000);
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            let driftText = '';
+            if (days > 0) {
+                driftText = `${days}d ${hours}h ${minutes}m ${seconds}s (${status})`;
+            } else {
+                const hrsStr = String(hours).padStart(2, '0');
+                const minsStr = String(minutes).padStart(2, '0');
+                const secsStr = String(seconds).padStart(2, '0');
+                driftText = `+${hrsStr}:${minsStr}:${secsStr} (${status})`;
+                if (status === 'Slow') {
+                    driftText = `-${hrsStr}:${minsStr}:${secsStr} (${status})`;
+                }
+            }
+
+            driftVal.textContent = driftText;
+            if (status === 'Fast') {
+                driftVal.style.color = '#d97706'; // Amber for fast
+            } else {
+                driftVal.style.color = '#dc2626'; // Red for slow
+            }
+        }
+
+        // Initialize defaults on scoping page load
+        window.addEventListener('load', () => {
+            calculateOverwriteDate();
+            
+            // Default check dates to today
+            const todayStr = new Date().toISOString().split('T')[0];
+            document.getElementById('scDate').value = todayStr;
+            document.getElementById('dvrDate').value = todayStr;
+            
+            // Default times to current time
+            const now = new Date();
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:00`;
+            document.getElementById('scTime').value = timeStr;
+            document.getElementById('dvrTime').value = timeStr;
+
+            calculateScopeDrift();
+        });
+
+        // Simulated GPS Locate
+        function locateGPS() {
+            const btn = document.querySelector('.form-cell-action-btn');
+            const addressInput = document.getElementById('addressInput');
+            if (!addressInput || !btn) return;
+            
+            btn.style.transform = 'scale(0.85)';
+            addressInput.value = 'Locating GPS position...';
+            addressInput.style.color = 'var(--text-dim)';
+            
+            setTimeout(() => {
+                btn.style.transform = '';
+                addressInput.value = 'The Red Lion Pub, 24 High Street, London, E1';
+                addressInput.style.color = 'var(--text-primary)';
+                if (window.navigator.vibrate) window.navigator.vibrate([10, 30, 10]);
+            }, 800);
+        }
+
+        // Simulated Save action with feedback spinner
+        function saveRecord() {
+            const btn = document.querySelector('.sticky-footer-btn');
+            if (!btn) return;
+            
+            btn.innerHTML = `<svg viewBox="0 0 50 50" style="width: 20px; height: 20px; animation: rotate 2s linear infinite; margin-right: 6px;"><circle cx="25" cy="25" r="20" fill="none" stroke="white" stroke-width="5" stroke-linecap="round" style="stroke-dasharray: 1, 150; stroke-dashoffset: 0; animation: dash 1.5s ease-in-out infinite;"></circle></svg> Saving Record...`;
+            btn.style.pointerEvents = 'none';
+            btn.style.opacity = '0.85';
+            
+            setTimeout(() => {
+                btn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="white" stroke-width="3" fill="none" style="margin-right: 4px;"><polyline points="20 6 9 17 4 12"></polyline></svg> Saved Successfully`;
+                if (window.navigator.vibrate) window.navigator.vibrate(30);
+                
+                setTimeout(() => {
+                    window.location.href = 'cctv-hub.html';
+                }, 600);
+            }, 1000);
+        }
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Registration Failed', err));
+            });
+        }
+    </script>
+</body>
+
+</html>
