@@ -104,23 +104,8 @@
         }
         .custom-checkbox.checked svg { opacity: 1; }
         
-        .check-text { font-size: 15px; font-weight: 500; color: var(--text-primary); line-height: 1.4; cursor: pointer; }
-        
-        .progress-container { margin: 16px; background: white; border-radius: 12px; padding: 16px; box-shadow: var(--shadow-sm); }
-        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .progress-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-        .progress-text { font-size: 14px; font-weight: 700; color: var(--accent-blue); }
-        
-        .progress-bar-bg { width: 100%; height: 8px; background: var(--border-color); border-radius: 4px; overflow: hidden; }
-        .progress-bar-fill { height: 100%; background: var(--accent-blue); border-radius: 4px; transition: width 0.3s ease; width: 0%; }
-
-        .action-btn-container { padding: 0 16px 24px 16px; }
-        .action-btn {
-            width: 100%; background: var(--accent-blue); color: white; border: none; padding: 16px; 
-            border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; 
-            box-shadow: 0 4px 12px rgba(70,107,169,0.25); opacity: 0.5; pointer-events: none; transition: opacity 0.3s;
-        }
-        .action-btn.active { opacity: 1; pointer-events: auto; }
+        .check-text { font-size: 15px; font-weight: 500; color: var(--text-primary); line-height: 1.4; cursor: pointer; transition: all 0.2s; }
+        .check-text.completed { text-decoration: line-through; color: var(--text-dim); }
 
         @media (min-width: 500px) {
             body { padding: 40px 0; background-color: #e2e8f0; overflow: auto; }
@@ -164,23 +149,6 @@
                     <!-- Items will be generated here -->
                 </div>
             </div>
-
-            <div class="progress-container">
-                <div class="progress-header">
-                    <div class="progress-title">Checklist Progress</div>
-                    <div class="progress-text" id="progressText">0 / 7</div>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progressBar"></div>
-                </div>
-            </div>
-
-            <div class="action-btn-container">
-                <button class="action-btn" id="copyBtn" onclick="copyStatement()">
-                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-                    Copy Statement Template
-                </button>
-            </div>
         </div>
     </div>
 
@@ -194,8 +162,6 @@
             "I placed the media into an evidence bag and sealed it securely.",
             "I assigned an exhibit reference and retained it in my possession."
         ];
-
-        let completedCount = 0;
 
         let investigationName = "[EXHIBIT REF]"; // Default
 
@@ -222,7 +188,7 @@
                 // Toggle function
                 const toggle = () => {
                     checkbox.classList.toggle('checked');
-                    updateProgress();
+                    textDiv.classList.toggle('completed');
                 };
                 
                 checkbox.onclick = toggle;
@@ -232,42 +198,7 @@
                 itemDiv.appendChild(textDiv);
                 container.appendChild(itemDiv);
             });
-            updateProgress();
         });
-
-        function updateProgress() {
-            const checkboxes = document.querySelectorAll('.custom-checkbox.checked');
-            completedCount = checkboxes.length;
-            const total = checklistItems.length;
-            
-            document.getElementById('progressText').textContent = `${completedCount} / ${total}`;
-            document.getElementById('progressBar').style.width = `${(completedCount / total) * 100}%`;
-            
-            const btn = document.getElementById('copyBtn');
-            if (completedCount === total) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        }
-
-        function copyStatement() {
-            if (completedCount < checklistItems.length) return;
-            
-            const statement = `On [DATE] at [TIME], I attended [LOCATION] and viewed the CCTV system. I compared the system time against the speaking clock and noted the time difference. I then viewed footage between [START TIME] and [END TIME] and identified footage relevant to the investigation. The footage was downloaded in its native format onto a Police issue [USB/Disc]. I placed the media into an evidence bag, sealed it, and exhibited it as ${investigationName}. I retained the exhibit in my possession to be lodged at the police station.`;
-            
-            navigator.clipboard.writeText(statement).then(() => {
-                const btn = document.getElementById('copyBtn');
-                btn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Template Copied!`;
-                btn.style.background = '#16a34a';
-                setTimeout(() => {
-                    btn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg> Copy Statement Template`;
-                    btn.style.background = 'var(--accent-blue)';
-                }, 3000);
-            }).catch(err => {
-                alert('Copying failed: ' + err);
-            });
-        }
     </script>
 </body>
 </html>
