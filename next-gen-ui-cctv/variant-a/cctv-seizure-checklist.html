@@ -197,7 +197,14 @@
 
         let completedCount = 0;
 
+        let investigationName = "[EXHIBIT REF]"; // Default
+
         window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            if(params.has('inv')) {
+                investigationName = params.get('inv').replace(/_/g, ' ');
+            }
+            
             const container = document.getElementById('checklistCard');
             checklistItems.forEach((item, index) => {
                 const itemDiv = document.createElement('div');
@@ -247,7 +254,7 @@
         function copyStatement() {
             if (completedCount < checklistItems.length) return;
             
-            const statement = `On [DATE] at [TIME], I attended [LOCATION] and viewed the CCTV system. I compared the system time against the speaking clock and noted the time difference. I then viewed footage between [START TIME] and [END TIME] and identified footage relevant to the investigation. The footage was downloaded in its native format onto a Police issue [USB/Disc]. I placed the media into an evidence bag, sealed it, and exhibited it as [EXHIBIT REF]. I retained the exhibit in my possession to be lodged at the police station.`;
+            const statement = `On [DATE] at [TIME], I attended [LOCATION] and viewed the CCTV system. I compared the system time against the speaking clock and noted the time difference. I then viewed footage between [START TIME] and [END TIME] and identified footage relevant to the investigation. The footage was downloaded in its native format onto a Police issue [USB/Disc]. I placed the media into an evidence bag, sealed it, and exhibited it as ${investigationName}. I retained the exhibit in my possession to be lodged at the police station.`;
             
             navigator.clipboard.writeText(statement).then(() => {
                 const btn = document.getElementById('copyBtn');
