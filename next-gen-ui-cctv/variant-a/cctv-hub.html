@@ -1643,104 +1643,42 @@
         <div class="scroller">
 
             <div class="section-header">
-                <h2>Quick Actions</h2>
-            </div>
-
-            <div class="quick-actions-grid" style="margin-bottom: 24px;">
-                <div class="quick-action-card" onclick="window.location.href='cctv-scope.html'">
-                    <div class="action-icon-badge blue-badge">
-                        <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13" r="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <div class="quick-action-info">
-                        <div class="quick-action-title">New Scope</div>
-                        <div class="quick-action-desc">Start scoping survey</div>
-                    </div>
-                </div>
-                <div class="quick-action-card" onclick="window.location.href='cctv-time-slip.html'">
-                    <div class="action-icon-badge amber-badge">
-                        <svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"/><polyline points="12 6 12 12 16 14" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <div class="quick-action-info">
-                        <div class="quick-action-title">Time Slip</div>
-                        <div class="quick-action-desc">Calculate clock drift</div>
-                    </div>
-                </div>
-                <div class="quick-action-card" onclick="alert('Recovery module coming soon')">
-                    <div class="action-icon-badge green-badge">
-                        <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="7 10 12 15 17 10" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="15" x2="12" y2="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <div class="quick-action-info">
-                        <div class="quick-action-title">Recovery</div>
-                        <div class="quick-action-desc">Log footage recovery</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="section-header">
-                <h2>Critical Overwrite Risks</h2>
+                <h2>CCTV Toolkit</h2>
             </div>
 
             <div class="cards-container list-view" style="margin-bottom: 24px;">
-                <div class="card" style="border: 1px solid #fee2e2; background: #fef2f2; padding: 16px; border-radius: 20px; box-shadow: 0 4px 16px rgba(239, 68, 68, 0.04); display: flex; flex-direction: column; gap: 12px;">
-                    <div style="display: flex; gap: 12px; align-items: flex-start; justify-content: space-between;">
-                        <div style="display: flex; gap: 12px; align-items: flex-start; flex: 1;">
-                            <div style="background: #ffe4e6; padding: 10px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #fecaca;">
-                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="#dc2626" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                            </div>
-                            <div style="flex: 1; min-width: 0;">
-                                <div class="card-title" style="font-size: 16px; font-weight: 700; color: #991b1b; margin-bottom: 4px; min-height: unset; line-clamp: unset; -webkit-line-clamp: unset;">24 High Street, London</div>
-                                <div style="font-size: 13px; color: #b91c1c; font-weight: 700; display: flex; align-items: center; gap: 6px;">
-                                    <span style="display: inline-block; width: 8px; height: 8px; background-color: #dc2626; border-radius: 50%; animation: pulse-red 1.5s infinite ease-in-out;"></span>
-                                    <span>Footage expires in 2 hours</span>
-                                </div>
-                            </div>
+                <div class="card" onclick="window.location.href='cctv-time-slip.html'">
+                    <div class="card-content" style="display: flex; align-items: center; gap: 16px;">
+                        <div class="action-icon-badge amber-badge" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"/><polyline points="12 6 12 12 16 14" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: 8px; align-items: center; width: 100%;">
-                        <button onclick="window.location.href='cctv-scope.html'" style="flex: 1; background: #dc2626; color: white; border: none; padding: 12px 16px; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; text-align: center; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25); transition: transform 0.2s;">
-                            Start Recovery
-                        </button>
-                        <button onclick="this.closest('.card').style.display='none'" style="background: transparent; color: #991b1b; border: 1px solid #fca5a5; padding: 12px 16px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; text-align: center;">
-                            Dismiss
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <h2>Active Investigations</h2>
-            </div>
-
-            <div class="cards-container list-view">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-title">Inc #12345 - The Red Lion Pub</div>
-                        <div class="card-subtitle">Status: Scoped (3 Cameras)</div>
-                    </div>
-                    <div class="card-footer" style="max-height: 100px; opacity: 1; padding-top: 8px; border-top-color: var(--border-color);">
-                        <div class="card-date">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                            <span>Today</span>
-                        </div>
-                        <div class="card-icons">
-                            <button onclick="window.location.href='cctv-detail.html?id=lion'" style="background: rgba(84, 110, 164, 0.1); color: var(--accent-blue); border: none; padding: 6px 16px; border-radius: 16px; font-weight: 600; font-size: 13px; cursor: pointer; transition: transform 0.2s;">View</button>
+                        <div>
+                            <div class="card-title" style="margin-bottom: 4px; -webkit-line-clamp: 1;">DVR Time Calculator</div>
+                            <div class="card-subtitle" style="margin-bottom: 0; -webkit-line-clamp: 1;">Calculate the time difference</div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-title">Inc #98765 - Station Road</div>
-                        <div class="card-subtitle">Status: Recovery Pending</div>
-                    </div>
-                    <div class="card-footer" style="max-height: 100px; opacity: 1; padding-top: 8px; border-top-color: var(--border-color);">
-                        <div class="card-date">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                            <span>Yesterday</span>
+
+                <div class="card" onclick="window.location.href='cctv-seizure-checklist.html'">
+                    <div class="card-content" style="display: flex; align-items: center; gap: 16px;">
+                        <div class="action-icon-badge blue-badge" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(70, 107, 169, 0.1); color: var(--accent-blue);">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" fill="none" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
                         </div>
-                        <div class="card-icons">
-                            <button onclick="window.location.href='cctv-detail.html?id=station'" style="background: rgba(84, 110, 164, 0.1); color: var(--accent-blue); border: none; padding: 6px 16px; border-radius: 16px; font-weight: 600; font-size: 13px; cursor: pointer; transition: transform 0.2s;">View</button>
+                        <div>
+                            <div class="card-title" style="margin-bottom: 4px; -webkit-line-clamp: 1;">CCTV Seizure Checklist</div>
+                            <div class="card-subtitle" style="margin-bottom: 0; -webkit-line-clamp: 1;">Statement template guide</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="window.location.href='cctv-dos-donts.html'">
+                    <div class="card-content" style="display: flex; align-items: center; gap: 16px;">
+                        <div class="action-icon-badge green-badge" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(34, 197, 94, 0.1); color: #16a34a;">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" width="24" height="24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        </div>
+                        <div>
+                            <div class="card-title" style="margin-bottom: 4px; -webkit-line-clamp: 1;">Dos and Don'ts</div>
+                            <div class="card-subtitle" style="margin-bottom: 0; -webkit-line-clamp: 1;">Level one protocol guide</div>
                         </div>
                     </div>
                 </div>

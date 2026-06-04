@@ -405,7 +405,7 @@
         <div class="detail-header-wrapper" id="detailHeaderWrapper">
             <div class="detail-header">
                 <div class="header-nav">
-                    <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='cctv-hub.html'">
+                    <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='cctv-time-slip.html'">
                         <svg viewBox="0 0 24 24">
                             <polyline points="15 18 9 12 15 6"></polyline>
                         </svg>
@@ -593,7 +593,7 @@
                 </div>
             </div>
 
-            <!-- Live Overwrite Alert Banner (matches cctv-hub.html alerts!) -->
+            <!-- Live Overwrite Alert Banner (matches cctv-time-slip.html alerts!) -->
             <div class="content-section" id="overwriteAlertBox" style="transition: opacity 0.3s; display: flex;">
                 <div class="card" style="border: 1px solid #fee2e2; background: #fef2f2; padding: 16px; border-radius: 20px; box-shadow: 0 4px 16px rgba(239, 68, 68, 0.04); display: flex; flex-direction: column; gap: 12px; width: 100%;">
                     <div style="display: flex; gap: 12px; align-items: flex-start;">
@@ -912,7 +912,7 @@
                 if (window.navigator.vibrate) window.navigator.vibrate(30);
                 
                 setTimeout(() => {
-                    window.location.href = 'cctv-hub.html';
+                    window.location.href = 'cctv-time-slip.html';
                 }, 600);
             }, 1000);
         }
