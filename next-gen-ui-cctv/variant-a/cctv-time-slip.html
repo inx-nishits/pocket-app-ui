@@ -935,7 +935,7 @@
         <div id="resultModal" class="bottom-sheet-overlay" onclick="closeResultOverlay(event)">
             <div class="bottom-sheet">
                 <div class="drag-handle"></div>
-                <h2 class="bs-title" style="font-size: 22px;">Time Slip Result</h2>
+                <h2 class="bs-title" style="font-size: 28px; text-align: center;">Result</h2>
                 <div class="bs-body" style="padding: 10px 20px 40px 20px; text-align: center;">
                     <div style="display: flex; justify-content: center; margin-bottom: 24px;">
                         <div id="resultIconWrapper" style="background: rgba(220, 38, 38, 0.1); padding: 18px; border-radius: 50%;">
@@ -1288,13 +1288,18 @@
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const seconds = totalSeconds % 60;
 
-            let timeParts = [];
-            if (days > 0) timeParts.push(`<span style="font-weight: 800; color: var(--text-primary); margin-right: 2px;">${days}</span><span style="font-size: 16px; font-weight: 600; color: var(--text-secondary); margin-right: 12px;">d</span>`);
-            if (hours > 0 || days > 0) timeParts.push(`<span style="font-weight: 800; color: var(--text-primary); margin-right: 2px;">${hours}</span><span style="font-size: 16px; font-weight: 600; color: var(--text-secondary); margin-right: 12px;">h</span>`);
-            if (minutes > 0 || hours > 0 || days > 0) timeParts.push(`<span style="font-weight: 800; color: var(--text-primary); margin-right: 2px;">${minutes}</span><span style="font-size: 16px; font-weight: 600; color: var(--text-secondary); margin-right: 12px;">m</span>`);
-            timeParts.push(`<span style="font-weight: 800; color: var(--text-primary); margin-right: 2px;">${seconds}</span><span style="font-size: 16px; font-weight: 600; color: var(--text-secondary);">s</span>`);
+            let timeDescParts = [];
+            if (days > 0) timeDescParts.push(`${days} day${days !== 1 ? 's' : ''}`);
+            if (hours > 0) timeDescParts.push(`${hours} hour${hours !== 1 ? 's' : ''}`);
+            if (minutes > 0) timeDescParts.push(`${minutes} minute${minutes !== 1 ? 's' : ''}`);
+            if (seconds > 0) timeDescParts.push(`${seconds} second${seconds !== 1 ? 's' : ''}`);
+            if (timeDescParts.length === 0) timeDescParts.push('0 seconds');
 
-            let timeStrHTML = timeParts.join('');
+            let dvrSentence = `DVR is ${timeDescParts.join(' ')} ${status === 'fast' ? 'Fast' : 'Slow'}`;
+            
+            const pad = num => String(num).padStart(2, '0');
+            const totalHours = hours + (days * 24);
+            const diffFormatted = `${pad(totalHours)}:${pad(minutes)}:${pad(seconds)}`;
 
             let resultColor = status === 'fast' ? '#d97706' : '#dc2626';
             let bgLight = status === 'fast' ? 'rgba(217, 119, 6, 0.1)' : 'rgba(220, 38, 38, 0.1)';
@@ -1303,31 +1308,14 @@
                 ? `<div style="display: inline-block; padding: 6px 16px; background: rgba(217, 119, 6, 0.15); color: #d97706; border-radius: 20px; font-weight: 800; font-size: 13px; letter-spacing: 1px; text-transform: uppercase;">System is Fast</div>`
                 : `<div style="display: inline-block; padding: 6px 16px; background: rgba(220, 38, 38, 0.15); color: #dc2626; border-radius: 20px; font-weight: 800; font-size: 13px; letter-spacing: 1px; text-transform: uppercase;">System is Slow</div>`;
 
-            const is12h = document.getElementById('btnFormat12').classList.contains('active');
-            const timeOpts = { hour12: is12h, hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            const dateOpts = { year: '2-digit', month: 'short', day: 'numeric' };
-
-            const cctvDisplay = `${cctvDate.toLocaleTimeString([], timeOpts)} &middot; ${cctvDate.toLocaleDateString(undefined, dateOpts)}`;
-            const realDisplay = `${realDate.toLocaleTimeString([], timeOpts)} &middot; ${realDate.toLocaleDateString(undefined, dateOpts)}`;
-
             const resultHTML = `
                 <div style="margin-bottom: 24px;">${statusBadge}</div>
+                <div style="font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 24px;">
+                    ${dvrSentence}
+                </div>
                 <div style="color: var(--text-secondary); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Calculated Difference</div>
                 <div style="font-size: 42px; display: flex; justify-content: center; align-items: baseline; font-variant-numeric: tabular-nums; margin-bottom: 24px;">
-                    ${timeStrHTML}
-                </div>
-
-                <div style="border-top: 1px dashed #e2e8f0; margin: 0 -20px 20px -20px;"></div>
-                
-                <div style="display: flex; flex-direction: column; gap: 16px; text-align: left; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 14px; color: var(--text-secondary); font-weight: 600;">CCTV Display</span>
-                        <span style="font-size: 15px; color: var(--text-primary); font-weight: 700; font-variant-numeric: tabular-nums;">${cctvDisplay}</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 14px; color: var(--text-secondary); font-weight: 600;">Actual Device</span>
-                        <span style="font-size: 15px; color: var(--text-primary); font-weight: 700; font-variant-numeric: tabular-nums;">${realDisplay}</span>
-                    </div>
+                    <span style="font-weight: 800; color: var(--text-primary);">${diffFormatted}</span>
                 </div>
             `;
 
