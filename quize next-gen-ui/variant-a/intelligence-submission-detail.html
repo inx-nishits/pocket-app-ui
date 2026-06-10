@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <link rel="manifest" href="manifest.json">
+    <title>3x5x2 Intelligence Submission</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #e9f5ff;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #466ba9;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--text-primary);
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* ----- Detail Header (Matched to Other Pages) ----- */
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            background: var(--accent-blue);
+            border-radius: 0 0 28px 28px;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 16px);
+            padding-bottom: 12px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                0 4px 12px rgba(84, 110, 164, 0.15),
+                0 2px 4px rgba(0, 0, 0, 0.06);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            min-width: 0;
+            padding: 0 8px;
+            text-align: center;
+        }
+
+        .title-block h1 {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.2px;
+            margin: 0;
+        }
+
+        .title-block p {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 4px 0 0;
+        }
+
+        /* Scroller */
+        .scroller {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px 20px 100px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ----- Simple Content Styling ----- */
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 24px 0 12px;
+            color: var(--text-primary);
+        }
+
+        ul, ol {
+            margin: 16px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        strong {
+            font-weight: 700;
+            color: #000;
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 40px;
+            text-align: center;
+            font-style: italic;
+        }
+
+
+        @media (min-width: 500px) {
+            body { background: #e2e8f0; padding: 40px 0; }
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                border: 12px solid #000;
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <div class="header-nav">
+                    <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='index.html'">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="title-block">
+                        <h1>3x5x2 Intelligence</h1>
+                        <p>Submission Process</p>
+                    </div>
+                    <div style="width: 40px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- content -->
+        <div class="scroller">
+            <div class="section">
+                <p><strong>Forces Gradually Adopting from April 2016</strong></p>
+                <p>The source evaluation is made by the person submitting the information to describe the reliability of the source. This enables the credibility of the information to be established and informs the proportionality of tactical options.</p>
+                <p>Everyone submitting intelligence has a duty to ensure it is accurate and is corroborated where possible.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Source Grading</h2>
+                <p>There are three source gradings:</p>
+                <ol>
+                    <li><strong>Reliable</strong> – This grading is used when the source is believed to be competent and information received is generally reliable. This may include information from human intelligence, technical, scientific and forensic sources.</li>
+                    <li><strong>Untested</strong> – This relates to a source that has not previously provided information to the person receiving it or has provided information that has not been substantiated. The source may not necessarily be unreliable, but the information provided should be treated with caution.</li>
+                    <li><strong>Not reliable</strong> – This should be used where there are reasonable grounds to doubt the reliability of the source. Corroboration should be sought before acting on this information.</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Intelligence Assessment</h2>
+                <p>This grading describes the reliability of the information based on how it became known to the source and from other available intelligence.</p>
+                
+                <p><strong>A: Known directly to the source</strong> – Refers to information obtained first-hand, eg, through witnessing it.</p>
+                <p><strong>B: Known indirectly but corroborated</strong> – Refers to information witnessed indirectly, but verified by Grade A information.</p>
+                <p><strong>C: Known indirectly to the source</strong> – Applies to information that the source has been told by someone else.</p>
+                <p><strong>D: Not known</strong> – Applies where there is no means of assessing the information (e.g., anonymous).</p>
+                <p><strong>E: Suspected to be false</strong> – There is reason to believe the information provided is false.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Information Content</h2>
+                <p>The information content should cover the points: <strong>WHAT, WHEN, WHERE, WHY, WHO and HOW.</strong></p>
+                <p>Information should be for a policing purpose. It should be clear, concise and without abbreviations.</p>
+                <p>The body of the report should give no indication of the nature of the source, whether human or technical.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dissemination</h2>
+                <p><strong>P (Permitted):</strong> Requires a policing purpose, local protocols, and a legitimate need to receive it.</p>
+                <p><strong>C (Conditions):</strong> Permits dissemination but requires the receiving agency to observe specific conditions.</p>
+
+                <h3 style="font-size: 15px; margin-top: 20px;">Lawful policing purpose definition:</h3>
+                <ul>
+                    <li>Protecting life or property</li>
+                    <li>Preserving order</li>
+                    <li>Preventing the commission of offences</li>
+                    <li>Bringing offenders to justice</li>
+                </ul>
+            </div>
+
+            <p class="footer-note">© 2015 College of Policing Limited</p>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const s = document.querySelector('.scroller');
+            const h = document.getElementById('detailHeaderWrapper');
+            let lastY = 0;
+            s.addEventListener('scroll', () => {
+                let y = s.scrollTop;
+                if (Math.abs(y - lastY) < 10) return;
+                h.classList.toggle('header-hidden', y > 60 && y > lastY);
+                lastY = y;
+            }, { passive: true });
+        })();
+    </script>
+
+</body>
+
+</html>
