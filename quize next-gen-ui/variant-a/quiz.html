@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Quiz Module - Pocket Sergeant</title>
+    
+    <!-- Fonts (Matching existing design system) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="quiz.css">
+    
+    <!-- Confetti for Celebrations -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+<!-- Main App Container (Matching existing mobile constraints) -->
+<div class="app-container">
+
+    <!-- Screen 0: Challenge Hub -->
+    <div id="view-hub" class="quiz-view active">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="window.location.href='menu.html'">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Challenge Hub</h1>
+                </div>
+                <div class="header-right" style="display: flex; align-items: center; gap: 12px;">
+                    <button class="header-icon-btn" style="width: 32px; height: 32px; position: relative; background: #ffffff; color: var(--accent-blue);" onclick="QuizEngine.startFlow('live')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span style="position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: #ef4444; border-radius: 50%; border: 1.5px solid #ffffff;"></span>
+                    </button>
+                    <div style="cursor: pointer;" onclick="QuizEngine.navigate('view-profile')">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content format-list">
+            <!-- 1. Quick Play -->
+            <div class="format-card" onclick="QuizEngine.startFlow('quick')">
+                <div class="format-card-left">
+                    <div class="category-icon-top" style="color: #3b82f6;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png" style="width: 28px; height: 28px; object-fit: contain;">
+                    </div>
+                    <div class="format-info">
+                        <h3>Quick Play</h3>
+                        <p>Start a solo quiz instantly.</p>
+                    </div>
+                </div>
+                <div class="format-card-right">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <!-- 2. Challenge a Colleague -->
+            <div class="format-card" onclick="QuizEngine.startFlow('colleague')">
+                <div class="format-card-left">
+                    <div class="category-icon-top" style="color: #f59e0b;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f465.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <div class="format-info">
+                        <h3>Challenge a Colleague</h3>
+                        <p>Test your skills against friends.</p>
+                    </div>
+                </div>
+                <div class="format-card-right">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <!-- 3. Join Live Challenge -->
+            <div class="format-card" onclick="QuizEngine.startFlow('live')">
+                <div class="format-card-left">
+                    <div class="category-icon-top" style="color: #ef4444;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3af.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <div class="format-info">
+                        <h3>Join Live Challenge</h3>
+                        <p>Compete in real-time events.</p>
+                    </div>
+                </div>
+                <div class="format-card-right">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <!-- 4. Leaderboard -->
+            <div class="format-card" onclick="QuizEngine.navigate('view-leaderboard')">
+                <div class="format-card-left">
+                    <div class="category-icon-top" style="color: #10b981;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <div class="format-info">
+                        <h3>Leaderboard</h3>
+                        <p>See global and team rankings.</p>
+                    </div>
+                </div>
+                <div class="format-card-right">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <!-- 5. Badges -->
+            <div class="format-card" onclick="QuizEngine.navigate('view-achievements')">
+                <div class="format-card-left">
+                    <div class="category-icon-top" style="color: #8b5cf6;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f396-fe0f.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <div class="format-info">
+                        <h3>Badges</h3>
+                        <p>View your earned achievements.</p>
+                    </div>
+                </div>
+                <div class="format-card-right">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+            <div style="height: 100px;"></div>
+        </div>
+    </div>
+
+    <!-- Screen 1: Choose Category -->
+    <div id="view-category" class="quiz-view">
+        <!-- Header -->
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Quiz Categories</h1>
+                </div>
+            </div>
+            
+            <div class="search-section">
+                <div class="search-input-wrapper">
+                    <img src="../images/search.svg" alt="Search">
+                    <input type="text" class="search-input" placeholder="Search categories...">
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content" style="padding-top: 16px;">
+            
+            <div class="grid-2-col">
+                <!-- 1. Criminal Law -->
+                <div class="category-card card" onclick="QuizEngine.handleCategorySelection('Criminal Law')" style="position: relative; overflow: hidden;">
+                    <div class="recommended-tag">RECOMMENDED</div>
+                    <div class="card-content">
+                        <div class="category-icon-top">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2696-fe0f.png" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div class="card-title">Criminal Law</div>
+                        <div class="card-subtitle">Test your knowledge on key offenses and legal statutes.</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-icons" style="margin-left: auto;">
+                            <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active');"><img src="../images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 2. Traffic -->
+                <div class="category-card card" onclick="QuizEngine.handleCategorySelection('Traffic')">
+                    <div class="card-content">
+                        <div class="category-icon-top">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f6a6.png" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div class="card-title">Traffic</div>
+                        <div class="card-subtitle">Review traffic codes, road regulations, and vehicle laws.</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-icons" style="margin-left: auto;">
+                            <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active');"><img src="../images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 3. Custody -->
+                <div class="category-card card" onclick="QuizEngine.handleCategorySelection('Custody')">
+                    <div class="card-content">
+                        <div class="category-icon-top">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f512.png" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div class="card-title">Custody</div>
+                        <div class="card-subtitle">Procedures and rights for detaining and managing suspects.</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-icons" style="margin-left: auto;">
+                            <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active');"><img src="../images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 4. Evidence -->
+                <div class="category-card card" onclick="QuizEngine.handleCategorySelection('Evidence')">
+                    <div class="card-content">
+                        <div class="category-icon-top">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4c1.png" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div class="card-title">Evidence</div>
+                        <div class="card-subtitle">Guidelines for securely collecting and presenting evidence.</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-icons" style="margin-left: auto;">
+                            <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active');"><img src="../images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Domestic Abuse -->
+                <div class="category-card card" onclick="QuizEngine.navigate('view-format', {category: 'Domestic Abuse'})">
+                    <div class="card-content">
+                        <div class="category-icon-top">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3e0.png" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div class="card-title">Domestic Abuse</div>
+                        <div class="card-subtitle">Understand protocols and laws surrounding domestic incidents.</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-icons" style="margin-left: auto;">
+                            <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active');"><img src="../images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Detectives -->
+                <div class="category-card card" onclick="QuizEngine.handleCategorySelection('Cyber Crime')">
+                    <div class="card-content">
+                        <div class="category-icon-top">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f50d.png" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div class="card-title">Detectives</div>
+                        <div class="card-subtitle">Advanced investigative techniques and detective procedures.</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-icons" style="margin-left: auto;">
+                            <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active');"><img src="../images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Promotion Exam -->
+                <div class="category-card card" onclick="QuizEngine.handleCategorySelection('Promotion Exam')">
+                    <div class="card-content">
+                        <div class="category-icon-top">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f393.png" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div class="card-title">Promotion Exam</div>
+                        <div class="card-subtitle">Comprehensive questions to prepare for your next rank.</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-icons" style="margin-left: auto;">
+                            <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active');"><img src="../images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Random Mix -->
+                <div class="category-card card" onclick="QuizEngine.handleCategorySelection('Random Mix')">
+                    <div class="card-content">
+                        <div class="category-icon-top">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f500.png" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div class="card-title">Random Mix</div>
+                        <div class="card-subtitle">A shuffled challenge across all topics and difficulty levels.</div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-icons" style="margin-left: auto;">
+                            <button class="star-btn" onclick="event.stopPropagation(); this.classList.toggle('active');"><img src="../images/star-sm.svg" alt="Star"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 100px;"></div> <!-- Bottom Padding -->
+        </div>
+    </div>
+
+    <!-- Screen: Quiz Format Selection -->
+    <div id="view-format" class="quiz-view">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Quiz Type</h1>
+                </div>
+                <button class="header-star-btn" style="display: none;" onclick="QuizEngine.navigate('view-profile')">
+                    <svg viewBox="0 0 24 24"><polygon fill="#fec604" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="view-content format-list">
+            <!-- 1. Quick Quiz -->
+            <div class="format-card" onclick="QuizEngine.navigate('view-participants', {format: 'Quick Quiz'})">
+                <div class="format-card-left">
+                    <div class="category-icon-top">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png" style="width: 28px; height: 28px; object-fit: contain;">
+                    </div>
+                    <div class="format-info">
+                        <h3>Quick Quiz</h3>
+                        <p>5 Questions • Approx. 2 Minutes</p>
+                    </div>
+                </div>
+                <div class="format-card-right">
+                    <span class="xp-badge">+50 XP</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <!-- 2. Standard Quiz -->
+            <div class="format-card" onclick="QuizEngine.navigate('view-participants', {format: 'Standard Quiz'})">
+                <div class="format-card-left">
+                    <div class="category-icon-top">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4dd.png" style="width: 28px; height: 28px; object-fit: contain;">
+                    </div>
+                    <div class="format-info">
+                        <h3>Standard Quiz</h3>
+                        <p>10 Questions • Approx. 5 Minutes</p>
+                    </div>
+                </div>
+                <div class="format-card-right">
+                    <span class="xp-badge">+100 XP</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <!-- 3. Timed Challenge -->
+            <div class="format-card" onclick="QuizEngine.navigate('view-participants', {format: 'Timed Challenge'})">
+                <div class="format-card-left">
+                    <div class="category-icon-top">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/23f1-fe0f.png" style="width: 28px; height: 28px; object-fit: contain;">
+                    </div>
+                    <div class="format-info">
+                        <h3>Timed Challenge</h3>
+                        <p>Answer as many as possible before time runs out</p>
+                    </div>
+                </div>
+                <div class="format-card-right">
+                    <span class="xp-badge">+150 XP</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <!-- 4. Practice Mode -->
+            <div class="format-card" onclick="QuizEngine.navigate('view-participants', {format: 'Practice Mode'})">
+                <div class="format-card-left">
+                    <div class="category-icon-top">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4d6.png" style="width: 28px; height: 28px; object-fit: contain;">
+                    </div>
+                    <div class="format-info">
+                        <h3>Practice Mode</h3>
+                        <p>Learn without scoring pressure</p>
+                    </div>
+                </div>
+                <div class="format-card-right">
+                    <span class="xp-badge">0 XP</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <!-- 5. Daily Quiz -->
+            <div class="format-card" onclick="QuizEngine.navigate('view-participants', {format: 'Daily Quiz'})">
+                <div class="format-card-left">
+                    <div class="category-icon-top">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4c5.png" style="width: 28px; height: 28px; object-fit: contain;">
+                    </div>
+                    <div class="format-info">
+                        <h3>Daily Quiz</h3>
+                        <p>Special daily challenge</p>
+                    </div>
+                </div>
+                <div class="format-card-right">
+                    <span class="xp-badge">+200 XP</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <div style="height: 100px;"></div> <!-- Bottom Padding -->
+        </div>
+    </div>
+    <!-- Screen: Challenge a Colleague -->
+    <div id="view-participants" class="quiz-view">
+        <!-- Top Navigation -->
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Challenge a Colleague</h1>
+                </div>
+            </div>
+            
+            <div class="search-section">
+                <p class="context-text" style="color: rgba(255, 255, 255, 0.9); font-size: 14px; font-weight: 500; margin-bottom: 12px; padding: 0 4px;">You're challenging...</p>
+                <div class="search-input-wrapper">
+                    <img src="../images/search.svg" alt="Search">
+                    <input type="text" class="search-input" placeholder="Search by name...">
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content challenge-colleague-view">
+            
+            <!-- Friends & Colleagues Section -->
+            <div class="section-title-wrapper flex-between" style="margin-top: 8px;">
+                <h2 class="section-title">Friends & Colleagues</h2>
+                <div class="filter-dropdown-container" style="position: relative;">
+                    <button class="text-btn" onclick="toggleFilterDropdown(event)" style="color: #ffffff; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--accent-blue); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <img src="../images/filter.svg" alt="Filter" style="width: 18px; height: 18px; filter: brightness(0) invert(1);">
+                    </button>
+                    <div class="filter-dropdown-menu" id="filterDropdown" onclick="event.stopPropagation()">
+                        <div class="dropdown-item active" onclick="selectDropdownFilter('All')">All Status</div>
+                        <div class="dropdown-item" onclick="selectDropdownFilter('Online')">Online</div>
+                        <div class="dropdown-item" onclick="selectDropdownFilter('Away')">Away</div>
+                        <div class="dropdown-item" onclick="selectDropdownFilter('Offline')">Offline</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="participant-selection-list">
+                <!-- Colleague 1: Online -->
+                <div class="colleague-row-card" onclick="QuizEngine.selectColleague(this);">
+                    <div class="colleague-left">
+                        <div class="selection-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="colleague-avatar-lg">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="PC James Wilson" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                        <div class="colleague-details">
+                            <h3>PC James Wilson</h3>
+                            <p>Response Team</p>
+                        </div>
+                    </div>
+                    <div class="colleague-right">
+                        <div class="presence-badge online">
+                            <div class="dot"></div>
+                            <span>Online</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colleague 2: Away -->
+                <div class="colleague-row-card" onclick="QuizEngine.selectColleague(this);">
+                    <div class="colleague-left">
+                        <div class="selection-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="colleague-avatar-lg">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="DC Sarah Patel" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                        <div class="colleague-details">
+                            <h3>DC Sarah Patel</h3>
+                            <p>CID</p>
+                        </div>
+                    </div>
+                    <div class="colleague-right">
+                        <div class="presence-badge away">
+                            <div class="dot"></div>
+                            <span>Away</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colleague 3: Offline -->
+                <div class="colleague-row-card" onclick="QuizEngine.selectColleague(this);">
+                    <div class="colleague-left">
+                        <div class="selection-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="colleague-avatar-lg">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="PC Liam O'Connor" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                        <div class="colleague-details">
+                            <h3>PC Liam O'Connor</h3>
+                            <p>Neighbourhood</p>
+                        </div>
+                    </div>
+                    <div class="colleague-right">
+                        <div class="presence-badge offline">
+                            <div class="dot"></div>
+                            <span>Offline</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Colleague 4: Online -->
+                <div class="colleague-row-card" onclick="QuizEngine.selectColleague(this);">
+                    <div class="colleague-left">
+                        <div class="selection-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="colleague-avatar-lg">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Insp. Chloe Evans" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                        <div class="colleague-details">
+                            <h3>Insp. Chloe Evans</h3>
+                            <p>Traffic Division</p>
+                        </div>
+                    </div>
+                    <div class="colleague-right">
+                        <div class="presence-badge online">
+                            <div class="dot"></div>
+                            <span>Online</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Colleague 5: Online -->
+                <div class="colleague-row-card" onclick="QuizEngine.selectColleague(this);">
+                    <div class="colleague-left">
+                        <div class="selection-checkbox">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="colleague-avatar-lg">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Sgt. Marcus Reed" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                        <div class="colleague-details">
+                            <h3>Sgt. Marcus Reed</h3>
+                            <p>Firearms Unit</p>
+                        </div>
+                    </div>
+                    <div class="colleague-right">
+                        <div class="presence-badge online">
+                            <div class="dot"></div>
+                            <span>Online</span>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+                     <div class="mt-4" id="send-challenge-container" style="display: none;">
+                <button id="send-challenge-btn" class="btn-primary w-100" onclick="QuizEngine.sendChallengeInvitation()">Send Challenge</button>
+            </div>
+            <div style="height: 40px;"></div> <!-- Bottom Padding -->
+            
+        <!-- Waiting for Acceptance Overlay -->
+        <div id="waiting-overlay" class="countdown-overlay hidden" style="background: var(--accent-blue); flex-direction: column; align-items: center; justify-content: center; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; padding: 32px;">
+            
+            <div style="margin-bottom: 40px; position: relative; width: 140px; height: 140px;">
+                <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="70" cy="70" r="70" fill="rgba(255,255,255,0.05)"/>
+                    <circle cx="70" cy="70" r="50" fill="rgba(255,255,255,0.1)"/>
+                    <g class="hourglass-anim" style="transform-origin: 70px 70px;">
+                        <path d="M50 40 H90 C90 40, 90 65, 70 70 C50 65, 50 40, 50 40 Z" stroke="white" stroke-width="3" fill="rgba(255,255,255,0.2)"/>
+                        <path d="M50 100 H90 C90 100, 90 75, 70 70 C50 75, 50 100, 50 100 Z" stroke="white" stroke-width="3" fill="rgba(255,255,255,0.05)"/>
+                        <line x1="45" y1="40" x2="95" y2="40" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="45" y1="100" x2="95" y2="100" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="70" y1="70" x2="70" y2="95" stroke="white" stroke-width="2" stroke-dasharray="4 2" class="sand-fall"/>
+                        <path d="M60 100 Q70 85 80 100 Z" fill="white" class="sand-pile"/>
+                    </g>
+                </svg>
+            </div>
+
+            <div style="color: white; font-size: 24px; font-weight: 700; font-family: 'Poppins', sans-serif; margin-bottom: 8px;">Sending Invite...</div>
+            <div style="color: rgba(255,255,255,0.8); font-size: 15px; font-weight: 500; text-align: center; margin-bottom: 48px; max-width: 260px; line-height: 1.4;">Waiting for your colleague to accept the challenge.</div>
+
+            <!-- Loading Progress Bar -->
+            <div style="width: 100%; max-width: 280px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden; position: relative;">
+                <div class="waiting-progress-bar" style="position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: white; border-radius: 3px;"></div>
+            </div>
+            <div style="color: rgba(255,255,255,0.6); font-size: 13px; margin-top: 16px; font-weight: 600;">Connecting securely...</div>
+
+            <style>
+                .hourglass-anim {
+                    animation: flip-hourglass 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                }
+                @keyframes flip-hourglass {
+                    0%, 70% { transform: rotate(0deg); }
+                    100% { transform: rotate(180deg); }
+                }
+                .sand-fall {
+                    animation: sand-drop 1s linear infinite;
+                }
+                @keyframes sand-drop {
+                    to { stroke-dashoffset: -6; }
+                }
+                .waiting-progress-bar {
+                    animation: fill-bar 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+                }
+                @keyframes fill-bar {
+                    0% { width: 0%; }
+                    20% { width: 30%; }
+                    50% { width: 60%; }
+                    80% { width: 85%; }
+                    100% { width: 100%; }
+                }
+            </style>
+        </div>
+            <script>
+                function toggleFilterDropdown(e) {
+                    e.stopPropagation();
+                    document.getElementById('filterDropdown').classList.toggle('active');
+                }
+
+                document.addEventListener('click', function(e) {
+                    const dropdown = document.getElementById('filterDropdown');
+                    if (dropdown && dropdown.classList.contains('active')) {
+                        dropdown.classList.remove('active');
+                    }
+                });
+
+                function selectDropdownFilter(status) {
+                    // update active item styling
+                    const items = document.querySelectorAll('.dropdown-item');
+                    items.forEach(item => {
+                        if (item.innerText.includes(status)) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    });
+
+                    // filter list
+                    document.querySelectorAll('.colleague-row-card').forEach(card => {
+                        if (status === 'All') {
+                            card.style.display = 'flex';
+                        } else {
+                            const hasStatus = card.querySelector(`.presence-badge.${status.toLowerCase()}`);
+                            if (hasStatus) {
+                                card.style.display = 'flex';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+
+                    document.getElementById('filterDropdown').classList.remove('active');
+                }
+
+                function selectColleague(element) {
+                    // Deselect others
+                    document.querySelectorAll('.colleague-row-card').forEach(card => {
+                        if(card !== element) card.classList.remove('selected');
+                    });
+                    // Toggle current
+                    element.classList.toggle('selected');
+                    checkChallengeSelection();
+                }
+
+                function checkChallengeSelection() {
+                    const selected = document.querySelectorAll('.colleague-row-card.selected').length;
+                    const container = document.getElementById('send-challenge-container');
+                    if (selected > 0) {
+                        container.style.display = 'block';
+                    } else {
+                        container.style.display = 'none';
+                    }
+                }
+            </script>
+        </div>
+    </div>
+
+
+    <!-- Screen 2: Choose Difficulty -->
+    <div id="view-difficulty" class="quiz-view">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title" id="difficulty-category-title">Select Difficulty</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content" style="padding-top: 16px;">
+            <div class="difficulty-grid">
+                <div class="difficulty-card card diff-beginner" onclick="QuizEngine.handleDifficultySelection('Beginner')">
+                    <div class="difficulty-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="18" r="3"/><circle cx="12" cy="18" r="3" opacity="0.3"/><circle cx="18" cy="18" r="3" opacity="0.3"/></svg>
+                    </div>
+                    <div class="difficulty-info">
+                        <h3>Beginner</h3>
+                        <p>Basic concepts and foundational rules.</p>
+                        <div class="difficulty-meta">
+                            <span class="xp-badge">10 XP/Q</span>
+                            <span>~5 mins</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-card card recommended diff-intermediate" onclick="QuizEngine.handleDifficultySelection('Intermediate')">
+                    <div class="recommended-tag">Recommended</div>
+                    <div class="difficulty-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="18" r="3"/><circle cx="12" cy="18" r="3"/><circle cx="18" cy="18" r="3" opacity="0.3"/></svg>
+                    </div>
+                    <div class="difficulty-info">
+                        <h3>Intermediate</h3>
+                        <p>Applied scenarios and standard procedures.</p>
+                        <div class="difficulty-meta">
+                            <span class="xp-badge">25 XP/Q</span>
+                            <span>~10 mins</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="difficulty-card card diff-advanced" onclick="QuizEngine.handleDifficultySelection('Advanced')">
+                    <div class="difficulty-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="18" r="3"/><circle cx="12" cy="18" r="3"/><circle cx="18" cy="18" r="3"/></svg>
+                    </div>
+                    <div class="difficulty-info">
+                        <h3>Advanced</h3>
+                        <p>Complex situations and legal exceptions.</p>
+                        <div class="difficulty-meta">
+                            <span class="xp-badge">50 XP/Q</span>
+                            <span>~15 mins</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="difficulty-card card locked diff-expert" onclick="alert('Unlock PRO to access Expert level!')">
+                    <div class="pro-tag">PRO</div>
+                    <div class="difficulty-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div class="difficulty-info">
+                        <h3>Expert</h3>
+                        <p>Rare scenarios and absolute mastery.</p>
+                        <div class="difficulty-meta">
+                            <span class="xp-badge">100 XP/Q</span>
+                            <span>~20 mins</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 100px;"></div>
+        </div>
+    </div>
+
+    <!-- Screen: Challenge Confirmation -->
+    <div id="view-challenge-confirm" class="quiz-view">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Confirm Challenge</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content">
+            <div class="card" style="padding: 24px;">
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 12px;">
+                        <span style="color: var(--text-secondary); font-weight: 500;">Category</span>
+                        <span style="font-weight: 600; color: var(--text-primary);" id="confirm-category">Criminal Law</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 12px;">
+                        <span style="color: var(--text-secondary); font-weight: 500;">Type</span>
+                        <span style="font-weight: 600; color: var(--text-primary);" id="confirm-format">Standard Quiz</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 12px;">
+                        <span style="color: var(--text-secondary); font-weight: 500;">Opponent</span>
+                        <span style="font-weight: 600; color: var(--text-primary);" id="confirm-opponent">Officer Smith</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-secondary); font-weight: 500;">Level</span>
+                        <span style="font-weight: 600; color: var(--accent-blue);" id="confirm-level">Intermediate</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-primary w-100 mt-4" style="font-size: 18px; padding: 16px;" onclick="QuizEngine.navigate('view-active', {mode: 'Challenge', count: 10})">
+                Send Challenge & Start
+            </button>
+            <button class="btn-outline w-100 mt-3" style="font-size: 16px; padding: 16px; border-color: rgba(15,23,42,0.1); color: var(--text-secondary);" onclick="QuizEngine.navigateBack()">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <!-- Screen: Live Challenges List -->
+    <div id="view-live-list" class="quiz-view">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Live Challenges</h1>
+                </div>
+            </div>
+        </div>
+        <div class="view-content" style="padding-top: 16px; background: var(--bg-color);">
+            <div class="premium-live-card active-glow">
+                <div class="plc-time-bar"><div class="plc-time-fill" style="width: 85%;"></div></div>
+                <div class="plc-header">
+                    <div class="plc-badge"><span class="pulse-dot"></span> LIVE</div>
+                    <div class="plc-popular-badge"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1em; height: 1em; vertical-align: -0.1em; margin-right: 4px;"> Popular</div>
+                </div>
+                <div class="plc-body">
+                    <h3 class="plc-title">Alpha Squad Friday Face-off</h3>
+                    <div class="plc-tags">
+                        <span class="plc-category">Criminal Law</span>
+                        <span class="plc-difficulty">📚 Intermediate</span>
+                    </div>
+                </div>
+                <div class="plc-divider"></div>
+                <div class="plc-stats">
+                    <div class="plc-stat-item">
+                        <span class="stat-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f465.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em;"></span>
+                        <span class="stat-text">12/20 Players Active</span>
+                    </div>
+                    <div class="plc-stat-item">
+                        <span class="stat-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2753.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em;"></span>
+                        <span class="stat-text">15 Questions</span>
+                    </div>
+                    <div class="plc-stat-item text-danger">
+                        <span class="stat-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/23f3.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em;"></span>
+                        <span class="stat-text">1 Player Waiting</span>
+                    </div>
+                    <div class="plc-stat-item highlight-xp">
+                        <span class="stat-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em;"></span>
+                        <span class="stat-text">+500 XP Reward</span>
+                    </div>
+                </div>
+                <div class="plc-footer">
+                    <div class="avatar-stack">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" alt="user">
+                    </div>
+                    <button class="btn-primary w-100 plc-btn" onclick="QuizEngine.navigate('view-live-details')">View Challenge</button>
+                </div>
+            </div>
+
+
+            <div style="height: 100px;"></div>
+        </div>
+    </div>
+
+    <!-- Screen: Live Challenge Details -->
+    <div id="view-live-details" class="quiz-view">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Challenge Details</h1>
+                </div>
+            </div>
+        </div>
+        
+        <div class="view-content challenge-details-content">
+            <!-- SECTION 1: Challenge Hero Card -->
+            <div class="premium-live-hero-card active-glow">
+                <div class="plc-header">
+                    <div class="plc-badge"><span class="pulse-dot"></span> LIVE</div>
+                    <div class="plc-popular-badge"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1em; height: 1em; vertical-align: -0.1em; margin-right: 4px;"> Popular</div>
+                </div>
+                <div class="plc-body">
+                    <h2 class="plc-title-large">Alpha Squad Friday Face-off</h2>
+                    <p class="plc-creator">Created by Sgt. Davies</p>
+                    <div class="plc-tags">
+                        <span class="plc-category">Criminal Law</span>
+                        <span class="plc-difficulty" style="background: #fef2f2; color: #ef4444;">📚 Expert</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: Challenge Information Grid -->
+            <h3 class="section-heading">Information</h3>
+            <div class="premium-info-grid">
+                <div class="info-block-card">
+                    <div class="info-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2753.png"></div>
+                    <div class="info-content">
+                        <h4>15 Questions</h4>
+                        <p>Format</p>
+                    </div>
+                </div>
+                <div class="info-block-card">
+                    <div class="info-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/23f3.png"></div>
+                    <div class="info-content">
+                        <h4>1 Waiting</h4>
+                        <p>Player Waiting</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: Challenge Rules -->
+            <h3 class="section-heading">Rules & Mechanics</h3>
+            <div class="premium-rules-list">
+                <div class="rule-card">
+                    <div class="rule-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a0-fe0f.png"></div>
+                    <div class="rule-text">
+                        <h4>No Second Chances</h4>
+                        <p>Once you answer, you cannot go back or change it.</p>
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png"></div>
+                    <div class="rule-text">
+                        <h4>Highest Score Wins</h4>
+                        <p>Rankings are based on score first, then speed.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: Participants Preview -->
+            <h3 class="section-heading">Participants</h3>
+            <div class="premium-participants-preview">
+                <div class="participant-avatars avatar-stack">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" alt="user">
+                </div>
+                <div class="participant-text">
+                    <h4>1 Waiting</h4>
+                    <p>Sgt. Marcus is waiting to play.</p>
+                </div>
+            </div>
+
+            <!-- SECTION 5: Rewards Section -->
+            <h3 class="section-heading">Rewards</h3>
+            <div class="premium-reward-card">
+                <div class="reward-glow"></div>
+                <div class="reward-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2b50.png"></div>
+                <div class="reward-info">
+                    <h4>+500 XP</h4>
+                    <p>Rank Bonus Available</p>
+                </div>
+                <div class="reward-badge">Top 3</div>
+            </div>
+            
+            <div style="height: 120px;"></div> <!-- Spacer for Sticky CTA -->
+        </div>
+
+        <!-- Sticky CTA -->
+        <div class="sticky-cta-bar">
+            <button class="btn-primary w-100 join-cta-btn" onclick="QuizEngine.navigate('view-active', {mode: 'Live Challenge', count: 15})">
+                <span class="cta-text">Join & Start Now</span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Screen 3: Choose Quiz Mode -->
+    <div id="view-mode" class="quiz-view">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Select Mode</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content">
+            <div class="mode-grid">
+                <div class="mode-card card" onclick="QuizEngine.navigate('view-preview', {mode: 'Quick Quiz', count: 5})">
+                    <div class="mode-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                    <div class="mode-info">
+                        <h3>Quick Quiz</h3>
+                        <p>5 questions. Perfect for a fast review.</p>
+                    </div>
+                </div>
+                
+                <div class="mode-card card" onclick="QuizEngine.navigate('view-preview', {mode: 'Standard Quiz', count: 15})">
+                    <div class="mode-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3af.png" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                    <div class="mode-info">
+                        <h3>Standard Quiz</h3>
+                        <p>15 questions. The classic experience.</p>
+                    </div>
+                </div>
+                
+                <div class="mode-card card" onclick="QuizEngine.navigate('view-preview', {mode: 'Timed Challenge', count: 20})">
+                    <div class="mode-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/23f1-fe0f.png" style="width: 32px; height: 32px; object-fit: contain;"></div>
+                    <div class="mode-info">
+                        <h3>Timed Challenge</h3>
+                        <p>Race against the clock. 2x XP.</p>
+                    </div>
+                </div>
+                
+                <div class="mode-card card" onclick="QuizEngine.navigate('view-preview', {mode: 'Endurance Mode', count: 50})">
+                    <div class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+                    <div class="mode-info">
+                        <h3>Endurance</h3>
+                        <p>50 questions. Test your stamina.</p>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 100px;"></div>
+        </div>
+    </div>
+
+
+    <!-- Screen 4: Quiz Start Preview -->
+    <div id="view-preview" class="quiz-view">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="view-content flex-center">
+            <div class="preview-card card">
+                <div class="preview-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <h2 id="preview-title" class="preview-title">Category Name</h2>
+                <div class="preview-tags">
+                    <span id="preview-difficulty" class="tag tag-blue">Intermediate</span>
+                    <span id="preview-mode" class="tag tag-orange">Standard Quiz</span>
+                </div>
+                
+                <div class="preview-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="preview-count">15</span>
+                        <span class="stat-label">Questions</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">+<span id="preview-xp">375</span></span>
+                        <span class="stat-label">Potential XP</span>
+                    </div>
+                </div>
+                
+                <button class="btn-primary start-btn" onclick="QuizEngine.startCountdown()">
+                    START QUIZ
+                </button>
+            </div>
+        </div>
+        
+        <!-- Fullscreen Countdown Overlay -->
+        <div id="countdown-overlay" class="countdown-overlay hidden">
+            <div class="countdown-number" id="countdown-number">3</div>
+        </div>
+
+    </div>
+
+
+    <!-- Screen 5: Active Quiz -->
+    <div id="view-active" class="quiz-view">
+        <div class="quiz-header">
+            <div class="quiz-top-bar" style="padding-bottom: 12px;">
+                <button class="back-btn" onclick="QuizEngine.confirmExit()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+                
+                <div class="streak-counter" id="streak-container" style="display: flex; margin-left: auto; transition: all 0.3s ease;">
+                    <span id="active-streak" style="font-weight: 800;">🔥 0 Streak</span>
+                </div>
+            </div>
+
+            <div style="padding: 8px 20px 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;">
+                    <span id="active-question-counter" style="color: white; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;">Question 1 of 10</span>
+                    <span id="active-progress-text" style="color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 600; white-space: nowrap;">0% Complete</span>
+                </div>
+                <div class="quiz-progress-bar" style="width: 100%; margin: 0; background: rgba(255,255,255,0.2); height: 6px; border-radius: 4px;">
+                    <div class="quiz-progress-fill" id="active-progress-fill" style="width: 0%; background: #4ade80; box-shadow: 0 0 10px rgba(74, 222, 128, 0.5); border-radius: 4px;"></div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 20px 24px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div class="xp-counter" style="background: #f59e0b; color: white; padding: 4px 12px; border-radius: 12px; font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2b50.png" style="width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; display: block;"> <span id="active-xp">0 XP</span>
+                    </div>
+                    <div class="difficulty-badge" id="active-difficulty" style="background: rgba(255,255,255,0.1); color: white; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;">📚 Intermediate</div>
+                </div>
+                
+                <div class="quiz-timer timer-normal" id="active-timer" style="display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.15); padding: 4px 12px; border-radius: 20px; font-size: 13px;">
+                    <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/23f0.png" style="width: 14px; height: 14px;">
+                    <span id="active-timer-text">00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content quiz-content-area">
+            <h2 class="question-text" id="question-text">Loading question...</h2>
+            
+            <div class="answers-grid" id="answers-grid">
+                <!-- Answer buttons injected via JS -->
+            </div>
+        </div>
+        
+        <!-- Feedback Toast (Bottom sheet style) -->
+        <div id="feedback-overlay" class="feedback-overlay hidden"></div>
+        <div id="feedback-sheet" class="feedback-sheet hidden">
+            <div class="feedback-header" style="flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 0;">
+                <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
+                    <div class="feedback-icon" id="feedback-icon" style="font-size: 24px;"></div>
+                    <h3 class="feedback-title" id="feedback-title" style="flex: 1; font-size: 22px; font-weight: 800;">Correct!</h3>
+                </div>
+                <div id="feedback-details" style="font-size: 15px; font-weight: 600; display: flex; flex-direction: column; gap: 6px; margin: 8px 0 0 0;">
+                    <span class="feedback-xp" id="feedback-xp" style="background: transparent; color: inherit; padding: 0; font-size: 16px; font-weight: 700;">+30 XP Earned</span>
+                    <span id="feedback-streak-msg" style="color: inherit;">🔥 Streak Increased to 4</span>
+                    <span id="feedback-accuracy" style="color: inherit;">🎯 Accuracy: 80%</span>
+                </div>
+            </div>
+            <p class="feedback-explanation" id="feedback-explanation" style="margin: 16px 0; font-size: 15px; line-height: 1.5; opacity: 0.9;">This is the explanation for why the answer is correct or incorrect.</p>
+            <button class="btn-primary w-100" id="feedback-next-btn" style="padding: 16px; font-size: 18px;" onclick="QuizEngine.nextQuestion()">Next Question</button>
+        </div>
+    </div>
+
+
+    <!-- Screen 6: Quiz Completion (iOS Premium Challenge Result) -->
+    <div id="view-completion" class="quiz-view" style="background: #466ba9; height: 100%; color: #ffffff; transition: background 0.8s ease; font-family: 'Poppins', sans-serif;">
+        
+        <div class="view-content" style="padding: 0 20px; padding-top: 60px; padding-bottom: 120px; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+            
+            <!-- Hero Section -->
+            <div class="result-hero" style="text-align: center; margin-bottom: 40px;">
+                <div id="completion-emoji" class="hero-illustration" style="margin-bottom: 24px; animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25)); display: flex; justify-content: center;">
+                    <img src="https://raw.githubusercontent.com/iamcal/emoji-data/master/img-apple-160/1f3c6.png" style="width: 160px; height: 160px; object-fit: contain;">
+                </div>
+                <h1 id="completion-title" style="font-family: 'Poppins', sans-serif; font-size: 42px; font-weight: 700; color: #ffffff; margin-bottom: 8px;">You Won!</h1>
+                <p id="completion-subtitle" style="font-family: 'Inter', sans-serif; font-size: 16px; color: rgba(255,255,255,0.8); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase;">Challenge Complete</p>
+            </div>
+
+            <!-- Combined Match Result & Performance Card -->
+            <div class="ios-card combined-card" style="background: #ffffff; border-radius: 32px; padding: 16px; margin-bottom: 24px; box-shadow: 0 16px 32px rgba(0,0,0,0.15);">
+                
+                <!-- Players Row -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; position: relative;">
+                    <!-- Player -->
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 80px; position: relative; z-index: 2;">
+                        <div style="padding: 4px; border-radius: 50%; background: #466ba9; margin-bottom: 8px; box-shadow: 0 8px 16px rgba(70, 107, 169, 0.2); display: flex; align-items: center; justify-content: center;">
+                            <img id="my-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&h=120&fit=crop" style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 3px solid #ffffff; display: block;">
+                        </div>
+                        <span id="my-name" style="font-size: 14px; font-weight: 600; color: #000000; font-family: 'Poppins', sans-serif; text-align: center;">Alex</span>
+                    </div>
+
+                    <!-- VS Badge -->
+                    <div style="position: absolute; left: 50%; top: 32px; transform: translate(-50%, -50%); z-index: 1;">
+                        <div style="width: 36px; height: 36px; border-radius: 18px; background: #f2f2f7; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #8e8e93; font-style: italic; font-family: 'Poppins', sans-serif;">VS</div>
+                    </div>
+
+                    <!-- Opponent -->
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 80px; position: relative; z-index: 2;">
+                        <div id="opp-avatar-ring" style="padding: 4px; border-radius: 50%; background: #466ba9; margin-bottom: 8px; box-shadow: 0 8px 16px rgba(70, 107, 169, 0.2); display: flex; align-items: center; justify-content: center;">
+                            <img id="opp-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop" style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 3px solid #ffffff; display: block;">
+                        </div>
+                        <span id="opp-name" style="font-size: 14px; font-weight: 600; color: #000000; font-family: 'Poppins', sans-serif; text-align: center;">Jordan</span>
+                    </div>
+                </div>
+
+                <!-- Final Score prominently -->
+                <div style="text-align: center; border-top: 1px solid #f2f2f7; padding-top: 24px; padding-bottom: 24px;">
+                    <div style="font-size: 11px; color: #8e8e93; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; font-family: 'Inter', sans-serif;">Final Score</div>
+                    <div style="font-size: 52px; font-weight: 700; letter-spacing: -1px; font-variant-numeric: tabular-nums; font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; gap: 12px; line-height: 1.1;">
+                        <span id="my-score-val" style="color: var(--result-accent);">260</span> 
+                        <span style="color: #d1d5db; font-weight: 300; font-size: 32px;">–</span> 
+                        <span id="opp-score-val" style="color: #000000;">210</span>
+                    </div>
+                </div>
+
+                <!-- Premium Stats Container -->
+                <div style="background: #f8fafc; border-radius: 20px; padding: 16px 20px;">
+                    
+                    <!-- Comparison Row: Correct Answers -->
+                    <div class="comp-row" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; font-family: 'Inter', sans-serif;">
+                        <span id="my-correct-val" style="font-size: 15px; font-weight: 700; color: var(--result-accent); width: 50px; text-align: left;">8</span>
+                        <span style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Correct</span>
+                        <span id="opp-correct-val" style="font-size: 15px; font-weight: 700; color: #000000; width: 50px; text-align: right;">6</span>
+                    </div>
+
+                    <!-- Comparison Row: Accuracy -->
+                    <div class="comp-row" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; font-family: 'Inter', sans-serif;">
+                        <span id="my-acc-val" style="font-size: 15px; font-weight: 700; color: var(--result-accent); width: 50px; text-align: left;">80%</span>
+                        <span style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Accuracy</span>
+                        <span id="opp-acc-val" style="font-size: 15px; font-weight: 700; color: #000000; width: 50px; text-align: right;">60%</span>
+                    </div>
+
+                    <!-- Comparison Row: Fastest Answer -->
+                    <div class="comp-row" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; font-family: 'Inter', sans-serif;">
+                        <span id="my-fastest-val" style="font-size: 15px; font-weight: 700; color: var(--result-accent); width: 50px; text-align: left;">1.2s</span>
+                        <span style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Fastest</span>
+                        <span id="opp-fastest-val" style="font-size: 15px; font-weight: 700; color: #000000; width: 50px; text-align: right;">1.8s</span>
+                    </div>
+
+                    <!-- Comparison Row: Best Streak -->
+                    <div class="comp-row" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; font-family: 'Inter', sans-serif;">
+                        <span id="my-streak-val" style="font-size: 15px; font-weight: 700; color: var(--result-accent); width: 50px; text-align: left;">5</span>
+                        <span style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Best Streak</span>
+                        <span id="opp-streak-val" style="font-size: 15px; font-weight: 700; color: #000000; width: 50px; text-align: right;">3</span>
+                    </div>
+
+                    <!-- Comparison Row: Response Time -->
+                    <div class="comp-row" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; font-family: 'Inter', sans-serif;">
+                        <span id="my-time-val" style="font-size: 15px; font-weight: 700; color: var(--result-accent); width: 50px; text-align: left;">2.4s</span>
+                        <span style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Avg Time</span>
+                        <span id="opp-time-val" style="font-size: 15px; font-weight: 700; color: #000000; width: 50px; text-align: right;">3.1s</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Rewards Section -->
+            <div class="ios-card rewards-card" style="background: #ffffff; border-radius: 24px; padding: 20px; margin-bottom: 24px; box-shadow: 0 16px 32px rgba(0,0,0,0.1);">
+                <h3 style="font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 16px; font-family: 'Poppins', sans-serif; display: flex; align-items: center; gap: 8px;">
+                    <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f381.png" style="width: 1.2em; height: 1.2em;"> Rewards Unlocked
+                </h3>
+                <div style="display: flex; flex-direction: column; gap: 12px; font-family: 'Inter', sans-serif;">
+                    <div style="display: flex; align-items: center; gap: 12px; background: #fdfae8; padding: 12px; border-radius: 16px;">
+                        <span id="result-xp-reward" style="font-size: 15px; font-weight: 600; color: #b45309; flex: 1;">+250 XP Earned</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; background: #ecfdf5; padding: 12px; border-radius: 16px;">
+                        <span id="result-rank-reward" style="font-size: 15px; font-weight: 600; color: #065f46; flex: 1;">Rank Increased +2</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; background: #eff6ff; padding: 12px; border-radius: 16px;">
+                        <span id="result-badge-reward" style="font-size: 15px; font-weight: 600; color: #1e40af; flex: 1;">New Badge Unlocked</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Insight -->
+            <div class="insight-box" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 20px; display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; font-family: 'Inter', sans-serif;">
+                <div style="font-size: 24px; line-height: 1;"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></div>
+                <div style="font-size: 15px; font-weight: 500; color: #ffffff; line-height: 1.5;" id="match-insight-text">
+                    You answered 3 questions faster, securing the victory!
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div style="display: flex; flex-direction: column; gap: 16px; font-family: 'Poppins', sans-serif;">
+                <button class="ios-btn-primary" onclick="QuizEngine.returnHome()" style="background: #ffffff; color: #466ba9; width: 100%; padding: 20px; border-radius: 20px; font-size: 16px; font-weight: 600; border: none; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;">
+                    Back to Challenges
+                </button>
+                <button class="ios-btn-secondary" onclick="QuizEngine.navigate('view-analytics')" style="background: transparent; color: #ffffff; width: 100%; padding: 20px; border-radius: 20px; font-size: 16px; font-weight: 600; border: 1px solid rgba(255,255,255,0.4); cursor: pointer; transition: background 0.2s;">
+                    View Match Details
+                </button>
+            </div>
+            
+
+
+        </div>
+    </div>
+
+
+    <!-- Screen 7: Quiz Analytics -->
+    <div id="view-analytics" class="quiz-view">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Performance Analytics</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content">
+            <div class="card analytics-summary">
+                <div class="analytics-chart-container">
+                    <!-- Native CSS Circular Progress -->
+                    <svg viewBox="0 0 36 36" class="circular-chart blue large">
+                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path class="circle" stroke-dasharray="80, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <text x="18" y="20.5" class="percentage">80%</text>
+                    </svg>
+                </div>
+                <h3>Excellent Accuracy!</h3>
+                <p>You answered 8 out of 10 questions correctly.</p>
+            </div>
+            
+            <div class="section-title-wrapper mt-4">
+                <h2 class="section-title">Time Breakdown</h2>
+            </div>
+            <div class="card">
+                <div class="time-stat-row">
+                    <span>Average time per question</span>
+                    <strong>12.4s</strong>
+                </div>
+                <div class="time-stat-row">
+                    <span>Fastest correct answer</span>
+                    <strong>4.2s</strong>
+                </div>
+                <div class="time-stat-row">
+                    <span>Total time spent</span>
+                    <strong>2m 04s</strong>
+                </div>
+            </div>
+            
+            <div class="section-title-wrapper mt-4">
+                <h2 class="section-title">Question Breakdown</h2>
+            </div>
+            <!-- Dynamic list generated by JS -->
+            <div class="question-breakdown-list" id="analytics-question-list">
+                <!-- Example -->
+                <div class="breakdown-item correct">
+                    <div class="breakdown-icon">✓</div>
+                    <div class="breakdown-text">Question 1 Summary...</div>
+                </div>
+            </div>
+            <div style="height: 100px;"></div>
+        </div>
+    </div>
+
+
+    <!-- Screen 8: Gamified Leaderboard -->
+    <div id="view-leaderboard" class="quiz-view">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Leaderboard</h1>
+                </div>
+            </div>
+            <!-- Premium Segmented Tabs -->
+            <div class="tabs-container">
+                <button class="tab-btn active" onclick="QuizEngine.switchLeaderboardTab(this, 'friends')">Friends</button>
+                <button class="tab-btn" onclick="QuizEngine.switchLeaderboardTab(this, 'team')">Team</button>
+                <button class="tab-btn" onclick="QuizEngine.switchLeaderboardTab(this, 'national')">National</button>
+                <button class="tab-btn" onclick="QuizEngine.switchLeaderboardTab(this, 'weekly')">Weekly</button>
+            </div>
+        </div>
+
+        <div class="view-content" style="padding-top: 16px; padding-bottom: 200px; background: var(--bg-color);">
+            <!-- Weekly Achievement Banner -->
+            <div class="lb-achievement-banner" id="lb-achievement-banner">
+                <div class="lb-banner-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></div>
+                <div class="lb-banner-text">
+                    <strong>Top Performer This Week</strong>
+                    <p>You've climbed 5 positions! Keep it up!</p>
+                </div>
+            </div>
+
+            <!-- Weekly MVP Container -->
+            <div id="lb-weekly-mvp-container"></div>
+
+            <!-- Top 3 Podium Stage -->
+            <div class="lb-podium-container" id="leaderboard-podium">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Remaining Ranks List -->
+            <div class="leaderboard-list" id="leaderboard-list">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Weekly Achievements Section -->
+            <div id="lb-weekly-achievements-container"></div>
+        </div>
+        
+        <!-- Sticky Floating User Card -->
+        <div class="lb-sticky-user-card" id="lb-sticky-user-card">
+            <!-- Injected via JS -->
+        </div>
+    </div>
+
+
+    <!-- Screen 9: iOS Native Badges Screen -->
+    <div id="view-achievements" class="quiz-view" style="background-color: #e9f5ff; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;">
+        <div class="header-wrapper">
+            <div class="header-inner" style="padding-bottom: 4px;">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">Badges</h1>
+                </div>
+            </div>
+            
+            <!-- Magic Tabs in Header -->
+            <div class="magic-tabs-wrapper">
+                <div class="tab-indicator" id="badgeTabIndicator"></div>
+                
+                <div class="m-tab m-tab-active badge-tab" onclick="QuizEngine.filterBadgesMagic('all', this)">
+                    <img src="../images/all.svg" alt="ALL">
+                    <span>ALL</span>
+                </div>
+                <div class="m-tab badge-tab" onclick="QuizEngine.filterBadgesMagic('unlocked', this)">
+                    <img src="../images/checklist.svg" alt="UNLOCKED">
+                    <span>UNLOCKED</span>
+                </div>
+                <div class="m-tab badge-tab" onclick="QuizEngine.filterBadgesMagic('locked', this)">
+                    <img src="../images/star.svg" alt="LOCKED">
+                    <span>LOCKED</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content" style="padding: 16px; padding-bottom: 100px;">
+            
+            <!-- Badge Grid -->
+            <div id="ios-badges-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;">
+                <!-- Badges will be injected here via JS -->
+            </div>
+
+            <!-- Achievement Progress Summary Removed -->
+            
+        </div>
+
+        <!-- iOS Native Bottom Sheet -->
+        <div id="ios-badge-sheet-backdrop" onclick="QuizEngine.closeIosBadgeDetails()" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);"></div>
+        <div id="ios-badge-sheet" style="position: absolute; bottom: 0; left: 0; width: 100%; background: #ffffff; border-radius: 16px 16px 0 0; z-index: 1001; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 -8px 24px rgba(0,0,0,0.1);">
+            <div style="width: 36px; height: 5px; background: #e5e5ea; border-radius: 2.5px; margin: 8px auto 16px;"></div>
+            
+            <div id="ios-badge-sheet-content" style="padding: 0 24px 40px; text-align: center;">
+                <!-- Sheet content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Screen 10: Quiz Profile -->
+    <div id="view-profile" class="quiz-view">
+        <div class="header-wrapper">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title">My Quiz Profile</h1>
+                </div>
+                <button class="header-icon-btn" onclick="QuizEngine.navigate('view-leaderboard')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+            </div>
+        </div>
+
+                <div class="view-content" style="padding: 16px 20px 100px; background: var(--bg-color);">
+            
+            <!-- SECTION 01: PROFILE HERO AREA -->
+            <div class="card premium-card" style="text-align: center; padding: 32px 20px 24px; position: relative; margin-bottom: 24px;">
+                <div style="position: absolute; top: 16px; right: 16px;">
+                    <button class="icon-btn" style="background: rgba(0,0,0,0.04); border: none; padding: 8px; border-radius: 12px; cursor: pointer; transition: background 0.2s;" onclick="QuizEngine.showToast('Edit Profile (Coming Soon)')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    </button>
+                </div>
+                <div style="width: 100px; height: 100px; margin: 0 auto 16px; border-radius: 50%; padding: 4px; background: linear-gradient(135deg, var(--accent-blue), #60a5fa); display: flex; align-items: center; justify-content: center;">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&h=200" alt="Officer Smith" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #ffffff;">
+                </div>
+                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-primary); margin: 0 0 4px; font-family: 'Poppins', sans-serif;">Officer Smith</h2>
+                <p style="font-size: 14px; font-weight: 500; color: var(--text-secondary); margin: 0 0 24px;">Traffic Division • Senior Officer</p>
+                
+                <div style="display: flex; justify-content: center; gap: 24px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 20px;">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <span style="font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Level</span>
+                        <span style="font-size: 20px; font-weight: 800; color: var(--text-primary);">12</span>
+                    </div>
+                    <div style="width: 1px; background: rgba(0,0,0,0.05);"></div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <span style="font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">XP</span>
+                        <span style="font-size: 20px; font-weight: 800; color: var(--accent-blue);">4,500</span>
+                    </div>
+                    <div style="width: 1px; background: rgba(0,0,0,0.05);"></div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <span style="font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Rank</span>
+                        <span style="font-size: 20px; font-weight: 800; color: var(--text-primary);">#4</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 02: PROGRESS JOURNEY CARD -->
+            <div class="card premium-card" style="margin-bottom: 32px; padding: 24px 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin: 0;">Level 12 Journey</h3>
+                    <span style="font-size: 14px; font-weight: 700; color: var(--accent-blue);">4,500 / 6,000 XP</span>
+                </div>
+                <div style="background: rgba(0,0,0,0.04); height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 24px; position: relative; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);">
+                    <div style="background: var(--accent-blue); width: 75%; height: 100%; border-radius: 6px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 32px; height: 32px; border-radius: 10px; background: rgba(245, 158, 11, 0.1); display: flex; align-items: center; justify-content: center;">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f31f.png" style="width: 16px; height: 16px; object-fit: contain;">
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Upcoming Reward</span>
+                            <span style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Gold Badge Unlock</span>
+                        </div>
+                    </div>
+                    <span style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">1,500 XP Left</span>
+                </div>
+            </div>
+
+            <!-- SECTION 03: QUIZ PERFORMANCE OVERVIEW -->
+            <div class="section-title-wrapper mb-3" style="margin-bottom: 16px;">
+                <h2 class="section-title">Performance Overview</h2>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                <div class="card premium-card" style="padding: 20px 16px; display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(52, 199, 89, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4c8.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <div>
+                        <span style="display: block; font-size: 12px; font-weight: 600; color: var(--text-dim); margin-bottom: 4px;">Win Rate</span>
+                        <span style="font-size: 24px; font-weight: 800; color: var(--text-primary);">68%</span>
+                    </div>
+                </div>
+                <div class="card premium-card" style="padding: 20px 16px; display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(70, 107, 169, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3af.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <div>
+                        <span style="display: block; font-size: 12px; font-weight: 600; color: var(--text-dim); margin-bottom: 4px;">Accuracy</span>
+                        <span style="font-size: 24px; font-weight: 800; color: var(--text-primary);">84%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 32px;">
+                <div class="card premium-card" style="padding: 16px 12px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <span style="display: block; font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Wins</span>
+                    <span style="font-size: 20px; font-weight: 800; color: var(--text-primary);">42</span>
+                </div>
+                <div class="card premium-card" style="padding: 16px 12px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(239, 68, 68, 0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <span style="display: block; font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Streak</span>
+                    <span style="font-size: 20px; font-weight: 800; color: var(--text-primary);">24</span>
+                </div>
+                <div class="card premium-card" style="padding: 16px 12px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(99, 102, 241, 0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4dd.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <span style="display: block; font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Quizzes</span>
+                    <span style="font-size: 20px; font-weight: 800; color: var(--text-primary);">142</span>
+                </div>
+            </div>
+
+            <!-- SECTION 04: ACHIEVEMENTS SHOWCASE -->
+            <div class="section-title-wrapper mb-3 flex-between" style="margin-bottom: 16px;">
+                <h2 class="section-title">Achievements</h2>
+                <button class="text-btn" onclick="QuizEngine.navigate('view-achievements')">View All</button>
+            </div>
+            <div class="card premium-card" style="margin-bottom: 32px; padding: 16px;">
+                <div style="display: flex; gap: 12px;">
+                    <div style="flex: 1; text-align: center; padding: 16px 8px; background: rgba(0,0,0,0.02); border-radius: 16px;">
+                        <span style="display: block; font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">Recent</span>
+                        <div style="width: 56px; height: 56px; margin: 0 auto; background: #ffffff; border-radius: 16px; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center;">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3af.png" style="width: 32px; height: 32px; object-fit: contain;">
+                        </div>
+                    </div>
+                    <div style="flex: 1; text-align: center; padding: 16px 8px; background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 16px;">
+                        <span style="display: block; font-size: 11px; font-weight: 700; color: #d97706; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">Valuable</span>
+                        <div style="width: 56px; height: 56px; margin: 0 auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); display: flex; align-items: center; justify-content: center;">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 32px; height: 32px; object-fit: contain;">
+                        </div>
+                    </div>
+                    <div style="flex: 1; text-align: center; padding: 16px 8px; background: rgba(0,0,0,0.02); border-radius: 16px;">
+                        <span style="display: block; font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">Next Up</span>
+                        <div style="width: 56px; height: 56px; margin: 0 auto; background: transparent; border: 2px dashed #cbd5e1; border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f512.png" style="width: 24px; height: 24px; object-fit: contain; opacity: 0.4;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 05: LEADERBOARD STATUS -->
+            <div class="section-title-wrapper" style="margin-bottom: 16px;">
+                <h2 class="section-title">Leaderboard Status</h2>
+            </div>
+            <div class="card premium-card" style="margin-bottom: 32px; padding: 0; overflow: hidden;">
+                <!-- Team Rank Row -->
+                <div onclick="QuizEngine.navigate('view-leaderboard'); setTimeout(() => QuizEngine.switchLeaderboardTab(document.querySelectorAll('#view-leaderboard .tab-btn')[1], 'team'), 50);" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.02)'" onmouseout="this.style.background='transparent'">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(70, 107, 169, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f465.png" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div>
+                            <span style="display: block; font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">Team Rank</span>
+                            <span style="font-size: 13px; font-weight: 500; color: var(--text-secondary);">Top 5% of Department</span>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="display: block; font-size: 24px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">#4</span>
+                        <span style="font-size: 12px; font-weight: 700; color: var(--success); display: flex; align-items: center; justify-content: flex-end; gap: 4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 12px; height: 12px;"><polyline points="18 15 12 9 6 15"></polyline></svg> 2 Spots</span>
+                    </div>
+                </div>
+                
+                <!-- National Rank Row -->
+                <div onclick="QuizEngine.navigate('view-leaderboard'); setTimeout(() => QuizEngine.switchLeaderboardTab(document.querySelectorAll('#view-leaderboard .tab-btn')[2], 'national'), 50);" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.02)'" onmouseout="this.style.background='transparent'">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(148, 163, 184, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f30e.png" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div>
+                            <span style="display: block; font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">National Rank</span>
+                            <span style="font-size: 13px; font-weight: 500; color: var(--text-secondary);">Out of 12,000 officers</span>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="display: block; font-size: 24px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">#142</span>
+                        <span style="font-size: 12px; font-weight: 700; color: var(--success); display: flex; align-items: center; justify-content: flex-end; gap: 4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 12px; height: 12px;"><polyline points="18 15 12 9 6 15"></polyline></svg> 12 Spots</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 06: MASTERY PROGRESS -->
+            <div class="section-title-wrapper" style="margin-bottom: 16px;">
+                <h2 class="section-title">Mastery Progress</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;">
+                <!-- Card 1 -->
+                <div class="card premium-card" style="padding: 16px; margin: 0; display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(70, 107, 169, 0.1); display: flex; align-items: center; justify-content: center;">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f6a8.png" style="width: 20px; height: 20px; object-fit: contain;">
+                        </div>
+                        <span style="font-size: 15px; font-weight: 800; color: var(--text-primary);">92%</span>
+                    </div>
+                    <span style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Traffic Law</span>
+                    <div style="background: rgba(0,0,0,0.04); height: 6px; border-radius: 3px; overflow: hidden; width: 100%;">
+                        <div style="background: var(--accent-blue); width: 92%; height: 100%; border-radius: 3px; transition: width 1s ease;"></div>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="card premium-card" style="padding: 16px; margin: 0; display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(52, 199, 89, 0.1); display: flex; align-items: center; justify-content: center;">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26d3-fe0f.png" style="width: 20px; height: 20px; object-fit: contain;">
+                        </div>
+                        <span style="font-size: 15px; font-weight: 800; color: var(--text-primary);">85%</span>
+                    </div>
+                    <span style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Criminal Law</span>
+                    <div style="background: rgba(0,0,0,0.04); height: 6px; border-radius: 3px; overflow: hidden; width: 100%;">
+                        <div style="background: var(--success); width: 85%; height: 100%; border-radius: 3px; transition: width 1s ease;"></div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card premium-card" style="padding: 16px; margin: 0; display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(245, 158, 11, 0.1); display: flex; align-items: center; justify-content: center;">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f9ba.png" style="width: 20px; height: 20px; object-fit: contain;">
+                        </div>
+                        <span style="font-size: 15px; font-weight: 800; color: var(--text-primary);">78%</span>
+                    </div>
+                    <span style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Work Safety</span>
+                    <div style="background: rgba(0,0,0,0.04); height: 6px; border-radius: 3px; overflow: hidden; width: 100%;">
+                        <div style="background: #f59e0b; width: 78%; height: 100%; border-radius: 3px; transition: width 1s ease;"></div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="card premium-card" style="padding: 16px; margin: 0; display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(148, 163, 184, 0.1); display: flex; align-items: center; justify-content: center;">
+                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f50d.png" style="width: 20px; height: 20px; object-fit: contain;">
+                        </div>
+                        <span style="font-size: 15px; font-weight: 800; color: var(--text-primary);">65%</span>
+                    </div>
+                    <span style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Evidence</span>
+                    <div style="background: rgba(0,0,0,0.04); height: 6px; border-radius: 3px; overflow: hidden; width: 100%;">
+                        <div style="background: var(--text-dim); width: 65%; height: 100%; border-radius: 3px; transition: width 1s ease;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 07: RECENT ACTIVITY -->
+            <div class="section-title-wrapper" style="margin-bottom: 16px;">
+                <h2 class="section-title">Recent Activity</h2>
+            </div>
+            
+            <div class="card premium-card" style="margin-bottom: 32px; padding: 0; overflow: hidden;">
+                <!-- Activity 1 -->
+                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.05); gap: 16px;">
+                    <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(70, 107, 169, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4dd.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                            <span style="font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Completed Traffic Law Quiz</span>
+                            <span style="font-size: 12px; font-weight: 600; color: var(--text-dim); flex-shrink: 0; padding-left: 12px;">2h ago</span>
+                        </div>
+                        <div style="font-size: 13px; font-weight: 500; color: var(--text-secondary);">
+                            Scored 90% <span style="margin: 0 4px; color: var(--text-dim);">•</span> <span style="color: var(--accent-blue); font-weight: 700;">+45 XP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity 2 -->
+                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.05); gap: 16px;">
+                    <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(52, 199, 89, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2694-fe0f.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                            <span style="font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Won Challenge</span>
+                            <span style="font-size: 12px; font-weight: 600; color: var(--text-dim); flex-shrink: 0; padding-left: 12px;">Yesterday</span>
+                        </div>
+                        <div style="font-size: 13px; font-weight: 500; color: var(--text-secondary);">
+                            vs Officer Jenkins <span style="margin: 0 4px; color: var(--text-dim);">•</span> <span style="color: var(--success); font-weight: 700;">+100 XP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity 3 -->
+                <div style="display: flex; align-items: center; padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.05); gap: 16px;">
+                    <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(245, 158, 11, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c5.png" style="width: 24px; height: 24px; object-fit: contain;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                            <span style="font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Earned Sharpshooter</span>
+                            <span style="font-size: 12px; font-weight: 600; color: var(--text-dim); flex-shrink: 0; padding-left: 12px;">2d ago</span>
+                        </div>
+                        <div style="font-size: 13px; font-weight: 500; color: var(--text-secondary);">
+                            10 Perfect Quizzes
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- View All Row -->
+                <div onclick="showActivitySheet()" style="padding: 16px; text-align: center; cursor: pointer; transition: background 0.2s; background: transparent;" onmouseover="this.style.background='rgba(0,0,0,0.02)'" onmouseout="this.style.background='transparent'">
+                    <span style="font-size: 14px; font-weight: 700; color: var(--accent-blue);">View All Activity</span>
+                </div>
+            </div>
+            
+        </div>
+</div>
+    
+
+
+
+    
+    <!-- Activity Bottom Sheet -->
+    <div class="achieve-bottom-sheet-backdrop" id="activity-sheet-backdrop" style="position: absolute; display: none; opacity: 0; transition: opacity 0.3s ease; z-index: 9999;" onclick="hideActivitySheet()"></div>
+    <div class="achieve-bottom-sheet" id="activity-sheet" style="position: absolute; display: block; max-width: 414px; margin: 0 auto; left: 0; right: 0; z-index: 10000; transform: translateY(100%); padding: 16px 20px 34px;">
+        <div class="achieve-sheet-handle" style="width: 40px; height: 4px; background: #e2e8f0; border-radius: 2px; margin: 0 auto 20px;"></div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 800; color: var(--text-primary);">Activity History</h2>
+            <button onclick="hideActivitySheet()" style="background: rgba(0,0,0,0.05); border: none; width: 32px; height: 32px; border-radius: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; color: var(--text-secondary);"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+
+        <div style="padding-bottom: 20px;">
+            <div class="card premium-card" style="padding: 0; overflow: hidden; margin-bottom: 0; border: 1px solid rgba(0,0,0,0.05); box-shadow: none;">
+                
+                <!-- Activity 1 -->
+                <div style="display: flex; align-items: center; padding: 16px; border-bottom: 1px solid rgba(0,0,0,0.05); gap: 12px;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(70, 107, 169, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4dd.png" style="width: 20px; height: 20px; object-fit: contain;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                            <span style="font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Completed Traffic Law Quiz</span>
+                            <span style="font-size: 11px; font-weight: 600; color: var(--text-dim); flex-shrink: 0; padding-left: 8px;">2h ago</span>
+                        </div>
+                        <div style="font-size: 12px; font-weight: 500; color: var(--text-secondary);">
+                            Scored 90% <span style="margin: 0 4px; color: var(--text-dim);">•</span> <span style="color: var(--accent-blue); font-weight: 700;">+45 XP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity 2 -->
+                <div style="display: flex; align-items: center; padding: 16px; border-bottom: 1px solid rgba(0,0,0,0.05); gap: 12px;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(52, 199, 89, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2694-fe0f.png" style="width: 20px; height: 20px; object-fit: contain;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                            <span style="font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Won Challenge</span>
+                            <span style="font-size: 11px; font-weight: 600; color: var(--text-dim); flex-shrink: 0; padding-left: 8px;">Yesterday</span>
+                        </div>
+                        <div style="font-size: 12px; font-weight: 500; color: var(--text-secondary);">
+                            vs Officer Jenkins <span style="margin: 0 4px; color: var(--text-dim);">•</span> <span style="color: var(--success); font-weight: 700;">+100 XP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity 3 -->
+                <div style="display: flex; align-items: center; padding: 16px; border-bottom: 1px solid rgba(0,0,0,0.05); gap: 12px;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(245, 158, 11, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c5.png" style="width: 20px; height: 20px; object-fit: contain;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                            <span style="font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Earned Sharpshooter</span>
+                            <span style="font-size: 11px; font-weight: 600; color: var(--text-dim); flex-shrink: 0; padding-left: 8px;">2d ago</span>
+                        </div>
+                        <div style="font-size: 12px; font-weight: 500; color: var(--text-secondary);">
+                            10 Perfect Quizzes
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Activity 4 -->
+                <div style="display: flex; align-items: center; padding: 16px; border-bottom: 1px solid rgba(0,0,0,0.05); gap: 12px;">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(70, 107, 169, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4dd.png" style="width: 20px; height: 20px; object-fit: contain;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                            <span style="font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.2;">Completed Evidence Law</span>
+                            <span style="font-size: 11px; font-weight: 600; color: var(--text-dim); flex-shrink: 0; padding-left: 8px;">3d ago</span>
+                        </div>
+                        <div style="font-size: 12px; font-weight: 500; color: var(--text-secondary);">
+                            Scored 85% <span style="margin: 0 4px; color: var(--text-dim);">•</span> <span style="color: var(--accent-blue); font-weight: 700;">+40 XP</span>
+                        </div>
+                    </div>
+                </div>
+                
+
+        </div>
+    </div>
+    
+    <script>
+        function showActivitySheet() {
+            const backdrop = document.getElementById('activity-sheet-backdrop');
+            const sheet = document.getElementById('activity-sheet');
+            if(backdrop && sheet) {
+                backdrop.style.display = 'block';
+                // Trigger reflow
+                void backdrop.offsetWidth;
+                backdrop.style.opacity = '1';
+                sheet.style.transform = 'translateY(0)';
+            }
+        }
+        function hideActivitySheet() {
+            const backdrop = document.getElementById('activity-sheet-backdrop');
+            const sheet = document.getElementById('activity-sheet');
+            if(backdrop && sheet) {
+                backdrop.style.opacity = '0';
+                sheet.style.transform = 'translateY(100%)';
+                setTimeout(() => {
+                    backdrop.style.display = 'none';
+                }, 400); // Wait for transition
+            }
+        }
+    </script>
+
+</div>
+<script src="quiz.js"></script>
+</body>
+</html>
