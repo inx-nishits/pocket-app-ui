@@ -153,7 +153,15 @@ const QuizEngine = {
     },
     
     confirmExit: function() {
-        if (confirm("Are you sure you want to exit? Your progress will be lost.")) {
+        // Show custom exit confirmation modal
+        document.getElementById('exit-confirm-overlay').classList.remove('hidden');
+        document.getElementById('exit-confirm-sheet').classList.remove('hidden');
+    },
+    handleExitConfirm: function(shouldExit) {
+        // Hide the custom exit confirmation modal
+        document.getElementById('exit-confirm-overlay').classList.add('hidden');
+        document.getElementById('exit-confirm-sheet').classList.add('hidden');
+        if (shouldExit) {
             this.navigateBack();
         }
     },

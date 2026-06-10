@@ -1349,14 +1349,27 @@
                     <div class="feedback-icon" id="feedback-icon" style="font-size: 24px;"></div>
                     <h3 class="feedback-title" id="feedback-title" style="flex: 1; font-size: 22px; font-weight: 800;">Correct!</h3>
                 </div>
-                <div id="feedback-details" style="font-size: 15px; font-weight: 600; display: flex; flex-direction: column; gap: 6px; margin: 8px 0 0 0;">
+                <div id="feedback-details" style="display: flex; flex-direction: column; gap: 6px; margin: 8px 0 0 0;">
                     <span class="feedback-xp" id="feedback-xp" style="background: transparent; color: inherit; padding: 0; font-size: 16px; font-weight: 700;">+30 XP Earned</span>
-                    <span id="feedback-streak-msg" style="color: inherit;">🔥 Streak Increased to 4</span>
-                    <span id="feedback-accuracy" style="color: inherit;">🎯 Accuracy: 80%</span>
+                    <span id="feedback-streak-msg" style="color: inherit;"></span>
+                    <span id="feedback-accuracy" style="color: inherit;"></span>
                 </div>
             </div>
             <p class="feedback-explanation" id="feedback-explanation" style="margin: 16px 0; font-size: 15px; line-height: 1.5; opacity: 0.9;">This is the explanation for why the answer is correct or incorrect.</p>
             <button class="btn-primary w-100" id="feedback-next-btn" style="padding: 16px; font-size: 18px;" onclick="QuizEngine.nextQuestion()">Next Question</button>
+        </div>
+
+        <!-- Exit Confirmation Modal -->
+        <div id="exit-confirm-overlay" class="feedback-overlay hidden"></div>
+        <div id="exit-confirm-sheet" class="feedback-sheet hidden">
+            <div class="feedback-header" style="flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 0;">
+                <h3 class="feedback-title" id="exit-confirm-title" style="flex: 1; font-size: 22px; font-weight: 800;">Leave Quiz?</h3>
+            </div>
+            <p class="feedback-explanation" id="exit-confirm-text" style="margin: 16px 0; font-size: 15px; line-height: 1.5; opacity: 0.9;">Are you sure you want to exit? Your progress will be lost.</p>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-primary w-100" style="flex:1; padding: 12px;" onclick="QuizEngine.handleExitConfirm(false)">Cancel</button>
+                <button class="btn-primary w-100" style="flex:1; padding: 12px; background:#ff4d4f;" onclick="QuizEngine.handleExitConfirm(true)">Exit</button>
+            </div>
         </div>
     </div>
 
@@ -1500,7 +1513,7 @@
         <div class="header-wrapper">
             <div class="header-inner">
                 <div class="header-left">
-                    <button class="back-btn" onclick="QuizEngine.navigateBack()">
+                    <button class="back-btn" onclick="QuizEngine.confirmExit()">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
