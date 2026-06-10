@@ -4803,3 +4803,112 @@ body {
     width: 24px !important;
     height: 24px !important;
 }
+
+/* Custom Theme Modal */
+.custom-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999 !important;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: auto;
+    padding: 20px;
+}
+
+.custom-modal-overlay.show {
+    display: flex !important;
+    opacity: 1 !important;
+}
+
+.custom-modal.theme-modal {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 24px;
+    width: 100%;
+    max-width: 320px;
+    box-shadow: 0 10px 40px rgba(15, 23, 42, 0.15);
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+}
+
+.custom-modal-overlay.show .custom-modal.theme-modal {
+    transform: scale(1);
+}
+
+.theme-modal h3 {
+    margin: 0 0 12px 0;
+    color: #0f172a;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.theme-modal p {
+    margin: 0 0 24px 0;
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.theme-modal .custom-modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.theme-modal .btn-secondary,
+.theme-modal .btn-primary {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-modal .btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.theme-modal .btn-secondary:hover {
+    background: #e2e8f0;
+}
+
+.theme-modal .btn-primary {
+    background: var(--accent-blue, #1e3a8a);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+}
+
+.theme-modal .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(30, 58, 138, 0.3);
+}
+
+.theme-modal .btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2);
+}
+
+/* Modal Hidden overrides for Exit Confirm */
+#exit-confirm-overlay.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+#exit-confirm-sheet.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
