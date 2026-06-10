@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="./images/Ps-pro-logo.png">
+    <title>Pocket App - Statement Checklist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #e9f5ff;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #466ba9;
+            --accent-slate: #475569;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.05);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            display: flex; justify-content: center; align-items: flex-start;
+            min-height: 100vh; min-height: -webkit-fill-available;
+            color: var(--text-primary); overflow: hidden; overscroll-behavior-y: none;
+        }
+
+        html { height: -webkit-fill-available; -webkit-text-size-adjust: 100%; }
+
+        .app-container {
+            width: 100%; height: 100vh; height: 100dvh; background-color: var(--bg-color);
+            position: relative; overflow: hidden; display: flex; flex-direction: column;
+        }
+
+        .detail-header-wrapper {
+            flex-shrink: 0; overflow: hidden; z-index: 100;
+            background: var(--accent-blue);
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 16px);
+            padding-bottom: 12px; padding-left: 16px; padding-right: 16px;
+            background: var(--accent-blue); color: #ffffff;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+
+        .header-nav { display: flex; justify-content: space-between; align-items: center; }
+
+        .detail-header .nav-btn {
+            flex-shrink: 0; background: rgba(255, 255, 255, 0.15); border: none; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: #ffffff;
+            cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: transform 0.2s, background 0.2s;
+        }
+        .detail-header .nav-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.25); }
+
+        .detail-header .nav-btn svg {
+            width: 20px; height: 20px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        .title-block { min-width: 0; padding: 0 8px; text-align: center; flex: 1; }
+        .title-block h1 { font-size: 18px; font-weight: 600; line-height: 1.2; letter-spacing: -0.2px; margin: 0; }
+
+        .scroller {
+            flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+            -webkit-overflow-scrolling: touch; padding: 20px 0 60px; scrollbar-width: none;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+        .scroller::-webkit-scrollbar { display: none; }
+
+        .intro-text-wrapper { padding: 0 16px; display: flex; flex-direction: column; gap: 16px; flex-shrink: 0; }
+
+        .card { background: var(--card-bg); border-radius: 12px; padding: 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+        
+        .header-card { flex-direction: row; align-items: center; gap: 12px; }
+        .header-icon { width: 40px; height: 40px; background: rgba(70,107,169,0.1); color: var(--accent-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; flex-shrink: 0;}
+        .header-text { font-size: 14px; color: var(--text-secondary); line-height: 1.4; }
+
+        .checklist-items {
+            display: flex; flex-direction: column; background: var(--card-bg); margin: 0;
+            border: none; box-shadow: none;
+            flex-shrink: 0; overflow: hidden;
+        }
+
+        .check-item {
+            display: flex; align-items: flex-start; gap: 16px; padding: 18px 16px;
+            cursor: pointer; position: relative; background: #ffffff;
+            transition: background-color 0.2s; -webkit-tap-highlight-color: transparent;
+        }
+        .check-item.highlight { background-color: var(--bg-color); }
+        .check-item:active { background-color: #e2e8f0; }
+
+        .check-item input[type="checkbox"] { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+
+        .custom-checkbox {
+            width: 26px; height: 26px; border-radius: 8px; border: 2px solid #cbd5e1; background: #ffffff;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
+            position: relative; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .custom-checkbox::after {
+            content: ''; width: 5px; height: 10px; border: solid white; border-width: 0 2px 2px 0;
+            position: absolute; top: 50%; left: 50%; transform: translate(-55%, -55%) rotate(45deg) scale(0);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .check-item input:checked ~ .custom-checkbox {
+            background: var(--accent-blue); border-color: var(--accent-blue); box-shadow: 0 4px 10px rgba(84, 110, 164, 0.3); transform: scale(1.05);
+        }
+        .check-item input:checked ~ .custom-checkbox::after { transform: translate(-55%, -55%) rotate(45deg) scale(1); }
+        .check-item input:checked ~ .check-text { font-weight: 800; color: var(--text-primary); text-decoration: none; }
+        
+        .check-text { font-size: 15px; line-height: 1.4; color: var(--text-primary); font-weight: 500; transition: color 0.2s; flex: 1; }
+
+        @media (min-width: 500px) {
+            body { padding: 40px 0; background-color: #e2e8f0; overflow: auto; }
+            .app-container { max-width: 430px; border-radius: 50px; height: 932px; border: 12px solid #000; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15); }
+        }
+</style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header -->
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <div class="header-nav">
+                    <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='cctv-time-slip.html'">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="title-block">
+                        <h1>CCTV Statement Checklist</h1>
+                    </div>
+                    <div style="width: 40px;"></div>
+                </div>
+</div>
+        </div>
+
+        <div class="scroller">
+            <div class="intro-text-wrapper">
+                <div class="card header-card">
+                    <div class="header-icon">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                    <div class="header-text">
+                        Complete this checklist to ensure all evidential requirements are met during CCTV recovery.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checklist -->
+            <div class="checklist-items" id="checklistCard">
+                <!-- Items will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const checklistItems = [
+            "I attended the premises and located the CCTV system.",
+            "I verified the CCTV system time against the speaking clock and calculated the time difference.",
+            "I identified the relevant footage matching the incident timeframe.",
+            "I witnessed the download / I downloaded the original/native format footage.",
+            "The footage was downloaded to a Police Issue USB / Disc.",
+            "I placed the media into an evidence bag and sealed it securely.",
+            "I assigned an exhibit reference and retained it in my possession."
+        ];
+
+        let investigationName = "[EXHIBIT REF]"; // Default
+
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            if(params.has('inv')) {
+                investigationName = params.get('inv').replace(/_/g, ' ');
+            }
+            
+            const container = document.getElementById('checklistCard');
+            checklistItems.forEach((item, index) => {
+                const itemDiv = document.createElement('label');
+                itemDiv.className = 'check-item';
+                if (index % 2 === 0) itemDiv.classList.add('highlight');
+                
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                
+                const customCheckbox = document.createElement('span');
+                customCheckbox.className = 'custom-checkbox';
+                
+                const textSpan = document.createElement('span');
+                textSpan.className = 'check-text';
+                textSpan.textContent = item;
+                
+                itemDiv.appendChild(input);
+                itemDiv.appendChild(customCheckbox);
+                itemDiv.appendChild(textSpan);
+                container.appendChild(itemDiv);
+            });
+        });
+    </script>
+</body>
+</html>

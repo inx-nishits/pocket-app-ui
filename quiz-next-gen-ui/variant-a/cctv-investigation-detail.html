@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="./images/Ps-pro-logo.png">
+    <title>Pocket App - Investigation Detail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #466ba9;
+            --accent-slate: #475569;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.05);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            display: flex; justify-content: center; align-items: flex-start;
+            min-height: 100vh; min-height: -webkit-fill-available;
+            color: var(--text-primary); overflow: hidden; overscroll-behavior-y: none;
+        }
+
+        html { height: -webkit-fill-available; -webkit-text-size-adjust: 100%; }
+
+        .app-container {
+            width: 100%; height: 100vh; height: 100dvh; background-color: var(--bg-color);
+            position: relative; overflow: hidden; display: flex; flex-direction: column;
+        }
+
+        .detail-header-wrapper {
+            flex-shrink: 0; overflow: hidden; z-index: 100;
+            background: var(--accent-blue);
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 16px);
+            padding-bottom: 12px; padding-left: 16px; padding-right: 16px;
+            background: var(--accent-blue); color: #ffffff;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+
+        .header-nav { display: flex; justify-content: space-between; align-items: center; }
+
+        .detail-header .nav-btn {
+            flex-shrink: 0; background: rgba(255, 255, 255, 0.15); border: none; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: #ffffff;
+            cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: transform 0.2s, background 0.2s;
+        }
+        .detail-header .nav-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.25); }
+
+        .detail-header .nav-btn svg {
+            width: 20px; height: 20px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        .title-block { min-width: 0; padding: 0 8px; text-align: center; flex: 1; }
+        .title-block h1 { font-size: 18px; font-weight: 600; line-height: 1.2; letter-spacing: -0.2px; margin: 0; }
+
+        .scroller {
+            flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+            -webkit-overflow-scrolling: touch; padding-bottom: 40px; scrollbar-width: none;
+        }
+        .scroller::-webkit-scrollbar { display: none; }
+
+        .cards-container { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+
+        .card { background: var(--card-bg); border-radius: 16px; padding: 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+        
+        .header-card { flex-direction: row; align-items: center; gap: 14px; }
+        .header-icon { width: 48px; height: 48px; background: rgba(70,107,169,0.1); color: var(--accent-blue); border-radius: 12px; display: flex; justify-content: center; align-items: center; flex-shrink: 0;}
+        
+        .detail-label { font-size: 13px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .detail-value { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; }
+        .detail-value:last-child { margin-bottom: 0; }
+        
+        .drift-result { display: inline-flex; align-items: center; gap: 6px; background: #fee2e2; color: #dc2626; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 14px; margin-bottom: 16px; }
+
+        .action-btn-container { padding: 0 16px 24px 16px; display: flex; gap: 12px; flex-direction: column; }
+        .action-btn {
+            width: 100%; background: var(--accent-blue); color: white; border: none; padding: 16px; 
+            border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; 
+            box-shadow: 0 4px 12px rgba(70,107,169,0.25); transition: transform 0.2s;
+        }
+        .action-btn:active { transform: scale(0.98); }
+        
+        .action-btn-secondary {
+            width: 100%; background: #ffffff; color: var(--text-secondary); border: 1.5px solid var(--border-color); padding: 16px; 
+            border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; 
+            box-shadow: var(--shadow-sm); transition: background 0.2s;
+        }
+        .action-btn-secondary:active { background: #f8fafc; }
+
+        @media (min-width: 500px) {
+            body { padding: 40px 0; background-color: #e2e8f0; overflow: auto; }
+            .app-container { max-width: 430px; border-radius: 50px; height: 932px; border: 12px solid #000; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header -->
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <div class="header-nav">
+                    <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='cctv-time-slip.html'">
+                        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <div class="title-block">
+                        <h1>Investigation Detail</h1>
+                    </div>
+                    <div style="width: 40px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroller">
+            <div class="cards-container">
+                
+                <!-- Main Header Card -->
+                <div class="card header-card">
+                    <div class="header-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Active Record</div>
+                        <div id="invTitle" style="font-size: 20px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.3px;">Ope: THUNDER</div>
+                    </div>
+                </div>
+
+                <!-- Time Difference Summary -->
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                        <div style="font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent-blue)" stroke-width="2.5" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            Time Difference Result
+                        </div>
+                    </div>
+                    
+                    <div class="drift-result">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="3" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        System is slow by 00:04:12
+                    </div>
+
+                    <div style="display: flex; gap: 16px;">
+                        <div style="flex: 1; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);">
+                            <div class="detail-label">CCTV Time</div>
+                            <div class="detail-value" style="margin-bottom: 0;">14:30:00</div>
+                        </div>
+                        <div style="flex: 1; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);">
+                            <div class="detail-label">Actual Time</div>
+                            <div class="detail-value" style="margin-bottom: 0;">14:34:12</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Statement Preview -->
+                <div class="card">
+                    <div style="font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent-blue)" stroke-width="2.5" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        Statement Draft
+                    </div>
+                    <div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5; background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color);">
+                        "I compared the system time against the speaking clock and noted the time difference. The system was found to be slow by 4 minutes and 12 seconds compared to the actual time..."
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="action-btn-container">
+                <button class="action-btn" id="startChecklistBtn" onclick="startChecklist()">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Start Statement Checklist
+                </button>
+                <button class="action-btn-secondary" id="copyBtn" onclick="copyStatement()">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                    Copy Statement Template
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentInv = "Ope: THUNDER"; // Default
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            if(params.has('inv')) {
+                currentInv = params.get('inv').replace(/_/g, ' ');
+                document.getElementById('invTitle').textContent = currentInv;
+            }
+        });
+
+        function startChecklist() {
+            location.href = `cctv-seizure-checklist.html?inv=${encodeURIComponent(currentInv)}`;
+        }
+
+        function copyStatement() {
+            const statement = `On [DATE] at [TIME], I attended [LOCATION] and viewed the CCTV system. I compared the system time against the speaking clock and noted the time difference. The system was found to be slow by 4 minutes and 12 seconds compared to the actual time.`;
+            
+            navigator.clipboard.writeText(statement).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
+                btn.style.background = '#16a34a';
+                setTimeout(() => {
+                    btn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg> Copy Statement Template`;
+                    btn.style.background = 'var(--accent-blue)';
+                }, 2000);
+            }).catch(err => {
+                alert('Copying failed: ' + err);
+            });
+        }
+    </script>
+</body>
+</html>

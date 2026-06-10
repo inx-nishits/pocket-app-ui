@@ -58,6 +58,38 @@ const QuizEngine = {
     },
 
     // --- Routing & Navigation ---
+    
+    selectExamType: function(examType) {
+        let titleMap = {
+            'Sergeant': 'Constable to Sergeant',
+            'Inspector': 'Sergeant to Inspector',
+            'NIE': 'NIE (Detectives)'
+        };
+        document.getElementById('mock-exam-target-title').innerText = titleMap[examType] || examType;
+        this.navigate('view-mock-exam-intro');
+    },
+
+    startPractice: function(numQuestions) {
+        // Collect active categories
+        const activeCards = document.querySelectorAll('#view-practice-selection .category-card.active');
+        if (activeCards.length === 0) {
+            this.showToast('Please select at least one syllabus area.');
+            return;
+        }
+        let categories = Array.from(activeCards).map(card => card.querySelector('.card-title').innerText).join(', ');
+        
+        document.getElementById('difficulty-category-title').innerText = 'Practice: ' + categories;
+        document.getElementById('preview-count').innerText = numQuestions;
+        this.navigate('view-active', {mode: 'Practice Mode', count: numQuestions});
+    },
+
+    startMockExam: function() {
+        document.getElementById('difficulty-category-title').innerText = document.getElementById('mock-exam-target-title').innerText;
+        document.getElementById('preview-count').innerText = 150;
+        this.navigate('view-active', {mode: 'Mock Exam', count: 150});
+        // Note: For a true 3-hour timer, we would hook into the timer start logic in view-active.
+    },
+
     navigate: function(viewId, params = {}, fromPopState = false) {
         const currentView = document.querySelector('.quiz-view.active');
         const nextView = document.getElementById(viewId);
@@ -251,7 +283,11 @@ const QuizEngine = {
         
         // If it's a Live Challenge, count down. Otherwise count up.
         // Let's implement a countdown timer for better urgency (e.g. 10 mins).
-        this.timeLeft = this.totalQuestions * 30; // 30 seconds per question
+        if (this.currentMode === 'Mock Exam') {
+            this.timeLeft = 3 * 60 * 60; // 3 hours
+        } else {
+            this.timeLeft = this.totalQuestions * 30; // 30 seconds per question
+        }
         
         this.timerInterval = setInterval(() => {
             this.timeLeft--;
@@ -261,9 +297,14 @@ const QuizEngine = {
                 // auto submit or end quiz
             }
             
-            const m = Math.floor(this.timeLeft / 60);
+            const h = Math.floor(this.timeLeft / 3600);
+            const m = Math.floor((this.timeLeft % 3600) / 60);
             const s = this.timeLeft % 60;
-            timerText.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            if (h > 0) {
+                timerText.innerText = `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            } else {
+                timerText.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            }
             
             if (this.timeLeft <= 10 && this.timeLeft > 0) {
                 timerContainer.classList.add('timer-urgent');

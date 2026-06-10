@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="./images/Ps-pro-logo.png">
+    <title>Pocket App - Spatial iOS 2026</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #e9f5ff;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #466ba9;
+            --accent-slate: #475569;
+            --pill-bg: #ffffff;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.12);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            color: var(--text-primary);
+            overflow: hidden;
+            overscroll-behavior-y: none;
+        }
+
+        html {
+            height: -webkit-fill-available;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ----- Detail Header ----- */
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            background: var(--accent-blue);
+            border-radius: 0;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 16px);
+            padding-bottom: 12px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                0 4px 12px rgba(84, 110, 164, 0.15),
+                0 2px 4px rgba(0, 0, 0, 0.06);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-header .nav-btn {
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .detail-header .nav-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .detail-header .nav-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .detail-header .nav-btn-pill {
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            height: 36px;
+            padding: 0 12px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.2s, background 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .detail-header .nav-btn-pill:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .detail-header .nav-btn-pill svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .quick-action-btn {
+            flex: 1;
+            background: #ffffff;
+            border: 1px solid rgba(70, 107, 169, 0.15);
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(70, 107, 169, 0.08), 0 1px 3px rgba(70, 107, 169, 0.05);
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .quick-action-btn:active {
+            transform: scale(0.96);
+            background: #f8fafc;
+            box-shadow: 0 1px 2px rgba(70, 107, 169, 0.05);
+        }
+
+        .quick-action-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2.5;
+            stroke: currentColor;
+            fill: none;
+            flex-shrink: 0;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            min-width: 0;
+            padding: 0 8px;
+            text-align: center;
+        }
+
+        .title-block h1 {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.2px;
+            margin: 0;
+        }
+
+        .title-block p {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 4px 0 0;
+        }
+
+        /* ----- Main Scrollable Content ----- */
+        .scroller {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 120px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ----- Cards ----- */
+        .cards-container {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.2px;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.45;
+            margin-bottom: 14px;
+        }
+
+        /* ----- Custom Time Picker Elements ----- */
+        .format-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .format-btn.active {
+            background: #ffffff;
+            color: var(--accent-blue);
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+        }
+
+        .ampm-toggle {
+            display: flex;
+            background: #e2e8f0;
+            border-radius: 6px;
+            padding: 2px;
+        }
+
+        .ampm-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ampm-btn.active {
+            background: var(--accent-blue);
+            color: #ffffff;
+        }
+
+        .time-field-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .time-num-input {
+            width: 64px;
+            height: 64px;
+            text-align: center;
+            padding: 0;
+            border: 1.5px solid #cbd5e1;
+            background: #ffffff;
+            border-radius: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            outline: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+            -moz-appearance: textfield;
+        }
+
+        .time-num-input::-webkit-outer-spin-button,
+        .time-num-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .time-num-input::placeholder {
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .time-num-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(70, 107, 169, 0.15);
+        }
+
+        .time-field-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 6px;
+        }
+
+        .time-col {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: #94a3b8;
+            margin-bottom: 22px;
+            user-select: none;
+        }
+
+        .date-input {
+            width: 100%;
+            padding: 16px 16px;
+            border: 1.5px solid #cbd5e1;
+            background: #ffffff;
+            border-radius: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f172a;
+            outline: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+            -webkit-appearance: none;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .date-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(70, 107, 169, 0.15);
+        }
+
+        .date-input::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+
+        .date-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .date-input-icon {
+            position: absolute;
+            right: 16px;
+            pointer-events: none;
+            color: #94a3b8;
+        }
+
+        .input-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 0px;
+        }
+
+        .input-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn-sync {
+            background: rgba(70, 107, 169, 0.08);
+            color: var(--accent-blue);
+            border: 1px solid rgba(70, 107, 169, 0.15);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-btn-sync:active {
+            transform: scale(0.96);
+            background: rgba(70, 107, 169, 0.16);
+        }
+
+        /* ----- Responsive / Desktop Mockup bounds ----- */
+        @media (min-width: 500px) {
+            body {
+                padding: 40px 0;
+                background-color: #e2e8f0;
+                overflow: auto;
+            }
+
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                border: 12px solid #000;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            }
+        }
+
+        /* Custom Modal Styles */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+        }
+
+        .custom-modal {
+            background: #ffffff;
+            width: 85%;
+            max-width: 320px;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transform: scale(0.95);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.show .custom-modal {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            width: 52px;
+            height: 52px;
+            background: #fee2e2;
+            color: #dc2626;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .modal-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .modal-text {
+            font-size: 14.5px;
+            color: #475569;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+
+        .modal-btn {
+            width: 100%;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .modal-btn:active {
+            opacity: 0.8;
+        }
+
+        /* Bottom Sheet Modal */
+        .bottom-sheet-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.4);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .bottom-sheet-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .bottom-sheet {
+            background: #ffffff;
+            width: 100%;
+            max-height: calc(80% - env(safe-area-inset-top, 20px));
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+
+        .bottom-sheet-overlay.active .bottom-sheet {
+            transform: translateY(0);
+        }
+
+        .drag-handle {
+            width: 36px;
+            height: 4px;
+            background: #cbd5e1;
+            border-radius: 2px;
+            margin: 12px auto 0;
+            flex-shrink: 0;
+        }
+
+        .bs-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 16px 20px 8px;
+            color: var(--text-primary);
+        }
+
+        .bs-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .bs-body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .bs-body .card {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            box-shadow: none;
+        }
+
+        .header-card {
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(70, 107, 169, 0.1);
+            color: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .header-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .list-section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .list-section-title.do {
+            color: #16a34a;
+        }
+
+        .list-section-title.dont {
+            color: #dc2626;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .list-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border-radius: 50%;
+        }
+
+        .list-icon.do {
+            background: #bbf7d0;
+            color: #16a34a;
+        }
+
+        .list-icon.dont {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+        .list-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke-width: 3;
+        }
+
+        .list-text {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1.4;
+            padding-top: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- Header -->
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <div class="header-nav">
+                    <button class="nav-btn" onclick="location.href='index.html'">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="title-block">
+                        <h1>CCTV Time Checker</h1>
+                        <p>Time Difference Calculator</p>
+                    </div>
+                    <div style="width: 40px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroller" style="padding-top: 16px;">
+
+            <div class="cards-container">
+
+                <!-- Dashboard Info -->
+                <div style="background: linear-gradient(135deg, #ffffff, #f8fafc); border: 1px solid rgba(70, 107, 169, 0.15); border-radius: 16px; padding: 18px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04), inset 0 2px 0 rgba(255, 255, 255, 0.8); display: flex; flex-direction: column; gap: 16px; position: relative; overflow: hidden;">
+                    <!-- Decorative background accent -->
+                    <div style="position: absolute; top: -20px; right: -20px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(70, 107, 169, 0.06) 0%, rgba(255,255,255,0) 70%); border-radius: 50%;"></div>
+                    
+                    <div style="display: flex; align-items: flex-start; gap: 14px; position: relative; z-index: 1;">
+                        <div style="font-size: 14.5px; color: #1e293b; line-height: 1.5; font-weight: 600; padding-top: 2px;">
+                            Calculate clock drift between a DVR system and actual time.
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; position: relative; z-index: 1;">
+                        <button onclick="openDosDonts()" style="flex: 1; background: #ffffff; border: 1.5px solid #cbd5e1; padding: 12px 6px; border-radius: 12px; font-size: 13px; font-weight: 700; color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02); transition: all 0.2s; white-space: nowrap; font-family: 'Inter', sans-serif;">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            Guidance
+                        </button>
+                        <button onclick="location.href='cctv-seizure-checklist.html'" style="flex: 1; background: var(--accent-blue); border: 1.5px solid var(--accent-blue); padding: 12px 6px; border-radius: 12px; font-size: 13px; font-weight: 700; color: #ffffff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.2); transition: all 0.2s; white-space: nowrap; font-family: 'Inter', sans-serif;">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                            Statement Checklist
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Time Format Selection (Global) -->
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0px; background: var(--card-bg); padding: 14px 16px; border-radius: 12px; box-shadow: var(--shadow-sm);">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div
+                            style="background: rgba(70, 107, 169, 0.1); padding: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent-blue)"
+                                stroke-width="2.25" fill="none">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <span style="font-size: 15px; font-weight: 700; color: var(--text-primary);">Time Display
+                            Format</span>
+                    </div>
+                    <div style="display: flex; background: #e2e8f0; border-radius: 8px; padding: 3px;">
+                        <button id="btnFormat24" class="format-btn active" onclick="setFormat('24h')">24h</button>
+                        <button id="btnFormat12" class="format-btn" onclick="setFormat('12h')">12h</button>
+                    </div>
+                </div>
+
+                <!-- Step 1: CCTV Screen Time Section -->
+                <div class="card">
+                    <div class="card-content" style="padding: 0;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <div
+                                style="background: rgba(84, 110, 164, 0.1); padding: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--accent-blue)" stroke-width="2.25" fill="none">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <div class="card-title" style="font-size: 16px; margin-bottom: 0;">CCTV/DVR Time</div>
+                        </div>
+
+                        <div class="input-row">
+                            <label class="input-label" for="cctvDateTime">Select CCTV/DVR Date & Time</label>
+                            <div class="date-input-wrapper">
+                                <input type="text" id="cctvDateTime" class="date-input" placeholder="Tap to select Date & Time..." readonly onclick="autofillMockTime()">
+                                <svg class="date-input-icon" viewBox="0 0 24 24" width="20" height="20"
+                                    stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Real Time Section -->
+                <div class="card">
+                    <div class="card-content" style="padding: 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="background: rgba(84, 110, 164, 0.1); padding: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--accent-blue)" stroke-width="2.25" fill="none">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="card-title" style="font-size: 16px; margin-bottom: 0;">Real Time</div>
+                            </div>
+
+                            <!-- Get Current Time Sync Action -->
+                            <button class="action-btn-sync" onclick="syncWithDeviceTime()"
+                                style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 13px; font-weight: 700; border-radius: 8px; background: rgba(70, 107, 169, 0.1); border: none; color: var(--accent-blue); cursor: pointer;">
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><polyline points="21 3 21 8 16 8"></polyline></svg>
+                                Refresh
+                            </button>
+                        </div>
+
+                        <!-- Hidden input for drift logic -->
+                        <input type="hidden" id="realDateTime" class="date-input">
+                        
+                        <div style="text-align: center; padding: 8px 0 16px 0;">
+                            <div style="font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Captured Actual Time</div>
+                            <div id="realTimeDisplay" style="font-size: 32px; font-weight: 800; color: var(--accent-blue); font-variant-numeric: tabular-nums; letter-spacing: 1px; line-height: 1;">--:--:--</div>
+                            <div id="realDateDisplay" style="font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-top: 8px;">--</div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
+        <!-- Bottom Action Button & Result -->
+        <div
+            style="position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; padding-bottom: max(16px, env(safe-area-inset-bottom)); z-index: 200; display: flex; flex-direction: column; gap: 10px;">
+
+            <button id="calcBtn" onclick="calculateDrift()"
+                style="width: 100%; background: var(--accent-blue); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(70,107,169,0.3); transition: transform 0.2s;">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="white" stroke-width="2.5" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="14" r="8"></circle>
+                    <line x1="12" y1="2" x2="12" y2="4"></line>
+                    <line x1="9" y1="2" x2="15" y2="2"></line>
+                    <polyline points="12 10 12 14 14.5 16.5"></polyline>
+                </svg>
+                Calculate Difference
+            </button>
+
+        </div>
+
+        <!-- Validation Modal -->
+        <div id="validationModal" class="modal-overlay">
+            <div class="custom-modal">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2.5"
+                        fill="none">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <div class="modal-title">Missing Information</div>
+                <div class="modal-text">Please enter a valid Date, Hours, and Minutes for both the CCTV and Real
+                    time fields.</div>
+                <button class="modal-btn" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+        
+        <!-- Result Bottom Sheet Modal -->
+        <div id="resultModal" class="bottom-sheet-overlay" onclick="closeResultOverlay(event)">
+            <div class="bottom-sheet">
+                <div class="drag-handle"></div>
+                <h2 class="bs-title" style="font-size: 28px; text-align: center;">Result</h2>
+                <div class="bs-body" style="padding: 10px 20px 40px 20px; text-align: center;">
+                    <div style="display: flex; justify-content: center; margin-bottom: 24px;">
+                        <div id="resultIconWrapper" style="background: rgba(220, 38, 38, 0.1); padding: 18px; border-radius: 50%;">
+                            <svg id="resultIcon" viewBox="0 0 24 24" width="40" height="40" stroke="#dc2626" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div id="resultTextContainer" style="margin-bottom: 32px;">
+                        <!-- JS injected content -->
+                    </div>
+                    
+                    <button id="closeResultBtn" onclick="closeResultModal()" style="width: 100%; background: var(--accent-blue); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 12px rgba(70,107,169,0.3); transition: transform 0.2s;">
+                        Done
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dos and Donts Modal -->
+        <div id="dosDontsModal" class="bottom-sheet-overlay" onclick="closeDosDontsOverlay(event)">
+            <div class="bottom-sheet">
+                <div class="drag-handle"></div>
+                <h2 class="bs-title">Guidance</h2>
+                <div class="bs-body">
+                    <div class="header-text" style="padding: 0 4px;">
+                        Guidance for interacting with CCTV Systems to preserve evidential integrity.
+                    </div>
+
+                    <!-- What you must do -->
+                    <div class="card">
+                        <div class="list-section-title do"><svg viewBox="0 0 24 24" width="20" height="20"
+                                stroke="currentColor" fill="none" stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg> What you must do</div>
+                        
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Perform and document a time check – for all cameras if applicable</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Confirm the CCTV overwrite time period</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Perform initial viewing at the scene to establish relevance of footage</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Identify earliest recorded footage of the incident</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Make contemporaneous notes of everything you do (and don’t do!) and why</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Use only force-approved retrieval media</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Retrieve the original/native file format</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Retrieve the replay software as well as the footage</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Refer to any available manuals for the CCTV system – these may be available online!</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Act in accordance with your Force guidance and SOPs - if in doubt seek advice from your Digital Forensics Unit</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Produce a statement to exhibit CCTV footage</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            <div class="list-text">Produce master and working copies of the CCTV footage</div>
+                        </div>
+                    </div>
+
+                    <!-- What you must not do -->
+                    <div class="card">
+                        <div class="list-section-title dont"><svg viewBox="0 0 24 24" width="20" height="20"
+                                stroke="currentColor" fill="none" stroke-width="2.5">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg> What you must not do</div>
+                        
+                        <div class="list-item">
+                            <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                            <div class="list-text">Don’t forget to factor in Daylight Saving if the clocks have gone forward/back around the time of the incident.</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                            <div class="list-text">Don’t just record the screen – always retrieve the footage where possible</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                            <div class="list-text">Don’t let a witness view CCTV footage with you at the scene</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                            <div class="list-text">Don’t change times, dates or any settings</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                            <div class="list-text">Don’t switch off or unplug anything without seeking advice first – only physically recover an entire CCTV system as a last resort</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                            <div class="list-text">Don’t forget your obligations under CPIA!</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                            <div class="list-text">Don’t put yourself at risk if a system is electrically unsafe or inaccessible</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        function setFormat(format) {
+            document.getElementById('btnFormat24').classList.remove('active');
+            document.getElementById('btnFormat24').style.background = 'transparent';
+            document.getElementById('btnFormat24').style.color = '#64748b';
+
+            document.getElementById('btnFormat12').classList.remove('active');
+            document.getElementById('btnFormat12').style.background = 'transparent';
+            document.getElementById('btnFormat12').style.color = '#64748b';
+
+            if (format === '24h') {
+                document.getElementById('btnFormat24').classList.add('active');
+                document.getElementById('btnFormat24').style.background = 'white';
+                document.getElementById('btnFormat24').style.color = '#1e293b';
+            } else {
+                document.getElementById('btnFormat12').classList.add('active');
+                document.getElementById('btnFormat12').style.background = 'white';
+                document.getElementById('btnFormat12').style.color = '#1e293b';
+            }
+            
+            syncWithDeviceTime(); // Update display format immediately
+        }
+
+        function openDosDonts() {
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            const modal = document.getElementById('dosDontsModal');
+            modal.classList.add('active');
+            const sheet = modal.querySelector('.bottom-sheet');
+            sheet.style.transform = '';
+        }
+        function closeDosDonts() {
+            document.body.style.overflow = '';
+            document.getElementById('dosDontsModal').classList.remove('active');
+        }
+        function closeDosDontsOverlay(e) {
+            if (e.target.id === 'dosDontsModal') {
+                closeDosDonts();
+            }
+        }
+        
+        function openResultModal() {
+            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById('resultModal');
+            modal.classList.add('active');
+            const sheet = modal.querySelector('.bottom-sheet');
+            sheet.style.transform = '';
+        }
+        function closeResultModal() {
+            document.body.style.overflow = '';
+            document.getElementById('resultModal').classList.remove('active');
+        }
+        function closeResultOverlay(e) {
+            if (e.target.id === 'resultModal') {
+                closeResultModal();
+            }
+        }
+
+        function showModal() {
+            const modal = document.getElementById('validationModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+            if (window.navigator.vibrate) window.navigator.vibrate([10, 50, 10]);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('validationModal');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 200);
+        }
+
+        let timeFormat = '24h';
+        let ampmState = {
+            real: 'AM',
+            cctv: 'AM'
+        };
+
+        // Initialize defaults
+        window.addEventListener('load', () => {
+            syncWithDeviceTime(); // Initialize the custom clock display
+            
+            // Setup bottom sheet drag to dismiss (PWA / Mobile)
+            const sheets = document.querySelectorAll('.bottom-sheet');
+            
+            sheets.forEach(sheet => {
+                let currentY = 0;
+                let startY = 0;
+                let isDragging = false;
+
+                sheet.addEventListener('touchstart', (e) => {
+                    const bsBody = sheet.querySelector('.bs-body');
+                    if (bsBody && bsBody.contains(e.target) && bsBody.scrollTop > 0) {
+                        return;
+                    }
+                    isDragging = true;
+                    startY = e.touches[0].clientY;
+                    sheet.style.transition = 'none';
+                }, { passive: true });
+
+                sheet.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    const y = e.touches[0].clientY;
+                    const deltaY = y - startY;
+
+                    if (deltaY > 0) {
+                        if (e.cancelable) e.preventDefault();
+                        currentY = deltaY;
+                        sheet.style.transform = `translateY(${deltaY}px)`;
+                    }
+                }, { passive: false });
+
+                sheet.addEventListener('touchend', () => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    sheet.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+
+                    if (currentY > 100) {
+                        const modal = sheet.closest('.bottom-sheet-overlay');
+                        modal.classList.remove('active');
+                        document.body.style.overflow = '';
+                        setTimeout(() => sheet.style.transform = '', 300);
+                    } else {
+                        sheet.style.transform = '';
+                    }
+                    currentY = 0;
+                });
+            });
+        });
+
+        // 2. Sync with system/device clock
+        function syncWithDeviceTime() {
+            const now = new Date();
+            
+            // Format to YYYY-MM-DDThh:mm:ss for datetime-local
+            const tzOffset = now.getTimezoneOffset() * 60000; // offset in milliseconds
+            const localISOTime = (new Date(now.getTime() - tzOffset)).toISOString().slice(0, 19);
+            
+            document.getElementById('realDateTime').value = localISOTime;
+
+            // Update Custom UI Display
+            const realTimeDisplay = document.getElementById('realTimeDisplay');
+            if (realTimeDisplay) {
+                const is12h = document.getElementById('btnFormat12').classList.contains('active');
+                const timeString = now.toLocaleTimeString([], { hour12: is12h, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                realTimeDisplay.textContent = timeString;
+                document.getElementById('realDateDisplay').textContent = now.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+            }
+
+            if (window.navigator.vibrate) window.navigator.vibrate(15);
+        }
+
+        // 4. Calculate Time Slip Drift
+        function autofillMockTime() {
+            const now = new Date();
+            // Mock a drift: let's make it 2 hours, 14 minutes, and 30 seconds slow
+            now.setHours(now.getHours() - 2);
+            now.setMinutes(now.getMinutes() - 14);
+            now.setSeconds(now.getSeconds() - 30);
+            
+            const tzOffset = now.getTimezoneOffset() * 60000;
+            const localISOTime = (new Date(now.getTime() - tzOffset)).toISOString().slice(0, 19);
+            
+            const el = document.getElementById('cctvDateTime');
+            el.dataset.value = localISOTime;
+            
+            const is12h = document.getElementById('btnFormat12').classList.contains('active');
+            const timeString = now.toLocaleTimeString([], { hour12: is12h, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const dateString = now.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+            
+            el.value = `${dateString} at ${timeString}`;
+            el.style.color = "var(--text-primary)";
+            el.style.fontWeight = "600";
+
+            if (window.navigator.vibrate) window.navigator.vibrate(15);
+        }
+
+        function parseInputTime(prefix) {
+            const el = document.getElementById(`${prefix}DateTime`);
+            if (!el) return null;
+            const dtVal = el.dataset.value || el.value;
+            if (!dtVal) return null;
+            return new Date(dtVal);
+        }
+
+        function calculateDrift() {
+            const realDate = parseInputTime('real');
+            const cctvDate = parseInputTime('cctv');
+
+            if (!realDate || !cctvDate) {
+                showModal();
+                return;
+            }
+
+            const diffMs = cctvDate.getTime() - realDate.getTime();
+            let status = 'fast';
+            let absDiff = Math.abs(diffMs);
+
+            if (diffMs < 0) {
+                status = 'slow';
+            }
+
+            const totalSeconds = Math.floor(absDiff / 1000);
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            let timeDescParts = [];
+            if (days > 0) timeDescParts.push(`${days} day${days !== 1 ? 's' : ''}`);
+            if (hours > 0) timeDescParts.push(`${hours} hour${hours !== 1 ? 's' : ''}`);
+            if (minutes > 0) timeDescParts.push(`${minutes} minute${minutes !== 1 ? 's' : ''}`);
+            if (seconds > 0) timeDescParts.push(`${seconds} second${seconds !== 1 ? 's' : ''}`);
+            if (timeDescParts.length === 0) timeDescParts.push('0 seconds');
+
+            let dvrSentence = `DVR is ${timeDescParts.join(' ')} ${status === 'fast' ? 'Fast' : 'Slow'}`;
+            
+            const pad = num => String(num).padStart(2, '0');
+            const totalHours = hours + (days * 24);
+            const diffFormatted = `${pad(totalHours)}:${pad(minutes)}:${pad(seconds)}`;
+
+            let resultColor = status === 'fast' ? '#d97706' : '#dc2626';
+            let bgLight = status === 'fast' ? 'rgba(217, 119, 6, 0.1)' : 'rgba(220, 38, 38, 0.1)';
+            
+            let statusBadge = status === 'fast' 
+                ? `<div style="display: inline-block; padding: 6px 16px; background: rgba(217, 119, 6, 0.15); color: #d97706; border-radius: 20px; font-weight: 800; font-size: 13px; letter-spacing: 1px; text-transform: uppercase;">System is Fast</div>`
+                : `<div style="display: inline-block; padding: 6px 16px; background: rgba(220, 38, 38, 0.15); color: #dc2626; border-radius: 20px; font-weight: 800; font-size: 13px; letter-spacing: 1px; text-transform: uppercase;">System is Slow</div>`;
+
+            const resultHTML = `
+                <div style="margin-bottom: 24px;">${statusBadge}</div>
+                <div style="font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 24px;">
+                    ${dvrSentence}
+                </div>
+                <div style="color: var(--text-secondary); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Calculated Difference</div>
+                <div style="font-size: 42px; display: flex; justify-content: center; align-items: baseline; font-variant-numeric: tabular-nums; margin-bottom: 24px;">
+                    <span style="font-weight: 800; color: var(--text-primary);">${diffFormatted}</span>
+                </div>
+            `;
+
+            document.getElementById('resultTextContainer').innerHTML = resultHTML;
+            
+            const resultIconWrapper = document.getElementById('resultIconWrapper');
+            const resultIcon = document.getElementById('resultIcon');
+            
+            resultIconWrapper.style.background = bgLight;
+            resultIcon.style.stroke = resultColor;
+
+            openResultModal();
+
+            if (window.navigator.vibrate) window.navigator.vibrate(30);
+        }
+
+    </script>
+
+    <!-- Scroll header hiding script -->
+    <script>
+        (function () {
+            const scroller = document.querySelector('.scroller');
+            const headerWrapper = document.getElementById('detailHeaderWrapper');
+            if (!scroller || !headerWrapper) return;
+            let lastScrollY = scroller.scrollTop;
+            scroller.addEventListener('scroll', () => {
+                const currentScrollY = scroller.scrollTop;
+                const delta = currentScrollY - lastScrollY;
+                const nearTop = currentScrollY <= 50;
+                if (nearTop) {
+                    headerWrapper.classList.remove('header-hidden');
+                } else if (delta > 10) {
+                    headerWrapper.classList.add('header-hidden');
+                } else if (delta < -15) {
+                    headerWrapper.classList.remove('header-hidden');
+                }
+                lastScrollY = currentScrollY;
+            }, { passive: true });
+        })();
+    </script>
+
+
+
+</body>
+
+</html>
