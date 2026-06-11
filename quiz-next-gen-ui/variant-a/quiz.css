@@ -61,22 +61,32 @@ body {
 /* App Container (Phone shape boundary) */
 .app-container {
     width: 100%;
-    max-width: 414px;
     height: 100vh;
     height: 100dvh;
-    max-height: 896px;
     background-color: var(--bg-color);
     position: relative;
     overflow: hidden;
     box-shadow: 0 0 40px rgba(0,0,0,0.1);
 }
 
-@media (min-width: 415px) {
+/* ----- Responsive / Desktop Mockup bounds ----- */
+@media (min-width: 500px) {
+    body {
+        padding: 40px 0;
+        background-color: #e2e8f0;
+        /* Show dark background outside app area on desktop */
+        overflow: auto;
+        /* Re-enable scroll on desktop to see the whole phone */
+    }
+
     .app-container {
-        height: 896px;
-        border-radius: 40px;
-        border: 12px solid #0f172a;
-        margin: 20px;
+        max-width: 430px;
+        margin: 0 auto;
+        border-radius: 50px;
+        height: 932px;
+        /* iPhone 16 Pro Max height frame */
+        border: 12px solid #000;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
     }
 }
 
