@@ -1368,13 +1368,13 @@
         </div>
 
         <!-- Exit Confirmation Modal -->
-        <div id="exit-confirm-overlay" class="custom-modal-overlay hidden" style="display: flex; position: absolute; z-index: 100000; align-items: center; justify-content: center; backdrop-filter: blur(4px); background: rgba(15, 23, 42, 0.6); top: 0; left: 0; right: 0; bottom: 0;">
-            <div id="exit-confirm-sheet" class="custom-modal theme-modal hidden" style="background: #ffffff; border-radius: 20px; padding: 24px; width: 90%; max-width: 320px; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.15); text-align: center;">
-                <h3 id="exit-confirm-title" style="margin: 0 0 12px 0; color: #0f172a; font-size: 20px; font-weight: 800;">Leave Quiz?</h3>
-                <p id="exit-confirm-text" style="margin: 0 0 24px 0; color: #475569; font-size: 15px; line-height: 1.5;">Are you sure you want to exit? Your progress will be lost.</p>
-                <div class="custom-modal-actions" style="display: flex; gap: 12px;">
-                    <button class="btn-secondary" style="flex: 1; padding: 14px 20px; border-radius: 12px; font-size: 16px; font-weight: 700; background: #f1f5f9; color: #475569; border: none; cursor: pointer;" onclick="QuizEngine.handleExitConfirm(false)">Cancel</button>
-                    <button class="btn-primary" style="flex: 1; padding: 14px 20px; border-radius: 12px; font-size: 16px; font-weight: 700; background: #ef4444; color: #ffffff; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);" onclick="QuizEngine.handleExitConfirm(true)">Exit</button>
+        <div id="exit-confirm-overlay" class="custom-modal-overlay hidden">
+            <div id="exit-confirm-sheet" class="custom-modal theme-modal hidden">
+                <h3 id="exit-confirm-title">Leave Quiz?</h3>
+                <p id="exit-confirm-text">Are you sure you want to exit? Your progress will be lost.</p>
+                <div class="custom-modal-actions">
+                    <button class="btn-secondary" onclick="QuizEngine.handleExitConfirm(false)">Cancel</button>
+                    <button class="btn-danger" onclick="QuizEngine.handleExitConfirm(true)">Exit</button>
                 </div>
             </div>
         </div>

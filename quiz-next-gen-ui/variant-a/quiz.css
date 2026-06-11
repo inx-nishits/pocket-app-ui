@@ -4885,8 +4885,13 @@ body {
 }
 
 .theme-modal .btn-secondary,
-.theme-modal .btn-primary {
+.theme-modal .btn-primary,
+.theme-modal .btn-danger {
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px;
     padding: 14px 20px;
     border-radius: 12px;
     font-size: 16px;
@@ -4919,6 +4924,22 @@ body {
 .theme-modal .btn-primary:active {
     transform: translateY(1px);
     box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2);
+}
+
+.theme-modal .btn-danger {
+    background: var(--danger, #ef4444);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.theme-modal .btn-danger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
+}
+
+.theme-modal .btn-danger:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
 }
 
 /* Modal Hidden overrides for Exit Confirm */
