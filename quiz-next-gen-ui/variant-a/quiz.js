@@ -55,7 +55,7 @@ const QuizEngine = {
     
     startChallengeSearch: function() {
         if (!this.selectedOpponentId) {
-            alert("Please select a colleague to challenge first.");
+            this.showAlert("Action Required", "Please select a colleague to challenge first.", false);
             return;
         }
         
@@ -113,6 +113,39 @@ const QuizEngine = {
             toast.classList.remove('show');
             setTimeout(() => toast.remove(), 300);
         }, 2000);
+    },
+    
+    showAlert: function(title, message, showCancel = false) {
+        const overlay = document.getElementById('custom-modal-overlay');
+        document.getElementById('custom-modal-title').innerText = title;
+        document.getElementById('custom-modal-message').innerText = message;
+        
+        const cancelBtn = document.getElementById('custom-modal-cancel');
+        if (showCancel) {
+            cancelBtn.style.display = 'inline-block';
+        } else {
+            cancelBtn.style.display = 'none';
+        }
+        
+        // Remove existing listeners by cloning the buttons
+        const confirmBtn = document.getElementById('custom-modal-confirm');
+        const newConfirmBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+        
+        const newCancelBtn = cancelBtn.cloneNode(true);
+        cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+        
+        return new Promise((resolve) => {
+            newConfirmBtn.addEventListener('click', () => {
+                overlay.classList.remove('show');
+                resolve(true);
+            });
+            newCancelBtn.addEventListener('click', () => {
+                overlay.classList.remove('show');
+                resolve(false);
+            });
+            overlay.classList.add('show');
+        });
     },
 
     // --- Routing & Navigation ---
