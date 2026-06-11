@@ -430,7 +430,7 @@ const QuizEngine = {
             sheet.classList.add('correct');
             document.getElementById('feedback-details').style.display = 'flex';
             
-            icon.innerHTML = '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f973.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
+            icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><polyline points="20 6 9 17 4 12"></polyline></svg>';
             title.innerText = 'Excellent!';
             
             streakMsg.innerHTML = `<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Streak: ${this.streak}`;
@@ -475,7 +475,7 @@ const QuizEngine = {
             document.getElementById('active-streak').innerText = '🔥 0 Streak';
             
             sheet.classList.add('wrong');
-            icon.innerHTML = '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/274c.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
+            icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
             title.innerText = 'Incorrect';
             document.getElementById('feedback-details').style.display = 'none';
             

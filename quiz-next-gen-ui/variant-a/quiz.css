@@ -1035,7 +1035,7 @@ body {
 }
 
 .feedback-sheet.correct .feedback-icon { background: var(--success); }
-.feedback-sheet.wrong .feedback-icon { background: #fecaca; }
+.feedback-sheet.wrong .feedback-icon { background: #fecaca; color: #ef4444; }
 
 .feedback-title {
     font-family: 'Poppins', sans-serif;
