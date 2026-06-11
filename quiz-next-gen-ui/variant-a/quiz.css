@@ -39,13 +39,23 @@ input, textarea {
     user-select: auto !important;
 }
 
+/* Required to fill available safe space accurately */
+html {
+    height: -webkit-fill-available;
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
     background-color: #e2e8f0; /* Outer background to show the phone frame effect on desktop */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    min-height: -webkit-fill-available;
     overflow-x: hidden;
+    /* Prevent body scroll, let container scroll */
+    overscroll-behavior-y: none;
+    /* Native iOS bounce lock */
 }
 
 /* App Container (Phone shape boundary) */
@@ -53,6 +63,7 @@ body {
     width: 100%;
     max-width: 414px;
     height: 100vh;
+    height: 100dvh;
     max-height: 896px;
     background-color: var(--bg-color);
     position: relative;
