@@ -154,15 +154,38 @@ const QuizEngine = {
     
     confirmExit: function() {
         // Show custom exit confirmation modal
-        document.getElementById('exit-confirm-overlay').classList.remove('hidden');
-        document.getElementById('exit-confirm-sheet').classList.remove('hidden');
+        const overlay = document.getElementById('exit-confirm-overlay');
+        const sheet = document.getElementById('exit-confirm-sheet');
+        
+        overlay.classList.remove('hidden');
+        sheet.classList.remove('hidden');
+        
+        // Trigger reflow for transition
+        void overlay.offsetWidth;
+        
+        overlay.classList.add('show');
     },
+
     handleExitConfirm: function(shouldExit) {
-        // Hide the custom exit confirmation modal
-        document.getElementById('exit-confirm-overlay').classList.add('hidden');
-        document.getElementById('exit-confirm-sheet').classList.add('hidden');
+        const overlay = document.getElementById('exit-confirm-overlay');
+        const sheet = document.getElementById('exit-confirm-sheet');
+        
         if (shouldExit) {
+            // Hide the custom exit confirmation modal silently without delay since we switched views
+            overlay.classList.remove('show');
+            overlay.classList.add('hidden');
+            sheet.classList.add('hidden');
+            
             this.navigateBack();
+        } else {
+            // Hide the custom exit confirmation modal with transition
+            overlay.classList.remove('show');
+            
+            // Wait for transition to complete before adding hidden
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                sheet.classList.add('hidden');
+            }, 300);
         }
     },
     
