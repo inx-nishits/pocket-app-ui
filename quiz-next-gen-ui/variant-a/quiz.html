@@ -1388,35 +1388,7 @@
             </div>
         </div>
         
-        <!-- Feedback Toast (Bottom sheet style) -->
-        <div id="feedback-overlay" class="feedback-overlay hidden"></div>
-        <div id="feedback-sheet" class="feedback-sheet hidden">
-            <div class="feedback-header" style="flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 0;">
-                <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
-                    <div class="feedback-icon" id="feedback-icon" style="font-size: 24px;"></div>
-                    <h3 class="feedback-title" id="feedback-title" style="flex: 1; font-size: 22px; font-weight: 800;">Correct!</h3>
-                </div>
-                <div id="feedback-details" style="display: flex; flex-direction: column; gap: 6px; margin: 8px 0 0 0;">
-                    <span class="feedback-xp" id="feedback-xp" style="background: transparent; color: inherit; padding: 0; font-size: 16px; font-weight: 700;">+30 XP Earned</span>
-                    <span id="feedback-streak-msg" style="color: inherit;"></span>
-                    <span id="feedback-accuracy" style="color: inherit;"></span>
-                </div>
-            </div>
-            <p class="feedback-explanation" id="feedback-explanation" style="margin: 16px 0; font-size: 15px; line-height: 1.5; opacity: 0.9;">This is the explanation for why the answer is correct or incorrect.</p>
-            <button class="btn-primary w-100" id="feedback-next-btn" style="padding: 16px; font-size: 18px;" onclick="QuizEngine.nextQuestion()">Next Question</button>
-        </div>
 
-        <!-- Exit Confirmation Modal -->
-        <div id="exit-confirm-overlay" class="custom-modal-overlay hidden">
-            <div id="exit-confirm-sheet" class="custom-modal theme-modal hidden">
-                <h3 id="exit-confirm-title">Leave Quiz?</h3>
-                <p id="exit-confirm-text">Are you sure you want to exit? Your progress will be lost.</p>
-                <div class="custom-modal-actions">
-                    <button class="btn-secondary" onclick="QuizEngine.handleExitConfirm(false)">Cancel</button>
-                    <button class="btn-danger" onclick="QuizEngine.handleExitConfirm(true)">Exit</button>
-                </div>
-            </div>
-        </div>
     </div>
 
 
@@ -2157,6 +2129,36 @@
             }
         }
     </script>
+
+    <!-- Feedback Toast (Bottom sheet style) -->
+    <div id="feedback-overlay" class="feedback-overlay hidden"></div>
+    <div id="feedback-sheet" class="feedback-sheet hidden">
+        <div class="feedback-header" style="flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 0;">
+            <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
+                <div class="feedback-icon" id="feedback-icon" style="font-size: 24px;"></div>
+                <h3 class="feedback-title" id="feedback-title" style="flex: 1; font-size: 22px; font-weight: 800;">Correct!</h3>
+            </div>
+            <div id="feedback-details" style="display: flex; flex-direction: column; gap: 6px; margin: 8px 0 0 0;">
+                <span class="feedback-xp" id="feedback-xp" style="background: transparent; color: inherit; padding: 0; font-size: 16px; font-weight: 700;">+30 XP Earned</span>
+                <span id="feedback-streak-msg" style="color: inherit;"></span>
+                <span id="feedback-accuracy" style="color: inherit;"></span>
+            </div>
+        </div>
+        <p class="feedback-explanation" id="feedback-explanation" style="margin: 16px 0; font-size: 15px; line-height: 1.5; opacity: 0.9;">This is the explanation for why the answer is correct or incorrect.</p>
+        <button class="btn-primary w-100" id="feedback-next-btn" style="padding: 16px; font-size: 18px;" onclick="QuizEngine.nextQuestion()">Next Question</button>
+    </div>
+
+    <!-- Exit Confirmation Modal -->
+    <div id="exit-confirm-overlay" class="custom-modal-overlay hidden">
+        <div id="exit-confirm-sheet" class="custom-modal theme-modal hidden">
+            <h3 id="exit-confirm-title">Leave Quiz?</h3>
+            <p id="exit-confirm-text">Are you sure you want to exit? Your progress will be lost.</p>
+            <div class="custom-modal-actions">
+                <button class="btn-secondary" onclick="QuizEngine.handleExitConfirm(false)">Cancel</button>
+                <button class="btn-danger" onclick="QuizEngine.handleExitConfirm(true)">Exit</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
