@@ -16,8 +16,12 @@
     <!-- Fonts (Matching existing design system) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Chart.js for Progress Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <!-- Stylesheets -->
     <link rel="stylesheet" href="quiz.css">
+    <link rel="stylesheet" href="new_components.css">
     
     <!-- Confetti for Celebrations -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -28,172 +32,155 @@
 <div class="app-container">
 
     <!-- Screen 0: Challenge Hub -->
-    <div id="view-hub" class="quiz-view active">
-        <div class="header-wrapper">
-            <div class="header-inner">
+    <div id="view-challenge-hub" class="quiz-view active">
+        <div class="header-wrapper" style="background: #f8fafc;">
+            <div class="header-inner" style="justify-content: space-between; padding-top: 12px;">
                 <div class="header-left">
-                    <button class="back-btn" onclick="window.location.href='menu.html'">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
-                    <h1 class="header-title">Learning Hub</h1>
+                    <h1 class="header-title" style="font-size: 28px; font-weight: 800; color: #0f172a;">Challenge</h1>
+                    <p style="margin: 4px 0 0 0; color: #64748b; font-size: 14px;">Test your knowledge.<br>Challenge your colleagues.</p>
                 </div>
-                <div class="header-right" style="display: flex; align-items: center; gap: 12px;">
-                    <button class="header-icon-btn" style="width: 32px; height: 32px; position: relative; background: #ffffff; color: var(--accent-blue);" onclick="QuizEngine.startFlow('live')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                <div class="header-right">
+                    <button class="header-icon-btn" style="background: transparent; border: none; color: #1e3a8a;" onclick="QuizEngine.navigate('view-achievements')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 28px; height: 28px;">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                            <path d="M4 22h16"></path>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
                         </svg>
-                        <span style="position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: #ef4444; border-radius: 50%; border: 1.5px solid #ffffff;"></span>
                     </button>
-                    <div style="cursor: pointer;" onclick="QuizEngine.navigate('view-profile')">
-                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&h=150" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="view-content format-list">
+        <div class="view-content" style="padding: 16px; padding-bottom: 120px; background: #f8fafc; min-height: 100dvh;">
             
-            <div class="section-title-wrapper" style="margin-top: 8px; margin-bottom: 12px; padding: 0 4px;">
-                <h2 class="section-title" style="font-size: 18px; color: #1e293b;">Exam Preparation</h2>
-            </div>
-
-            <!-- Exam Hub: Mock Exam -->
-            <div class="format-card" onclick="QuizEngine.navigate('view-exam-selection')">
-                <div class="format-card-left">
-                    <div class="category-icon-top" style="color: #4f46e5;">
-                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4da.png" style="width: 28px; height: 28px; object-fit: contain;">
-                    </div>
-                    <div class="format-info">
-                        <h3>Mock Exams</h3>
-                        <p>Full 150-question 3-hour exam.</p>
-                    </div>
-                </div>
-                <div class="format-card-right">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </div>
-            </div>
-
-            <!-- Exam Hub: Targeted Practice -->
-            <div class="format-card" onclick="QuizEngine.navigate('view-practice-selection')">
-                <div class="format-card-left">
-                    <div class="category-icon-top" style="color: #059669;">
-                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3af.png" style="width: 28px; height: 28px; object-fit: contain;">
-                    </div>
-                    <div class="format-info">
-                        <h3>Targeted Practice</h3>
-                        <p>Focus on your weaker subjects.</p>
-                    </div>
-                </div>
-                <div class="format-card-right">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </div>
-            </div>
-
-            <!-- Exam Hub: Analytics -->
-            <div class="format-card" onclick="QuizEngine.navigate('view-exam-analytics')">
-                <div class="format-card-left">
-                    <div class="category-icon-top" style="color: #ea580c;">
-                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4c8.png" style="width: 28px; height: 28px; object-fit: contain;">
-                    </div>
-                    <div class="format-info">
-                        <h3>Performance</h3>
-                        <p>Track your readiness and scores.</p>
-                    </div>
-                </div>
-                <div class="format-card-right">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </div>
-            </div>
-
-            <div class="section-title-wrapper" style="margin-top: 24px; margin-bottom: 12px; padding: 0 4px;">
-                <h2 class="section-title" style="font-size: 18px; color: #1e293b;">Casual & Competitive</h2>
-            </div>
             <!-- 1. Quick Play -->
-            <div class="format-card" onclick="QuizEngine.startFlow('quick')">
-                <div class="format-card-left">
-                    <div class="category-icon-top" style="color: #3b82f6;">
-                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png" style="width: 28px; height: 28px; object-fit: contain;">
-                    </div>
-                    <div class="format-info">
-                        <h3>Quick Play</h3>
-                        <p>Start a solo quiz instantly.</p>
-                    </div>
+            <div class="challenge-main-card" onclick="QuizEngine.startFlow('quick')">
+                <div class="category-icon-top">
+                    <svg viewBox="0 0 24 24" fill="currentColor" style="width: 28px; height: 28px;">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
                 </div>
-                <div class="format-card-right">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <div style="flex: 1;">
+                    <h3>Quick Play</h3>
+                    <p>5 random questions</p>
+                    <p>Fast session opponent</p>
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </div>
             </div>
 
             <!-- 2. Challenge a Colleague -->
-            <div class="format-card" onclick="QuizEngine.startFlow('colleague')">
-                <div class="format-card-left">
-                    <div class="category-icon-top" style="color: #f59e0b;">
-                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f465.png" style="width: 24px; height: 24px; object-fit: contain;">
+            <div class="format-card" onclick="QuizEngine.navigate('view-challenge-lobby')" style="border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 12px; box-shadow: none;">
+                <div class="format-card-left" style="align-items: center;">
+                    <div class="category-icon-top" style="color: #3b82f6; width: 40px; height: 40px; margin-right: 12px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     </div>
                     <div class="format-info">
-                        <h3>Challenge a Colleague</h3>
-                        <p>Test your skills against friends.</p>
+                        <h3 style="color: #0f172a; font-size: 16px;">Challenge a Colleague</h3>
+                        <p style="color: #64748b; font-size: 12px;">Invite a friend or colleague</p>
                     </div>
                 </div>
-                <div class="format-card-right">
+                <div class="format-card-right" style="color: #94a3b8;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </div>
             </div>
 
             <!-- 3. Join Live Challenge -->
-            <div class="format-card" onclick="QuizEngine.startFlow('live')">
-                <div class="format-card-left">
-                    <div class="category-icon-top" style="color: #ef4444;">
-                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3af.png" style="width: 24px; height: 24px; object-fit: contain;">
+            <div class="format-card" onclick="QuizEngine.startFlow('live')" style="border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 12px; box-shadow: none;">
+                <div class="format-card-left" style="align-items: center;">
+                    <div class="category-icon-top" style="color: #10b981; width: 40px; height: 40px; margin-right: 12px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;"><circle cx="12" cy="12" r="2"></circle><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"></path></svg>
                     </div>
                     <div class="format-info">
-                        <h3>Join Live Challenge</h3>
-                        <p>Compete in real-time events.</p>
+                        <h3 style="color: #0f172a; font-size: 16px;">Join Live Challenge</h3>
+                        <p style="color: #64748b; font-size: 12px;">Join an active challenge in progress</p>
                     </div>
                 </div>
-                <div class="format-card-right">
+                <div class="format-card-right" style="color: #94a3b8;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </div>
             </div>
 
             <!-- 4. Leaderboard -->
-            <div class="format-card" onclick="QuizEngine.navigate('view-leaderboard')">
-                <div class="format-card-left">
-                    <div class="category-icon-top" style="color: #10b981;">
-                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 24px; height: 24px; object-fit: contain;">
+            <div class="format-card" onclick="QuizEngine.navigate('view-leaderboard-global')" style="border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: none;">
+                <div class="format-card-left" style="align-items: center;">
+                    <div class="category-icon-top" style="color: #8b5cf6; width: 40px; height: 40px; margin-right: 12px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                     </div>
                     <div class="format-info">
-                        <h3>Leaderboard</h3>
-                        <p>See global and team rankings.</p>
+                        <h3 style="color: #0f172a; font-size: 16px;">Leaderboard</h3>
+                        <p style="color: #64748b; font-size: 12px;">See top performers and rankings</p>
                     </div>
                 </div>
-                <div class="format-card-right">
+                <div class="format-card-right" style="color: #94a3b8;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </div>
             </div>
 
-            <!-- 5. Badges -->
-            <div class="format-card" onclick="QuizEngine.navigate('view-achievements')">
-                <div class="format-card-left">
-                    <div class="category-icon-top" style="color: #8b5cf6;">
-                        <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f396-fe0f.png" style="width: 24px; height: 24px; object-fit: contain;">
-                    </div>
-                    <div class="format-info">
-                        <h3>Badges</h3>
-                        <p>View your earned achievements.</p>
-                    </div>
+            <!-- Stats Row -->
+            <div class="stats-row" id="hub-stats-row">
+                <div class="stat-item">
+                    <div class="stat-label">Best Record</div>
+                    <div class="stat-value">12W 4L</div>
                 </div>
-                <div class="format-card-right">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <div class="stat-item">
+                    <div class="stat-label">Win Rate</div>
+                    <div class="stat-value">78%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Best Streak</div>
+                    <div class="stat-value">4</div>
                 </div>
             </div>
-            <div style="height: 100px;"></div>
         </div>
     </div>
 
+    <!-- Screen: Challenge Lobby -->
+    <div id="view-challenge-lobby" class="quiz-view">
+        <div class="header-wrapper" style="background: #1e3a8a; color: white;">
+            <div class="header-inner">
+                <div class="header-left">
+                    <button class="back-btn" style="color: white;" onclick="QuizEngine.navigateBack()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 class="header-title" style="color: white;">Challenge a Colleague</h1>
+                </div>
+            </div>
+            
+            <div style="padding: 16px;">
+                <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; color: rgba(255,255,255,0.7);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" placeholder="Search by name..." style="background: transparent; border: none; outline: none; color: white; width: 100%; font-family: 'Inter', sans-serif; font-size: 15px;" placeholder-color="rgba(255,255,255,0.5)">
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content" style="background: #f8fafc; padding: 16px; padding-bottom: 120px; min-height: 100dvh;">
+            <h3 style="font-size: 14px; font-weight: 700; color: #1e293b; margin: 0 0 12px 0;">Friends & Colleagues</h3>
+            <div id="lobby-opponents-list">
+                <!-- Opponents will be populated here via JS from MockData -->
+            </div>
+            
+            <div style="position: fixed; bottom: calc(64px + env(safe-area-inset-bottom, 0px)); left: 0; right: 0; padding: 16px; background: linear-gradient(to top, rgba(248,250,252,1) 70%, rgba(248,250,252,0)); z-index: 10;">
+                <button class="btn-primary" style="width: 100%; background: #1e3a8a;" onclick="QuizEngine.startChallengeSearch()">Send Challenge</button>
+            </div>
+        </div>
+        
+        <!-- Searching Overlay (Hidden by default) -->
+        <div id="lobby-searching-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15,23,42,0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; color: white;">
+            <div class="pulse-ring" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #3b82f6; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; animation: pulse 1.5s infinite;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 40px; height: 40px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+            </div>
+            <h2 style="font-size: 20px; font-weight: 700;">Finding Opponent...</h2>
+            <p id="lobby-searching-text" style="color: #94a3b8; font-size: 14px; margin-top: 8px;">Waiting to accept...</p>
+        </div>
+    </div>
     
     <!-- Screen: Exam Selection -->
     <div id="view-exam-selection" class="quiz-view">
@@ -1303,6 +1290,58 @@
     </div>
 
 
+    <!-- Screen: Active Challenge -->
+    <div id="view-active-challenge" class="quiz-view">
+        <div class="quiz-header" style="background: #0f172a; padding: 12px 16px 24px; position: relative; border-bottom: none;">
+            <button class="back-btn" onclick="QuizEngine.confirmExit()" style="position: absolute; top: 12px; left: 16px; color: white; z-index: 10;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 36px; padding: 0 10px;">
+                <!-- You -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                    <span style="color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase;">You</span>
+                    <img src="https://i.pravatar.cc/150?img=11" style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid #3b82f6;">
+                    <span id="challenge-my-score" style="color: white; font-size: 16px; font-weight: 800;">0</span>
+                </div>
+                
+                <!-- Center Timer -->
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <span style="color: #94a3b8; font-size: 10px; font-weight: 700; margin-bottom: 4px;">TIME LEFT</span>
+                    <div style="width: 48px; height: 48px; border-radius: 50%; border: 3px solid #3b82f6; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: 800;" id="challenge-timer">15</div>
+                </div>
+                
+                <!-- Opponent -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                    <span style="color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase;" id="challenge-op-name">Sarah P.</span>
+                    <img id="challenge-op-avatar" src="https://i.pravatar.cc/150?img=5" style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid #ef4444;">
+                    <span id="challenge-op-score" style="color: white; font-size: 16px; font-weight: 800;">0</span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 24px;">
+                <div style="display: flex; justify-content: center; margin-bottom: 8px;">
+                    <span id="challenge-question-counter" style="color: white; font-size: 12px; font-weight: 700; text-transform: uppercase;">Question 1 of 10</span>
+                </div>
+                <!-- Dual Progress Bar -->
+                <div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.1);">
+                    <div id="challenge-my-progress" style="width: 0%; background: #3b82f6; transition: width 0.3s;"></div>
+                    <div id="challenge-op-progress" style="width: 0%; background: #ef4444; margin-left: auto; transition: width 0.3s;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content quiz-content-area" style="padding-top: 24px;">
+            <h2 class="question-text" id="challenge-question-text" style="font-size: 18px;">Loading question...</h2>
+            
+            <div class="answers-grid" id="challenge-answers-grid">
+                <!-- Answers injected via JS -->
+            </div>
+            
+            <div style="height: 100px;"></div>
+        </div>
+    </div>
+
     <!-- Screen 5: Active Quiz -->
     <div id="view-active" class="quiz-view">
         <div class="quiz-header">
@@ -2119,6 +2158,29 @@
         }
     </script>
 
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a class="bottom-nav-item" onclick="QuizEngine.navigate('view-hub')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            Home
+        </a>
+        <a class="bottom-nav-item" onclick="QuizEngine.navigate('view-exam-list')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Exams
+        </a>
+        <a class="bottom-nav-item active" onclick="QuizEngine.navigate('view-challenge-hub')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+            Challenge
+        </a>
+        <a class="bottom-nav-item" onclick="QuizEngine.navigate('view-leaderboard-global')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            Ranks
+        </a>
+        <a class="bottom-nav-item" onclick="QuizEngine.navigate('view-profile')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Profile
+        </a>
+    </nav>
 </div>
     
     <!-- Custom Modal Overlay (Theme Modal Style) -->
@@ -2133,6 +2195,7 @@
         </div>
 </div>
 
+<script src="mockData.js"></script>
 <script src="quiz.js"></script>
 <script>
     if ('serviceWorker' in navigator) {

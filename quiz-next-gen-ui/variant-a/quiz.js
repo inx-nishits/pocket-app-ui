@@ -12,9 +12,67 @@ const QuizEngine = {
         this.currentFlow = flowName;
         if (flowName === 'live') {
             this.navigate('view-live-list');
+        } else if (flowName === 'h2h') {
+            // Started from Lobby Search Button
+            this.startChallengeSearch();
         } else {
             this.navigate('view-category');
         }
+    },
+    
+    selectedOpponentId: null,
+    
+    renderLobbyOpponents: function() {
+        const listContainer = document.getElementById('lobby-opponents-list');
+        if (!listContainer || !window.MockData) return;
+        
+        listContainer.innerHTML = '';
+        window.MockData.opponents.forEach(op => {
+            const card = document.createElement('div');
+            card.className = `opponent-card ${this.selectedOpponentId === op.id ? 'selected' : ''}`;
+            card.onclick = () => {
+                this.selectedOpponentId = op.id;
+                this.renderLobbyOpponents();
+            };
+            
+            const dotColor = op.status === 'online' ? '#10b981' : (op.status === 'away' ? '#f59e0b' : '#94a3b8');
+            const statusText = op.status.charAt(0).toUpperCase() + op.status.slice(1);
+            
+            card.innerHTML = `
+                <img src="${op.avatarUrl}" alt="${op.name}">
+                <div class="opponent-info">
+                    <h4>${op.name}</h4>
+                    <p>${op.role}</p>
+                </div>
+                <div class="opponent-status ${op.status}">
+                    <div class="status-dot" style="background: ${dotColor}"></div>
+                    ${statusText}
+                </div>
+            `;
+            listContainer.appendChild(card);
+        });
+    },
+    
+    startChallengeSearch: function() {
+        if (!this.selectedOpponentId) {
+            alert("Please select a colleague to challenge first.");
+            return;
+        }
+        
+        const op = window.MockData.opponents.find(o => o.id === this.selectedOpponentId);
+        
+        const overlay = document.getElementById('lobby-searching-overlay');
+        const searchTxt = document.getElementById('lobby-searching-text');
+        searchTxt.innerText = `Waiting for ${op.name} to accept...`;
+        
+        overlay.style.display = 'flex';
+        
+        // Simulate waiting for opponent
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            // Start the actual Active H2H Quiz
+            this.navigate('view-active-challenge', {mode: 'Head-to-Head', opponent: op});
+        }, 2000);
     },
     
     handleCategorySelection: function(category) {
@@ -120,7 +178,36 @@ const QuizEngine = {
         }
         
         if (params.difficulty) {
+            document.getElementById('preview-difficulty').innerText = params.difficulty;
             this.currentDifficulty = params.difficulty;
+        }
+        
+        // Hide Bottom Nav if entering an active quiz or exam
+        if (viewId === 'view-active' || viewId === 'view-exam-active' || viewId === 'view-active-challenge') {
+            document.body.classList.add('hide-bottom-nav');
+        } else {
+            document.body.classList.remove('hide-bottom-nav');
+        }
+        
+        // Initialize Challenge Lobby
+        if (viewId === 'view-challenge-lobby') {
+            this.renderLobbyOpponents();
+        }
+        
+        // Handle Bottom Nav Active State
+        document.querySelectorAll('.bottom-nav-item').forEach(el => el.classList.remove('active'));
+        const navMap = {
+            'view-hub': 0,
+            'view-exam-list': 1,
+            'view-challenge-hub': 2,
+            'view-leaderboard-global': 3,
+            'view-profile': 4
+        };
+        if (navMap[viewId] !== undefined) {
+            const navItems = document.querySelectorAll('.bottom-nav-item');
+            if (navItems[navMap[viewId]]) {
+                navItems[navMap[viewId]].classList.add('active');
+            }
         }
         if (viewId === 'view-challenge-confirm') {
             document.getElementById('confirm-level').innerText = params.difficulty || 'Intermediate';
@@ -138,6 +225,7 @@ const QuizEngine = {
         
         // Special initializers
         if (viewId === 'view-active') this.initActiveQuiz();
+        if (viewId === 'view-active-challenge') this.initActiveChallenge(params);
         if (viewId === 'view-leaderboard') this.initLeaderboard();
         if (viewId === 'view-analytics') this.initAnalytics();
         if (viewId === 'view-achievements') this.initAchievements();
@@ -528,6 +616,135 @@ const QuizEngine = {
         }
         
         this.loadQuestion();
+    },
+    
+    // --- Head-to-Head Challenge Logic ---
+    initActiveChallenge: function(params) {
+        this.currentQuestion = 0;
+        this.myScore = 0;
+        this.opScore = 0;
+        this.totalQuestions = 10;
+        
+        // Mock Opponent
+        this.currentOpponent = params.opponent || { name: 'Sarah P.', avatarUrl: 'https://i.pravatar.cc/150?img=5' };
+        document.getElementById('challenge-op-name').innerText = this.currentOpponent.name;
+        document.getElementById('challenge-op-avatar').src = this.currentOpponent.avatarUrl;
+        
+        document.getElementById('challenge-my-score').innerText = '0';
+        document.getElementById('challenge-op-score').innerText = '0';
+        
+        // Timer for each question
+        this.questionTimeLimit = 15;
+        this.timeLeft = this.questionTimeLimit;
+        
+        this.loadChallengeQuestion();
+    },
+    
+    loadChallengeQuestion: function() {
+        this.currentQuestion++;
+        if (this.currentQuestion > this.totalQuestions) {
+            // End challenge (use existing finishQuiz for now, or adapt it)
+            this.score = this.myScore; 
+            this.finishQuiz();
+            return;
+        }
+        
+        // Update Progress
+        const myProgress = (this.currentQuestion / this.totalQuestions) * 100;
+        document.getElementById('challenge-my-progress').style.width = `${myProgress}%`;
+        document.getElementById('challenge-op-progress').style.width = `${myProgress}%`;
+        
+        document.getElementById('challenge-question-counter').innerText = `Question ${this.currentQuestion} of ${this.totalQuestions}`;
+        
+        // Reset Timer
+        this.timeLeft = this.questionTimeLimit;
+        const timerEl = document.getElementById('challenge-timer');
+        timerEl.innerText = this.timeLeft;
+        timerEl.style.borderColor = '#3b82f6';
+        timerEl.style.color = 'white';
+        
+        if (this.challengeTimerInterval) clearInterval(this.challengeTimerInterval);
+        this.challengeTimerInterval = setInterval(() => {
+            this.timeLeft--;
+            if (this.timeLeft <= 0) {
+                clearInterval(this.challengeTimerInterval);
+                this.timeLeft = 0;
+                // Time up, auto-fail
+                this.handleChallengeTimeout();
+            }
+            timerEl.innerText = this.timeLeft;
+            if (this.timeLeft <= 5) {
+                timerEl.style.borderColor = '#ef4444';
+                timerEl.style.color = '#ef4444';
+            }
+        }, 1000);
+        
+        // Mock Question Data
+        const qData = this.questionsData[(this.currentQuestion - 1) % this.questionsData.length];
+        document.getElementById('challenge-question-text').innerText = qData.q;
+        
+        const answersGrid = document.getElementById('challenge-answers-grid');
+        answersGrid.innerHTML = qData.opts.map((opt, index) => {
+            const isCorrect = (index === qData.correct);
+            return `<button class="answer-btn" onclick="QuizEngine.selectChallengeAnswer(this, ${isCorrect})">${opt}</button>`;
+        }).join('');
+    },
+    
+    selectChallengeAnswer: function(btnElement, isCorrect) {
+        clearInterval(this.challengeTimerInterval);
+        
+        const buttons = document.getElementById('challenge-answers-grid').querySelectorAll('button');
+        buttons.forEach(btn => btn.disabled = true);
+        
+        if (isCorrect) {
+            btnElement.classList.add('correct');
+            // Calculate score based on time remaining (faster = more points)
+            const points = 10 + Math.floor(this.timeLeft * 2);
+            this.myScore += points;
+            document.getElementById('challenge-my-score').innerText = this.myScore;
+        } else {
+            btnElement.classList.add('wrong');
+            // Highlight correct
+            const qData = this.questionsData[(this.currentQuestion - 1) % this.questionsData.length];
+            buttons[qData.correct].classList.add('correct');
+        }
+        
+        // Simulate opponent answering
+        setTimeout(() => {
+            const opCorrect = Math.random() > 0.3; // 70% chance opponent gets it right
+            if (opCorrect) {
+                const opPoints = 10 + Math.floor(Math.random() * 20);
+                this.opScore += opPoints;
+                document.getElementById('challenge-op-score').innerText = this.opScore;
+            }
+            
+            // Wait 2 seconds then next question
+            setTimeout(() => {
+                this.loadChallengeQuestion();
+            }, 2000);
+        }, 1000);
+    },
+    
+    handleChallengeTimeout: function() {
+        const buttons = document.getElementById('challenge-answers-grid').querySelectorAll('button');
+        buttons.forEach(btn => btn.disabled = true);
+        
+        const qData = this.questionsData[(this.currentQuestion - 1) % this.questionsData.length];
+        if(buttons[qData.correct]) buttons[qData.correct].classList.add('correct');
+        
+        // Simulate opponent answering
+        setTimeout(() => {
+            const opCorrect = Math.random() > 0.4;
+            if (opCorrect) {
+                const opPoints = 10 + Math.floor(Math.random() * 15);
+                this.opScore += opPoints;
+                document.getElementById('challenge-op-score').innerText = this.opScore;
+            }
+            
+            setTimeout(() => {
+                this.loadChallengeQuestion();
+            }, 2000);
+        }, 1000);
     },
     
     finishQuiz: function() {
