@@ -4892,6 +4892,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 50px;
+    margin: 0;
     padding: 14px 20px;
     border-radius: 12px;
     font-size: 16px;
