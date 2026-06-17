@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="./images/Ps-pro-logo.png">
+    <title>AI Coach - Pocket Sergeant</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #e9f5ff;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #466ba9;
+            --accent-blue-light: #e6f0ff;
+            --accent-blue-dark: #1e3a6d;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.12);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            color: var(--text-primary);
+            overflow: hidden;
+            overscroll-behavior-y: none;
+        }
+
+        html {
+            height: -webkit-fill-available;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ----- Header Sections ----- */
+        .app-header {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+            padding-top: var(--safe-area-top);
+            position: relative;
+            z-index: 10;
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .header-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px 10px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .back-btn svg {
+            width: 22px;
+            height: 22px;
+            stroke-width: 2.5;
+        }
+
+        .ai-avatar-container {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
+            position: relative;
+            animation: pulse-border 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% {
+                border-color: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
+            }
+            50% {
+                border-color: var(--accent-cyan);
+                box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
+            }
+        }
+
+        .ai-avatar-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .header-content {
+            padding: 4px 20px 20px;
+        }
+
+        .header-title {
+            font-size: 26px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            margin-bottom: 6px;
+            background: linear-gradient(120deg, #ffffff 60%, #e0f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.4;
+            max-width: 90%;
+        }
+
+        /* ----- Main Scrollable Content ----- */
+        .scroller {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 20px 20px 120px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(70, 107, 169, 0.15);
+        }
+
+        /* ----- Feature Cards Layout ----- */
+        .features-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-blue);
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+        }
+
+        .feature-card:active {
+            transform: scale(0.985);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .card-header-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .card-icon-wrap {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(70, 107, 169, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            flex-shrink: 0;
+        }
+
+        .card-icon-wrap svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .card-title-text {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        .card-desc {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+
+        /* Tags/Examples styling inside cards */
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .tag-pill {
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--bg-color);
+            color: var(--accent-blue);
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.1px;
+            border: 1px solid rgba(70, 107, 169, 0.08);
+        }
+
+        /* Custom premium CTAs */
+        .card-cta-btn {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+            color: #ffffff;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: -0.1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(70, 107, 169, 0.18);
+            transition: all 0.2s;
+            margin-top: auto;
+            width: fit-content;
+        }
+
+        .card-cta-btn:active {
+            transform: scale(0.96);
+            opacity: 0.95;
+            box-shadow: 0 2px 6px rgba(70, 107, 169, 0.15);
+        }
+
+        .card-cta-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2.75;
+        }
+
+        /* Specific modifications for "Review My Weak Areas" card */
+        .feature-card.weak-areas::before {
+            background: var(--accent-cyan);
+        }
+        .feature-card.weak-areas .card-icon-wrap {
+            background: rgba(6, 182, 212, 0.08);
+            color: var(--accent-cyan);
+        }
+        .feature-card.weak-areas .card-cta-btn {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, #0891b2 100%);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.18);
+        }
+
+        /* ----- Quick Action Chips ----- */
+        .chips-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .action-chip {
+            background: var(--card-bg);
+            border: 1.5px solid #dbeafe;
+            color: var(--accent-blue-dark);
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-chip:hover, .action-chip:active {
+            background: var(--accent-blue-light);
+            border-color: var(--accent-blue);
+            transform: translateY(-1px);
+        }
+
+        /* ----- Recent Sessions Layout ----- */
+        .recent-sessions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .recent-session-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .recent-session-card:active {
+            transform: scale(0.99);
+            background: #f8fafc;
+        }
+
+        .session-icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            flex-shrink: 0;
+        }
+
+        .session-icon-box svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .session-text-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .session-card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+            margin-bottom: 2px;
+        }
+
+        .session-card-subtitle {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-dim);
+        }
+
+        .session-score-tag {
+            font-size: 12px;
+            font-weight: 700;
+            background: rgba(16, 185, 129, 0.08);
+            color: var(--accent-green);
+            padding: 4px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .session-score-tag.status-tag {
+            background: var(--accent-blue-light);
+            color: var(--accent-blue);
+        }
+
+        .session-chevron {
+            color: var(--text-dim);
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        .session-chevron svg {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2.75;
+        }
+
+        /* ----- Bottom Nav ----- */
+        .bottom-nav-wrapper {
+            position: absolute;
+            bottom: max(16px, var(--safe-area-bottom));
+            left: 0;
+            width: 100%;
+            padding: 0 16px;
+            z-index: 200;
+        }
+
+        .bottom-nav {
+            background: var(--accent-blue);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 54px;
+            padding: 0 24px;
+            border-radius: 27px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow:
+                0 12px 32px -8px rgba(15, 23, 42, 0.3),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            height: 38px;
+            width: 38px;
+            border-radius: 19px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-btn img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0) invert(1);
+            opacity: 0.65;
+            transition: all 0.3s;
+        }
+
+        .nav-btn.active {
+            background: #ffffff;
+            width: 60px;
+        }
+
+        .nav-btn.active img {
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
+            opacity: 1;
+        }
+
+        /* ----- Bottom Sheet Styles (Interactive Simulator) ----- */
+        .bottom-sheet-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .bottom-sheet-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .bottom-sheet {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border-top-left-radius: 26px;
+            border-top-right-radius: 26px;
+            padding: 16px 0 calc(var(--safe-area-bottom) + 20px);
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.15);
+            display: flex;
+            flex-direction: column;
+            max-height: 85%;
+        }
+
+        .bottom-sheet.active {
+            transform: translateY(0);
+        }
+
+        .sheet-drag-handle {
+            width: 40px;
+            height: 5px;
+            background: #cbd5e1;
+            border-radius: 3px;
+            margin: 0 auto 16px;
+            flex-shrink: 0;
+        }
+
+        .sheet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+            padding: 0 24px;
+        }
+
+        .sheet-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sheet-title svg {
+            width: 24px;
+            height: 24px;
+            color: var(--accent-blue);
+        }
+
+        .sheet-close-btn {
+            background: var(--bg-color);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--accent-blue-dark);
+            font-size: 16px;
+            font-weight: 800;
+            transition: all 0.2s;
+        }
+
+        .sheet-close-btn:active {
+            transform: scale(0.9);
+        }
+
+        .sheet-content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0 24px 40px;
+        }
+
+        .sheet-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Interactive Simulator Layouts */
+        .simulator-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-select, .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border-color);
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            background: #ffffff;
+            transition: border-color 0.2s;
+        }
+
+        .form-select:focus, .form-input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .exam-level-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .exam-level-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border-color);
+            background: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .exam-level-btn.active {
+            border-color: var(--accent-blue);
+            background: var(--accent-blue-light);
+            color: var(--accent-blue-dark);
+        }
+
+        .simulator-submit-btn {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(70, 107, 169, 0.15);
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+        .simulator-submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Question Viewer Styles */
+        .question-card {
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            background: var(--bg-color);
+            margin-top: 10px;
+        }
+
+        .question-stem {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-item {
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .option-item:active {
+            transform: scale(0.99);
+        }
+
+        .option-badge {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            background: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--accent-blue-dark);
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            line-height: 1.4;
+        }
+
+        .option-item.correct {
+            border-color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.08);
+            color: #065f46;
+        }
+
+        .option-item.correct .option-badge {
+            background: var(--accent-green);
+            color: #ffffff;
+        }
+
+        .option-item.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.06);
+            color: #991b1b;
+        }
+
+        .option-item.wrong .option-badge {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        .explanation-box {
+            margin-top: 14px;
+            padding: 14px;
+            background: #ffffff;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-green);
+            display: none;
+        }
+
+        .explanation-box p {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Loading state spinner */
+        .loading-wrap {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+            gap: 16px;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(70, 107, 169, 0.1);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* Explanation Viewer Layouts */
+        .explanation-doc {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .doc-section {
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .doc-section:last-child {
+            border-bottom: none;
+        }
+
+        .doc-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-blue-dark);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .doc-p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.55;
+        }
+
+        .doc-bullet-list {
+            margin-top: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .doc-bullet {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .bullet-dot {
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        /* Diagnostic Report Styles */
+        .diag-wrapper {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .diag-readiness-card {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+            border-radius: 16px;
+            padding: 18px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-md);
+        }
+
+        .diag-readiness-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .diag-readiness-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            opacity: 0.85;
+        }
+
+        .diag-readiness-value {
+            font-size: 32px;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .diag-readiness-value span {
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .diag-readiness-circle {
+            width: 64px;
+            height: 64px;
+            position: relative;
+        }
+
+        .diag-readiness-circle svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .diag-readiness-circle circle {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+        }
+
+        .diag-readiness-circle .circle-bg {
+            stroke: rgba(255, 255, 255, 0.15);
+        }
+
+        .diag-readiness-circle .circle-progress {
+            stroke: #ffffff;
+            stroke-dasharray: 176;
+            stroke-dashoffset: 49.28; /* (1 - 0.72) * 176 */
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .weak-topics-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .weak-topic-row {
+            background: var(--bg-color);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(70, 107, 169, 0.08);
+        }
+
+        .weak-topic-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .weak-topic-name {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .weak-topic-accuracy {
+            font-size: 12px;
+            font-weight: 600;
+            color: #ef4444;
+        }
+
+        .weak-topic-accuracy.medium {
+            color: #f59e0b;
+        }
+
+        .weak-topic-btn {
+            background: #ffffff;
+            border: 1.5px solid var(--accent-blue);
+            color: var(--accent-blue);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .weak-topic-btn:active {
+            background: var(--accent-blue-light);
+            transform: scale(0.96);
+        }
+
+        /* Desktop Mockup bounds */
+        @media (min-width: 500px) {
+            body {
+                padding: 40px 0;
+                background-color: #e2e8f0;
+                overflow: auto;
+            }
+
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                border: 12px solid #000;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- Premium Header Segment -->
+        <header class="app-header">
+            <div class="header-top-row">
+                <button class="back-btn" onclick="window.location.href='quiz.html'" aria-label="Back">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="ai-avatar-container">
+                    <svg class="ai-avatar-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Outer glow and circles -->
+                        <circle cx="50" cy="50" r="46" stroke="rgba(6, 182, 212, 0.15)" stroke-width="2" />
+                        <circle cx="50" cy="50" r="42" stroke="rgba(6, 182, 212, 0.3)" stroke-width="1.5" stroke-dasharray="6 3" />
+                        <!-- Shield Shape -->
+                        <path d="M50 20 C62 20, 72 26, 75 38 C75 56, 62 70, 50 78 C38 70, 25 56, 25 38 C28 26, 38 20, 50 20 Z" fill="url(#badgeGrad)" stroke="#466ba9" stroke-width="2" />
+                        <!-- Star Inside -->
+                        <path d="M50 34 L53.5 42 L62 42.5 L55.5 47.5 L57.5 56 L50 51.5 L42.5 56 L44.5 47.5 L38 42.5 L46.5 42 Z" fill="#ffffff" opacity="0.95" />
+                        <!-- Tech Lines -->
+                        <path d="M28 38 H40 L45 44" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.2" stroke-linecap="round" />
+                        <path d="M72 38 H60 L55 44" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.2" stroke-linecap="round" />
+                        <path d="M50 54 V64 L42 69" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.2" stroke-linecap="round" />
+                        <!-- Nodes -->
+                        <circle cx="45" cy="44" r="2" fill="#22d3ee" />
+                        <circle cx="55" cy="44" r="2" fill="#22d3ee" />
+                        <circle cx="42" cy="69" r="1.5" fill="#22d3ee" />
+                        
+                        <defs>
+                            <linearGradient id="badgeGrad" x1="50" y1="20" x2="50" y2="78" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#466ba9" />
+                                <stop offset="100%" stop-color="#1b2e52" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+            <div class="header-content">
+                <h1 class="header-title">AI Coach</h1>
+                <p class="header-subtitle">Get personalized support for your exam preparation.</p>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Area -->
+        <div class="scroller">
+
+            <!-- Primary Features Section -->
+            <div class="section-title">Primary AI Features</div>
+            <div class="features-grid">
+
+                <!-- Feature 1: Generate Practice Questions -->
+                <div class="feature-card">
+                    <div class="card-header-row">
+                        <div class="card-icon-wrap">
+                            <!-- Brain SVG -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-4.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2Z"/>
+                                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-4.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2Z"/>
+                            </svg>
+                        </div>
+                        <div class="card-title-text">Generate Practice Questions</div>
+                    </div>
+                    <p class="card-desc">Create realistic promotion exam questions based on selected topics.</p>
+                    <button class="card-cta-btn" onclick="openSimulator('questions')">
+                        <span>Generate Questions</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Feature 2: Explain a Topic -->
+                <div class="feature-card">
+                    <div class="card-header-row">
+                        <div class="card-icon-wrap">
+                            <!-- Book SVG -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                            </svg>
+                        </div>
+                        <div class="card-title-text">Explain a Topic</div>
+                    </div>
+                    <p class="card-desc">Get clear explanations of police laws, procedures, and exam subjects.</p>
+                    <div class="card-tags">
+                        <span class="tag-pill">PACE</span>
+                        <span class="tag-pill">Criminal Law</span>
+                        <span class="tag-pill">Evidence</span>
+                        <span class="tag-pill">Disclosure</span>
+                    </div>
+                    <button class="card-cta-btn" onclick="openSimulator('explain')">
+                        <span>Ask AI</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Feature 3: Promotion Board Coach -->
+                <div class="feature-card">
+                    <div class="card-header-row">
+                        <div class="card-icon-wrap">
+                            <!-- Podium / Medal SVG -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="6"/>
+                                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+                            </svg>
+                        </div>
+                        <div class="card-title-text">Promotion Board Coach</div>
+                    </div>
+                    <p class="card-desc">Practice promotion board and leadership questions with AI feedback.</p>
+                    <div class="card-tags">
+                        <span class="tag-pill">Leadership</span>
+                        <span class="tag-pill">Decision Making</span>
+                        <span class="tag-pill">Operational Judgement</span>
+                    </div>
+                    <button class="card-cta-btn" onclick="openSimulator('board')">
+                        <span>Start Coaching</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Feature 4: Review My Weak Areas -->
+                <div class="feature-card weak-areas">
+                    <div class="card-header-row">
+                        <div class="card-icon-wrap">
+                            <!-- Shield Exclamation SVG -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                        </div>
+                        <div class="card-title-text">Review My Weak Areas</div>
+                    </div>
+                    <p class="card-desc">AI analyzes previous quiz and exam performance and recommends topics requiring improvement.</p>
+                    <button class="card-cta-btn" onclick="openSimulator('weak')">
+                        <span>View Recommendations</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Suggested Questions Section -->
+            <div class="section-title">Suggested Questions</div>
+            <div class="chips-grid">
+                <button class="action-chip" onclick="askChip('Explain PACE Code A')">Explain PACE Code A</button>
+                <button class="action-chip" onclick="askChip('Test me on Criminal Law')">Test me on Criminal Law</button>
+                <button class="action-chip" onclick="askChip('Generate 10 Sergeant Exam Questions')">Generate 10 Sergeant Exam Questions</button>
+                <button class="action-chip" onclick="askChip('Help me prepare for a Promotion Board')">Help me prepare for a Promotion Board</button>
+                <button class="action-chip" onclick="askChip('Explain Disclosure Rules')">Explain Disclosure Rules</button>
+                <button class="action-chip" onclick="askChip('Test my Evidence Knowledge')">Test my Evidence Knowledge</button>
+            </div>
+
+            <!-- Recent AI Sessions Section -->
+            <div class="section-title">Recent AI Sessions</div>
+            <div class="recent-sessions-list">
+                
+                <!-- Session 1 -->
+                <div class="recent-session-card" onclick="openSessionDetails('Criminal Law Revision')">
+                    <div class="session-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <div class="session-text-content">
+                        <div class="session-card-title">Criminal Law Revision</div>
+                        <div class="session-card-subtitle">2 hours ago • Questions Mode</div>
+                    </div>
+                    <div class="session-score-tag">85% Score</div>
+                    <div class="session-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Session 2 -->
+                <div class="recent-session-card" onclick="openSessionDetails('PACE Explanation')">
+                    <div class="session-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        </svg>
+                    </div>
+                    <div class="session-text-content">
+                        <div class="session-card-title">PACE Explanation</div>
+                        <div class="session-card-subtitle">Yesterday • Code C Rights</div>
+                    </div>
+                    <div class="session-score-tag status-tag">Completed</div>
+                    <div class="session-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Session 3 -->
+                <div class="recent-session-card" onclick="openSessionDetails('Promotion Board Practice')">
+                    <div class="session-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="8" r="6"/>
+                            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+                        </svg>
+                    </div>
+                    <div class="session-text-content">
+                        <div class="session-card-title">Promotion Board Practice</div>
+                        <div class="session-card-subtitle">3 days ago • Operational Decision Making</div>
+                    </div>
+                    <div class="session-score-tag">95% Score</div>
+                    <div class="session-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Session 4 -->
+                <div class="recent-session-card" onclick="openSessionDetails('Evidence Quiz')">
+                    <div class="session-icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-4.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2Z"/>
+                            <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-4.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2Z"/>
+                        </svg>
+                    </div>
+                    <div class="session-text-content">
+                        <div class="session-card-title">Evidence Quiz</div>
+                        <div class="session-card-subtitle">4 days ago • Admissibility</div>
+                    </div>
+                    <div class="session-score-tag">78% Score</div>
+                    <div class="session-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Nav Dock -->
+        <div class="bottom-nav-wrapper">
+            <nav class="bottom-nav">
+                <button class="nav-btn" onclick="window.location.href='index.html'"><img src="../images/search.svg"
+                        alt="Search"></button>
+                <button class="nav-btn"><img src="../images/tags.svg" alt="Tags"></button>
+                <button class="nav-btn" onclick="window.location.href='checklist.html'"><img
+                        src="../images/checklist.svg" alt="Clipboard"></button>
+                <button class="nav-btn"><img src="../images/phone-call.svg" alt="Contact"></button>
+                <button class="nav-btn" onclick="window.location.href='menu.html'"><img src="../images/bar.svg" alt="Menu"></button>
+            </nav>
+        </div>
+
+        <!-- Interactive AI Bottom Sheet Simulator -->
+        <div class="bottom-sheet-overlay" id="sheetOverlay"></div>
+        <div class="bottom-sheet" id="aiCoachSheet">
+            <div class="sheet-drag-handle"></div>
+            <div class="sheet-header">
+                <div class="sheet-title" id="sheetTitle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <span>AI Coach Interactive</span>
+                </div>
+                <button class="sheet-close-btn" id="closeSheetBtn">&times;</button>
+            </div>
+            <div class="sheet-content" id="sheetContent">
+                <!-- Dynamic Content Injected Here -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Interactive Simulator JS Logic -->
+    <script>
+        const sheetOverlay = document.getElementById('sheetOverlay');
+        const aiCoachSheet = document.getElementById('aiCoachSheet');
+        const closeSheetBtn = document.getElementById('closeSheetBtn');
+        const sheetTitle = document.getElementById('sheetTitle');
+        const sheetContent = document.getElementById('sheetContent');
+
+        function openSheet(titleHTML, contentHTML) {
+            sheetTitle.innerHTML = titleHTML;
+            sheetContent.innerHTML = contentHTML;
+            sheetOverlay.classList.add('active');
+            aiCoachSheet.classList.add('active');
+            aiCoachSheet.style.transform = '';
+        }
+
+        function closeSheet() {
+            sheetOverlay.classList.remove('active');
+            aiCoachSheet.classList.remove('active');
+            setTimeout(() => {
+                aiCoachSheet.style.transform = '';
+            }, 400);
+        }
+
+        if (closeSheetBtn) closeSheetBtn.addEventListener('click', closeSheet);
+        sheetOverlay.addEventListener('click', closeSheet);
+
+        // Swipe down to close for iOS PWA feel
+        let startY = 0;
+        let currentY = 0;
+        let isDragging = false;
+
+        aiCoachSheet.addEventListener('touchstart', (e) => {
+            const isInsideContent = e.target.closest('.sheet-content');
+            if (isInsideContent && sheetContent.scrollTop > 0) return;
+
+            startY = e.touches[0].clientY;
+            currentY = startY;
+            isDragging = true;
+            aiCoachSheet.style.transition = 'none';
+        }, { passive: true });
+
+        aiCoachSheet.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentY = e.touches[0].clientY;
+            const deltaY = currentY - startY;
+
+            if (deltaY > 0) {
+                e.preventDefault();
+                aiCoachSheet.style.transform = `translateY(${deltaY}px)`;
+            }
+        }, { passive: false });
+
+        aiCoachSheet.addEventListener('touchend', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            aiCoachSheet.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+            const deltaY = currentY - startY;
+            if (deltaY > 120) {
+                closeSheet();
+            } else {
+                aiCoachSheet.style.transform = '';
+            }
+        });
+
+        // 1. Generate Questions Simulator
+        function openSimulator(type) {
+            if (type === 'questions') {
+                const title = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-4.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-4.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2Z"/></svg>
+                    <span>Generate Practice Questions</span>
+                `;
+                const content = `
+                    <div class="simulator-form" id="simForm">
+                        <div class="form-group">
+                            <span class="form-label">Exam Level</span>
+                            <div class="exam-level-group">
+                                <button class="exam-level-btn active" id="btnSgt" onclick="setLevel('Sergeant')">Sergeant Exam</button>
+                                <button class="exam-level-btn" id="btnInsp" onclick="setLevel('Inspector')">Inspector Exam</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="form-label">Syllabus Topic</span>
+                            <select class="form-select" id="qTopic">
+                                <option value="PACE">PACE Code A-H</option>
+                                <option value="Criminal Law">General Criminal Law</option>
+                                <option value="Evidence">Evidence & Admissibility</option>
+                                <option value="Disclosure">Disclosure Rules (CPIA)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <span class="form-label">Number of Questions</span>
+                            <select class="form-select" id="qCount">
+                                <option value="5">5 Questions</option>
+                                <option value="10" selected>10 Questions</option>
+                                <option value="20">20 Questions</option>
+                            </select>
+                        </div>
+                        <button class="simulator-submit-btn" onclick="startGenerating()">Generate Quiz</button>
+                    </div>
+                    <div class="loading-wrap" id="simLoading">
+                        <div class="spinner"></div>
+                        <div class="loading-text">Analyzing police promotion syllabus and drafting scenario-based questions...</div>
+                    </div>
+                    <div id="simResult" style="display: none;"></div>
+                `;
+                openSheet(title, content);
+            } else if (type === 'explain') {
+                const title = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <span>Explain a Topic</span>
+                `;
+                const content = `
+                    <div class="simulator-form" id="simForm">
+                        <div class="form-group">
+                            <span class="form-label">Topic / Area of Law</span>
+                            <input type="text" class="form-input" id="explainInput" placeholder="e.g. PACE Code A Stop and Search, CPIA Disclosure, etc.">
+                        </div>
+                        <button class="simulator-submit-btn" onclick="submitExplain()">Ask AI Mentor</button>
+                    </div>
+                    <div class="loading-wrap" id="simLoading">
+                        <div class="spinner"></div>
+                        <div class="loading-text">Drafting clear educational summary based on law and procedure guidelines...</div>
+                    </div>
+                    <div id="simResult" style="display: none;"></div>
+                `;
+                openSheet(title, content);
+            } else if (type === 'board') {
+                const title = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                    <span>Promotion Board Coach</span>
+                `;
+                const content = `
+                    <div class="simulator-form" id="simForm">
+                        <div class="form-group">
+                            <span class="form-label">Select Board competency</span>
+                            <select class="form-select" id="boardComp">
+                                <option value="Operational Judgement">Operational Judgement & Risk</option>
+                                <option value="Leadership">Leadership & Team Development</option>
+                                <option value="Decision Making">Decision Making under Pressure</option>
+                            </select>
+                        </div>
+                        <button class="simulator-submit-btn" onclick="startBoardCoaching()">Start Scenario</button>
+                    </div>
+                    <div class="loading-wrap" id="simLoading">
+                        <div class="spinner"></div>
+                        <div class="loading-text">Constructing Board exam assessment simulation...</div>
+                    </div>
+                    <div id="simResult" style="display: none;"></div>
+                `;
+                openSheet(title, content);
+            } else if (type === 'weak') {
+                const title = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span>AI Weak Areas Diagnostic</span>
+                `;
+                const content = `
+                    <div class="diag-wrapper">
+                        <div class="diag-readiness-card">
+                            <div class="diag-readiness-info">
+                                <span class="diag-readiness-label">Sergeant Exam Readiness</span>
+                                <div class="diag-readiness-value">72% <span>Pass Target: 75%</span></div>
+                            </div>
+                            <div class="diag-readiness-circle">
+                                <svg>
+                                    <circle class="circle-bg" cx="32" cy="32" r="28" />
+                                    <circle class="circle-progress" cx="32" cy="32" r="28" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div style="font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 8px;">Targeted Improvement Areas</div>
+                        <div class="weak-topics-list">
+                            <div class="weak-topic-row">
+                                <div class="weak-topic-details">
+                                    <span class="weak-topic-name">Disclosure Rules (CPIA)</span>
+                                    <span class="weak-topic-accuracy">Accuracy: 55% • Urgent Improvement Required</span>
+                                </div>
+                                <button class="weak-topic-btn" onclick="quickFixTopic('Disclosure Rules')">Revise</button>
+                            </div>
+                            <div class="weak-topic-row">
+                                <div class="weak-topic-details">
+                                    <span class="weak-topic-name">PACE Code C (Custody Rights)</span>
+                                    <span class="weak-topic-accuracy">Accuracy: 62% • Target performance threshold gap</span>
+                                </div>
+                                <button class="weak-topic-btn" onclick="quickFixTopic('PACE Code C')">Revise</button>
+                            </div>
+                            <div class="weak-topic-row">
+                                <div class="weak-topic-details">
+                                    <span class="weak-topic-name">Evidence & Admissibility</span>
+                                    <span class="weak-topic-accuracy medium">Accuracy: 71% • Near target threshold</span>
+                                </div>
+                                <button class="weak-topic-btn" onclick="quickFixTopic('Evidence & Admissibility')">Revise</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                openSheet(title, content);
+            }
+        }
+
+        // Questions level select state
+        let currentLevel = 'Sergeant';
+        function setLevel(lvl) {
+            currentLevel = lvl;
+            document.getElementById('btnSgt').classList.toggle('active', lvl === 'Sergeant');
+            document.getElementById('btnInsp').classList.toggle('active', lvl === 'Inspector');
+        }
+
+        function startGenerating() {
+            document.getElementById('simForm').style.display = 'none';
+            document.getElementById('simLoading').style.display = 'flex';
+            
+            setTimeout(() => {
+                document.getElementById('simLoading').style.display = 'none';
+                const topic = document.getElementById('qTopic').value;
+                const result = document.getElementById('simResult');
+                result.style.display = 'block';
+
+                let questionHTML = '';
+                if (topic === 'PACE') {
+                    questionHTML = `
+                        <div class="question-card">
+                            <div class="question-stem">Under PACE Code A, which of the following statements is CORRECT regarding a constable's power to conduct a stop and search?</div>
+                            <div class="options-list">
+                                <div class="option-item" onclick="selectOption(this, false)">
+                                    <div class="option-badge">A</div>
+                                    <div class="option-text">Searches can be based solely on personal factors like age, hairstyle, or previous convictions.</div>
+                                </div>
+                                <div class="option-item" onclick="selectOption(this, true)">
+                                    <div class="option-badge">B</div>
+                                    <div class="option-text">The search must be based on reasonable grounds for suspicion, which must be objective and based on facts, information, or intelligence.</div>
+                                </div>
+                                <div class="option-item" onclick="selectOption(this, false)">
+                                    <div class="option-badge">C</div>
+                                    <div class="option-text">A constable is not required to provide their name or station if they are in full uniform during the stop.</div>
+                                </div>
+                                <div class="option-item" onclick="selectOption(this, false)">
+                                    <div class="option-badge">D</div>
+                                    <div class="option-text">A person can be searched under Code A inside their private dwelling without a warrant if an officer has general suspicion.</div>
+                                </div>
+                            </div>
+                            <div class="explanation-box" id="qExplanation">
+                                <div class="explanation-title">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    Correct Option: B (+15 XP Awarded)
+                                </div>
+                                <p>Reasonable grounds for suspicion are the essential foundation of stop and search under PACE. They must be objective, and cannot be based on general stereotypes, personal characteristics, or general assumptions without specific indicators. Furthermore, under GOWISELY, the officer must disclose their name, station, and grounds for search before the search takes place.</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    questionHTML = `
+                        <div class="question-card">
+                            <div class="question-stem">Under standard criminal law regarding Theft (Theft Act 1968), which of the following elements is NOT required to prove the basic offence?</div>
+                            <div class="options-list">
+                                <div class="option-item" onclick="selectOption(this, false)">
+                                    <div class="option-badge">A</div>
+                                    <div class="option-text">Dishonest appropriation of property.</div>
+                                </div>
+                                <div class="option-item" onclick="selectOption(this, false)">
+                                    <div class="option-badge">B</div>
+                                    <div class="option-text">Intention of permanently depriving the owner of it.</div>
+                                </div>
+                                <div class="option-item" onclick="selectOption(this, true)">
+                                    <div class="option-badge">C</div>
+                                    <div class="option-text">The value of the property stolen must exceed a statutory minimum of £5.</div>
+                                </div>
+                                <div class="option-item" onclick="selectOption(this, false)">
+                                    <div class="option-badge">D</div>
+                                    <div class="option-text">The property must belong to another.</div>
+                                </div>
+                            </div>
+                            <div class="explanation-box" id="qExplanation">
+                                <div class="explanation-title">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    Correct Option: C (+15 XP Awarded)
+                                </div>
+                                <p>Under Section 1 of the Theft Act 1968, the definition of theft requires the dishonest appropriation of property belonging to another with the intention to permanently deprive. There is no monetary value minimum required to establish the offence of theft; stealing an item of any value satisfies the actus reus.</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                result.innerHTML = questionHTML;
+            }, 1200);
+        }
+
+        function selectOption(elem, isCorrect) {
+            const siblings = elem.parentNode.children;
+            for (let child of siblings) {
+                child.classList.remove('correct', 'wrong');
+                child.style.pointerEvents = 'none'; // prevent multiple selection
+            }
+            if (isCorrect) {
+                elem.classList.add('correct');
+            } else {
+                elem.classList.add('wrong');
+                // Find correct option and mark it too
+                for (let child of siblings) {
+                    if (child.querySelector('.option-badge').textContent === 'B' && elem.querySelector('.option-badge').textContent !== 'C') {
+                        child.classList.add('correct');
+                    } else if (child.querySelector('.option-badge').textContent === 'C' && elem.querySelector('.option-badge').textContent !== 'B') {
+                        child.classList.add('correct');
+                    }
+                }
+            }
+            document.getElementById('qExplanation').style.display = 'block';
+        }
+
+        // 2. Explain Topic Simulator
+        function submitExplain() {
+            const topic = document.getElementById('explainInput').value || 'PACE Code A';
+            document.getElementById('simForm').style.display = 'none';
+            document.getElementById('simLoading').style.display = 'flex';
+
+            setTimeout(() => {
+                document.getElementById('simLoading').style.display = 'none';
+                const result = document.getElementById('simResult');
+                result.style.display = 'block';
+
+                result.innerHTML = `
+                    <div class="explanation-doc">
+                        <div class="doc-section">
+                            <div class="doc-section-title">Topic: ${topic}</div>
+                            <p class="doc-p">Here is the educational breakdown of <strong>${topic}</strong> formatted for Police Promotion Exam preparation.</p>
+                        </div>
+                        <div class="doc-section">
+                            <div class="doc-section-title">Core Principles & Law</div>
+                            <p class="doc-p">This covers the legal foundation and statutory requirements. Under these rules, officers must ensure strict compliance with procedures to safeguard evidence admissibility in court.</p>
+                        </div>
+                        <div class="doc-section">
+                            <div class="doc-section-title">Key Points to Prove</div>
+                            <div class="doc-bullet-list">
+                                <div class="doc-bullet">
+                                    <span class="bullet-dot">•</span>
+                                    <div><strong>Legality:</strong> The act must be backed by appropriate statutory power (e.g. Section 1 PACE, Section 23 MDA).</div>
+                                </div>
+                                <div class="doc-bullet">
+                                    <span class="bullet-dot">•</span>
+                                    <div><strong>Objective Grounds:</strong> A suspicion formed must be based on clear facts, observations, or reliable intelligence.</div>
+                                </div>
+                                <div class="doc-bullet">
+                                    <span class="bullet-dot">•</span>
+                                    <div><strong>Procedural Standards:</strong> Essential warnings (like GOWISELY) must be provided in full to prevent breach of procedural codes.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="doc-section">
+                            <div class="doc-section-title">Exam Advice</div>
+                            <p class="doc-p">Promotion boards and exams frequently test the definitions of "reasonable suspicion" and the distinction between public and private search permissions. Ensure you understand when consent cannot be used to bypass PACE requirements.</p>
+                        </div>
+                    </div>
+                `;
+            }, 1000);
+        }
+
+        // 3. Promotion Board Coach Simulator
+        function startBoardCoaching() {
+            const comp = document.getElementById('boardComp').value;
+            document.getElementById('simForm').style.display = 'none';
+            document.getElementById('simLoading').style.display = 'flex';
+
+            setTimeout(() => {
+                document.getElementById('simLoading').style.display = 'none';
+                const result = document.getElementById('simResult');
+                result.style.display = 'block';
+
+                result.innerHTML = `
+                    <div class="question-card">
+                        <div style="font-size:12px; font-weight:700; color:var(--accent-blue); margin-bottom:6px; text-transform:uppercase;">Scenario Competency: ${comp}</div>
+                        <div class="question-stem"><strong>Scenario:</strong> You are a newly promoted Sergeant. During a briefing, an experienced constable under your direct supervision openly dismisses the importance of a new national crime recording standard, calling it "bureaucratic box-ticking" that prevents real policing. How do you respond?</div>
+                        <div class="options-list">
+                            <div class="option-item" onclick="selectBoardOption(this, false)">
+                                <div class="option-badge">A</div>
+                                <div class="option-text">Reprimand the officer immediately in front of the team to establish authority.</div>
+                            </div>
+                            <div class="option-item" onclick="selectBoardOption(this, true)">
+                                <div class="option-badge">B</div>
+                                <div class="option-text">Address the comments privately after briefing. Explain the rationale behind the standards, link it to public trust, and offer support to ease the process.</div>
+                            </div>
+                            <div class="option-item" onclick="selectBoardOption(this, false)">
+                                <div class="option-badge">C</div>
+                                <div class="option-text">Agree with the officer's frustrations to build rapport, but tell them they have to do it anyway.</div>
+                            </div>
+                        </div>
+                        <div class="explanation-box" id="boardExplanation">
+                            <div class="explanation-title" id="boardExpTitle">Correct Option: B</div>
+                            <p id="boardExpText">This response aligns with professional standards, showing leadership, coaching capability, and compliance with Home Office standards. By addressing it privately, you maintain respect while firmly holding the officer accountable and explaining the strategic importance of correct recording.</p>
+                        </div>
+                    </div>
+                `;
+            }, 1200);
+        }
+
+        function selectBoardOption(elem, isCorrect) {
+            const siblings = elem.parentNode.children;
+            for (let child of siblings) {
+                child.classList.remove('correct', 'wrong');
+                child.style.pointerEvents = 'none';
+            }
+            if (isCorrect) {
+                elem.classList.add('correct');
+                document.getElementById('boardExpTitle').innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Pass - Assessment Level: Excellent
+                `;
+            } else {
+                elem.classList.add('wrong');
+                for (let child of siblings) {
+                    if (child.querySelector('.option-badge').textContent === 'B') {
+                        child.classList.add('correct');
+                    }
+                }
+                document.getElementById('boardExpTitle').innerHTML = `
+                    <span style="color:#ef4444;">Needs Improvement - Assessment Evaluation</span>
+                `;
+            }
+            document.getElementById('boardExplanation').style.display = 'block';
+        }
+
+        // Quick action chips & recent sessions triggers
+        function askChip(query) {
+            if (query.startsWith('Generate')) {
+                openSimulator('questions');
+                setTimeout(() => {
+                    if (document.getElementById('qTopic')) {
+                        document.getElementById('qTopic').value = 'PACE';
+                        startGenerating();
+                    }
+                }, 200);
+            } else if (query.startsWith('Help me prepare')) {
+                openSimulator('board');
+                setTimeout(() => {
+                    if (document.getElementById('boardComp')) {
+                        document.getElementById('boardComp').value = 'Operational Judgement';
+                        startBoardCoaching();
+                    }
+                }, 200);
+            } else {
+                openSimulator('explain');
+                setTimeout(() => {
+                    const input = document.getElementById('explainInput');
+                    if (input) {
+                        input.value = query;
+                        submitExplain();
+                    }
+                }, 200);
+            }
+        }
+
+        function quickFixTopic(topicName) {
+            closeSheet();
+            setTimeout(() => {
+                openSimulator('explain');
+                setTimeout(() => {
+                    const input = document.getElementById('explainInput');
+                    if (input) {
+                        input.value = topicName;
+                        submitExplain();
+                    }
+                }, 200);
+            }, 300);
+        }
+
+        function openSessionDetails(sessionName) {
+            const title = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Recent Session Details</span>
+            `;
+            const content = `
+                <div class="explanation-doc">
+                    <div class="doc-section">
+                        <div class="doc-section-title">Session: ${sessionName}</div>
+                        <p class="doc-p">This session was completed as part of your targeted exam prep routines.</p>
+                    </div>
+                    <div class="doc-section">
+                        <div class="doc-section-title">Session Summary</div>
+                        <p class="doc-p">Completed on the promotion curriculum syllabus. Total questions answered: 10. Accuracy achieved was aligned with your preparation progress objectives.</p>
+                    </div>
+                    <div class="doc-section">
+                        <div class="doc-section-title">AI Recommendation</div>
+                        <p class="doc-p" style="color: var(--accent-green); font-weight:700;">Weak area analysis indicates steady improvement. Keep practicing PACE and Disclosure scenarios to close the gap to target readiness (75%).</p>
+                    </div>
+                </div>
+            `;
+            openSheet(title, content);
+        }
+    </script>
+</body>
+
+</html>

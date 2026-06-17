@@ -7,94 +7,238 @@ const QuizEngine = {
     currentFlow: null,
     selectedCategory: null,
     selectedFormat: null,
+    selectedMixedTopics: [],
     
+    
+    startMockExam: function(examName) {
+        this.selectedCategory = examName;
+        this.currentFormat = 'Mock Exam';
+        this.currentMode = 'Mock Exam';
+        
+        const examsData = {
+            'Sergeant Exam': { icon: '1f46e.png', sub: 'Crime, Evidence, GP', q: 150, d: '3h 15m', pass: '55%' },
+            'Inspector Exam': { icon: '1f46e.png', sub: 'Crime, Evidence, GP, Traffic', q: 150, d: '3h 15m', pass: '55%' },
+            'National Investigators Exam': { icon: '1f50d.png', sub: 'Crime, Evidence, Investigation', q: 80, d: '2h', pass: '55%' }
+        };
+        const data = examsData[examName] || examsData['Sergeant Exam'];
+
+        const cardHtml = `
+            <div class="format-card" style="flex-direction: column; align-items: stretch; padding: 20px; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                    <div style="display: flex; align-items: flex-start;">
+                        <div style="background: #eff6ff; width: 48px; height: 48px; margin-right: 16px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                            <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${data.icon}" style="width: 24px; height: 24px; object-fit: contain;">
+                        </div>
+                        <div>
+                            <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">${examName}</h3>
+                            <p style="font-size: 14px; color: #64748b; margin: 0; margin-bottom: 8px;">${data.sub}</p>
+                            <span style="display: inline-block; background: #eff6ff; color: #466ba9; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;">Official Format</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding-top: 16px; border-top: 1.5px solid rgba(15, 23, 42, 0.04);">
+                    <div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Questions</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #0f172a;">${data.q}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Duration</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #0f172a;">${data.d}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Pass Mark</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #0f172a;">${data.pass}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const container = document.getElementById('exam-details-card-container');
+        if (container) container.innerHTML = cardHtml;
+        
+        this.navigate('view-exam-details');
+    },
+
+    beginMockSimulation: function() {
+        this.navigate('view-active');
+    },
+
     startFlow: function(flowName) {
         this.currentFlow = flowName;
         if (flowName === 'live') {
             this.navigate('view-live-list');
-        } else if (flowName === 'h2h') {
-            // Started from Lobby Search Button
-            this.startChallengeSearch();
+        } else if (flowName === 'mock') {
+            this.navigate('view-mock-exams');
+        } else if (flowName === 'mixed') {
+            this.selectedMixedTopics = [];
+            this.updateMixedTopicUI();
+            this.navigate('view-mixed-topic-selection');
         } else {
+            const headerTitle = document.querySelector('#view-category .header-title');
+            const categoryList = document.getElementById('view-category-list');
+            const categoryGrid = document.getElementById('view-category-grid');
+            
+            if (flowName === 'quick' || flowName === 'colleague') {
+                if (headerTitle) headerTitle.innerText = 'Quiz Category';
+                if (categoryList) categoryList.style.display = 'none';
+                if (categoryGrid) categoryGrid.style.display = 'grid';
+            } else {
+                if (headerTitle) headerTitle.innerText = 'Choose Exam';
+                if (categoryList) categoryList.style.display = 'flex';
+                if (categoryGrid) categoryGrid.style.display = 'none';
+            }
             this.navigate('view-category');
         }
     },
     
-    selectedOpponentId: null,
-    
-    renderLobbyOpponents: function() {
-        const listContainer = document.getElementById('lobby-opponents-list');
-        if (!listContainer || !window.MockData) return;
-        
-        listContainer.innerHTML = '';
-        window.MockData.opponents.forEach(op => {
-            const card = document.createElement('div');
-            card.className = `opponent-card ${this.selectedOpponentId === op.id ? 'selected' : ''}`;
-            card.onclick = () => {
-                this.selectedOpponentId = op.id;
-                this.renderLobbyOpponents();
-            };
-            
-            const dotColor = op.status === 'online' ? '#10b981' : (op.status === 'away' ? '#f59e0b' : '#94a3b8');
-            const statusText = op.status.charAt(0).toUpperCase() + op.status.slice(1);
-            
-            card.innerHTML = `
-                <img src="${op.avatarUrl}" alt="${op.name}">
-                <div class="opponent-info">
-                    <h4>${op.name}</h4>
-                    <p>${op.role}</p>
-                </div>
-                <div class="opponent-status ${op.status}">
-                    <div class="status-dot" style="background: ${dotColor}"></div>
-                    ${statusText}
-                </div>
-            `;
-            listContainer.appendChild(card);
-        });
-    },
-    
-    startChallengeSearch: function() {
-        if (!this.selectedOpponentId) {
-            this.showAlert("Action Required", "Please select a colleague to challenge first.", false);
-            return;
-        }
-        
-        const op = window.MockData.opponents.find(o => o.id === this.selectedOpponentId);
-        
-        const overlay = document.getElementById('lobby-searching-overlay');
-        const searchTxt = document.getElementById('lobby-searching-text');
-        searchTxt.innerText = `Waiting for ${op.name} to accept...`;
-        
-        overlay.style.display = 'flex';
-        
-        // Simulate waiting for opponent
-        setTimeout(() => {
-            overlay.style.display = 'none';
-            // Start the actual Active H2H Quiz
-            this.navigate('view-active-challenge', {mode: 'Head-to-Head', opponent: op});
-        }, 2000);
-    },
-    
     handleCategorySelection: function(category) {
         if (this.currentFlow === 'quick') {
-            // Quick play goes directly to active quiz, use Intermediate as default difficulty for now
-            document.getElementById('difficulty-category-title').innerText = category;
-            document.getElementById('preview-count').innerText = 5;
+            // Quick play goes directly to active quiz...
             this.navigate('view-active', {category: category, mode: 'Quick Play', count: 5});
         } else {
-            // Colleague flow goes to Difficulty selection
-            this.navigate('view-difficulty', {category: category});
+            // Colleague flow goes to Format selection
+            this.navigate('view-format', {category: category});
         }
     },
-    
+
     handleDifficultySelection: function(difficulty) {
         if (this.currentFlow === 'colleague') {
-            this.navigate('view-format', {difficulty: difficulty});
+            this.navigate('view-participants', {difficulty: difficulty});
         } else {
-            this.navigate('view-active', {mode: 'Challenge', count: 10, difficulty: difficulty});
+            this.currentDifficulty = difficulty;
+            this.startCountdown();
         }
     },
+
     
+    toggleMixedTopic: function(topic) {
+        const index = this.selectedMixedTopics.indexOf(topic);
+        if (index > -1) {
+            this.selectedMixedTopics.splice(index, 1);
+        } else {
+            this.selectedMixedTopics.push(topic);
+        }
+        this.updateMixedTopicUI();
+    },
+
+    updateMixedTopicUI: function() {
+        const topics = ['Criminal Law', 'Traffic', 'Custody', 'Evidence', 'Domestic Abuse', 'Detectives', 'PACE'];
+        topics.forEach(t => {
+            const id = t.replace(' ', '-');
+            const el = document.getElementById('mixed-topic-' + id);
+            const cb = document.getElementById('mixed-checkbox-' + id);
+            if (el && cb) {
+                if (this.selectedMixedTopics.includes(t)) {
+                    el.style.borderColor = '#466ba9';
+                    el.style.background = '#eff6ff';
+                    cb.style.background = '#466ba9';
+                    cb.style.borderColor = '#466ba9';
+                    cb.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                } else {
+                    el.style.borderColor = 'rgba(15, 23, 42, 0.04)';
+                    el.style.background = 'white';
+                    cb.style.background = 'transparent';
+                    cb.style.borderColor = '#cbd5e1';
+                    cb.innerHTML = '';
+                }
+            }
+        });
+
+        const btn = document.getElementById('mixed-continue-btn');
+        if (btn) {
+            if (this.selectedMixedTopics.length >= 2) {
+                btn.disabled = false;
+                btn.style.background = '#466ba9';
+                btn.style.color = 'white';
+                btn.style.boxShadow = '0 8px 16px rgba(37, 99, 235, 0.25)';
+            } else {
+                btn.disabled = true;
+                btn.style.background = '#e2e8f0';
+                btn.style.color = '#94a3b8';
+                btn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)';
+            }
+        }
+    },
+
+    submitMixedTopics: function() {
+        if (this.selectedMixedTopics.length >= 2) {
+            // They chose the topics, now proceed as Practice By Topic mode but for Mixed
+            this.selectedCategory = 'Mixed Practice';
+            this.currentFormat = 'Standard Quiz';
+            this.currentMode = 'Mixed Practice';
+            this.navigate('view-practice-difficulty');
+        }
+    },
+
+    handleExamSelection: function(examName) {
+        this.selectedExam = examName;
+        
+        const subtitle = document.getElementById('practice-topic-subtitle');
+        if (subtitle) {
+            subtitle.innerHTML = examName + ' Exam &middot; Tap a topic to continue.';
+        }
+
+        if (this.currentFlow === 'topic' || this.currentFlow === 'mixed') {
+            this.navigate('view-practice-topic');
+        } else {
+            this.navigate('view-topics');
+        }
+    },
+
+    startPracticeQuiz: function(category) {
+        this.selectedCategory = category;
+        this.currentFormat = 'Standard Quiz';
+        this.currentMode = this.currentFlow === 'mixed' ? 'Mixed Practice' : 'Practice By Topic';
+        
+        this.navigate('view-practice-difficulty');
+    },
+
+    handlePracticeDifficultySelection: function(difficulty) {
+        this.currentDifficulty = difficulty;
+        this.navigate('view-practice-questions');
+    },
+
+    startCountdownWithCount: function(count) {
+        this.currentCount = count;
+        
+        if (document.getElementById('difficulty-category-title')) {
+            document.getElementById('difficulty-category-title').innerText = this.selectedCategory;
+        }
+        if (document.getElementById('preview-title')) {
+            document.getElementById('preview-title').innerText = this.selectedCategory;
+        }
+        if (document.getElementById('preview-mode')) {
+            document.getElementById('preview-mode').innerText = this.currentMode;
+        }
+        if (document.getElementById('preview-count')) {
+            document.getElementById('preview-count').innerText = count;
+        }
+        if (document.getElementById('preview-difficulty')) {
+            document.getElementById('preview-difficulty').innerText = this.currentDifficulty;
+        }
+        
+        this.navigate('view-active');
+    },
+
+
+    
+    handleRating: function(btn, type) {
+        const container = btn.closest('.question-rating');
+        if (container) {
+            container.querySelectorAll('.rating-btn').forEach(b => {
+                b.classList.remove('selected-helpful', 'selected-poor', 'selected-report');
+            });
+        }
+        
+        btn.classList.add('selected-' + type);
+        
+        if (type === 'report') {
+            this.showToast('Report submitted. Thanks!');
+        } else {
+            this.showToast('Thanks for your feedback!');
+        }
+    },
+
     showToast: function(message) {
         const existingToast = document.getElementById('quiz-toast');
         if (existingToast) existingToast.remove();
@@ -114,74 +258,15 @@ const QuizEngine = {
             setTimeout(() => toast.remove(), 300);
         }, 2000);
     },
-    
-    showAlert: function(title, message, showCancel = false) {
-        const overlay = document.getElementById('custom-modal-overlay');
-        document.getElementById('custom-modal-title').innerText = title;
-        document.getElementById('custom-modal-message').innerText = message;
-        
-        const cancelBtn = document.getElementById('custom-modal-cancel');
-        if (showCancel) {
-            cancelBtn.style.display = 'inline-block';
-        } else {
-            cancelBtn.style.display = 'none';
-        }
-        
-        // Remove existing listeners by cloning the buttons
-        const confirmBtn = document.getElementById('custom-modal-confirm');
-        const newConfirmBtn = confirmBtn.cloneNode(true);
-        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
-        
-        const newCancelBtn = cancelBtn.cloneNode(true);
-        cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
-        
-        return new Promise((resolve) => {
-            newConfirmBtn.addEventListener('click', () => {
-                overlay.classList.remove('show');
-                resolve(true);
-            });
-            newCancelBtn.addEventListener('click', () => {
-                overlay.classList.remove('show');
-                resolve(false);
-            });
-            overlay.classList.add('show');
-        });
-    },
 
     // --- Routing & Navigation ---
-    
-    selectExamType: function(examType) {
-        let titleMap = {
-            'Sergeant': 'Constable to Sergeant',
-            'Inspector': 'Sergeant to Inspector',
-            'NIE': 'NIE (Detectives)'
-        };
-        document.getElementById('mock-exam-target-title').innerText = titleMap[examType] || examType;
-        this.navigate('view-mock-exam-intro');
-    },
-
-    startPractice: function(numQuestions) {
-        // Collect active categories
-        const activeCards = document.querySelectorAll('#view-practice-selection .category-card.active');
-        if (activeCards.length === 0) {
-            this.showToast('Please select at least one syllabus area.');
-            return;
+    stopConfetti: function() {
+        if (typeof confetti === 'function' && QuizEngine.myConfetti) {
+            QuizEngine.myConfetti.reset();
         }
-        let categories = Array.from(activeCards).map(card => card.querySelector('.card-title').innerText).join(', ');
-        
-        document.getElementById('difficulty-category-title').innerText = 'Practice: ' + categories;
-        document.getElementById('preview-count').innerText = numQuestions;
-        this.navigate('view-active', {mode: 'Practice Mode', count: numQuestions});
     },
-
-    startMockExam: function() {
-        document.getElementById('difficulty-category-title').innerText = document.getElementById('mock-exam-target-title').innerText;
-        document.getElementById('preview-count').innerText = 150;
-        this.navigate('view-active', {mode: 'Mock Exam', count: 150});
-        // Note: For a true 3-hour timer, we would hook into the timer start logic in view-active.
-    },
-
     navigate: function(viewId, params = {}, fromPopState = false) {
+        this.stopConfetti();
         const currentView = document.querySelector('.quiz-view.active');
         const nextView = document.getElementById(viewId);
         
@@ -211,36 +296,7 @@ const QuizEngine = {
         }
         
         if (params.difficulty) {
-            document.getElementById('preview-difficulty').innerText = params.difficulty;
             this.currentDifficulty = params.difficulty;
-        }
-        
-        // Hide Bottom Nav if entering an active quiz or exam
-        if (viewId === 'view-active' || viewId === 'view-exam-active' || viewId === 'view-active-challenge') {
-            document.body.classList.add('hide-bottom-nav');
-        } else {
-            document.body.classList.remove('hide-bottom-nav');
-        }
-        
-        // Initialize Challenge Lobby
-        if (viewId === 'view-challenge-lobby') {
-            this.renderLobbyOpponents();
-        }
-        
-        // Handle Bottom Nav Active State
-        document.querySelectorAll('.bottom-nav-item').forEach(el => el.classList.remove('active'));
-        const navMap = {
-            'view-hub': 0,
-            'view-exam-list': 1,
-            'view-challenge-hub': 2,
-            'view-leaderboard-global': 3,
-            'view-profile': 4
-        };
-        if (navMap[viewId] !== undefined) {
-            const navItems = document.querySelectorAll('.bottom-nav-item');
-            if (navItems[navMap[viewId]]) {
-                navItems[navMap[viewId]].classList.add('active');
-            }
         }
         if (viewId === 'view-challenge-confirm') {
             document.getElementById('confirm-level').innerText = params.difficulty || 'Intermediate';
@@ -248,6 +304,45 @@ const QuizEngine = {
             document.getElementById('confirm-format').innerText = this.selectedFormat || 'Standard Quiz';
             const selectedOpponent = document.querySelector('.colleague-row-card.selected h3');
             if (selectedOpponent) document.getElementById('confirm-opponent').innerText = selectedOpponent.innerText;
+            
+            const selectedOpponentImg = document.querySelector('.colleague-row-card.selected img');
+            if (selectedOpponentImg && document.getElementById('waiting-opponent-img')) {
+                document.getElementById('waiting-opponent-img').src = selectedOpponentImg.src;
+            }
+
+            // Simulate opponent accepting after 3.5 seconds
+            setTimeout(() => {
+                if (document.getElementById('view-challenge-confirm').classList.contains('active')) {
+                    const title = document.getElementById('waiting-title');
+                    if(title) {
+                        title.innerText = "Match Found!";
+                        title.style.color = "#4ade80"; // Light green text for blue header
+                    }
+                    const subtitle = document.getElementById('waiting-subtitle');
+                    if(subtitle) subtitle.innerText = "Starting challenge...";
+                    
+                    const spinner = document.getElementById('waiting-spinner');
+                    if (spinner) {
+                        spinner.style.animation = "none";
+                        spinner.innerHTML = '<polyline points="20 6 9 17 4 12" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>';
+                    }
+                    
+                    document.getElementById('confirm-opponent').style.color = "#1e293b";
+                    
+                    document.getElementById('waiting-opponent-img').style.opacity = "1";
+                    document.getElementById('waiting-opponent-img').style.filter = "grayscale(0%)";
+                    document.getElementById('waiting-opponent-border').style.borderColor = "#10b981";
+                    
+                    const ring = document.getElementById('waiting-opponent-ring');
+                    if (ring) {
+                        ring.style.display = "none";
+                    }
+                    
+                    setTimeout(() => {
+                        QuizEngine.startCountdown();
+                    }, 1500);
+                }
+            }, 3500);
         }
 
         // Switch views instantly (without buggy fade class)
@@ -258,10 +353,10 @@ const QuizEngine = {
         
         // Special initializers
         if (viewId === 'view-active') this.initActiveQuiz();
-        if (viewId === 'view-active-challenge') this.initActiveChallenge(params);
         if (viewId === 'view-leaderboard') this.initLeaderboard();
         if (viewId === 'view-analytics') this.initAnalytics();
         if (viewId === 'view-achievements') this.initAchievements();
+        if (viewId === 'view-progress') this.initProgress();
     },
     
     navigateBack: function() {
@@ -274,48 +369,119 @@ const QuizEngine = {
     },
     
     confirmExit: function() {
-        // Show custom exit confirmation modal
-        const overlay = document.getElementById('exit-confirm-overlay');
-        const sheet = document.getElementById('exit-confirm-sheet');
-        
-        overlay.classList.remove('hidden');
-        sheet.classList.remove('hidden');
-        
-        // Trigger reflow for transition
-        void overlay.offsetWidth;
-        
-        overlay.classList.add('show');
-    },
-
-    handleExitConfirm: function(shouldExit) {
-        const overlay = document.getElementById('exit-confirm-overlay');
-        const sheet = document.getElementById('exit-confirm-sheet');
-        
-        if (shouldExit) {
-            // Hide the custom exit confirmation modal silently without delay since we switched views
-            overlay.classList.remove('show');
-            overlay.classList.add('hidden');
-            sheet.classList.add('hidden');
-            
+        if (confirm("Are you sure you want to exit? Your progress will be lost.")) {
             this.navigateBack();
-        } else {
-            // Hide the custom exit confirmation modal with transition
-            overlay.classList.remove('show');
-            
-            // Wait for transition to complete before adding hidden
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                sheet.classList.add('hidden');
-            }, 300);
         }
     },
     
     returnHome: function() {
+        this.stopConfetti();
         this.history = ['view-hub'];
         window.history.pushState({ viewId: 'view-hub', index: 0 }, "", `#view-hub`);
         document.querySelectorAll('.quiz-view').forEach(v => v.classList.remove('active'));
         document.getElementById('view-hub').classList.add('active');
     },
+
+    wrongQuestionsMockData: {
+        'Homicide': [
+            {
+                q: "In the law of murder, what does the term 'malice aforethought' encompass?",
+                opts: ["Only an express intent to kill", "An intent to kill or an intent to cause grievous bodily harm (GBH)", "Recklessness as to whether death or GBH is caused", "Negligence resulting in death"],
+                correct: 1,
+                selected: 2,
+                expWrong: "Under English law, the mens rea for murder is 'malice aforethought', which has been judicially defined to include either an intent to kill (express malice) or an intent to cause grievous bodily harm (implied malice). Recklessness is not sufficient for murder (though it may suffice for manslaughter)."
+            },
+            {
+                q: "A defendant strikes a victim with a heavy iron bar, intending only to break their arm, but the victim dies. Is the defendant liable for murder?",
+                opts: ["No, because there was no intent to kill", "Yes, because the defendant intended to cause grievous bodily harm (GBH)", "No, because it is manslaughter under the constructive trust rule", "Yes, because any assault leading to death is automatically murder"],
+                correct: 1,
+                selected: 0,
+                expWrong: "Under the doctrine of implied malice, an intent to cause grievous bodily harm (GBH) is sufficient mens rea for murder. Since striking someone with a heavy iron bar to break their arm constitutes an intent to cause GBH, the defendant is liable for murder despite not intending to kill."
+            }
+        ],
+        'Disclosure': [
+            {
+                q: "Under the Criminal Procedure and Investigations Act (CPIA) 1996, what is the purpose of the MG6C schedule?",
+                opts: ["To list sensitive material", "To list non-sensitive material", "To list witness statements", "To outline the prosecution case"],
+                correct: 1,
+                selected: 0,
+                expWrong: "The MG6C form is used to schedule non-sensitive unused material. Sensitive material is scheduled on the MG6D form."
+            },
+            {
+                q: "When must the prosecution disclose unused material to the defense under the CPIA 1996?",
+                opts: ["Only if it might reasonably be considered capable of undermining the prosecution case or assisting the defense case", "Any material that the police have collected during the investigation, regardless of relevance", "Only material that the prosecution intends to rely on at trial", "Only if requested by the defense solicitor"],
+                correct: 0,
+                selected: 1,
+                expWrong: "The statutory test for prosecution disclosure under Section 3 of the CPIA 1996 requires the disclosure of unused material only if it meets the 'disclosure test'—meaning it might reasonably be considered capable of undermining the prosecution case or assisting the defense case."
+            }
+        ]
+    },
+
+    showWrongQuestions: function(topic) {
+        const titleEl = document.getElementById('wrong-questions-title');
+        const contentEl = document.getElementById('wrong-questions-content');
+        
+        let questions = this.wrongQuestionsMockData[topic] || [];
+        
+        titleEl.innerText = topic === 'Homicide' ? 'Homicide — Intent' : 'Disclosure — CPIA Schedules';
+        
+        contentEl.innerHTML = '';
+        
+        if (questions.length === 0) {
+            contentEl.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">No wrong questions found for this section.</div>';
+        } else {
+            questions.forEach((qData, qIndex) => {
+                let optionsHTML = qData.opts.map((opt, oIndex) => {
+                    let style = "padding: 12px 14px; border-radius: 10px; font-size: 14px; font-weight: 500; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #e2e8f0; background: #ffffff; color: #334155;";
+                    let icon = '';
+                    
+                    if (oIndex === qData.correct) {
+                        style = "padding: 12px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #10b981; background: #ecfdf5; color: #065f46;";
+                        icon = '<span style="font-size: 16px; font-weight: 700; color: #10b981;">✓</span>';
+                    } else if (oIndex === qData.selected) {
+                        style = "padding: 12px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #ef4444; background: #fef2f2; color: #991b1b;";
+                        icon = '<span style="font-size: 16px; font-weight: 700; color: #ef4444;">✕</span>';
+                    }
+                    
+                    return `<div style="${style}">${opt} ${icon}</div>`;
+                }).join('');
+                
+                contentEl.innerHTML += `
+                    <div style="background: white; border-radius: 16px; padding: 18px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03); border: 1px solid rgba(15, 23, 42, 0.04); text-align: left;">
+                        <div style="font-size: 12px; font-weight: 700; color: #ef4444; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Question ${qIndex + 1}</div>
+                        <h4 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0 0 14px 0; line-height: 1.4;">${qData.q}</h4>
+                        <div style="margin-bottom: 16px;">${optionsHTML}</div>
+                        <div style="background: #f3e8ff; border-radius: 12px; padding: 12px; border: 1px solid rgba(139, 92, 246, 0.08);">
+                            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 11px; font-weight: 800; color: #8b5cf6; text-transform: uppercase; letter-spacing: 0.5px;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z"></path>
+                                </svg>
+                                AI Explanation
+                            </div>
+                            <p style="margin: 0; font-size: 13px; line-height: 1.45; color: #5b21b6;">${qData.expWrong}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        const sheet = document.getElementById('wrong-questions-sheet');
+        const backdrop = document.getElementById('wrong-questions-sheet-backdrop');
+        
+        backdrop.style.opacity = '1';
+        backdrop.style.pointerEvents = 'auto';
+        sheet.style.transform = 'translateY(0)';
+    },
+
+    closeWrongQuestions: function() {
+        const sheet = document.getElementById('wrong-questions-sheet');
+        const backdrop = document.getElementById('wrong-questions-sheet-backdrop');
+        
+        backdrop.style.opacity = '0';
+        backdrop.style.pointerEvents = 'none';
+        sheet.style.transform = 'translateY(100%)';
+    },
+
 
 
     // --- Countdown & Quiz Start ---
@@ -343,22 +509,6 @@ const QuizEngine = {
         }, 1000);
     },
 
-    sendChallengeInvitation: function() {
-        const overlay = document.getElementById('waiting-overlay');
-        if (overlay) overlay.classList.remove('hidden');
-        
-        // Mock a 3 second delay for the opponent to accept the challenge
-        setTimeout(() => {
-            if (overlay) overlay.classList.add('hidden');
-            this.navigate('view-active', {
-                mode: 'Challenge', 
-                count: 10, 
-                difficulty: this.currentDifficulty || 'Intermediate',
-                category: this.selectedCategory || 'Random Mix'
-            });
-        }, 3000);
-    },
-
 
     // --- Active Quiz State ---
     currentQuestion: 0,
@@ -372,22 +522,22 @@ const QuizEngine = {
             q: "What is the primary objective of PACE Code A?",
             opts: ["To regulate the detention of suspects", "To regulate statutory powers of stop and search", "To regulate the searching of premises", "To regulate identification procedures"],
             correct: 1,
-            expCorrect: "PACE Code A specifically deals with the exercise by police officers of statutory powers to search a person or a vehicle.",
-            expWrong: "PACE Code A regulates Stop and Search. Remember: A = Action (Stop & Search)."
+            expCorrect: "<strong>PACE Code A</strong> specifically governs the exercise of statutory powers to search a person or a vehicle without first making an arrest.<br><br><strong>Why other options are incorrect:</strong><ul style='margin-top: 8px; padding-left: 20px; line-height: 1.5;'><li><strong>Detention of suspects:</strong> Governed by Code C.</li><li><strong>Searching of premises:</strong> Governed by Code B.</li><li><strong>Identification procedures:</strong> Governed by Code D.</li></ul>",
+            expWrong: "You selected the wrong code! <strong>Code A</strong> is exclusively for <strong>Stop and Search</strong>.<br><br><strong>Where the other codes apply:</strong><ul style='margin-top: 8px; padding-left: 20px; line-height: 1.5;'><li><strong>Detention & Questioning:</strong> Code C</li><li><strong>Searching Premises:</strong> Code B</li><li><strong>Identification:</strong> Code D</li></ul><em>Tip: Think 'A for Action' (Stop & Search in the streets).</em>"
         },
         {
             q: "Under PACE Code C, how often should a detained person be offered a meal?",
             opts: ["Every 4 hours", "Every 6 hours", "Approximately every 8 hours", "Only upon request"],
             correct: 2,
-            expCorrect: "Code C states at least two light meals and one main meal should be offered in any 24-hour period.",
-            expWrong: "Code C requires meals at recognised meal times, roughly every 8 hours, not just on request."
+            expCorrect: "<strong>Correct!</strong> Code C requires at least two light meals and one main meal in any 24-hour period, which averages to approximately every 8 hours.<br><br><strong>Why other options are incorrect:</strong><ul style='margin-top: 8px; padding-left: 20px; line-height: 1.5;'><li><strong>Every 4/6 hours:</strong> This exceeds the statutory minimums.</li><li><strong>Only upon request:</strong> Police have a proactive duty of care; they must <em>offer</em> meals at recognised meal times, regardless of requests.</li></ul>",
+            expWrong: "Incorrect. The statutory minimum under Code C requires meals to be offered <strong>approximately every 8 hours</strong>.<br><br><strong>Why your selection is wrong:</strong><ul style='margin-top: 8px; padding-left: 20px; line-height: 1.5;'><li><strong>Every 4/6 hours:</strong> Too frequent compared to statutory rules.</li><li><strong>Only upon request:</strong> Police have a proactive duty of care and cannot wait for the suspect to ask.</li></ul>"
         },
         {
-            q: "Which PACE Code governs the audio recording of interviews with suspects?",
-            opts: ["Code B", "Code E", "Code F", "Code G"],
-            correct: 1,
-            expCorrect: "Code E deals specifically with audio recording of interviews at police stations.",
-            expWrong: "Code E covers audio recordings. Code F covers visual recording."
+            q: "Which section of PACE 1984 gives police the power of arrest without warrant?",
+            opts: ["Section 1", "Section 17", "Section 24", "Section 32"],
+            correct: 2,
+            expCorrect: "<strong>Section 24</strong> provides the core framework for a lawful arrest without a warrant.<br><br><strong>Where the other sections are used:</strong><ul style='margin-top: 8px; padding-left: 20px; line-height: 1.5;'><li><strong>Section 1:</strong> Power to stop and search persons/vehicles.</li><li><strong>Section 17:</strong> Power to enter and search premises to make an arrest.</li><li><strong>Section 32:</strong> Power to search a person <em>after</em> they have been arrested.</li></ul>",
+            expWrong: "You selected an incorrect section. The power of arrest without warrant is found in <strong>Section 24</strong>.<br><br><strong>Where the other sections apply:</strong><ul style='margin-top: 8px; padding-left: 20px; line-height: 1.5;'><li><strong>Section 1:</strong> Used for Stop & Search before arrest.</li><li><strong>Section 17:</strong> Used to enter premises to find a suspect.</li><li><strong>Section 32:</strong> Used to search a person upon arrest.</li></ul>"
         },
         {
             q: "What is the maximum initial period of detention without charge under PACE?",
@@ -420,9 +570,9 @@ const QuizEngine = {
         // Update Difficulty Badge dynamically
         const difficultyBadge = document.getElementById('active-difficulty');
         const diffText = this.currentDifficulty || 'Intermediate';
-        let diffIcon = '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4da.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;">';
-        if (diffText.toLowerCase() === 'beginner') diffIcon = '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f331.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;">';
-        if (diffText.toLowerCase() === 'advanced') diffIcon = '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;">';
+        let diffIcon = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4da.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;">';
+        if (diffText.toLowerCase() === 'beginner') diffIcon = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f331.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;">';
+        if (diffText.toLowerCase() === 'advanced') diffIcon = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;">';
         difficultyBadge.innerHTML = `${diffIcon} ${diffText}`;
         
         // Start timer
@@ -435,11 +585,7 @@ const QuizEngine = {
         
         // If it's a Live Challenge, count down. Otherwise count up.
         // Let's implement a countdown timer for better urgency (e.g. 10 mins).
-        if (this.currentMode === 'Mock Exam') {
-            this.timeLeft = 3 * 60 * 60; // 3 hours
-        } else {
-            this.timeLeft = this.totalQuestions * 30; // 30 seconds per question
-        }
+        this.timeLeft = this.totalQuestions * 30; // 30 seconds per question
         
         this.timerInterval = setInterval(() => {
             this.timeLeft--;
@@ -449,14 +595,9 @@ const QuizEngine = {
                 // auto submit or end quiz
             }
             
-            const h = Math.floor(this.timeLeft / 3600);
-            const m = Math.floor((this.timeLeft % 3600) / 60);
+            const m = Math.floor(this.timeLeft / 60);
             const s = this.timeLeft % 60;
-            if (h > 0) {
-                timerText.innerText = `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-            } else {
-                timerText.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-            }
+            timerText.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
             
             if (this.timeLeft <= 10 && this.timeLeft > 0) {
                 timerContainer.classList.add('timer-urgent');
@@ -471,6 +612,9 @@ const QuizEngine = {
     loadQuestion: function() {
         this.currentQuestion++;
         this.questionStartTime = Date.now();
+        if (this.currentQuestion === 1) {
+            this.quizStartTime = Date.now();
+        }
         
         // Update Progress Bar & Counters
         const progress = (this.currentQuestion / this.totalQuestions) * 100;
@@ -551,13 +695,13 @@ const QuizEngine = {
             sheet.classList.add('correct');
             document.getElementById('feedback-details').style.display = 'flex';
             
-            icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            icon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
             title.innerText = 'Excellent!';
             
-            streakMsg.innerHTML = `<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Streak: ${this.streak}`;
+            streakMsg.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Streak: ${this.streak}`;
             streakMsg.style.display = 'block';
             
-            document.getElementById('feedback-explanation').innerText = qData.expCorrect;
+            document.getElementById('feedback-explanation').innerHTML = qData.expCorrect;
             
             // Trigger confetti for correct answer
             if (typeof confetti === 'function') {
@@ -596,15 +740,39 @@ const QuizEngine = {
             document.getElementById('active-streak').innerText = '🔥 0 Streak';
             
             sheet.classList.add('wrong');
-            icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+            icon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/274c.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
             title.innerText = 'Incorrect';
             document.getElementById('feedback-details').style.display = 'none';
             
-            document.getElementById('feedback-explanation').innerText = qData.expWrong;
+            document.getElementById('feedback-explanation').innerHTML = qData.expWrong;
         }
         
         if (window.navigator && window.navigator.vibrate) {
             window.navigator.vibrate(isCorrect ? [50] : [50, 100, 50]);
+        }
+        
+        const aiBox = document.getElementById('ai-explanation-box');
+        const aiBadge = document.getElementById('ai-explanation-badge');
+        const ratingContainer = document.getElementById('question-rating');
+        
+        if (this.currentMode === 'Practice By Topic') {
+            aiBox.style.background = 'rgba(255,255,255,0.5)';
+            aiBox.style.border = '1px solid rgba(15,23,42,0.05)';
+            aiBox.style.padding = '12px';
+            aiBox.style.margin = '16px 0';
+            aiBadge.style.display = 'flex';
+            ratingContainer.style.display = 'flex';
+            
+            ratingContainer.querySelectorAll('.rating-btn').forEach(b => {
+                b.classList.remove('selected-helpful', 'selected-poor', 'selected-report');
+            });
+        } else {
+            aiBox.style.background = 'none';
+            aiBox.style.border = 'none';
+            aiBox.style.padding = '0';
+            aiBox.style.margin = '16px 0';
+            aiBadge.style.display = 'none';
+            ratingContainer.style.display = 'none';
         }
         
         setTimeout(() => {
@@ -651,135 +819,6 @@ const QuizEngine = {
         this.loadQuestion();
     },
     
-    // --- Head-to-Head Challenge Logic ---
-    initActiveChallenge: function(params) {
-        this.currentQuestion = 0;
-        this.myScore = 0;
-        this.opScore = 0;
-        this.totalQuestions = 10;
-        
-        // Mock Opponent
-        this.currentOpponent = params.opponent || { name: 'Sarah P.', avatarUrl: 'https://i.pravatar.cc/150?img=5' };
-        document.getElementById('challenge-op-name').innerText = this.currentOpponent.name;
-        document.getElementById('challenge-op-avatar').src = this.currentOpponent.avatarUrl;
-        
-        document.getElementById('challenge-my-score').innerText = '0';
-        document.getElementById('challenge-op-score').innerText = '0';
-        
-        // Timer for each question
-        this.questionTimeLimit = 15;
-        this.timeLeft = this.questionTimeLimit;
-        
-        this.loadChallengeQuestion();
-    },
-    
-    loadChallengeQuestion: function() {
-        this.currentQuestion++;
-        if (this.currentQuestion > this.totalQuestions) {
-            // End challenge (use existing finishQuiz for now, or adapt it)
-            this.score = this.myScore; 
-            this.finishQuiz();
-            return;
-        }
-        
-        // Update Progress
-        const myProgress = (this.currentQuestion / this.totalQuestions) * 100;
-        document.getElementById('challenge-my-progress').style.width = `${myProgress}%`;
-        document.getElementById('challenge-op-progress').style.width = `${myProgress}%`;
-        
-        document.getElementById('challenge-question-counter').innerText = `Question ${this.currentQuestion} of ${this.totalQuestions}`;
-        
-        // Reset Timer
-        this.timeLeft = this.questionTimeLimit;
-        const timerEl = document.getElementById('challenge-timer');
-        timerEl.innerText = this.timeLeft;
-        timerEl.style.borderColor = '#3b82f6';
-        timerEl.style.color = 'white';
-        
-        if (this.challengeTimerInterval) clearInterval(this.challengeTimerInterval);
-        this.challengeTimerInterval = setInterval(() => {
-            this.timeLeft--;
-            if (this.timeLeft <= 0) {
-                clearInterval(this.challengeTimerInterval);
-                this.timeLeft = 0;
-                // Time up, auto-fail
-                this.handleChallengeTimeout();
-            }
-            timerEl.innerText = this.timeLeft;
-            if (this.timeLeft <= 5) {
-                timerEl.style.borderColor = '#ef4444';
-                timerEl.style.color = '#ef4444';
-            }
-        }, 1000);
-        
-        // Mock Question Data
-        const qData = this.questionsData[(this.currentQuestion - 1) % this.questionsData.length];
-        document.getElementById('challenge-question-text').innerText = qData.q;
-        
-        const answersGrid = document.getElementById('challenge-answers-grid');
-        answersGrid.innerHTML = qData.opts.map((opt, index) => {
-            const isCorrect = (index === qData.correct);
-            return `<button class="answer-btn" onclick="QuizEngine.selectChallengeAnswer(this, ${isCorrect})">${opt}</button>`;
-        }).join('');
-    },
-    
-    selectChallengeAnswer: function(btnElement, isCorrect) {
-        clearInterval(this.challengeTimerInterval);
-        
-        const buttons = document.getElementById('challenge-answers-grid').querySelectorAll('button');
-        buttons.forEach(btn => btn.disabled = true);
-        
-        if (isCorrect) {
-            btnElement.classList.add('correct');
-            // Calculate score based on time remaining (faster = more points)
-            const points = 10 + Math.floor(this.timeLeft * 2);
-            this.myScore += points;
-            document.getElementById('challenge-my-score').innerText = this.myScore;
-        } else {
-            btnElement.classList.add('wrong');
-            // Highlight correct
-            const qData = this.questionsData[(this.currentQuestion - 1) % this.questionsData.length];
-            buttons[qData.correct].classList.add('correct');
-        }
-        
-        // Simulate opponent answering
-        setTimeout(() => {
-            const opCorrect = Math.random() > 0.3; // 70% chance opponent gets it right
-            if (opCorrect) {
-                const opPoints = 10 + Math.floor(Math.random() * 20);
-                this.opScore += opPoints;
-                document.getElementById('challenge-op-score').innerText = this.opScore;
-            }
-            
-            // Wait 2 seconds then next question
-            setTimeout(() => {
-                this.loadChallengeQuestion();
-            }, 2000);
-        }, 1000);
-    },
-    
-    handleChallengeTimeout: function() {
-        const buttons = document.getElementById('challenge-answers-grid').querySelectorAll('button');
-        buttons.forEach(btn => btn.disabled = true);
-        
-        const qData = this.questionsData[(this.currentQuestion - 1) % this.questionsData.length];
-        if(buttons[qData.correct]) buttons[qData.correct].classList.add('correct');
-        
-        // Simulate opponent answering
-        setTimeout(() => {
-            const opCorrect = Math.random() > 0.4;
-            if (opCorrect) {
-                const opPoints = 10 + Math.floor(Math.random() * 15);
-                this.opScore += opPoints;
-                document.getElementById('challenge-op-score').innerText = this.opScore;
-            }
-            
-            setTimeout(() => {
-                this.loadChallengeQuestion();
-            }, 2000);
-        }, 1000);
-    },
-    
     finishQuiz: function() {
         const accuracy = Math.round((this.score / this.totalQuestions) * 100);
         
@@ -792,16 +831,16 @@ const QuizEngine = {
         document.getElementById('completion-title').innerText = didWin ? (isTie ? 'It\'s a Tie!' : 'You Won!') : 'So Close!';
         document.getElementById('completion-subtitle').innerText = 'Challenge Complete';
         
-        let emojiUrl = 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png'; // win
+        let emojiUrl = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png'; // win
         let bgColor = '#466ba9'; // primary blue
         let accentColor = '#466ba9'; // primary blue for text
         
         if (isTie) {
-            emojiUrl = 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f91d.png'; // tie
+            emojiUrl = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f91d.png'; // tie
             bgColor = '#466ba9'; 
             accentColor = '#466ba9';
         } else if (!didWin) {
-            emojiUrl = 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f61e.png'; // lose
+            emojiUrl = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f61e.png'; // lose
             bgColor = '#466ba9'; 
             accentColor = '#466ba9';
         }
@@ -867,18 +906,36 @@ const QuizEngine = {
         
         // Update Rewards
         if (didWin) {
-            document.getElementById('result-xp-reward').innerHTML = `<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2b50.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> +${this.totalXp} XP Earned`;
-            document.getElementById('result-rank-reward').innerHTML = `<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f4c8.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Rank Increased +2`;
-            document.getElementById('result-badge-reward').innerHTML = `<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f947.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> New Badge Unlocked`;
+            document.getElementById('result-xp-reward').innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2b50.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> +${this.totalXp} XP Earned`;
+            document.getElementById('result-rank-reward').innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4c8.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Rank Increased +2`;
+            document.getElementById('result-badge-reward').innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f947.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> New Badge Unlocked`;
             document.querySelector('.rewards-card').style.display = 'block';
         } else {
             document.querySelector('.rewards-card').style.display = 'none';
         }
         
-        this.navigate('view-completion');
+        if (this.currentMode === 'Practice By Topic') {
+            document.getElementById('practice-accuracy-val').innerText = `${accuracy}%`;
+            document.getElementById('practice-score-val').innerText = `${this.score}/${this.totalQuestions}`;
+            document.getElementById('practice-xp-val').innerText = `+${this.totalXp} XP`;
+            
+            let avgTime = 38; // Default mock
+            if (this.quizStartTime) {
+                avgTime = Math.max(1, Math.round(((Date.now() - this.quizStartTime) / 1000) / this.totalQuestions));
+            }
+            document.getElementById('practice-time-val').innerText = `Avg time ${avgTime}s / question`;
+            
+            const ring = document.getElementById('practice-accuracy-ring');
+            if (ring) {
+                ring.setAttribute('stroke-dasharray', `${accuracy}, 100`);
+            }
+            this.navigate('view-practice-completion');
+        } else {
+            this.navigate('view-completion');
+        }
         
 
-        if (typeof confetti === 'function') {
+        if (this.currentMode !== 'Practice By Topic' && this.currentMode !== 'Mixed Practice' && typeof confetti === 'function') {
             if (!QuizEngine.myConfetti) {
                 const canvas = document.createElement('canvas');
                 canvas.style.position = 'absolute';
@@ -939,6 +996,25 @@ const QuizEngine = {
     },
 
 
+    // --- Progress ---
+    initProgress: function() {
+        // Standard view initialization, elements are static and pre-rendered
+    },
+
+    practiceWeakAreas: function() {
+        this.selectedMixedTopics = ['Disclosure', 'PACE'];
+        this.selectedCategory = 'Mixed Practice';
+        this.currentFormat = 'Standard Quiz';
+        this.currentMode = 'Mixed Practice';
+        this.navigate('view-practice-difficulty');
+    },
+
+    startTopicRevision: function() {
+        this.currentFlow = 'topic';
+        this.navigate('view-practice-topic');
+    },
+
+
     // --- Analytics ---
     initAnalytics: function() {
         const list = document.getElementById('analytics-question-list');
@@ -959,14 +1035,14 @@ const QuizEngine = {
     // --- Leaderboard ---
 
     achievementsData: [
-        { id: 1, title: 'First Win', desc: 'Win your first challenge', iconUrl: 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png', state: 'unlocked', req: '1 Win', bg: 'linear-gradient(135deg, #FFE082 0%, #FFECB3 100%)', currentProgress: 1, targetProgress: 1, progressUnit: 'Win', rewardXp: 50, rarityLevel: 'Common', earnedDate: 'Oct 12, 2023' },
-        { id: 2, title: '5 Wins', desc: 'Win 5 challenges', iconUrl: 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f31f.png', state: 'unlocked', req: '5 Wins', bg: 'linear-gradient(135deg, #93C5FD 0%, #BFDBFE 100%)', currentProgress: 5, targetProgress: 5, progressUnit: 'Wins', rewardXp: 150, rarityLevel: 'Uncommon', earnedDate: 'Nov 04, 2023' },
-        { id: 3, title: 'Streak 5', desc: 'Achieve a streak of 5', iconUrl: 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png', state: 'unlocked', req: 'Streak of 5', bg: 'linear-gradient(135deg, #FCA5A5 0%, #FECACA 100%)', currentProgress: 5, targetProgress: 5, progressUnit: 'Streak', rewardXp: 200, rarityLevel: 'Rare', earnedDate: 'Dec 18, 2023' },
-        { id: 4, title: 'Category Master', desc: 'Score 100% in a category', iconUrl: 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f9e0.png', state: 'locked', req: '100% Score', bg: 'linear-gradient(135deg, #C4B5FD 0%, #DDD6FE 100%)', currentProgress: 80, targetProgress: 100, progressUnit: '%', rewardXp: 300, rarityLevel: 'Epic' },
-        { id: 5, title: 'Speed Champion', desc: 'Answer fast 10 times', iconUrl: 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png', state: 'locked', req: '< 2.0s Avg', bg: 'linear-gradient(135deg, #FCD34D 0%, #FDE68A 100%)', currentProgress: 6, targetProgress: 10, progressUnit: 'Fast Answers', rewardXp: 250, rarityLevel: 'Rare' },
-        { id: 6, title: 'Perfect Score', desc: 'Get all answers correct 10 times', iconUrl: 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3af.png', state: 'locked', req: '100% Accuracy', bg: 'linear-gradient(135deg, #6EE7B7 0%, #A7F3D0 100%)', currentProgress: 4, targetProgress: 10, progressUnit: 'Perfect Quizzes', rewardXp: 500, rarityLevel: 'Legendary' },
-        { id: 7, title: 'Early Bird', desc: 'Complete 5 quizzes before 8 AM', iconUrl: 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f305.png', state: 'locked', req: 'Quiz at 6-8 AM', bg: 'linear-gradient(135deg, #F9A8D4 0%, #FBCFE8 100%)', currentProgress: 2, targetProgress: 5, progressUnit: 'Quizzes', rewardXp: 150, rarityLevel: 'Uncommon' },
-        { id: 8, title: 'Night Owl', desc: 'Complete 5 quizzes after 10 PM', iconUrl: 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f989.png', state: 'locked', req: 'Quiz after 10 PM', bg: 'linear-gradient(135deg, #94A3B8 0%, #CBD5E1 100%)', currentProgress: 1, targetProgress: 5, progressUnit: 'Quizzes', rewardXp: 150, rarityLevel: 'Uncommon' }
+        { id: 1, title: 'First Win', desc: 'Win your first challenge', iconUrl: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png', state: 'unlocked', req: '1 Win', bg: 'linear-gradient(135deg, #FFE082 0%, #FFECB3 100%)', currentProgress: 1, targetProgress: 1, progressUnit: 'Win', rewardXp: 50, rarityLevel: 'Common', earnedDate: 'Oct 12, 2023' },
+        { id: 2, title: '5 Wins', desc: 'Win 5 challenges', iconUrl: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f31f.png', state: 'unlocked', req: '5 Wins', bg: 'linear-gradient(135deg, #93C5FD 0%, #BFDBFE 100%)', currentProgress: 5, targetProgress: 5, progressUnit: 'Wins', rewardXp: 150, rarityLevel: 'Uncommon', earnedDate: 'Nov 04, 2023' },
+        { id: 3, title: 'Streak 5', desc: 'Achieve a streak of 5', iconUrl: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png', state: 'unlocked', req: 'Streak of 5', bg: 'linear-gradient(135deg, #FCA5A5 0%, #FECACA 100%)', currentProgress: 5, targetProgress: 5, progressUnit: 'Streak', rewardXp: 200, rarityLevel: 'Rare', earnedDate: 'Dec 18, 2023' },
+        { id: 4, title: 'Category Master', desc: 'Score 100% in a category', iconUrl: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f9e0.png', state: 'locked', req: '100% Score', bg: 'linear-gradient(135deg, #C4B5FD 0%, #DDD6FE 100%)', currentProgress: 80, targetProgress: 100, progressUnit: '%', rewardXp: 300, rarityLevel: 'Epic' },
+        { id: 5, title: 'Speed Champion', desc: 'Answer fast 10 times', iconUrl: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/26a1.png', state: 'locked', req: '< 2.0s Avg', bg: 'linear-gradient(135deg, #FCD34D 0%, #FDE68A 100%)', currentProgress: 6, targetProgress: 10, progressUnit: 'Fast Answers', rewardXp: 250, rarityLevel: 'Rare' },
+        { id: 6, title: 'Perfect Score', desc: 'Get all answers correct 10 times', iconUrl: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png', state: 'locked', req: '100% Accuracy', bg: 'linear-gradient(135deg, #6EE7B7 0%, #A7F3D0 100%)', currentProgress: 4, targetProgress: 10, progressUnit: 'Perfect Quizzes', rewardXp: 500, rarityLevel: 'Legendary' },
+        { id: 7, title: 'Early Bird', desc: 'Complete 5 quizzes before 8 AM', iconUrl: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f305.png', state: 'locked', req: 'Quiz at 6-8 AM', bg: 'linear-gradient(135deg, #F9A8D4 0%, #FBCFE8 100%)', currentProgress: 2, targetProgress: 5, progressUnit: 'Quizzes', rewardXp: 150, rarityLevel: 'Uncommon' },
+        { id: 8, title: 'Night Owl', desc: 'Complete 5 quizzes after 10 PM', iconUrl: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f989.png', state: 'locked', req: 'Quiz after 10 PM', bg: 'linear-gradient(135deg, #94A3B8 0%, #CBD5E1 100%)', currentProgress: 1, targetProgress: 5, progressUnit: 'Quizzes', rewardXp: 150, rarityLevel: 'Uncommon' }
     ],
 
     initAchievements: function() {
@@ -1020,8 +1096,8 @@ const QuizEngine = {
             const titleColor = showFullColor ? '#000000' : '#8e8e93';
             const descColor = showFullColor ? '#4b5563' : '#8e8e93';
             
-            const lockIndicator = isUnlocked ? '' : `<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f512.png" style="position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; z-index: 2; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); opacity: 0.9;">`;
-            const checkIndicator = isUnlocked ? `<div style="position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; background: #34c759; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: bold; box-shadow: 0 2px 6px rgba(52, 199, 89, 0.4); z-index: 2;">✓</div>` : '';
+            const lockIndicator = isUnlocked ? '' : `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f512.png" style="position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; z-index: 2; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); opacity: 0.9;">`;
+            const checkIndicator = isUnlocked ? `<div style="position: absolute; top: 12px; right: 12px; font-size: 13.33px; z-index: 2; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));">✓</div>` : '';
             
             const iconBg = '#ffffff';
 
@@ -1054,14 +1130,16 @@ const QuizEngine = {
                 `;
             }
 
+            const clickHandler = filter !== 'all' ? `onclick="QuizEngine.openIosBadgeDetails(${badge.id})"` : '';
+            const cursorStyle = filter !== 'all' ? 'cursor: pointer;' : 'cursor: default;';
             grid.innerHTML += `
-                <div ${filter !== 'all' ? `onclick="QuizEngine.openIosBadgeDetails(${badge.id})"` : ''} style="background: ${cardBg}; border-radius: 20px; padding: 16px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.02); position: relative; opacity: ${cardOpacity}; cursor: pointer; transition: transform 0.2s; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; box-sizing: border-box; ${boxEffect}">
+                <div ${clickHandler} style="background: ${cardBg}; border-radius: 20px; padding: 20px 16px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.02); position: relative; opacity: ${cardOpacity}; ${cursorStyle} transition: transform 0.2s; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; box-sizing: border-box; ${boxEffect}">
                     ${lockIndicator}
                     ${checkIndicator}
                     <div style="position: relative; z-index: 1; width: 100%;">
                         <div style="margin-bottom: 12px; display: flex; justify-content: center;">
                             <div style="width: 72px; height: 72px; border-radius: 36px; background: ${iconBg}; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 -4px 8px rgba(0,0,0,0.05), 0 8px 16px rgba(0,0,0,0.05);">
-                                ${badge.iconUrl.startsWith('http') ? `<img src="${badge.iconUrl}" style="width: 40px; height: 40px; object-fit: contain; filter: ${iconFilter};">` : `<span style="font-size: 36px; filter: ${iconFilter};">${badge.iconUrl}</span>`}
+                                <img src="${badge.iconUrl}" style="width: 40px; height: 40px; object-fit: contain; filter: ${iconFilter};">
                             </div>
                         </div>
                         <div style="font-size: 14px; font-weight: 700; color: ${titleColor}; margin-bottom: 4px; font-family: 'Poppins', sans-serif; letter-spacing: -0.3px;">${badge.title}</div>
@@ -1083,10 +1161,10 @@ const QuizEngine = {
         const isUnlocked = badge.state === 'unlocked';
         const statusBadge = isUnlocked 
             ? `<div style="display: inline-block; background: rgba(70,107,169,0.1); color: #466ba9; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; margin-bottom: 24px; font-family: 'Inter', sans-serif;">✓ Unlocked</div>`
-            : `<div style="display: inline-block; background: #f1f5f9; color: var(--text-secondary, #64748b); padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; margin-bottom: 24px; font-family: 'Inter', sans-serif;"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f512.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Locked</div>`;
+            : `<div style="display: inline-block; background: #f1f5f9; color: var(--text-secondary, #64748b); padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; margin-bottom: 24px; font-family: 'Inter', sans-serif;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f512.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Locked</div>`;
 
         const iconFilter = 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))';
-        const iconBg = badge.bg;
+        const iconBg = '#ffffff';
 
         let progressDetails = '';
         if (!isUnlocked) {
@@ -1119,14 +1197,14 @@ const QuizEngine = {
         content.innerHTML = `
             <div style="font-family: 'Inter', sans-serif;">
                 <div style="margin-bottom: 24px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; justify-content: center;">
-                    <div style="width: 140px; height: 140px; border-radius: 70px; background: ${iconBg}; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 -6px 12px rgba(0,0,0,0.05), 0 12px 24px rgba(0,0,0,0.08);">
-                        ${badge.iconUrl.startsWith('http') ? `<img src="${badge.iconUrl}" style="width: 80px; height: 80px; object-fit: contain; filter: ${iconFilter};">` : `<span style="font-size: 72px; filter: ${iconFilter};">${badge.iconUrl}</span>`}
+                    <div style="width: 140px; height: 140px; border-radius: 70px; background: ${iconBg}; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <img src="${badge.iconUrl}" style="width: 80px; height: 80px; object-fit: contain; filter: ${iconFilter};">
                     </div>
                 </div>
                 <h2 style="font-size: 24px; font-weight: 700; color: var(--text-primary, #1e293b); letter-spacing: -0.5px; margin-bottom: 12px; font-family: 'Poppins', sans-serif;">${badge.title}</h2>
                 ${statusBadge}
                 
-                <div style="background: #f8fafc; border: 1px solid rgba(15,23,42,0.05); border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                <div style="background: #ffffff; border: 1px solid rgba(15,23,42,0.05); border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
                     <div style="font-size: 15px; color: var(--text-primary, #1e293b); font-weight: 500; margin-bottom: 16px; line-height: 1.4;">${badge.desc}</div>
                     <div style="height: 1px; background: rgba(15,23,42,0.05); margin-bottom: 16px;"></div>
                     
@@ -1177,7 +1255,7 @@ const QuizEngine = {
         if (outcome === 'win') {
             title = 'You Won!';
             subtitle = 'Challenge Complete';
-            emojiUrl = 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png';
+            emojiUrl = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png';
             myScore = 320; oppScore = 210;
             myAcc = 85; oppAcc = 60;
             myStreak = 7; oppStreak = 3;
@@ -1186,7 +1264,7 @@ const QuizEngine = {
         } else if (outcome === 'lose') {
             title = 'So Close!';
             subtitle = 'Challenge Complete';
-            emojiUrl = 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f61e.png';
+            emojiUrl = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f61e.png';
             myScore = 180; oppScore = 290;
             myAcc = 45; oppAcc = 75;
             myStreak = 2; oppStreak = 6;
@@ -1195,7 +1273,7 @@ const QuizEngine = {
         } else {
             title = 'It\'s a Tie!';
             subtitle = 'Challenge Complete';
-            emojiUrl = 'https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f91d.png';
+            emojiUrl = 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f91d.png';
             myScore = 250; oppScore = 250;
             myAcc = 65; oppAcc = 65;
             myStreak = 4; oppStreak = 4;
@@ -1245,29 +1323,29 @@ const QuizEngine = {
         // Expanded Premium Mock Data with requested metrics
         const mockData = {
             'friends': [
-                {rank: 1, name: 'Sgt. Davies', score: '12,450', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop', team: 'Alpha Squad', trend: 'up', trendVal: 2, badges: ['<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Highest Streak'], extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> +15%'},
-                {rank: 2, name: 'Emma Davis', score: '11,800', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop', team: 'Bravo Squad', trend: 'down', trendVal: 1, badges: ['<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Top Performer'], extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> 12 Wins'},
-                {rank: 3, name: 'Insp. Jones', score: '9,800', avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop', team: 'Alpha Squad', trend: 'up', trendVal: 4, badges: ['<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3af.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Accurate'], extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2b50.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Most Active'},
-                {rank: 4, name: 'Mike Ross', score: '8,200', avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&h=150&fit=crop', team: 'Delta Force', trend: 'same', trendVal: 0, badges: []},
-                {rank: 5, name: 'Officer Smith', score: '7,900', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop', team: 'Charlie Team', trend: 'up', trendVal: 5, badges: ['<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Most Active'], isUser: true},
-                {rank: 6, name: 'Sarah Connor', score: '7,100', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop', team: 'Bravo Squad', trend: 'down', trendVal: 2, badges: []},
+                {rank: 1, name: 'Sgt. Davies', score: '12,450', avatar: 'https://randomuser.me/api/portraits/men/32.jpg', team: 'Alpha Squad', trend: 'up', trendVal: 2, badges: ['<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Highest Streak'], extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> +15%'},
+                {rank: 2, name: 'Emma Davis', score: '11,800', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', team: 'Bravo Squad', trend: 'down', trendVal: 1, badges: ['<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Top Performer'], extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> 12 Wins'},
+                {rank: 3, name: 'Insp. Jones', score: '9,800', avatar: 'https://randomuser.me/api/portraits/men/22.jpg', team: 'Alpha Squad', trend: 'up', trendVal: 4, badges: ['<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Accurate'], extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2b50.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Most Active'},
+                {rank: 4, name: 'Mike Ross', score: '8,200', avatar: 'https://randomuser.me/api/portraits/men/46.jpg', team: 'Delta Force', trend: 'same', trendVal: 0, badges: []},
+                {rank: 5, name: 'Officer Smith', score: '7,900', avatar: 'https://randomuser.me/api/portraits/men/50.jpg', team: 'Charlie Team', trend: 'up', trendVal: 5, badges: ['<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Most Active'], isUser: true},
+                {rank: 6, name: 'Sarah Connor', score: '7,100', avatar: 'https://randomuser.me/api/portraits/women/68.jpg', team: 'Bravo Squad', trend: 'down', trendVal: 2, badges: []},
             ],
             'team': [
-                {rank: 1, name: 'Alpha Squad', score: '45,000', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop', team: 'London', trend: 'up', trendVal: 1, activeMembers: 42, performanceMetric: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> +15% This Week', extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> +15%'},
-                {rank: 2, name: 'Bravo Squad', score: '41,200', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop', team: 'Manchester', trend: 'same', trendVal: 0, activeMembers: 38, performanceMetric: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> 12 Team Wins', extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> 12 Wins'},
-                {rank: 3, name: 'Charlie Team', score: '38,900', avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop', team: 'Birmingham', trend: 'up', trendVal: 3, activeMembers: 35, performanceMetric: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Most Active Team', extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Most Active', isUser: true},
+                {rank: 1, name: 'Alpha Squad', score: '45,000', avatar: 'https://randomuser.me/api/portraits/men/62.jpg', team: 'London', trend: 'up', trendVal: 1, activeMembers: 42, performanceMetric: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> +15% This Week', extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> +15%'},
+                {rank: 2, name: 'Bravo Squad', score: '41,200', avatar: 'https://randomuser.me/api/portraits/men/63.jpg', team: 'Manchester', trend: 'same', trendVal: 0, activeMembers: 38, performanceMetric: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> 12 Team Wins', extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> 12 Wins'},
+                {rank: 3, name: 'Charlie Team', score: '38,900', avatar: 'https://randomuser.me/api/portraits/men/64.jpg', team: 'Birmingham', trend: 'up', trendVal: 3, activeMembers: 35, performanceMetric: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Most Active Team', extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Most Active', isUser: true},
             ],
             'national': [
-                {rank: 1, name: 'Met Police', score: '99,999', avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&h=150&fit=crop', team: 'London', trend: 'same', trendVal: 0, activeMembers: '1,250', challengesCompleted: '4,500', isNationalLeader: true, extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2b50.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Leader'},
-                {rank: 2, name: 'GMP', score: '88,500', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop', team: 'Manchester', trend: 'up', trendVal: 2, activeMembers: '950', challengesCompleted: '3,800', extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> +10%'},
-                {rank: 3, name: 'WMP', score: '82,100', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop', team: 'Birmingham', trend: 'down', trendVal: 1, activeMembers: '820', challengesCompleted: '3,100', extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> 520 Wins'},
-                {rank: 12, name: 'Officer Smith', score: '11,200', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop', team: 'Charlie Team', trend: 'up', trendVal: 12, activeMembers: '1', challengesCompleted: '45', extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Active', isUser: true},
+                {rank: 1, name: 'Met Police', score: '99,999', avatar: 'https://randomuser.me/api/portraits/men/65.jpg', team: 'London', trend: 'same', trendVal: 0, activeMembers: '1,250', challengesCompleted: '4,500', isNationalLeader: true, extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2b50.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Leader'},
+                {rank: 2, name: 'GMP', score: '88,500', avatar: 'https://randomuser.me/api/portraits/men/66.jpg', team: 'Manchester', trend: 'up', trendVal: 2, activeMembers: '950', challengesCompleted: '3,800', extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> +10%'},
+                {rank: 3, name: 'WMP', score: '82,100', avatar: 'https://randomuser.me/api/portraits/men/67.jpg', team: 'Birmingham', trend: 'down', trendVal: 1, activeMembers: '820', challengesCompleted: '3,100', extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> 520 Wins'},
+                {rank: 12, name: 'Officer Smith', score: '11,200', avatar: 'https://randomuser.me/api/portraits/men/50.jpg', team: 'Charlie Team', trend: 'up', trendVal: 12, activeMembers: '1', challengesCompleted: '45', extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Active', isUser: true},
             ],
             'weekly': [
-                {rank: 1, name: 'Officer Smith', xpThisWeek: '+520', score: '520', avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop', team: '', trend: 'new', trendVal: 0, badges: [], extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Weekly MVP', isUser: true},
-                {rank: 2, name: 'Sgt. Davies', xpThisWeek: '+430', score: '430', avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&h=150&fit=crop', team: '', trend: 'down', trendVal: 1, badges: [], extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Fast'},
-                {rank: 3, name: 'Emma Davis', xpThisWeek: '+350', score: '350', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop', team: '', trend: 'up', trendVal: 5, badges: [], extraStat: '<img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Active'},
-                {rank: 4, name: 'Mike Ross', xpThisWeek: '+280', score: '280', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop', team: '', trend: 'up', trendVal: 12, badges: []}
+                {rank: 1, name: 'Officer Smith', xpThisWeek: '+520', score: '520', avatar: 'https://randomuser.me/api/portraits/men/50.jpg', team: '', trend: 'new', trendVal: 0, badges: [], extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Weekly MVP', isUser: true},
+                {rank: 2, name: 'Sgt. Davies', xpThisWeek: '+430', score: '430', avatar: 'https://randomuser.me/api/portraits/men/32.jpg', team: '', trend: 'down', trendVal: 1, badges: [], extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Fast'},
+                {rank: 3, name: 'Emma Davis', xpThisWeek: '+350', score: '350', avatar: 'https://randomuser.me/api/portraits/women/44.jpg', team: '', trend: 'up', trendVal: 5, badges: [], extraStat: '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Active'},
+                {rank: 4, name: 'Mike Ross', xpThisWeek: '+280', score: '280', avatar: 'https://randomuser.me/api/portraits/men/46.jpg', team: '', trend: 'up', trendVal: 12, badges: []}
             ]
         };
         
@@ -1300,7 +1378,7 @@ const QuizEngine = {
             podiumContainer.innerHTML += `
                 <div class="lb-podium-item ${rankClass} ${item.isUser ? 'current-user' : ''} ${confettiClass}">
                     <div class="lb-podium-avatar-wrapper">
-                        ${item.rank === 1 ? '<div class="lb-crown"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f451.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></div>' : ''}
+                        ${item.rank === 1 ? '<div class="lb-crown"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f451.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></div>' : ''}
                         <div class="lb-podium-avatar"><img src="${item.avatar}" alt="${item.name}"></div>
                     </div>
                     <div class="lb-podium-rank-badge">${item.rank}</div>
@@ -1314,7 +1392,7 @@ const QuizEngine = {
         // Dynamic Banner Logic
         if (tabName === 'weekly') {
             achievementBanner.innerHTML = `
-                <div class="lb-banner-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></div>
+                <div class="lb-banner-icon"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></div>
                 <div class="lb-banner-text">
                     <strong>Weekly Challenge Race</strong>
                     <p>Competition Ends In: 3 Days 14 Hours</p>
@@ -1324,7 +1402,7 @@ const QuizEngine = {
             // Weekly MVP Card
             weeklyMvpContainer.innerHTML = `
                 <div class="lb-weekly-mvp-card" style="background: linear-gradient(135deg, #fef3c7, #fde68a); border-radius: 16px; padding: 16px; margin: 0 0 24px; border: 1px solid #fcd34d; display: flex; align-items: center; gap: 16px;">
-                    <div style="font-size: 32px;"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></div>
+                    <div style="font-size: 32px;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></div>
                     <div style="flex: 1;">
                         <div style="font-size: 12px; font-weight: 800; color: #b45309; text-transform: uppercase;">Weekly MVP</div>
                         <div style="font-size: 16px; font-weight: 800; color: #92400e; margin-bottom: 4px;">Officer Smith</div>
@@ -1339,16 +1417,16 @@ const QuizEngine = {
                     <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 16px; color: var(--text-primary);">Weekly Achievements</h3>
                     <div style="display: flex; flex-direction: column; gap: 12px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 14px 16px; border-radius: 12px;">
-                            <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 20px;"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></span> <span style="font-size: 14px; font-weight: 700; color: var(--text-secondary);">Fastest Climber</span></div>
-                            <div style="text-align: right;"><div style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">Officer Smith</div><div style="font-size: 12px; font-weight: 600; color: #166534;">↑ 12 Positions</div></div>
+                            <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 20px;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></span> <span style="font-size: 14px; font-weight: 700; color: var(--text-secondary);">Fastest Climber</span></div>
+                            <div style="text-align: right;"><div style="font-size: 14px; font-weight: 700; margin-bottom: 6px;">Officer Smith</div><div style="font-size: 12px; font-weight: 600; color: #166534;">↑ 12 Positions</div></div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 14px 16px; border-radius: 12px;">
-                            <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 20px;"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></span> <span style="font-size: 14px; font-weight: 700; color: var(--text-secondary);">Most Completed</span></div>
-                            <div style="text-align: right;"><div style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">Emma Davis</div><div style="font-size: 12px; font-weight: 600; color: var(--accent-blue);">24 Challenges</div></div>
+                            <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 20px;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></span> <span style="font-size: 14px; font-weight: 700; color: var(--text-secondary);">Most Completed</span></div>
+                            <div style="text-align: right;"><div style="font-size: 14px; font-weight: 700; margin-bottom: 6px;">Emma Davis</div><div style="font-size: 12px; font-weight: 600; color: var(--accent-blue);">24 Challenges</div></div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 14px 16px; border-radius: 12px;">
-                            <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 20px;"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></span> <span style="font-size: 14px; font-weight: 700; color: var(--text-secondary);">Longest Streak</span></div>
-                            <div style="text-align: right;"><div style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">Sarah Connor</div><div style="font-size: 12px; font-weight: 600; color: #f59e0b;">11 Days</div></div>
+                            <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 20px;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/26a1.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></span> <span style="font-size: 14px; font-weight: 700; color: var(--text-secondary);">Longest Streak</span></div>
+                            <div style="text-align: right;"><div style="font-size: 14px; font-weight: 700; margin-bottom: 6px;">Sarah Connor</div><div style="font-size: 12px; font-weight: 600; color: #f59e0b;">11 Days</div></div>
                         </div>
                     </div>
                 </div>
@@ -1362,7 +1440,7 @@ const QuizEngine = {
                 else motivateText = "Complete 1 more challenge to enter Top 10!";
             }
             achievementBanner.innerHTML = `
-                <div class="lb-banner-icon"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></div>
+                <div class="lb-banner-icon"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></div>
                 <div class="lb-banner-text">
                     <strong>Weekly Progress</strong>
                     <p>${motivateText}</p>
@@ -1382,11 +1460,16 @@ const QuizEngine = {
             // Build Contextual Details
             let contextDetails = '';
             if (tabName === 'team') {
-                contextDetails = `<div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">Active Members: ${item.activeMembers}</div>`;
+                contextDetails = `<div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Active Members: ${item.activeMembers}</div>`;
             } else if (tabName === 'national') {
-                contextDetails = `<div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f465.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> ${item.activeMembers} Members • <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> ${item.challengesCompleted} Challenges</div>`;
+                contextDetails = `
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; line-height: 1.4;">
+                        <span style="display: inline-flex; align-items: center; gap: 4px;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f465.png" style="width: 1.2em; height: 1.2em;"> ${item.activeMembers} Members</span>
+                        <span style="display: inline-flex; align-items: center; gap: 4px;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em;"> ${item.challengesCompleted} Challenges</span>
+                    </div>
+                `;
             } else {
-                contextDetails = `<div class="lb-list-team" style="margin-top: 6px;">${item.team}</div>`;
+                contextDetails = `<div class="lb-list-team">${item.team}</div>`;
             }
 
             let extraTeamStat = '';
@@ -1394,7 +1477,7 @@ const QuizEngine = {
                 extraTeamStat = `<div style="font-size: 11px; font-weight: 700; color: var(--text-secondary); margin-top: 4px;">${item.performanceMetric}</div>`;
             }
 
-            const nationalBadgeHTML = (tabName === 'national' && item.isNationalLeader) ? `<span style="background: #fef3c7; color: #b45309; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; border: 1px solid #fde68a;"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/2b50.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> National Leader</span>` : '';
+            const nationalBadgeHTML = (tabName === 'national' && item.isNationalLeader) ? `<span style="background: #fef3c7; color: #b45309; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; border: 1px solid #fde68a;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2b50.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> National Leader</span>` : '';
 
             // User Inline Progress (Friends tab)
             let inlineProgressHTML = '';
@@ -1430,7 +1513,7 @@ const QuizEngine = {
                                 <span class="lb-list-name">${item.name}</span>
                                 ${nationalBadgeHTML}
                             </div>
-                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px;">${badgesHTML}</div>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; margin-bottom: 4px;">${badgesHTML}</div>
                             ${contextDetails}
                         </div>
                         <div class="lb-list-stats">
@@ -1477,7 +1560,7 @@ const QuizEngine = {
                 progressHTML = `
                     <div class="lb-sticky-progress-wrap">
                         <div class="lb-sticky-progress-text" style="justify-content: center; color: #f59e0b; font-weight: 700;">
-                            <img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> You are the Top Performer! Keep defending your title!
+                            <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> You are the Top Performer! Keep defending your title!
                         </div>
                     </div>
                 `;
@@ -1491,7 +1574,7 @@ const QuizEngine = {
                             <div class="lb-sticky-name">Your Ranking</div>
                             <div class="lb-sticky-stats">
                                 <span class="lb-sticky-score">${userItem.score} XP</span>
-                                <span class="lb-sticky-trend"><img src="https://unpkg.com/emoji-datasource-apple@15.0.1/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> 12 Day Streak</span>
+                                <span class="lb-sticky-trend"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> 12 Day Streak</span>
                             </div>
                         </div>
                     </div>
@@ -1561,6 +1644,7 @@ const QuizEngine = {
 
 // Handle Native Browser Back Button
 window.addEventListener('popstate', function(event) {
+    QuizEngine.stopConfetti();
     if (event.state && event.state.viewId) {
         const index = QuizEngine.history.indexOf(event.state.viewId);
         if (index !== -1) {
