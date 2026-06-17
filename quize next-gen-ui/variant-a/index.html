@@ -17,13 +17,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <script>
-        // Ensure trailing slash for directory root so relative links work correctly
-        const path = window.location.pathname;
-        if (!path.endsWith('/') && path.split('/').pop() === 'variant-a') {
-            window.location.replace(window.location.href.split('#')[0].split('?')[0] + '/');
-        }
-    </script>
     <style>
         :root {
             --bg-color: #e9f5ff;
@@ -818,7 +811,7 @@
             /* Prevent text from overlapping the chevron */
         }
 
-        .list-view .card-content > .cjs-reveal-btn {
+        .list-view .card-content>.cjs-reveal-btn {
             display: none !important;
         }
 
@@ -1001,7 +994,8 @@
         }
 
         .list-view .card.expanded .card-actions {
-            display: contents; /* Direct flex siblings layout */
+            display: contents;
+            /* Direct flex siblings layout */
         }
 
         .list-view .card.expanded .card-action-btn {
@@ -1255,9 +1249,12 @@
         }
 
         @keyframes bounce-chevron {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(3px);
             }
@@ -1367,14 +1364,11 @@
                             <span class="ai-hint">Pocket Sergeant</span>
                         </div>
                         <div class="top-actions">
-                            <div class="action-item ai-assistant">
-                                <img src="../images/ai.svg" alt="AI Assistant">
-                            </div>
                             <div class="action-item announcements">
                                 <img src="../images/megaphone-black.svg" alt="What's New">
                             </div>
                             <div class="action-item podcast">
-                                <img src="../images/ps-podcast.svg" alt="Podcast">
+                                <img src="../images/ps-podcast.svg" alt="Podcast Icon">
                             </div>
                             <div class="action-item favorites">
                                 <img src="../images/star.svg" alt="Favorites">
@@ -1475,7 +1469,8 @@
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
-                                <button class="card-action-btn" data-type="powers-and-punishment" aria-label="Powers and Punishment">
+                                <button class="card-action-btn" data-type="powers-and-punishment"
+                                    aria-label="Powers and Punishment">
                                     <img src="../images/icons/powers-and-punishment.svg" alt="Powers">
                                 </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
@@ -1484,7 +1479,8 @@
                                 <button class="card-action-btn" data-type="crime-report" aria-label="Crime Report">
                                     <img src="../images/icons/crime-report.svg" alt="Report">
                                 </button>
-                                <button class="card-action-btn" data-type="sufficient-to-charge" aria-label="Sufficient to Charge">
+                                <button class="card-action-btn" data-type="sufficient-to-charge"
+                                    aria-label="Sufficient to Charge">
                                     <img src="../images/icons/sufficient-to-charge.svg" alt="Sufficient">
                                 </button>
                                 <button class="card-action-btn" data-type="more" aria-label="More">
@@ -1522,7 +1518,8 @@
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
-                                <button class="card-action-btn" data-type="powers-and-punishment" aria-label="Powers and Punishment">
+                                <button class="card-action-btn" data-type="powers-and-punishment"
+                                    aria-label="Powers and Punishment">
                                     <img src="../images/icons/powers-and-punishment.svg" alt="Powers">
                                 </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
@@ -1531,7 +1528,8 @@
                                 <button class="card-action-btn" data-type="crime-report" aria-label="Crime Report">
                                     <img src="../images/icons/crime-report.svg" alt="Report">
                                 </button>
-                                <button class="card-action-btn" data-type="sufficient-to-charge" aria-label="Sufficient to Charge">
+                                <button class="card-action-btn" data-type="sufficient-to-charge"
+                                    aria-label="Sufficient to Charge">
                                     <img src="../images/icons/sufficient-to-charge.svg" alt="Sufficient">
                                 </button>
                                 <button class="card-action-btn" data-type="more" aria-label="More">
@@ -1568,7 +1566,8 @@
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
-                                <button class="card-action-btn" data-type="powers-and-punishment" aria-label="Powers and Punishment">
+                                <button class="card-action-btn" data-type="powers-and-punishment"
+                                    aria-label="Powers and Punishment">
                                     <img src="../images/icons/powers-and-punishment.svg" alt="Powers">
                                 </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
@@ -1577,7 +1576,8 @@
                                 <button class="card-action-btn" data-type="crime-report" aria-label="Crime Report">
                                     <img src="../images/icons/crime-report.svg" alt="Report">
                                 </button>
-                                <button class="card-action-btn" data-type="sufficient-to-charge" aria-label="Sufficient to Charge">
+                                <button class="card-action-btn" data-type="sufficient-to-charge"
+                                    aria-label="Sufficient to Charge">
                                     <img src="../images/icons/sufficient-to-charge.svg" alt="Sufficient">
                                 </button>
                                 <button class="card-action-btn" data-type="more" aria-label="More">
@@ -1603,7 +1603,7 @@
 
                 <!-- Card: Abuse of Position (Duplicate 3) -->
                 <div class="card" onclick="window.location.href='breach-of-trust-detail.html'">
-                    <div class="card-content">
+                    <div class="card-content new">
                         <div class="card-title">Breach of Trust (Position)</div>
                         <div class="card-subtitle">This case involves misuse of authority or position by an individual
                             for personal benefit or to gain an unfair advantage. It typically includes actions where
@@ -1614,7 +1614,8 @@
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
-                                <button class="card-action-btn" data-type="powers-and-punishment" aria-label="Powers and Punishment">
+                                <button class="card-action-btn" data-type="powers-and-punishment"
+                                    aria-label="Powers and Punishment">
                                     <img src="../images/icons/powers-and-punishment.svg" alt="Powers">
                                 </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
@@ -1623,7 +1624,8 @@
                                 <button class="card-action-btn" data-type="crime-report" aria-label="Crime Report">
                                     <img src="../images/icons/crime-report.svg" alt="Report">
                                 </button>
-                                <button class="card-action-btn" data-type="sufficient-to-charge" aria-label="Sufficient to Charge">
+                                <button class="card-action-btn" data-type="sufficient-to-charge"
+                                    aria-label="Sufficient to Charge">
                                     <img src="../images/icons/sufficient-to-charge.svg" alt="Sufficient">
                                 </button>
                                 <button class="card-action-btn" data-type="more" aria-label="More">
@@ -1660,7 +1662,8 @@
                                 <button class="card-action-btn" data-type="definition" aria-label="Definition">
                                     <img src="../images/icons/definition.svg" alt="Definition">
                                 </button>
-                                <button class="card-action-btn" data-type="powers-and-punishment" aria-label="Powers and Punishment">
+                                <button class="card-action-btn" data-type="powers-and-punishment"
+                                    aria-label="Powers and Punishment">
                                     <img src="../images/icons/powers-and-punishment.svg" alt="Powers">
                                 </button>
                                 <button class="card-action-btn" data-type="ptp" aria-label="Points to Prove">
@@ -1669,7 +1672,8 @@
                                 <button class="card-action-btn" data-type="crime-report" aria-label="Crime Report">
                                     <img src="../images/icons/crime-report.svg" alt="Report">
                                 </button>
-                                <button class="card-action-btn" data-type="sufficient-to-charge" aria-label="Sufficient to Charge">
+                                <button class="card-action-btn" data-type="sufficient-to-charge"
+                                    aria-label="Sufficient to Charge">
                                     <img src="../images/icons/sufficient-to-charge.svg" alt="Sufficient">
                                 </button>
                                 <button class="card-action-btn" data-type="more" aria-label="More">
@@ -2276,7 +2280,8 @@
                 <div class="scroll-indicator-btn">
                     <span class="scroll-indicator-icon">
                         <svg viewBox="0 0 24 24" width="16" height="16">
-                            <path d="M7 13l5 5 5-5M7 7l5 5 5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            <path d="M7 13l5 5 5-5M7 7l5 5 5-5" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round" fill="none" />
                         </svg>
                     </span>
                     <span class="scroll-indicator-text">Scroll for more</span>
@@ -2309,7 +2314,8 @@
                 <div class="scroll-indicator-btn">
                     <span class="scroll-indicator-icon">
                         <svg viewBox="0 0 24 24" width="16" height="16">
-                            <path d="M7 13l5 5 5-5M7 7l5 5 5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            <path d="M7 13l5 5 5-5M7 7l5 5 5-5" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round" fill="none" />
                         </svg>
                     </span>
                     <span class="scroll-indicator-text">Scroll for more</span>
@@ -2333,7 +2339,8 @@
                 <div class="scroll-indicator-btn">
                     <span class="scroll-indicator-icon">
                         <svg viewBox="0 0 24 24" width="16" height="16">
-                            <path d="M7 13l5 5 5-5M7 7l5 5 5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            <path d="M7 13l5 5 5-5M7 7l5 5 5-5" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round" fill="none" />
                         </svg>
                     </span>
                     <span class="scroll-indicator-text">Scroll for more</span>
