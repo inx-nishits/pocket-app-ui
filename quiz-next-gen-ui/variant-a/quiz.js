@@ -233,10 +233,64 @@ const QuizEngine = {
         btn.classList.add('selected-' + type);
         
         if (type === 'report') {
-            this.showToast('Report submitted. Thanks!');
+            this.openReportSheet();
         } else {
-            this.showToast('Thanks for your feedback!');
+            this.showToast('✓ Thank You<br>Your feedback helps improve future questions. 🙏');
         }
+    },
+
+    openReportSheet: function() {
+        const overlay = document.getElementById('report-sheet-overlay');
+        const sheet = document.getElementById('report-sheet');
+        if (overlay && sheet) {
+            overlay.classList.remove('hidden');
+            sheet.classList.remove('hidden');
+            
+            // reset form
+            document.querySelectorAll('input[name="report_reason"]').forEach(r => r.checked = false);
+            document.getElementById('report-other-container').style.display = 'none';
+            document.getElementById('report-other-text').value = '';
+        }
+    },
+    
+    closeReportSheet: function() {
+        const overlay = document.getElementById('report-sheet-overlay');
+        const sheet = document.getElementById('report-sheet');
+        if (overlay && sheet) {
+            overlay.classList.add('hidden');
+            sheet.classList.add('hidden');
+        }
+    },
+    
+    toggleReportOther: function(show) {
+        const container = document.getElementById('report-other-container');
+        if (container) {
+            container.style.display = show ? 'block' : 'none';
+            if (show) {
+                const ta = document.getElementById('report-other-text');
+                if (ta) ta.focus();
+            }
+        }
+    },
+    
+    submitReport: function() {
+        const selected = document.querySelector('input[name="report_reason"]:checked');
+        if (!selected) {
+            this.showToast('Please select a reason for reporting.');
+            return;
+        }
+        
+        const reason = selected.value;
+        if (reason === 'Other') {
+            const text = document.getElementById('report-other-text').value.trim();
+            if (!text) {
+                this.showToast('Please describe the issue.');
+                return;
+            }
+        }
+        
+        this.closeReportSheet();
+        this.showToast('✓ Thank You<br>Your feedback helps improve future questions. 🙏');
     },
 
     showToast: function(message) {
@@ -246,8 +300,8 @@ const QuizEngine = {
         const toast = document.createElement('div');
         toast.id = 'quiz-toast';
         toast.className = 'quiz-toast';
-        toast.innerText = message;
-        document.body.appendChild(toast);
+        toast.innerHTML = message;
+        document.querySelector('.app-container').appendChild(toast);
         
         // Trigger reflow and show
         void toast.offsetWidth;
@@ -317,6 +371,7 @@ const QuizEngine = {
                     if(title) {
                         title.innerText = "Match Found!";
                         title.style.color = "#4ade80"; // Light green text for blue header
+                        title.style.animation = "popIn 0.5s ease-out";
                     }
                     const subtitle = document.getElementById('waiting-subtitle');
                     if(subtitle) subtitle.innerText = "Starting challenge...";
@@ -325,22 +380,48 @@ const QuizEngine = {
                     if (spinner) {
                         spinner.style.animation = "none";
                         spinner.innerHTML = '<polyline points="20 6 9 17 4 12" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>';
+                        spinner.parentElement.style.animation = "success-pulse 0.6s ease-out";
                     }
                     
                     document.getElementById('confirm-opponent').style.color = "#1e293b";
                     
-                    document.getElementById('waiting-opponent-img').style.opacity = "1";
-                    document.getElementById('waiting-opponent-img').style.filter = "grayscale(0%)";
-                    document.getElementById('waiting-opponent-border').style.borderColor = "#10b981";
+                    const oppImg = document.getElementById('waiting-opponent-img');
+                    if (oppImg) {
+                        oppImg.style.opacity = "1";
+                        oppImg.style.filter = "grayscale(0%)";
+                    }
+                    const oppBorder = document.getElementById('waiting-opponent-border');
+                    if (oppBorder) {
+                        oppBorder.style.borderColor = "#10b981";
+                        oppBorder.style.animation = "success-pulse 0.6s ease-out";
+                    }
+                    
+                    const userAvatar = document.getElementById('current-user-avatar');
+                    if (userAvatar) {
+                        userAvatar.style.borderColor = "#10b981";
+                        userAvatar.style.animation = "success-pulse 0.6s ease-out";
+                    }
                     
                     const ring = document.getElementById('waiting-opponent-ring');
                     if (ring) {
                         ring.style.display = "none";
                     }
                     
+                    const vsBadge = document.getElementById('vs-badge');
+                    if (vsBadge) {
+                        vsBadge.style.animation = "bounceIn 0.6s ease-out";
+                        vsBadge.style.background = "linear-gradient(135deg, #10b981, #34d399)";
+                        vsBadge.style.transform = "scale(1.15)";
+                        vsBadge.style.boxShadow = "0 8px 20px rgba(16,185,129,0.4)";
+                    }
+                    const vsText = document.getElementById('vs-badge-text');
+                    if (vsText) {
+                        vsText.style.color = "white";
+                    }
+                    
                     setTimeout(() => {
                         QuizEngine.startCountdown();
-                    }, 1500);
+                    }, 3000);
                 }
             }, 3500);
         }
@@ -369,9 +450,46 @@ const QuizEngine = {
     },
     
     confirmExit: function() {
-        if (confirm("Are you sure you want to exit? Your progress will be lost.")) {
-            this.navigateBack();
+        const overlay = document.getElementById('exit-confirm-overlay');
+        if (overlay) {
+            const titleEl = overlay.querySelector('h3');
+            const descEl = overlay.querySelector('p');
+            if (titleEl && descEl) {
+                if (this.currentMode && this.currentMode.includes('Practice')) {
+                    titleEl.innerText = 'Exit Exam Preparation?';
+                    descEl.innerText = 'Are you sure you want to exit? Your practice progress will be lost.';
+                } else if (this.currentMode === 'Mock Exam') {
+                    titleEl.innerText = 'Exit Exam?';
+                    descEl.innerText = 'Are you sure you want to exit? Your exam progress will be lost.';
+                } else {
+                    titleEl.innerText = 'Exit Quiz?';
+                    descEl.innerText = 'Are you sure you want to exit? Your quiz progress will be lost.';
+                }
+            }
+            
+            overlay.style.opacity = '1';
+            overlay.style.pointerEvents = 'auto';
+            overlay.querySelector('.exit-confirm-modal').style.transform = 'scale(1)';
+        } else {
+            // fallback
+            if (confirm("Are you sure you want to exit? Your progress will be lost.")) {
+                this.navigateBack();
+            }
         }
+    },
+    
+    cancelExit: function() {
+        const overlay = document.getElementById('exit-confirm-overlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+            overlay.querySelector('.exit-confirm-modal').style.transform = 'scale(1.1)';
+        }
+    },
+    
+    proceedExit: function() {
+        this.cancelExit();
+        this.navigateBack();
     },
     
     returnHome: function() {
@@ -755,7 +873,7 @@ const QuizEngine = {
         const aiBadge = document.getElementById('ai-explanation-badge');
         const ratingContainer = document.getElementById('question-rating');
         
-        if (this.currentMode === 'Practice By Topic') {
+        if (this.currentMode === 'Practice By Topic' || this.currentMode === 'Mixed Practice' || this.currentMode === 'Mock Exam' || this.currentFlow === 'topic' || this.currentFlow === 'mixed' || this.currentFlow === 'mock') {
             aiBox.style.background = 'rgba(255,255,255,0.5)';
             aiBox.style.border = '1px solid rgba(15,23,42,0.05)';
             aiBox.style.padding = '12px';
@@ -796,6 +914,7 @@ const QuizEngine = {
     },
     
     nextQuestion: function() {
+        this.stopConfetti();
         const sheet = document.getElementById('feedback-sheet');
         const overlay = document.getElementById('feedback-overlay');
         sheet.classList.add('hidden');
@@ -914,22 +1033,78 @@ const QuizEngine = {
             document.querySelector('.rewards-card').style.display = 'none';
         }
         
-        if (this.currentMode === 'Practice By Topic') {
-            document.getElementById('practice-accuracy-val').innerText = `${accuracy}%`;
-            document.getElementById('practice-score-val').innerText = `${this.score}/${this.totalQuestions}`;
-            document.getElementById('practice-xp-val').innerText = `+${this.totalXp} XP`;
-            
-            let avgTime = 38; // Default mock
+        const isCompetitive = this.currentFlow === 'colleague' || this.currentFlow === 'live' || this.currentMode === '1v1 Challenge' || this.currentMode === 'Live Challenge';
+        const isSolo = !isCompetitive && (this.currentFlow === 'quick' || this.currentFlow === 'mixed' || this.currentFlow === 'topic' || this.currentFlow === 'mock' || this.currentMode === 'Practice By Topic' || this.currentMode === 'Quick Quiz' || this.currentMode === 'Quick Play' || this.currentMode === 'Mixed Practice' || this.currentMode === 'Mock Exam' || this.selectedFormat === 'Quick Quiz' || this.selectedFormat === 'Quick Play' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice');
+        if (isSolo) {
+            const myStreak = this.bestStreak || Math.max(1, Math.floor(this.score / 2));
+            let avgTime = 3.4; // Default mock
             if (this.quizStartTime) {
-                avgTime = Math.max(1, Math.round(((Date.now() - this.quizStartTime) / 1000) / this.totalQuestions));
+                avgTime = Math.max(0.1, ((Date.now() - this.quizStartTime) / 1000) / this.totalQuestions).toFixed(1);
             }
-            document.getElementById('practice-time-val').innerText = `Avg time ${avgTime}s / question`;
             
-            const ring = document.getElementById('practice-accuracy-ring');
-            if (ring) {
-                ring.setAttribute('stroke-dasharray', `${accuracy}, 100`);
+            document.getElementById('solo-score-val').innerText = `${this.score}/${this.totalQuestions}`;
+            document.getElementById('solo-accuracy-val').innerText = `${accuracy}%`;
+            document.getElementById('solo-xp-val').innerText = `+${this.totalXp || 40} XP`;
+            document.getElementById('solo-streak-val').innerText = `${myStreak}`;
+            
+            document.getElementById('solo-correct-val').innerText = `${this.score}`;
+            document.getElementById('solo-incorrect-val').innerText = `${this.totalQuestions - this.score}`;
+            document.getElementById('solo-time-val').innerText = `${avgTime}s`;
+            
+            document.getElementById('solo-best-topic-val').innerText = this.selectedCategory || 'General Law';
+            document.getElementById('solo-weakest-topic-val').innerText = 'Tort Law'; // Mock weakest topic
+
+            document.getElementById('solo-insight-text').innerHTML = `You scored better than your last attempt.<br><strong>+${Math.floor(Math.random() * 10) + 5}% Improvement</strong>`;
+            
+            let quizType = 'quick';
+            if (this.currentFlow === 'mock' || this.currentMode === 'Mock Exam' || this.selectedFormat === 'Mock Exam') {
+                quizType = 'mock';
+            } else if (this.currentFlow === 'topic' || this.currentFlow === 'mixed' || this.currentMode === 'Practice By Topic' || this.currentMode === 'Mixed Practice' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice') {
+                quizType = 'practice';
             }
-            this.navigate('view-practice-completion');
+            
+            const actionsContainer = document.getElementById('solo-completion-actions');
+            if (actionsContainer) {
+                if (quizType === 'mock') {
+                    actionsContainer.innerHTML = `
+                        <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.navigate('view-analytics')">
+                            Review Answer
+                        </button>
+                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
+                            Practice Weak Area
+                        </button>
+                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.returnHome()">
+                            Return to Hub
+                        </button>
+                    `;
+                } else if (quizType === 'practice') {
+                    actionsContainer.innerHTML = `
+                        <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.startFlow('topic')">
+                            Practice Weak Area
+                        </button>
+                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('mock')">
+                            Start Mock Exam
+                        </button>
+                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.returnHome()">
+                            Return to Hub
+                        </button>
+                    `;
+                } else {
+                    actionsContainer.innerHTML = `
+                        <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.startFlow('quick')">
+                            Play Again
+                        </button>
+                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('colleague')">
+                            Challenge Officer
+                        </button>
+                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.navigate('view-leaderboard')">
+                            Leaderboard
+                        </button>
+                    `;
+                }
+            }
+            
+            this.navigate('view-solo-completion');
         } else {
             this.navigate('view-completion');
         }
@@ -1024,7 +1199,12 @@ const QuizEngine = {
             const isCorrect = i <= this.score;
             list.innerHTML += `
                 <div class="breakdown-item ${isCorrect ? 'correct' : 'wrong'}">
-                    <div class="breakdown-icon">${isCorrect ? '✓' : '✕'}</div>
+                    <div class="breakdown-icon">
+                        ${isCorrect 
+                            ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' 
+                            : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'
+                        }
+                    </div>
                     <div class="breakdown-text"><strong>Q${i}:</strong> PACE Code A Objective...</div>
                 </div>
             `;

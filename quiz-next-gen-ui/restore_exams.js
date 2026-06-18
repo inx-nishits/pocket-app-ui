@@ -29,7 +29,7 @@ if (sergeantStart !== -1 && mixedCardStart !== -1) {
             <!-- 2. Inspector Promotion Exam -->
             <div class="format-card" onclick="QuizEngine.startFlow('topic')" style="align-items: flex-start;">
                 <div class="format-card-left" style="align-items: flex-start;">
-                    <div class="category-icon-top" style="background: #f5f3ff; color: #8b5cf6; width: 48px; height: 48px; margin-bottom: 0;">
+                    <div class="category-icon-top" style="background: #eff6ff; color: #8b5cf6; width: 48px; height: 48px; margin-bottom: 0;">
                         <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f396.png" style="width: 28px; height: 28px; object-fit: contain;" alt="Inspector">
                     </div>
                     <div class="format-info" style="width: 100%;">
@@ -47,7 +47,7 @@ if (sergeantStart !== -1 && mixedCardStart !== -1) {
             <!-- 3. National Investigators' Examination (NIE) -->
             <div class="format-card" onclick="QuizEngine.startFlow('topic')" style="align-items: flex-start;">
                 <div class="format-card-left" style="align-items: flex-start;">
-                    <div class="category-icon-top" style="background: #fef2f2; color: #ef4444; width: 48px; height: 48px; margin-bottom: 0;">
+                    <div class="category-icon-top" style="background: #eff6ff; color: #ef4444; width: 48px; height: 48px; margin-bottom: 0;">
                         <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f50d.png" style="width: 28px; height: 28px; object-fit: contain;" alt="NIE">
                     </div>
                     <div class="format-info" style="width: 100%;">
