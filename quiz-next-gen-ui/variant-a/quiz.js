@@ -62,6 +62,32 @@ const QuizEngine = {
         this.navigate('view-active');
     },
 
+    resumeMockQuiz: function() {
+        const saved = localStorage.getItem('saved_exam_progress');
+        if (saved) {
+            const data = JSON.parse(saved);
+            this.currentFlow = data.currentFlow || 'mock';
+            this.selectedCategory = data.selectedCategory || 'Mock Exam';
+            this.selectedFormat = data.selectedFormat || 'Standard Quiz';
+            this.currentMode = data.currentMode || 'Mock Exam';
+            this.currentDifficulty = data.currentDifficulty || 'Intermediate';
+            this.selectedExam = data.selectedExam || 'NPPF Step 2 Mock Exam';
+            
+            this.isResuming = true;
+            this.resumedData = data;
+            
+            this.navigate('view-active');
+        } else {
+            this.currentFlow = 'mock';
+            this.selectedCategory = 'Mock Exam';
+            this.selectedFormat = 'Standard Quiz';
+            this.currentMode = 'Mock Exam';
+            this.currentDifficulty = 'Intermediate';
+            this.selectedExam = 'NPPF Step 2 Mock Exam';
+            this.navigate('view-active');
+        }
+    },
+
     startFlow: function(flowName) {
         this.currentFlow = flowName;
         if (flowName === 'live') {
@@ -453,17 +479,28 @@ const QuizEngine = {
         if (overlay) {
             const titleEl = overlay.querySelector('h3');
             const descEl = overlay.querySelector('p');
-            if (titleEl && descEl) {
-                if (this.currentMode && this.currentMode.includes('Practice')) {
-                    titleEl.innerText = 'Exit Exam Preparation?';
-                    descEl.innerText = 'Are you sure you want to exit? Your practice progress will be lost.';
-                } else if (this.currentMode === 'Mock Exam') {
-                    titleEl.innerText = 'Exit Exam?';
-                    descEl.innerText = 'Are you sure you want to exit? Your exam progress will be lost.';
-                } else {
-                    titleEl.innerText = 'Exit Quiz?';
-                    descEl.innerText = 'Are you sure you want to exit? Your quiz progress will be lost.';
-                }
+            
+            // Check if current flow is an exam/practice flow
+            const isExamFlow = (this.currentFlow === 'topic' || this.currentFlow === 'mock' || this.currentFlow === 'mixed');
+            
+            if (isExamFlow) {
+                if (titleEl) titleEl.innerText = 'Exit Exam?';
+                if (descEl) descEl.innerText = 'What would you like to do with your current progress?';
+                
+                // Show vertical three-button stack and hide horizontal two buttons
+                const twoButtons = document.getElementById('exit-two-buttons');
+                const threeButtons = document.getElementById('exit-three-buttons');
+                if (twoButtons) twoButtons.style.display = 'none';
+                if (threeButtons) threeButtons.style.display = 'flex';
+            } else {
+                if (titleEl) titleEl.innerText = 'Exit Quiz?';
+                if (descEl) descEl.innerText = 'Are you sure you want to exit? Your quiz progress will be lost.';
+                
+                // Show horizontal two buttons and hide vertical three-button stack
+                const twoButtons = document.getElementById('exit-two-buttons');
+                const threeButtons = document.getElementById('exit-three-buttons');
+                if (twoButtons) twoButtons.style.display = 'flex';
+                if (threeButtons) threeButtons.style.display = 'none';
             }
             
             overlay.style.opacity = '1';
@@ -489,6 +526,62 @@ const QuizEngine = {
     proceedExit: function() {
         this.cancelExit();
         this.navigateBack();
+    },
+
+    exitAndSaveProgress: function() {
+        const progressData = {
+            currentFlow: this.currentFlow,
+            selectedCategory: this.selectedCategory,
+            selectedFormat: this.selectedFormat,
+            currentMode: this.currentMode,
+            currentDifficulty: this.currentDifficulty,
+            selectedExam: this.selectedExam || 'Mock Exam',
+            totalQuestions: this.totalQuestions,
+            currentQuestion: this.currentQuestion,
+            score: this.score,
+            streak: this.streak,
+            bestStreak: this.bestStreak,
+            totalXp: this.totalXp,
+            timeLeft: this.timeLeft
+        };
+        localStorage.setItem('saved_exam_progress', JSON.stringify(progressData));
+        this.cancelExit();
+        this.updateResumeWidget();
+        this.returnHome();
+    },
+
+    confirmExitAndDiscard: function() {
+        this.cancelExit();
+        const overlay = document.getElementById('discard-confirm-overlay');
+        if (overlay) {
+            overlay.style.opacity = '1';
+            overlay.style.pointerEvents = 'auto';
+            overlay.querySelector('.exit-confirm-modal').style.transform = 'scale(1)';
+        }
+    },
+
+    cancelDiscardConfirm: function() {
+        const overlay = document.getElementById('discard-confirm-overlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+            overlay.querySelector('.exit-confirm-modal').style.transform = 'scale(1.1)';
+        }
+        // Go back to exit main dialog
+        this.confirmExit();
+    },
+
+    proceedDiscardExit: function() {
+        const overlay = document.getElementById('discard-confirm-overlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+            overlay.querySelector('.exit-confirm-modal').style.transform = 'scale(1.1)';
+        }
+        // Permanently delete current progress
+        localStorage.removeItem('saved_exam_progress');
+        this.updateResumeWidget();
+        this.returnHome();
     },
     
     returnHome: function() {
@@ -673,16 +766,25 @@ const QuizEngine = {
     ],
     
     initActiveQuiz: function() {
-        this.currentQuestion = 0;
-        this.score = 0;
-        this.streak = 0;
-        this.bestStreak = 0;
-        this.totalXp = 0;
+        if (this.isResuming) {
+            this.isResuming = false;
+            this.currentQuestion = 67;
+            this.score = 30; // 44% of 67 is ~30 correct answers
+            this.streak = 5;
+            this.bestStreak = 5;
+            this.totalXp = 67 * 25;
+            this.totalQuestions = 150;
+        } else {
+            this.currentQuestion = 0;
+            this.score = 0;
+            this.streak = 0;
+            this.bestStreak = 0;
+            this.totalXp = 0;
+            this.totalQuestions = parseInt(document.getElementById('preview-count').innerText) || 5;
+        }
         
-        this.totalQuestions = parseInt(document.getElementById('preview-count').innerText) || 5;
-        
-        document.getElementById('active-streak').innerText = '🔥 0 Streak';
-        document.getElementById('active-xp').innerText = '0 XP';
+        document.getElementById('active-streak').innerText = `🔥 ${this.streak} Streak`;
+        document.getElementById('active-xp').innerText = `${this.totalXp} XP`;
         
         // Update Difficulty Badge dynamically
         const difficultyBadge = document.getElementById('active-difficulty');
@@ -1867,6 +1969,98 @@ const QuizEngine = {
         } else {
             if (container) container.style.display = 'none';
         }
+    },
+
+    updateResumeWidget: function() {
+        const saved = localStorage.getItem('saved_exam_progress');
+        const card = document.querySelector('.resume-exam-card');
+        if (!card) return;
+        
+        if (saved) {
+            const data = JSON.parse(saved);
+            const progress = Math.round((data.currentQuestion / data.totalQuestions) * 100);
+            
+            const ring = card.querySelector('.resume-progress-ring');
+            if (ring) {
+                ring.style.background = `conic-gradient(#fbbf24 0% ${progress}%, rgba(255, 255, 255, 0.12) ${progress}% 100%)`;
+            }
+            const ringText = card.querySelector('.ring-text');
+            if (ringText) ringText.innerText = `${progress}%`;
+            
+            const title = card.querySelector('.resume-title');
+            if (title) title.innerText = data.selectedExam || data.selectedCategory || 'Mock Exam';
+            
+            const detailCompleted = card.querySelector('.resume-details span:first-child');
+            if (detailCompleted) {
+                detailCompleted.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 11 12 14 22 4"></polyline>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                    ${data.currentQuestion} / ${data.totalQuestions} Questions Completed
+                `;
+            }
+            
+            const detailTime = card.querySelector('.resume-details span:last-child');
+            if (detailTime) {
+                const totalSecs = data.totalQuestions * 30;
+                const secsSpent = Math.max(0, totalSecs - data.timeLeft);
+                const m = Math.floor(secsSpent / 60);
+                const s = secsSpent % 60;
+                detailTime.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Time Spent: ${m}m ${s}s
+                `;
+            }
+            
+            const status = card.querySelector('.resume-status');
+            if (status) status.innerText = 'Continue Exam';
+            
+            const btn = card.querySelector('.resume-btn');
+            if (btn) btn.innerHTML = `Resume Exam <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>`;
+            
+        } else {
+            const ring = card.querySelector('.resume-progress-ring');
+            if (ring) {
+                ring.style.background = `conic-gradient(#fbbf24 0% 0%, rgba(255, 255, 255, 0.12) 0% 100%)`;
+            }
+            const ringText = card.querySelector('.ring-text');
+            if (ringText) ringText.innerText = `0%`;
+            
+            const title = card.querySelector('.resume-title');
+            if (title) title.innerText = 'NPPF Step 2 Mock Exam';
+            
+            const detailCompleted = card.querySelector('.resume-details span:first-child');
+            if (detailCompleted) {
+                detailCompleted.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 11 12 14 22 4"></polyline>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                    0 / 150 Questions Completed
+                `;
+            }
+            
+            const detailTime = card.querySelector('.resume-details span:last-child');
+            if (detailTime) {
+                detailTime.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Time Limit: 75m
+                `;
+            }
+            
+            const status = card.querySelector('.resume-status');
+            if (status) status.innerText = 'New Exam';
+            
+            const btn = card.querySelector('.resume-btn');
+            if (btn) btn.innerHTML = `Start Exam <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>`;
+        }
     }
 };
 
@@ -1894,3 +2088,4 @@ window.addEventListener('popstate', function(event) {
 
 // Initialize first history state
 window.history.replaceState({ viewId: 'view-hub', index: 0 }, "", "#view-hub");
+QuizEngine.updateResumeWidget();
