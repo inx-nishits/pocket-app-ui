@@ -31,12 +31,11 @@ const QuizEngine = {
                         </div>
                         <div>
                             <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">${examName}</h3>
-                            <p style="font-size: 14px; color: #64748b; margin: 0; margin-bottom: 8px;">${data.sub}</p>
-                            <span style="display: inline-block; background: #eff6ff; color: #466ba9; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;">Official Format</span>
+                            <p style="font-size: 14px; color: #64748b; margin: 0;">${data.sub}</p>
                         </div>
                     </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding-top: 16px; border-top: 1.5px solid rgba(15, 23, 42, 0.04);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; width: 100%; text-align: left; padding-top: 16px; border-top: 1.5px solid rgba(15, 23, 42, 0.04);">
                     <div>
                         <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Questions</div>
                         <div style="font-size: 16px; font-weight: 700; color: #0f172a;">${data.q}</div>
@@ -745,6 +744,11 @@ const QuizEngine = {
         document.getElementById('feedback-overlay').classList.add('hidden');
         document.getElementById('feedback-sheet').classList.remove('correct', 'wrong');
         
+        const inlineContainer = document.getElementById('inline-feedback-container');
+        if (inlineContainer) {
+            inlineContainer.style.display = 'none';
+        }
+        
         // Mock Question Data
         const qData = this.questionsData[(this.currentQuestion - 1) % this.questionsData.length];
         document.getElementById('question-text').innerText = qData.q;
@@ -752,7 +756,11 @@ const QuizEngine = {
         const answersGrid = document.getElementById('answers-grid');
         answersGrid.innerHTML = qData.opts.map((opt, index) => {
             const isCorrect = (index === qData.correct);
-            return `<button class="answer-btn" onclick="QuizEngine.selectAnswer(this, ${isCorrect})" style="transition: transform 0.1s ease, box-shadow 0.1s ease;">${opt}</button>`;
+            const letter = String.fromCharCode(65 + index);
+            return `<button class="answer-btn" onclick="QuizEngine.selectAnswer(this, ${isCorrect})" style="transition: transform 0.1s ease, box-shadow 0.1s ease; display: flex; gap: 12px; align-items: flex-start;">
+                        <span style="font-weight: 700; opacity: 0.7; flex-shrink: 0;">${letter}.</span>
+                        <span>${opt}</span>
+                    </button>`;
         }).join('');
     },
     
@@ -871,32 +879,52 @@ const QuizEngine = {
         
         const aiBox = document.getElementById('ai-explanation-box');
         const aiBadge = document.getElementById('ai-explanation-badge');
-        const ratingContainer = document.getElementById('question-rating');
         
         if (this.currentMode === 'Practice By Topic' || this.currentMode === 'Mixed Practice' || this.currentMode === 'Mock Exam' || this.currentFlow === 'topic' || this.currentFlow === 'mixed' || this.currentFlow === 'mock') {
-            aiBox.style.background = 'rgba(255,255,255,0.5)';
-            aiBox.style.border = '1px solid rgba(15,23,42,0.05)';
-            aiBox.style.padding = '12px';
-            aiBox.style.margin = '16px 0';
             aiBadge.style.display = 'flex';
-            ratingContainer.style.display = 'flex';
-            
-            ratingContainer.querySelectorAll('.rating-btn').forEach(b => {
-                b.classList.remove('selected-helpful', 'selected-poor', 'selected-report');
-            });
         } else {
-            aiBox.style.background = 'none';
-            aiBox.style.border = 'none';
-            aiBox.style.padding = '0';
-            aiBox.style.margin = '16px 0';
             aiBadge.style.display = 'none';
-            ratingContainer.style.display = 'none';
         }
         
         setTimeout(() => {
-            sheet.classList.remove('hidden');
-            overlay.classList.remove('hidden');
+            // Populate inline feedback
+            const inlineContainer = document.getElementById('inline-feedback-container');
+            const inlineIcon = document.getElementById('inline-feedback-icon');
+            const inlineTitle = document.getElementById('inline-feedback-title');
+            const inlineXp = document.getElementById('inline-feedback-xp');
+            const inlineStreakMsg = document.getElementById('inline-feedback-streak-msg');
+            const inlineAccuracy = document.getElementById('inline-feedback-accuracy');
             
+            if (inlineContainer) {
+                inlineContainer.style.display = 'flex';
+                const currentAccuracy = Math.round((this.score / this.currentQuestion) * 100);
+                inlineAccuracy.innerText = `🎯 Accuracy: ${currentAccuracy}%`;
+                
+                if (isCorrect) {
+                    inlineIcon.style.background = 'transparent';
+                    inlineIcon.innerHTML = '🎉';
+                    inlineIcon.style.fontSize = '24px';
+                    inlineTitle.innerText = 'Correct!';
+                    inlineTitle.style.color = '#ffffff';
+                    
+                    let xpEarned = (timeTaken < 3.0) ? 40 : 25;
+                    inlineXp.style.color = '#ffffff';
+                    inlineXp.innerText = `+${xpEarned} XP Earned`;
+                    inlineStreakMsg.innerText = `🔥 Streak: ${this.streak}`;
+                } else {
+                    inlineIcon.style.background = 'transparent';
+                    inlineIcon.innerHTML = '❌';
+                    inlineIcon.style.fontSize = '24px';
+                    inlineTitle.innerText = 'Incorrect';
+                    inlineTitle.style.color = '#ffffff';
+                    
+                    inlineXp.style.color = '#ffffff';
+                    inlineXp.innerText = '+0 XP Earned';
+                    inlineStreakMsg.innerText = `🔥 Streak Lost`;
+                }
+            }
+            
+            // Only update bottom sheet XP animation in case it gets opened
             if (isCorrect) {
                 let xpEarned = (timeTaken < 3.0) ? 40 : 25;
                 xp.innerText = '+0 XP Earned';
@@ -911,6 +939,26 @@ const QuizEngine = {
                 }, 30);
             }
         }, 600);
+    },
+    
+    openFeedbackSheet: function() {
+        const sheet = document.getElementById('feedback-sheet');
+        const overlay = document.getElementById('feedback-overlay');
+        if (sheet && overlay) {
+            // Remove correct/wrong classes to ensure it uses default white background
+            sheet.classList.remove('correct', 'wrong');
+            sheet.classList.remove('hidden');
+            overlay.classList.remove('hidden');
+        }
+    },
+    
+    closeFeedbackSheet: function() {
+        const sheet = document.getElementById('feedback-sheet');
+        const overlay = document.getElementById('feedback-overlay');
+        if (sheet && overlay) {
+            sheet.classList.add('hidden');
+            overlay.classList.add('hidden');
+        }
     },
     
     nextQuestion: function() {
