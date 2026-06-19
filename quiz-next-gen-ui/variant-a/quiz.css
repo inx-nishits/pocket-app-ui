@@ -46,13 +46,20 @@ textarea {
     user-select: auto !important;
 }
 
+html {
+    height: -webkit-fill-available;
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
-    background-color: #e2e8f0;
-    /* Outer background to show the phone frame effect on desktop */
+    background-color: var(--bg-color);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow: hidden;
+    overscroll-behavior-y: none;
     overflow-x: hidden;
 }
 
@@ -66,24 +73,32 @@ body {
     background: transparent;
 }
 
-/* App Container (Phone shape boundary) */
+/* App Container */
 .app-container {
     width: 100%;
-    max-width: 414px;
     height: 100vh;
-    max-height: 896px;
+    height: 100dvh;
     background-color: var(--bg-color);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
 }
 
-@media (min-width: 415px) {
+/* Desktop mockup frame — only on wide viewports, not real phones */
+@media (min-width: 500px) {
+    body {
+        padding: 40px 0;
+        background-color: #e2e8f0;
+        overflow: auto;
+    }
+
     .app-container {
-        height: 896px;
-        border-radius: 40px;
+        max-width: 420px;
+        margin: 0 auto;
+        border-radius: 50px;
+        height: 932px;
+        max-height: 932px;
         border: 12px solid #0f172a;
-        margin: 20px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
     }
 }
 
