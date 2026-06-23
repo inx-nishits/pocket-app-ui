@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="./images/Ps-pro-logo.png">
+    <title>Checklist - Spatial iOS 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #e9f5ff;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #466ba9;
+            --accent-slate: #475569;
+            --pill-bg: #ffffff;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.12);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow: hidden;
+            overscroll-behavior-y: none;
+        }
+
+        html {
+            height: -webkit-fill-available;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ----- Premium Header (Spatial Home Style) ----- */
+        .header-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            z-index: 1000;
+            background: var(--accent-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
+            will-change: transform;
+        }
+
+        .header-wrapper.header-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .checklist-header {
+            padding-top: var(--safe-area-top);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 16px 10px;
+        }
+
+        .header-title-pill {
+            background: transparent;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 40px;
+        }
+
+        .header-title-pill h1 {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            margin: 0;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-item {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .action-item:active {
+            transform: scale(0.9);
+        }
+
+        .action-item img {
+            width: 16px;
+            height: 16px;
+            opacity: 1;
+        }
+
+        /* Search Section - Exact Home Style */
+        .search-section {
+            padding: 4px 16px 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            min-width: 0;
+            background: var(--pill-bg);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-sm);
+            height: 48px;
+        }
+
+        .search-input-wrapper img {
+            width: 18px;
+            height: 18px;
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .search-input-wrapper input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 14px 0;
+            font-size: 16px;
+            outline: none;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .search-input-wrapper input::placeholder {
+            color: var(--text-dim);
+        }
+
+        /* ----- Scroller ----- */
+        .scroller {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 0 120px;
+            scrollbar-width: none;
+            z-index: 1;
+        }
+
+        .scroller-spacer {
+            height: calc(var(--safe-area-top, 24px) + 120px);
+            flex-shrink: 0;
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Category Header (Floating style) */
+        .category-header {
+            padding: 16px 16px 12px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-color);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .category-header span {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .category-line {
+            flex: 1;
+            height: 1px;
+            background: rgb(70 107 169 / 30%);
+        }
+
+        /* Items Grid / List */
+        .items-container {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checklist-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .checklist-card:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+        }
+
+        .icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .icon-box img {
+            width: 22px;
+            height: 22px;
+            opacity: 0.7;
+        }
+
+        .content-box {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        .item-sub {
+            font-size: 13px;
+            color: var(--text-dim);
+            font-weight: 500;
+            display: block;
+        }
+
+        .chevron {
+            opacity: 0.3;
+        }
+
+        /* ----- Bottom Nav ----- */
+        .bottom-nav-wrapper {
+            position: absolute;
+            bottom: max(16px, var(--safe-area-bottom));
+            left: 0;
+            width: 100%;
+            padding: 0 16px;
+            z-index: 200;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s;
+        }
+
+        .nav-hidden .bottom-nav-wrapper {
+            transform: translateY(150px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .bottom-nav {
+            background: var(--accent-blue);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 54px;
+            padding: 0 24px;
+            border-radius: 27px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow:
+                0 12px 32px -8px rgba(15, 23, 42, 0.3),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            height: 38px;
+            width: 38px;
+            border-radius: 19px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-btn.active {
+            background: #ffffff;
+            width: 60px;
+        }
+
+        .nav-btn img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0) invert(1);
+            opacity: 0.65;
+            transition: all 0.3s;
+        }
+
+        .nav-btn.active img {
+            filter: brightness(0) saturate(100%) invert(38%) sepia(34%) saturate(1371%) hue-rotate(185deg) brightness(97%) contrast(89%);
+            opacity: 1;
+        }
+
+        /* Desktop Mockup */
+        @media (min-width: 500px) {
+            body {
+                background-color: #e2e8f0;
+                padding: 40px 0;
+                overflow: auto;
+            }
+
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                border: 12px solid #000;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- Fixed Header Segment (Hide on scroll) -->
+        <div class="header-wrapper" id="headerWrapper">
+            <header class="checklist-header">
+                <div class="header-top-row">
+                    <div class="header-title-pill">
+                        <h1>Checklists</h1>
+                    </div>
+                    <div class="header-actions">
+                        <div class="action-item">
+                            <img src="../images/star.svg" alt="Starred">
+                        </div>
+                    </div>
+                </div>
+                <div class="search-section">
+                    <div class="search-input-wrapper">
+                        <img src="../images/search.svg" alt="Search">
+                        <input type="text" placeholder="Search checklists...">
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <div class="scroller">
+            <div class="scroller-spacer"></div>
+            <!-- Category 1 -->
+            <div class="category-header">
+                <span>1</span>
+                <div class="category-line"></div>
+            </div>
+            <div class="items-container">
+                <a href="checklist-detail.html?title=10 point check list for Offences in Children's homes&sub=Crown Prosecution Service (CPS)"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">10 point check list for Offences in Children's homes</span>
+                        <span class="item-sub">Crown Prosecution Service (CPS)</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Category 8 -->
+            <div class="category-header">
+                <span>8</span>
+                <div class="category-line"></div>
+            </div>
+            <div class="items-container">
+                <a href="checklist-detail.html?title=8 Stages to Domestic Homicide&sub=By Prof Jane Monckton-Smith"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">8 Stages to Domestic Homicide</span>
+                        <span class="item-sub">By Prof Jane Monckton-Smith</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Category A -->
+            <div class="category-header">
+                <span>A</span>
+                <div class="category-line"></div>
+            </div>
+            <div class="items-container">
+                <a href="abuse-of-position-detail.html" class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Abuse of Position</span>
+                        <span class="item-sub">CJS Code: FA06003 | Date: 02-05-2025</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Actions on arrival at the scene&sub=Domestic Abuse Incident"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Actions on arrival at the scene</span>
+                        <span class="item-sub">Domestic Abuse Incident</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Affray (Officer Witness)&sub=Officer Witness Statement"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Affray (Officer Witness)</span>
+                        <span class="item-sub">Officer Witness Statement</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Affray (5-Part Statement)&sub=Officer Statement Inc. NDM Structure"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Affray (5-Part Statement)</span>
+                        <span class="item-sub">Officer Statement Inc. NDM Structure</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Assault&sub=Witness Statement (Victim)" class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Assault</span>
+                        <span class="item-sub">Witness Statement (Victim)</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Category B -->
+            <div class="category-header">
+                <span>B</span>
+                <div class="category-line"></div>
+            </div>
+            <div class="items-container">
+                <a href="checklist-detail.html?title=Bail Conditions Checklist&sub=Standard Operating Procedure"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Bail Conditions Checklist</span>
+                        <span class="item-sub">Standard Operating Procedure</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Burglary Attendance&sub=Initial Scene Requirements"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Burglary Attendance</span>
+                        <span class="item-sub">Initial Scene Requirements</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Category C -->
+            <div class="category-header">
+                <span>C</span>
+                <div class="category-line"></div>
+            </div>
+            <div class="items-container">
+                <a href="checklist-detail.html?title=Child Abuse Investigation&sub=Procedure and Immediate Actions"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Child Abuse Investigation</span>
+                        <span class="item-sub">Procedure and Immediate Actions</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Crime Scene Management&sub=Securing and Preserving Evidence"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Crime Scene Management</span>
+                        <span class="item-sub">Securing and Preserving Evidence</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Custody Handover&sub=Risk Assessment Summary"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Custody Handover</span>
+                        <span class="item-sub">Risk Assessment Summary</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Category D -->
+            <div class="category-header">
+                <span>D</span>
+                <div class="category-line"></div>
+            </div>
+            <div class="items-container">
+                <a href="checklist-detail.html?title=Domestic Abuse - DASH Assessment&sub=Risk Identification"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Domestic Abuse - DASH Assessment</span>
+                        <span class="item-sub">Risk Identification</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Drug Offences&sub=Search and Seizure Protocol"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Drug Offences</span>
+                        <span class="item-sub">Search and Seizure Protocol</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Category F -->
+            <div class="category-header">
+                <span>F</span>
+                <div class="category-line"></div>
+            </div>
+            <div class="items-container">
+                <a href="checklist-detail.html?title=Firearms Incident Response&sub=Initial Command Check"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Firearms Incident Response</span>
+                        <span class="item-sub">Initial Command Check</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Fraud Investigation&sub=Statements and Financial Docs"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Fraud Investigation</span>
+                        <span class="item-sub">Statements and Financial Docs</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Category M -->
+            <div class="category-header">
+                <span>M</span>
+                <div class="category-line"></div>
+            </div>
+            <div class="items-container">
+                <a href="checklist-detail.html?title=Missing Person (High Risk)&sub=Golden Hour Checklist"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Missing Person (High Risk)</span>
+                        <span class="item-sub">Golden Hour Checklist</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Missing Person (Medium Risk)&sub=Standard Operating Procedure"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Missing Person (Medium Risk)</span>
+                        <span class="item-sub">Standard Operating Procedure</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Category R -->
+            <div class="category-header">
+                <span>R</span>
+                <div class="category-line"></div>
+            </div>
+            <div class="items-container">
+                <a href="checklist-detail.html?title=Road Traffic Collision (Fatal)&sub=Road Closure %26 Investigation"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Road Traffic Collision (Fatal)</span>
+                        <span class="item-sub">Road Closure & Investigation</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Road Traffic Collision (Damage Only)&sub=Details Exchange Verification"
+                    class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Road Traffic Collision (Damage Only)</span>
+                        <span class="item-sub">Details Exchange Verification</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Category S -->
+            <div class="category-header">
+                <span>S</span>
+                <div class="category-line"></div>
+            </div>
+            <div class="items-container">
+                <a href="checklist-detail.html?title=Sudden Death&sub=Coroner's Protocol" class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Sudden Death</span>
+                        <span class="item-sub">Coroner's Protocol</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+                <a href="checklist-detail.html?title=Stop and Search&sub=GOWISELY Checklist" class="checklist-card">
+                    <div class="icon-box"><img src="../images/checklist.svg" alt="icon"></div>
+                    <div class="content-box">
+                        <span class="item-title">Stop and Search</span>
+                        <span class="item-sub">GOWISELY Checklist</span>
+                    </div>
+                    <div class="chevron">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <div class="bottom-nav-wrapper">
+            <nav class="bottom-nav">
+                <button class="nav-btn" onclick="window.location.href='index.html'"><img src="../images/search.svg"
+                        alt="Search"></button>
+                <button class="nav-btn"><img src="../images/tags.svg" alt="Tags"></button>
+                <button class="nav-btn active"><img src="../images/checklist.svg" alt="Clipboard"></button>
+                <button class="nav-btn"><img src="../images/phone-call.svg" alt="Contact"></button>
+                <button class="nav-btn" onclick="window.location.href='menu.html'"><img src="../images/bar.svg"
+                        alt="Menu"></button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Switcher -->
+
+    <script>
+        const scroller = document.querySelector('.scroller');
+        const headerWrapper = document.getElementById('headerWrapper');
+        let lastScrollY = scroller ? scroller.scrollTop : 0;
+
+        if (scroller && headerWrapper) {
+            let ticking = false;
+            scroller.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const currentScrollY = scroller.scrollTop;
+                        const delta = currentScrollY - lastScrollY;
+
+                        if (Math.abs(delta) > 5) {
+                            // Hiding condition
+                            if (currentScrollY > 100 && delta > 5) {
+                                headerWrapper.classList.add('header-hidden');
+                            }
+                            // Showing condition (intentional scroll up)
+                            else if (delta < -10 || currentScrollY < 20) {
+                                headerWrapper.classList.remove('header-hidden');
+                            }
+
+                            // Bottom Nav hide/show
+                            if (delta > 5 && currentScrollY > 100) {
+                                document.body.classList.add('nav-hidden');
+                            } else if (delta < -5 || currentScrollY < 100) {
+                                document.body.classList.remove('nav-hidden');
+                            }
+
+                            lastScrollY = currentScrollY;
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        }
+
+    </script>
+
+</body>
+
+</html>

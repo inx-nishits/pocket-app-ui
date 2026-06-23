@@ -1,0 +1,8 @@
+{
+  "name": "pocket-app-ui",
+  "version": "1.0.0",
+  "description": "Pocket App UI",
+  "scripts": {
+    "dev": "npx -y serve ."
+  }
+}

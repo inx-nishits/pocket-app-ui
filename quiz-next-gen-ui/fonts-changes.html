@@ -1,0 +1,246 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    /* 
+       INTERNAL OFFLINE FONT CONFIGURATION 
+       These point to the font files in your local /fonts/ directory.
+    */
+
+    @font-face {
+      font-family: 'LocalInter';
+      src: url('./fonts/Inter.ttf') format('truetype');
+      font-weight: 400;
+    }
+
+    @font-face {
+      font-family: 'LocalMerriweather';
+      src: url('./fonts/Merriweather.ttf') format('truetype');
+      font-weight: 400;
+    }
+
+    @font-face {
+      font-family: 'LocalMontserrat';
+      src: url('./fonts/Montserrat.ttf') format('truetype');
+      font-weight: 400;
+    }
+
+    @font-face {
+      font-family: 'LocalPoppins';
+      src: url('./fonts/Poppins.ttf') format('truetype');
+      font-weight: 400;
+    }
+
+    @font-face {
+      font-family: 'LocalLora';
+      src: url('./fonts/Lora.ttf') format('truetype');
+      font-weight: 400;
+    }
+
+    :root {
+      /* Theme Design Tokens */
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-primary: #1e293b;
+      --accent-blue: #2563eb;
+      --border-color: #e2e8f0;
+
+      /* Purely Class-Based Fonts */
+      --ui-font: 'LocalInter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --dynamic-content-font: 'LocalInter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      /* No font-family set on body or html */
+    }
+
+    /* Premium Minimal Control Panel - Bottom Right */
+    .controls-panel {
+      font-family: var(--ui-font);
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 160px;
+      padding: 10px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .controls-panel:hover {
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .control-label {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+    }
+
+    .font-select {
+      appearance: none;
+      background-color: #f8fafc;
+      border: 1px solid #f1f5f9;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 14px;
+    }
+
+    .font-select:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+    }
+
+    /* 
+       CLASS-BASED FORCEFUL FONT OVERRIDE:
+       Each class defines a specific typeface that overrides all children.
+       We set LocalInter as the base default for .fonts-changable.
+    */
+    .fonts-changable,
+    .fonts-changable * {
+      font-family: 'LocalInter', sans-serif !important;
+      transition: font-family 0.4s ease;
+    }
+
+    .fonts-changable.font-LocalMontserrat,
+    .fonts-changable.font-LocalMontserrat * {
+      font-family: 'LocalMontserrat', sans-serif !important;
+    }
+
+    .fonts-changable.font-LocalPoppins,
+    .fonts-changable.font-LocalPoppins * {
+      font-family: 'LocalPoppins', sans-serif !important;
+    }
+
+    .fonts-changable.font-LocalMerriweather,
+    .fonts-changable.font-LocalMerriweather * {
+      font-family: 'LocalMerriweather', serif !important;
+    }
+
+    .fonts-changable.font-LocalLora,
+    .fonts-changable.font-LocalLora * {
+      font-family: 'LocalLora', serif !important;
+    }
+
+    /* Transitions for smoother switching */
+    .fonts-changable * {
+      transition: font-family 0.4s ease;
+    }
+
+    .status-bar {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .offline-indicator {
+      font-size: 10px;
+      font-weight: 700;
+      color: #059669;
+      background: #ecfdf5;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Minimal Font Selection UI -->
+  <div class="controls-panel">
+    <label class="control-label" for="fontFamilySelect">Typeface</label>
+    <select class="font-select" id="fontFamilySelect" onchange="updateFontClass(this.value)">
+      <option value="LocalInter">Inter</option>
+      <option value="LocalMontserrat">Montserrat</option>
+      <option value="LocalPoppins">Poppins</option>
+      <option value="LocalMerriweather">Merriweather</option>
+      <option value="LocalLora">Lora</option>
+    </select>
+  </div>
+
+
+  <!-- Initial class set to LocalInter -->
+  <div class="content-wrapper fonts-changable font-LocalInter" id="targetContainer">
+    <!-- Original editor content starts here -->
+    <ul>
+      <li><span style="font-size:20px;"><span style="font-family:Tahoma,Geneva,sans-serif;">occupies a position in
+            which
+            he is expected to safeguard, or not to act against, the financial interests of another
+            person,</span></span>
+      </li>
+      <li><span style="font-size:20px;"><span style="font-family:Tahoma,Geneva,sans-serif;">abused that
+            position&nbsp;</span></span></li>
+      <li><span style="font-size:20px;"><span style="font-family:Tahoma,Geneva,sans-serif;">dishonestly</span></span>
+      </li>
+      <li><span style="font-size:20px;"><span style="font-family:Tahoma,Geneva,sans-serif;">intending by that abuse to
+            make a gain / cause a loss</span></span></li>
+    </ul>
+    <!-- Original editor content ends here -->
+  </div>
+
+
+  <script>
+    /**
+     * Updates the font by switching CSS classes on the container.
+     * This avoids using CSS Variables/Root styles as requested.
+     */
+    function updateFontClass(fontId) {
+      const target = document.getElementById('targetContainer');
+
+      // Remove all potential font classes
+      const fontClasses = ['font-LocalInter', 'font-LocalMontserrat', 'font-LocalPoppins', 'font-LocalMerriweather', 'font-LocalLora'];
+      target.classList.remove(...fontClasses);
+
+      // Add the selected one
+      target.classList.add('font-' + fontId);
+
+      localStorage.setItem('preferred-font-v2', fontId);
+      console.log('Class switched to: font-' + fontId);
+    }
+
+    // Load initial state
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedFont = localStorage.getItem('preferred-font-v2');
+
+      // Default to LocalInter if no preference is saved
+      const defaultFont = savedFont || 'LocalInter';
+
+      document.getElementById('fontFamilySelect').value = defaultFont;
+      updateFontClass(defaultFont);
+    });
+  </script>
+
+</body>
+
+</html>

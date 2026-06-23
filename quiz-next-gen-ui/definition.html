@@ -1,0 +1,179 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Theme Design Tokens */
+      --text-primary: #0f172a;
+      --accent-blue: #546EA4;
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      background-color: #ffffff;
+      font-family: var(--font-main);
+      display: flex;
+      justify-content: center;
+    }
+
+    /* 
+       NEW CLASS IMPLEMENTATION: .definition-content
+       We now use this specific class instead of .content-wrapper for styling.
+    */
+    .definition-content {
+      width: 100%;
+      word-break: break-word;
+    }
+
+    /* 
+       THEME NORMALIZER:
+       Neutralizes CKEditor's inline styles using the new .definition-content class.
+    */
+    .definition-content p,
+    .definition-content p span,
+    .definition-content p strong {
+      font-size: 14.5px !important;
+      line-height: 1.65 !important;
+      font-family: var(--font-main) !important;
+      color: inherit !important;
+      background: transparent !important;
+      text-decoration: none !important;
+      text-shadow: none !important;
+      margin: 0;
+    }
+
+    /* Primary paragraph styling for main points */
+    .definition-content p {
+      margin-bottom: 16px;
+      color: var(--text-primary);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .definition-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Authority Highlighting (Blue Labels) - Targeted by new class */
+    .definition-content strong {
+      color: var(--accent-blue) !important;
+      font-weight: 800 !important;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* Sub-item Grouping (Common Box) */
+    .sub-item-group {
+      background: #f8fafc !important;
+      border-radius: 16px !important;
+      margin: 16px 0 20px 0 !important;
+      overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+    }
+
+    .definition-content p.sub-item {
+      padding: 18px 20px !important;
+      padding-left: 24px !important;
+      background: transparent !important;
+      margin: 0 !important;
+      border: none !important;
+      border-radius: 0 !important;
+      font-weight: 500;
+      gap: 16px !important;
+    }
+
+    .definition-content p.sub-item:last-child {
+      border-bottom: none !important;
+    }
+
+    .definition-content p.sub-item:hover {
+      background-color: #ffffff !important;
+    }
+
+    .definition-content p.sub-item strong {
+      background: #ffffff !important;
+      padding: 2px 8px !important;
+      border-radius: 6px !important;
+      font-size: 13px !important;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+      color: var(--accent-blue) !important;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    .definition-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Added the 'definition-content' class as requested -->
+  <div class="content-wrapper definition-content" id="targetContainer">
+    <p><span style="font-size:20px;"><span style="font-family:Tahoma,Geneva,sans-serif;"><strong>(1)</strong>&nbsp; A
+          person subject to service law commits an offence if subsection (2) or (3) applies to him.</span></span></p>
+
+    <p><span style="font-size:20px;"><span style="font-family:Tahoma,Geneva,sans-serif;"><strong>(2)</strong>&nbsp; This
+          subsection applies to a person if he is intentionally or negligently absent without leave.<br />
+          <strong>(3)</strong>&nbsp; This subsection applies to a person if -<br />
+          <strong>(a)</strong> he does an act, being reckless as to whether it will cause him to be absent without
+          leave; and<br />
+          <strong>(b)</strong> it causes him to be absent without leave.</span></span><br />
+      &nbsp;</p>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const container = document.getElementById('targetContainer');
+      let rawHtml = container.innerHTML;
+
+      // Smart Splitter
+      let fixedHtml = rawHtml.replace(/<br\s*\/?>\s*(?:<span[^>]*>\s*)*<strong>/g, (match) => {
+        return '</span></span></p><p><span><span><strong>';
+      });
+
+      fixedHtml = fixedHtml.replace(/<br\s*\/?>\s*&nbsp;<\/p>/g, '</span></p>');
+      container.innerHTML = fixedHtml;
+
+      // Sub-point Detection
+      const paragraphs = Array.from(container.querySelectorAll('p'));
+      paragraphs.forEach((p) => {
+        const text = p.textContent.trim();
+        if (text.startsWith('(a)') || text.startsWith('(b)') || text.startsWith('(c)') || text.startsWith('(d)')) {
+          p.classList.add('sub-item');
+        }
+      });
+
+      // Group sub-items into a common box
+      let currentGroup = [];
+      const allPs = Array.from(container.querySelectorAll('p'));
+      allPs.forEach((p, idx) => {
+        if (p.classList.contains('sub-item')) {
+          currentGroup.push(p);
+          const isLastItem = idx === allPs.length - 1;
+          const nextIsNoSub = !isLastItem && !allPs[idx + 1].classList.contains('sub-item');
+          
+          if (isLastItem || nextIsNoSub) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'sub-item-group';
+            p.parentNode.insertBefore(wrapper, currentGroup[0]);
+            currentGroup.forEach(item => wrapper.appendChild(item));
+            currentGroup = [];
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

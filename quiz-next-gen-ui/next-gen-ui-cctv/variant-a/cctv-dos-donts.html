@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="./images/Ps-pro-logo.png">
+    <title>Pocket App - Guidance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #466ba9;
+            --accent-slate: #475569;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.05);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            display: flex; justify-content: center; align-items: flex-start;
+            min-height: 100vh; min-height: -webkit-fill-available;
+            color: var(--text-primary); overflow: hidden; overscroll-behavior-y: none;
+        }
+
+        html { height: -webkit-fill-available; -webkit-text-size-adjust: 100%; }
+
+        .app-container {
+            width: 100%; height: 100vh; height: 100dvh; background-color: var(--bg-color);
+            position: relative; overflow: hidden; display: flex; flex-direction: column;
+        }
+
+        .detail-header-wrapper {
+            flex-shrink: 0; overflow: hidden; z-index: 100;
+            background: var(--accent-blue);
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 16px);
+            padding-bottom: 12px; padding-left: 16px; padding-right: 16px;
+            background: var(--accent-blue); color: #ffffff;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+
+        .header-nav { display: flex; justify-content: space-between; align-items: center; }
+
+        .detail-header .nav-btn {
+            flex-shrink: 0; background: rgba(255, 255, 255, 0.15); border: none; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: #ffffff;
+            cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: transform 0.2s, background 0.2s;
+        }
+        .detail-header .nav-btn:active { transform: scale(0.9); background: rgba(255, 255, 255, 0.25); }
+
+        .detail-header .nav-btn svg {
+            width: 20px; height: 20px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        .title-block { min-width: 0; padding: 0 8px; text-align: center; flex: 1; }
+        .title-block h1 { font-size: 18px; font-weight: 600; line-height: 1.2; letter-spacing: -0.2px; margin: 0; }
+
+        .scroller {
+            flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden;
+            -webkit-overflow-scrolling: touch; padding-bottom: 40px; scrollbar-width: none;
+        }
+        .scroller::-webkit-scrollbar { display: none; }
+
+        .cards-container { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+
+        .card { background: var(--card-bg); border-radius: 12px; padding: 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+        
+        .header-card { flex-direction: row; align-items: center; gap: 12px; }
+        .header-icon { width: 40px; height: 40px; background: rgba(70,107,169,0.1); color: var(--accent-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; flex-shrink: 0;}
+        .header-text { font-size: 14px; color: var(--text-secondary); line-height: 1.4; }
+
+        .list-section-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .list-section-title.do { color: #16a34a; }
+        .list-section-title.dont { color: #dc2626; }
+
+        .list-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+        .list-item:last-child { margin-bottom: 0; }
+
+        .list-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 50%; }
+        .list-icon.do { background: #bbf7d0; color: #16a34a; }
+        .list-icon.dont { background: #fecaca; color: #dc2626; }
+        
+        .list-icon svg { width: 14px; height: 14px; stroke-width: 3; }
+        
+        .list-text { font-size: 15px; font-weight: 500; color: var(--text-primary); line-height: 1.4; padding-top: 2px; }
+
+        .footer-note { font-size: 12px; color: var(--text-dim); text-align: center; margin-top: 16px; }
+
+        @media (min-width: 500px) {
+            body { padding: 40px 0; background-color: #e2e8f0; overflow: auto; }
+            .app-container { max-width: 430px; border-radius: 50px; height: 932px; border: 12px solid #000; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15); }
+        }
+</style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header -->
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <div class="header-nav">
+                    <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='cctv-time-slip.html'">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="title-block">
+                        <h1>Guidance</h1>
+                    </div>
+                    <div style="width: 40px;"></div>
+                </div>
+</div>
+        </div>
+
+        <div class="scroller">
+            <div class="cards-container">
+                <div class="header-text" style="padding: 0 4px 8px 4px;">
+                    Guidance for interacting with CCTV Systems to preserve evidential integrity.
+                </div>
+
+                <!-- What you must do -->
+                <div class="card">
+                    <div class="list-section-title do">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        What you must do
+                    </div>
+                    
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Perform and document a time check – for all cameras if applicable</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Confirm the CCTV overwrite time period</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Perform initial viewing at the scene to establish relevance of footage</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Identify earliest recorded footage of the incident</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Make contemporaneous notes of everything you do (and don’t do!) and why</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Use only force-approved retrieval media</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Retrieve the original/native file format</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Retrieve the replay software as well as the footage</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Refer to any available manuals for the CCTV system – these may be available online!</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Act in accordance with your Force guidance and SOPs - if in doubt seek advice from your Digital Forensics Unit</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Produce a statement to exhibit CCTV footage</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="list-text">Produce master and working copies of the CCTV footage</div>
+                    </div>
+                </div>
+
+                <!-- What you must not do -->
+                <div class="card">
+                    <div class="list-section-title dont">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        What you must not do
+                    </div>
+                    
+                    <div class="list-item">
+                        <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                        <div class="list-text">Don’t forget to factor in Daylight Saving if the clocks have gone forward/back around the time of the incident.</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                        <div class="list-text">Don’t just record the screen – always retrieve the footage where possible</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                        <div class="list-text">Don’t let a witness view CCTV footage with you at the scene</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                        <div class="list-text">Don’t change times, dates or any settings</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                        <div class="list-text">Don’t switch off or unplug anything without seeking advice first – only physically recover an entire CCTV system as a last resort</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                        <div class="list-text">Don’t forget your obligations under CPIA!</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon dont"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                        <div class="list-text">Don’t put yourself at risk if a system is electrically unsafe or inaccessible</div>
+                    </div>
+                </div>
+
+                <div class="footer-note">
+                    &copy; College of Policing Limited (2022)
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

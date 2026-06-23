@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <title>5x5x5 Intelligence Submission</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #e9f5ff;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #466ba9;
+            --safe-area-top: env(safe-area-inset-top, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--text-primary);
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            background: var(--accent-blue);
+            border-radius: 0 0 28px 28px;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 16px);
+            padding-bottom: 12px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                0 4px 12px rgba(84, 110, 164, 0.15),
+                0 2px 4px rgba(0, 0, 0, 0.06);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            min-width: 0;
+            padding: 0 8px;
+            text-align: center;
+        }
+
+        .title-block h1 {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.2px;
+            margin: 0;
+        }
+
+        .title-block p {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 4px 0 0;
+        }
+
+        .scroller {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        strong {
+            font-weight: 700;
+            color: #000;
+        }
+
+        ul, ol {
+            padding-left: 18px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        @media (min-width: 500px) {
+            body { background: #e2e8f0; padding: 40px 0; }
+            .app-container {
+                max-width: 430px; border-radius: 50px; height: 932px;
+                border: 12px solid #000; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="detail-header-wrapper">
+            <div class="detail-header">
+                <div class="header-nav">
+                    <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='index.html'">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="title-block">
+                        <h1>5x5x5 Intelligence</h1>
+                        <p>National Intelligence Model</p>
+                    </div>
+                    <div style="width: 40px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroller">
+            <div class="section">
+                <p>The 5x5x5 system is the standard format used by UK law enforcement for the recording and evaluation of intelligence. It ensures that every piece of information is assessed for its reliability, its source, and how it should be handled.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">1. Source Evaluation</h2>
+                <ol>
+                    <li><strong>Always Reliable</strong>: An exhaustive history of reliability. No reason to doubt.</li>
+                    <li><strong>Mostly Reliable</strong>: Previous information has mostly been found to be correct.</li>
+                    <li><strong>Sometimes Reliable</strong>: Mixed history or limited provides; some doubt exists.</li>
+                    <li><strong>Unreliable</strong>: Known to have provided false information in the past.</li>
+                    <li><strong>Untested Source</strong>: No previous history; cannot be evaluated yet.</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">2. Information Evaluation</h2>
+                <ul>
+                    <li><strong>A: Known Directly</strong>: Witnessed by the source personally.</li>
+                    <li><strong>B: Known Indirectly (Corroborated)</strong>: Not witnessed but supported by other Grade A data.</li>
+                    <li><strong>C: Known Indirectly (Not Corroborated)</strong>: Hearsay or second-hand information; unverified.</li>
+                    <li><strong>D: Not Known</strong>: No way to assess the information's truth.</li>
+                    <li><strong>E: Suspected False</strong>: Information that contradicts known facts or logic.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">3. Handling Codes</h2>
+                <ol>
+                    <li><strong>Handling 1</strong>: Dissemination to other agencies permitted. No conditions.</li>
+                    <li><strong>Handling 2</strong>: Dissemination within the EEA law enforcement permitted.</li>
+                    <li><strong>Handling 3</strong>: Dissemination within non-EEA law enforcement only.</li>
+                    <li><strong>Handling 4</strong>: Dissemination to specified agencies only (with conditions).</li>
+                    <li><strong>Handling 5</strong>: Dissemination restricted to the home agency only.</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Operational Importance</h2>
+                <p>The 5x5x5 form is critical for <strong>sanitisation</strong>. Before intelligence is used in an investigation or shared with partners, it must be stripped of any details that could identify the source (Provenance).</p>
+                <p>Failure to correctly evaluate intelligence can lead to "Tunnel Vision" where investigators place too much weight on unreliable information, or conversely, ignore a critical lead because it was improperly graded.</p>
+            </div>
+
+            <p class="footer-note">College of Policing NIM Standards</p>
+        </div>
+    </div>
+
+</body>
+
+</html>

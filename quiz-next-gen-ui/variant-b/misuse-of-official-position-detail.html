@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="manifest.json">
+    <title>Misuse of Official Position - Variant B</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #546EA4;
+            --shadow-premium: 0 10px 40px -10px rgba(15, 23, 42, 0.12);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--text-primary);
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* ----- Variant B Premium Header ----- */
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0 0 32px 32px;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 12px);
+            padding-bottom: 16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--text-primary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-radius: 0 0 32px 32px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+            transition: all 0.2s;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.92);
+        }
+
+        .nav-btn svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            min-width: 0;
+            padding: 0;
+            text-align: left;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .title-block h1 {
+            font-size: 22px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
+            margin: 0;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .title-block p {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-dim);
+            letter-spacing: 0.3px;
+            margin: 1px 0 0;
+            line-height: 1.2;
+        }
+
+        /* ----- Scroller ----- */
+        .scroller {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 24px 20px 140px;
+            display: flex;
+            flex-direction: column;
+            scrollbar-width: none;
+            overscroll-behavior-y: contain;
+            touch-action: pan-y;
+            width: 100%;
+            position: relative;
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ----- Premium Section Card ----- */
+        .section-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-premium);
+            border: 1px solid rgba(15, 23, 42, 0.05);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .icon-wrapper {
+            width: 44px;
+            height: 44px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid #ebf0f5;
+        }
+
+        .icon-wrapper img {
+            width: 22px;
+            height: 22px;
+            /* Match Variant A's icon color filter */
+            filter: brightness(0) saturate(100%) invert(43%) sepia(12%) saturate(1637%) hue-rotate(184deg) brightness(93%) contrast(85%);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: -0.3px;
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        strong {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        ul,
+        ol {
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        li:last-child {
+            margin-bottom: 0;
+        }
+
+        .sub-item-group {
+            background: #f8fafc;
+            border-radius: 16px;
+            margin-top: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: none;
+        }
+
+        .sub-item {
+            background: transparent;
+            padding: 16px 20px;
+            border-radius: 0;
+            border: none;
+            margin-bottom: 0;
+            font-weight: 500;
+            display: block;
+            color: var(--text-primary);
+            transition: background 0.2s;
+        }
+
+        .sub-item:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Unified Points List Styling */
+        .points-list {
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: #f8fafc;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .points-list li {
+            position: relative;
+            padding: 16px 20px 16px 52px;
+            margin: 0;
+            border-bottom: 1px solid rgba(15, 23, 42, 0.03);
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: background 0.2s;
+        }
+
+        .points-list li:last-child {
+            border-bottom: none;
+        }
+
+        .points-list li:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .points-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 22px;
+            height: 22px;
+            background: #ffffff;
+            color: var(--accent-blue);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 900;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .case-file-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: #ffffff;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1.5px solid #f1f5f9;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .case-file-pill:active {
+            background: #f8fafc;
+            transform: scale(0.97);
+            border-color: var(--accent-blue);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .case-file-pill span {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .case-file-pill svg.chevron {
+            width: 18px;
+            height: 18px;
+            stroke: var(--accent-blue);
+            stroke-width: 2.5;
+            fill: none;
+            opacity: 0.6;
+            margin-left: 12px;
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-align: center;
+            margin-top: 24px;
+            font-style: italic;
+        }
+
+        /* Mockup Mobile Wrapper */
+        @media (min-width: 500px) {
+            body {
+                background-color: #e2e8f0;
+                padding: 40px 0;
+                overflow: auto;
+            }
+
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                border: 12px solid #000;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+            }
+        }
+
+        .v-btn-link.active {
+            background: #ffffff;
+            color: #0f172a;
+        }
+
+        /* Simple Modal - constrained to app-container */
+        .modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: #fff;
+            border-radius: 32px;
+            max-width: 380px;
+            width: 100%;
+            padding: 0;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-height: 75vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(0);
+            animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-card-header {
+            padding: 20px 28px;
+            border-bottom: 1px solid #f1f5f9;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            background: #fff;
+            border-radius: 32px 32px 0 0;
+        }
+
+        .modal-card h2 {
+            font-size: 18px;
+            margin: 0;
+            color: var(--accent-blue);
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .modal-body-content {
+            padding: 24px 28px;
+            overflow-y: auto;
+            flex: 1;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .modal-body-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .modal-body-content p {
+            margin-bottom: 12px;
+        }
+
+        .modal-body-content strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .modal-body-content ul,
+        .modal-body-content ol {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .modal-body-content li {
+            margin-bottom: 8px;
+        }
+
+        .close-btn {
+            border: none;
+            background: #e5e9f0;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:active {
+            transform: scale(0.9);
+            background: #d1d5db;
+        }
+    </style>
+    <style>
+        /* ----- Version Switcher (Discrete Bottom Bar) - Standardized ----- */
+        .version-switcher {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 8px 0 calc(env(safe-area-inset-bottom, 0px) + 6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 99999;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .version-switcher.hidden {
+            transform: translateY(100%);
+        }
+
+        .switcher-label {
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-right: 2px;
+        }
+
+        .v-btn {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .v-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .v-btn.active {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25);
+            border-color: #fff;
+            pointer-events: none;
+        }
+
+        .hide-switcher-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .hide-switcher-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Floating Restore Button (Visible only when bar is hidden) */
+        .switcher-restore-btn {
+            position: fixed;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 99998;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        .switcher-restore-btn.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .switcher-restore-btn img {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+
+        /* --- Spatial Progress Dock (FAB Premium Glass) --- */
+        .nav-fab-container {
+            position: absolute;
+            bottom: calc(var(--safe-area-bottom) + 85px);
+            right: 16px;
+            z-index: 9000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            pointer-events: none;
+        }
+
+        /* --- Simple Navigation FAB --- */
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.25);
+            cursor: pointer;
+            pointer-events: auto;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 9001;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .fab-main svg.icon-fab {
+            width: 24px;
+            height: 24px;
+            stroke: #fff;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-fab-container.active .fab-main svg.icon-fab {
+            transform: scale(0.85) rotate(22.5deg);
+        }
+
+        .fab-main svg.icon-fab rect {
+            fill: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Secondary Print CTA (Tactile Squircle Design) */
+        .fab-secondary {
+            width: 54px;
+            height: 54px;
+            background: #ffffff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 30px rgba(84, 110, 164, 0.25);
+            cursor: pointer;
+            pointer-events: auto;
+            position: relative;
+            margin-bottom: 12px;
+            border: 1px solid rgba(84, 110, 164, 0.15);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 9050;
+        }
+
+        .fab-secondary svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-blue);
+            stroke-width: 2.5;
+            fill: none;
+        }
+
+        .fab-secondary:active {
+            transform: scale(0.92) translateY(2px);
+            background: #f1f5f9;
+        }
+
+        /* The Dock (Ultra-Glass 'Frosted Crystal' Menu) */
+        .fab-dock {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.15),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transform: scale(0.6) translateY(50px);
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: bottom right;
+            position: absolute;
+            bottom: 134px;
+            right: 0;
+            z-index: 9200;
+        }
+
+        .nav-fab-container.active .fab-dock {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        .dock-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            color: var(--accent-blue);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+        }
+
+        .dock-item:active {
+            transform: scale(0.9);
+        }
+
+        .dock-item img,
+        .dock-item svg {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .dock-item:hover img,
+        .dock-item:hover svg {
+            transform: scale(1.1);
+        }
+
+        .dock-item img {
+            filter: brightness(0) saturate(100%) invert(43%) sepia(11%) saturate(2132%) hue-rotate(184deg) brightness(97%) contrast(85%);
+        }
+
+        .dock-item svg,
+        .dock-item svg * {
+            stroke: var(--accent-blue) !important;
+            fill: none;
+        }
+
+        .dock-item::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 52px;
+            background: rgba(15, 23, 42, 0.9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dock-item:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fab-glass-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.05);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 8000;
+        }
+
+        .nav-fab-container.active~.fab-glass-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Variant B Premium Header -->
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
+            <div class="detail-header">
+                <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='index.html'">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="title-block">
+                    <h1>Misuse of Official Position</h1>
+                    <p>Section 4 Fraud Act 2006</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Scroller -->
+        <div class="scroller">
+            <!-- Case Files Section -->
+            <div class="section-card">
+                <div class="card-header">
+                    <h2 class="section-title">Case Files</h2>
+                </div>
+                <div class="case-file-pill" onclick="openModal('gap_police')">
+                    <span>Anticipated Guilty Plea (GAP) - Initial Hearing - Police Charged</span>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+                <div class="case-file-pill" onclick="openModal('ngap_police')">
+                    <span>Anticipated Not Guilty Plea (NGAP) - Initial Hearing - Police Charged (including custody
+                        cases)</span>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+                <div class="case-file-pill" onclick="openModal('disclosure')">
+                    <span>Disclosure (Meeting the test) - NGAP and CPS Charging Decisions</span>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+                <div class="case-file-pill" onclick="openModal('charging')">
+                    <span>Charging Decision - Information Required</span>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+                <div class="case-file-pill" onclick="openModal('gap_cps')">
+                    <span>Anticipated Guilty Plea (GAP) - Initial Hearing - CPS Charged</span>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+                <div class="case-file-pill" onclick="openModal('ngap_cps')">
+                    <span>Anticipated Not Guilty Plea (NGAP) - Initial Hearing - CPS Charged</span>
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Definition Section -->
+            <div class="section-card" id="definitionAnchor">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <img src="../images/icons/definition.svg" alt="Definition">
+                    </div>
+                    <h2 class="section-title">Definition</h2>
+                </div>
+                <p><strong>(1)</strong> A person is in breach of this section if he:</p>
+                <div class="sub-item-group">
+                    <div class="sub-item"><strong>(a)</strong> occupies a position in which he is expected to safeguard, or
+                        not to act against, the financial interests of another person,</div>
+                    <div class="sub-item"><strong>(b)</strong> abused that position</div>
+                    <div class="sub-item"><strong>(c)</strong> dishonestly</div>
+                    <div class="sub-item"><strong>(d)</strong> intending by that abuse to make a gain / cause a loss</div>
+                </div>
+            </div>
+
+            <!-- Points to Prove -->
+            <div class="section-card" id="pointsAnchor">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <img src="../images/icons/points-to-prove.svg" alt="Points to Prove">
+                    </div>
+                    <h2 class="section-title">Points to Prove</h2>
+                </div>
+                <ul class="points-list">
+                    <li>occupies a position in which he is expected to safeguard, or not to act against, the financial
+                        interests of another person,</li>
+                    <li>abused that position</li>
+                    <li>dishonestly</li>
+                    <li>intending by that abuse to make a gain / cause a loss</li>
+                </ul>
+            </div>
+
+            <!-- Powers & Punishment -->
+            <div class="section-card" id="powersAnchor">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <img src="../images/icons/powers-and-punishment.svg" alt="Powers & Punishment">
+                    </div>
+                    <h2 class="section-title">Powers & Punishment</h2>
+                </div>
+                <p><strong>Recordable Offence:</strong> Yes</p>
+                <p><strong>Notifiable Offence:</strong> Yes</p>
+                <p style="margin-top: 12px;">Triable either way.</p>
+                <p>Tried on indictment - 10 years' imprisonment</p>
+                <p>Tried Summarily - 6 months' imprisonment and / or a fine</p>
+            </div>
+
+            <!-- Sufficient to Charge? -->
+            <div class="section-card" id="sufficientAnchor">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <img src="../images/icons/sufficient-to-charge.svg" alt="Sufficient to Charge">
+                    </div>
+                    <h2 class="section-title">Sufficient to Charge?</h2>
+                </div>
+                <p><strong><em>Anticipated Guilty Plea? - Clear and unambiguous admission and has said nothing that
+                            cannot be used as a defence OR the defendant has made no admission / defence & the evidence
+                            can be established by reliable evidence or the defendant is seen committing the offence on a
+                            good quality visual recording</em></strong></p>
+                <p>If this is an anticipated guilty plea, the police have the authority to charge
+                    <strong>unless</strong>:
+                </p>
+                <ul>
+                    <li>the loss or damage relating to the charge is more than £5000 or would exceed that sum if more
+                        than one offence is charged (or taken into consideration), or</li>
+                    <li>the overall circumstances of the offence are so serious that the court may decide that a
+                        sentence of more than six months imprisonment justifies sending the case to the crown court, or
+                    </li>
+                    <li>the offence has been committed whilst the suspect was subject to a Crown Court order then in
+                        force.</li>
+                </ul>
+                <p>If any of the above points apply, CPS advice should be sought.</p>
+                <p><strong><em>Anticipated Not Guilty Plea? Had denied the offence / said something which could be used
+                            as a defence</em></strong></p>
+                <p>CPS advice will need to be sought and this is a triable either way offence.</p>
+            </div>
+
+            <!-- Stated Cases -->
+            <div class="section-card" id="statedAnchor">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <img src="../images/icons/stated-cases.svg" alt="Stated Cases">
+                    </div>
+                    <h2 class="section-title">Stated Cases</h2>
+                </div>
+                <p style="color: var(--accent-blue); font-weight: 800; font-size: 15px; margin-bottom: 8px;">Guideline
+                    Breach of Trust Case</p>
+                <p><strong>R v Clark 1998</strong></p>
+                <p>Save in very exceptional circumstances, where a person in a position of trust, for example an
+                    accountant, a solicitor, a bank employee or a postman has used his trusted and privileged position
+                    to defraud his partners, clients employers or the general public of sizeable sums of money immediate
+                    imprisonment is inevitable unless there are exceptional circumstances or the amount of money
+                    involved is very small. The amount defrauded is an important factor and the following guidelines
+                    apply where the sums involved are:</p>
+                <ul
+                    style="font-size: 14px; background: #f8fafc; padding: 16px 16px 16px 36px; border-radius: 16px; border: 1px solid #edf2f7;">
+                    <li>Less than £17,500 up to 21 months imprisonment</li>
+                    <li>£17,500 to £100,000 2-3 years</li>
+                    <li>£100,000 to £250,000 3-4 years</li>
+                    <li>£250,000 to £1 million 5-9 years</li>
+                    <li>£1 million or more 10 years +</li>
+                </ul>
+                <hr style="border: none; border-top: 1px solid #f1f5f9; margin: 20px 0;">
+                <p><strong>R v Kefford (Mark James) 2002</strong></p>
+                <p>For economic crimes, alternative sentences to imprisonment could be appropriate punishment.</p>
+                <p>K was employed by a building society and opened false accounts into which he made windfall payments
+                    and then withdrew money as needed. The amount of £11,120 was taken. When interviewed the appellant
+                    immediately made full and frank confessions. He had no previous convictions. After the discovery of
+                    the offences the appellant sold his home so as to be able to repay the sums he had taken. Convicted
+                    of theft and false accounting. On appeal his sentence was reduced from 12 months imprisonment to 4
+                    months. The court commented that even in the present circumstances, in cases involving breach of
+                    trust where the sum involved was not small, the guidance in Clarke was still applicable even where
+                    it was a first offence, however, a sentence of imprisonment should only be imposed when necessary
+                    and only for as long as was necessary in view of the overcrowded prison system.</p>
+            </div>
+
+            <!-- Crime Report Section -->
+            <div class="section-card" id="crimeAnchor">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <img src="../images/icons/crime-report.svg" alt="Crime Report">
+                    </div>
+                    <h2 class="section-title">Crime Report</h2>
+                </div>
+                <p>A crime report should be submitted on victim confirmation or (as of 1st April 2015) if reported by
+                    <strong>parents, carers and professionals</strong> made on behalf of a victim.
+                </p>
+                <p>Persons acting in a <strong>professional capacity</strong> e.g. doctors, nurses, social workers and
+                    teachers reporting crimes, (often of a safeguarding nature), on behalf of victims of any age.</p>
+                <p><strong>Parents or carers</strong> acting as a guardian or responsible adult, ('in loco parentis')
+                    reporting crime in the best interests of and/or to ensure that a child or young person has
+                    appropriate access to police services.</p>
+            </div>
+
+            <!-- More Section -->
+            <div class="section-card" id="moreAnchor">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <img src="../images/icons/more.svg" alt="More">
+                    </div>
+                    <h2 class="section-title">More</h2>
+                </div>
+                <p style="color: var(--accent-blue); font-weight: 700;">The abuse may consist of an omission rather than
+                    an act</p>
+                <p>Like the other two Section 1 offences, Section 4 is entirely offender focused. It is complete once
+                    the Defendant carries out the act that is the abuse of his position. It is immaterial whether or not
+                    he is successful in his enterprise and whether or not any gain or loss is actually made.</p>
+                <p>As with all the Section 1 offences, though there need be no consequences to the offending, the
+                    existence and extent of those consequences will be very material to sentence, compensation and
+                    confiscation. It will still therefore be necessary to gather that evidence. In many instances it is
+                    the fact of the gain or loss that will prove the Defendant's dishonesty beyond reasonable doubt.</p>
+
+                <p style="color: var(--accent-blue); font-weight: 700; margin-top: 16px;">Position</p>
+                <p>The "position" required by section 4 is one that may be described as a position of trust. It could
+                    include company directors, trustees, business partners or employees. In many cases it will be one
+                    where there is a legal 'fiduciary' duty; but such a duty is not essential. It is, however, a
+                    position that carries something more than a moral obligation.</p>
+
+                <p style="color: var(--text-primary); font-weight: 800; margin-top: 16px;">The Law Commission explained
+                    the meaning of "position" as follows:</p>
+                <p
+                    style="font-style: italic; background: #f8fafc; padding: 16px; border-radius: 12px; border-left: 4px solid var(--accent-blue);">
+                    "The necessary relationship will be present between trustee and beneficiary, director and company,
+                    professional person and client, agent and principal, employee and employer, or between partners. It
+                    may arise otherwise, for example within a family, or in the context of voluntary work, or in any
+                    context where the parties are not at arm's length. In nearly all cases where it arises, it will be
+                    recognised by the civil law as importing fiduciary duties, and any relationship that is so
+                    recognised will suffice. We see no reason, however, why the existence of such duties should be
+                    essential. This does not, of course, mean that it would be entirely a matter for the fact finders
+                    whether the necessary relationship exists."</p>
+            </div>
+
+            <!-- CJS Codes Section -->
+            <div class="section-card" id="cjsAnchor">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <img src="../images/icons/cjs-codes.svg" alt="CJS Codes">
+                    </div>
+                    <h2 class="section-title">CJS Codes</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #f8fafc; border-radius: 14px; border: 1px solid #edf2f7;">
+                        <span style="font-weight: 700; font-size: 14px;">Fraud by abuse of position</span>
+                        <strong style="color: var(--accent-blue); font-family: monospace;">FA06003</strong>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #f8fafc; border-radius: 14px; border: 1px solid #edf2f7;">
+                        <span style="font-weight: 700; font-size: 14px;">Attempt fraud by abuse of position</span>
+                        <strong style="color: var(--accent-blue); font-family: monospace;">FA06003A</strong>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #f8fafc; border-radius: 14px; border: 1px solid #edf2f7;">
+                        <span style="font-weight: 700; font-size: 14px;">Conspire to commit fraud by abuse of
+                            position</span>
+                        <strong style="color: var(--accent-blue); font-family: monospace;">FA06003C</strong>
+                    </div>
+                </div>
+            </div>
+
+            <p class="footer-note">Fraud Act 2006 Standards</p>
+        </div>
+
+        <!-- Single Modal -->
+        <div id="simpleModal" class="modal">
+            <div class="modal-card">
+                <div class="modal-card-header">
+                    <h2 id="modalTitle">Case File Details</h2>
+                    <button class="close-btn" onclick="closeModal()">✕</button>
+                </div>
+                <div id="modalBody" class="modal-body-content">
+                    <p>Details about this case file category will be displayed here in a simplified view.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spatial Progress Dock (FAB Premium) HTML -->
+        <div class="nav-fab-container" id="navFabContainer">
+            <!-- Dock Menu -->
+            <div class="fab-dock">
+                <div class="dock-item" data-label="Definition" onclick="jumpTo('definitionAnchor')">
+                    <img src="../images/icons/definition.svg">
+                </div>
+                <div class="dock-item" data-label="Points to Prove" onclick="jumpTo('pointsAnchor')">
+                    <img src="../images/icons/points-to-prove.svg">
+                </div>
+                <div class="dock-item" data-label="Powers & Punishment" onclick="jumpTo('powersAnchor')">
+                    <img src="../images/icons/powers-and-punishment.svg">
+                </div>
+                <div class="dock-item" data-label="Sufficient To Charge?" onclick="jumpTo('sufficientAnchor')">
+                    <img src="../images/icons/sufficient-to-charge.svg">
+                </div>
+                <div class="dock-item" data-label="Stated Cases" onclick="jumpTo('statedAnchor')">
+                    <img src="../images/icons/stated-cases.svg">
+                </div>
+                <div class="dock-item" data-label="Crime Report" onclick="jumpTo('crimeAnchor')">
+                    <img src="../images/icons/crime-report.svg">
+                </div>
+                <div class="dock-item" data-label="More" onclick="jumpTo('moreAnchor')">
+                    <img src="../images/icons/more.svg">
+                </div>
+                <div class="dock-item" data-label="CJS Codes" onclick="jumpTo('cjsAnchor')">
+                    <img src="../images/icons/cjs-codes.svg">
+                </div>
+            </div>
+
+            <!-- Print Action FAB -->
+            <div class="fab-secondary" onclick="window.print()" title="Print Page">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+            </div>
+
+            <!-- Bento Grid FAB (All Sections) -->
+            <div class="fab-main" id="fabMain" onclick="toggleFabMenu()">
+                <svg class="icon-fab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                    <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                    <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                    <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Glass Background Overlay -->
+        <div class="fab-glass-overlay" id="fabGlassOverlay"></div>
+    </div>
+
+    <script>
+        const modalData = {
+            'gap_police': {
+                title: 'Anticipated Guilty Plea (GAP) - Initial Hearing - Police Charged',
+                html: `
+                    <p>The request for a charging decision must be submitted through the digital interface between the police and CPS where available, supported by the following information, where appropriate, in any form indicated in the National File Standard.</p>
+                    <p><strong>You need to ask yourself the following three questions:</strong></p>
+                    <ol style="margin-left: 20px; margin-bottom: 16px;">
+                        <li>Does the case file contain the material (as required by the National File Standard) that is needed to make the next hearing fully effective?</li>
+                        <li>Does the case meet the appropriate evidential standards in line with the Code for Crown Prosecutors? (Full Code or Threshold Test?)</li>
+                        <li>Was sufficient information provided to meet the relevant victim and witness requirements?</li>
+                    </ol>
+                    <hr style="border:none; border-top:1px dashed #e2e8f0; margin:16px 0;">
+                    <strong style="display: block; font-size: 11px; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 8px;">Is the anticipation of plea correct?</strong>
+                    <p>A guilty plea may be anticipated where the suspect has been interviewed and has made a clear admission to the offence and has offered no explanation that is capable of being used as a defence.</p>
+                    <p><strong>Non-interviewed suspects:</strong> Plea can be anticipated if identification is wholly established by police witnesses or clear visually recorded evidence.</p>
+                `
+            },
+            'ngap_police': {
+                title: 'Anticipated Not Guilty Plea (NGAP) - Initial Hearing - Police Charged',
+                html: `
+                    <p>Categorized as NGAP where the suspect denies the offence or maintains silence, and a trial is anticipated.</p>
+                    <strong>Key Requirements:</strong>
+                    <ul>
+                        <li>Full evidential review under Director’s Guidance (DG6).</li>
+                        <li>Identification of all digital and forensic evidence early.</li>
+                        <li>Initial disclosure schedules (MG6 series) must be accurate.</li>
+                    </ul>
+                    <p><em>Remind: Police can only charge specific summary-only offences without CPS authority.</em></p>
+                `
+            },
+            'disclosure': {
+                title: 'Disclosure (Meeting the test)',
+                html: `
+                    <p>Relevant to all NGAP cases to ensure fairness and trial integrity as per CPIA 1996.</p>
+                    <strong>The Disclosure Test:</strong>
+                    <p>Material which might reasonably be considered capable of undermining the case for the prosecution or of assisting the case for the accused.</p>
+                    <strong>Required Schedules:</strong>
+                    <ul>
+                        <li>MG6C: Non-sensitive material.</li>
+                        <li>MG6D: Sensitive material.</li>
+                        <li>MG6E: Disclosure Officer's Report.</li>
+                    </ul>
+                `
+            },
+            'charging': {
+                title: 'Charging Decision - Information Required',
+                html: `
+                    <p>Standard data pack required for any referral to the CPS for a formal charging decision.</p>
+                    <strong>Minimum File Content:</strong>
+                    <ul>
+                        <li>Summaries of interview and facts (MG5).</li>
+                        <li>Witness statements (MG11) for all key facts.</li>
+                        <li>Exhibits and digital evidence logs.</li>
+                        <li>Victim Personal Statements (VPS).</li>
+                    </ul>
+                    <p>Ensure the <strong>Full Code Test</strong> is considered before referral.</p>
+                `
+            },
+            'gap_cps': {
+                title: 'Anticipated Guilty Plea (GAP) - Initial Hearing - CPS Charged',
+                html: `
+                    <p>Applies when CPS has authorized the charge and a guilty plea is expected at court.</p>
+                    <strong>Police Actions:</strong>
+                    <ul>
+                        <li>Provide a sentencing-ready file.</li>
+                        <li>Ensure previous convictions (MG16) are up to date.</li>
+                        <li>Confirm victim's views on disposal.</li>
+                    </ul>
+                    <p>Early guilty pleas provide maximum sentence credit (up to 33%).</p>
+                `
+            },
+            'ngap_cps': {
+                title: 'Anticipated Not Guilty Plea (NGAP) - Initial Hearing - CPS Charged',
+                html: `
+                    <p>When CPS has authorized the charge but the case is contested (Trial expected).</p>
+                    <strong>Case Management:</strong>
+                    <ul>
+                        <li>Focus on trial readiness and strict disclosure deadlines.</li>
+                        <li>Review forensic requirements (SFR1/SFR2).</li>
+                        <li>Identify any complex legal issues (Bad Character, Hearsay).</li>
+                    </ul>
+                    <p>Continued review by CPS is required to maintain the Full Code Test.</p>
+                `
+            }
+        };
+
+        function openModal(key) {
+            const entry = modalData[key];
+            if (entry) {
+                document.getElementById('modalTitle').innerText = entry.title;
+                document.getElementById('modalBody').innerHTML = entry.html;
+            } else {
+                document.getElementById('modalTitle').innerText = key;
+                document.getElementById('modalBody').innerHTML = '<p>Details about this case file category will be displayed here.</p>';
+            }
+            document.getElementById('simpleModal').classList.add('active');
+            scroller.style.overflowY = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('simpleModal').classList.remove('active');
+            scroller.style.overflowY = 'auto';
+        }
+        const modalOverlay = document.getElementById('simpleModal');
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        // Toggle FAB Menu
+        function toggleFabMenu() {
+            document.getElementById('navFabContainer').classList.toggle('active');
+        }
+
+        // Jump to Section
+        function jumpTo(id) {
+            const el = document.getElementById(id);
+            const scroller = document.querySelector('.scroller');
+
+            if (el && scroller) {
+                const targetScroll = el.offsetTop;
+                scroller.scrollTo({
+                    top: targetScroll,
+                    behavior: 'smooth'
+                });
+                toggleFabMenu(); // Close after jump
+            }
+        }
+
+        const scroller = document.querySelector('.scroller');
+        const header = document.getElementById('detailHeaderWrapper');
+        const fabOverlay = document.getElementById('fabGlassOverlay');
+
+        // Close menu on overlay click
+        if (fabOverlay) {
+            fabOverlay.addEventListener('click', () => {
+                document.getElementById('navFabContainer').classList.remove('active');
+            });
+        }
+
+        let lastY = 0;
+        scroller.addEventListener('scroll', () => {
+            const y = scroller.scrollTop;
+            header.classList.toggle('header-hidden', y > 60 && y > lastY);
+            lastY = y;
+        }, { passive: true });
+    </script>
+
+    <!-- Version Switcher (Discrete Bottom Bar) -->
+    <div class="version-switcher" id="versionSwitcher">
+        <span class="switcher-label">Design Variant</span>
+        <a href="../variant-a/abuse-of-position-detail.html" class="v-btn ">A</a>
+        <a href="abuse-of-position-detail.html" class="v-btn active">B</a>
+        <button class="hide-switcher-btn" onclick="toggleSwitcher(true)">✕ Hide</button>
+    </div>
+
+    <!-- Restore Switcher Button -->
+    <div class="switcher-restore-btn" id="switcherRestore" onclick="toggleSwitcher(false)">
+        <img src="../images/filter.svg" alt="Switch">
+        Switch Design Variant
+    </div>
+
+    <script id="version-switcher-script">
+        function toggleSwitcher(hide) {
+            const switcher = document.getElementById('versionSwitcher');
+            const restore = document.getElementById('switcherRestore');
+            if (!switcher || !restore) return;
+            if (hide) {
+                switcher.classList.add('hidden');
+                restore.classList.add('visible');
+                localStorage.setItem('switcherHidden', 'true');
+            } else {
+                switcher.classList.remove('hidden');
+                restore.classList.remove('visible');
+                localStorage.setItem('switcherHidden', 'false');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('switcherHidden') === 'true') {
+                toggleSwitcher(true);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <!-- PWA / iOS Native App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pocket App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#466ba9">
+    <link rel="manifest" href="manifest.json">
+    <title>Checklist Detail - Spatial iOS 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #e9f5ff;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-dim: #94a3b8;
+            --border-color: #e2e8f0;
+            --accent-blue: #466ba9;
+            --accent-slate: #475569;
+            --pill-bg: #ffffff;
+            --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.08);
+            --safe-area-top: env(safe-area-inset-top, 24px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            height: 100%;
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--text-primary);
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100dvh;
+            background-color: var(--bg-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* ----- Detail Header (Blue Theme from Old UI) ----- */
+        .detail-header-wrapper {
+            flex-shrink: 0;
+            overflow: hidden;
+            max-height: 180px;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            background: var(--accent-blue);
+            border-radius: 0;
+        }
+
+        .detail-header-wrapper.header-hidden {
+            max-height: 0;
+        }
+
+        .detail-header {
+            padding-top: calc(var(--safe-area-top) + 16px);
+            padding-bottom: 12px;
+            padding-left: 16px;
+            padding-right: 16px;
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                0 4px 12px rgba(84, 110, 164, 0.15),
+                0 2px 4px rgba(0, 0, 0, 0.06);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-actions {
+            flex-shrink: 0;
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .title-block {
+            min-width: 0;
+            padding: 0 16px;
+            text-align: center;
+        }
+
+        .title-block h1 {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .title-block p {
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.2px;
+            margin: 1px 0 0;
+            line-height: 1.2;
+        }
+
+        /* ----- Scroller ----- */
+        .scroller {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 20px 0 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scrollbar-width: none;
+            /* Firefox */
+            overscroll-behavior-y: contain;
+            touch-action: pan-y;
+            width: 100%;
+        }
+
+        .scroller::-webkit-scrollbar {
+            display: none;
+            /* Safari and Chrome */
+        }
+
+        /* ----- Intro Text ----- */
+        .intro-text-wrapper {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .intro-text-wrapper p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .note-box {
+            background: #ffffff;
+            border-left: 4px solid var(--accent-blue);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .note-box strong {
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-right: 4px;
+        }
+
+        /* ----- Interactive Checklist Items ----- */
+        .checklist-items {
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            margin: 0;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(15, 23, 42, 0.05);
+            flex-shrink: 0;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 16px;
+            cursor: pointer;
+            position: relative;
+            background: #ffffff;
+            border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+            transition: background-color 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .check-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Alternating Highlight Style from old UI */
+        .check-item.highlight {
+            background-color: var(--bg-color);
+            /* Gentle blue-grey tint */
+        }
+
+        .check-item:active {
+            background-color: #e2e8f0;
+        }
+
+        /* Native Hidden Checkbox */
+        .check-item input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Custom iOS Style Checkbox */
+        .custom-checkbox {
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            border: 2px solid #cbd5e1;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Checkmark Icon inside the box */
+        .custom-checkbox::after {
+            content: '';
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-55%, -55%) rotate(45deg) scale(0);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Checked State Styling */
+        .check-item input:checked~.custom-checkbox {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            box-shadow: 0 4px 10px rgba(84, 110, 164, 0.3);
+            transform: scale(1.05);
+        }
+
+        .check-item input:checked~.custom-checkbox::after {
+            transform: translate(-55%, -55%) rotate(45deg) scale(1);
+        }
+
+        /* Bold text when checked */
+        .check-item input:checked~.check-text {
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .check-text {
+            font-size: 15px;
+            line-height: 1.4;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.2s;
+            flex: 1;
+        }
+
+        /* Mockup Mobile Wrapper */
+        @media (min-width: 500px) {
+            body {
+                background-color: #e2e8f0;
+                padding: 40px 0;
+                overflow: auto;
+            }
+
+            .app-container {
+                max-width: 430px;
+                border-radius: 50px;
+                height: 932px;
+                border: 12px solid #000;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Modern Blue Detail Header -->
+        <div class="detail-header-wrapper" id="detailHeaderWrapper">
+        <div class="detail-header">
+            <div class="header-nav">
+                <button class="nav-btn" onclick="history.length > 1 ? history.back() : location.href='checklist.html'">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="header-actions">
+                    <button class="nav-btn" onclick="resetCheckboxes()">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 2v6h-6"></path>
+                            <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+                            <path d="M3 22v-6h6"></path>
+                            <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="title-block">
+                <h1>Checklist for Offences in Children's Homes</h1>
+                <p>Comprehensive CPS Compliance Review</p>
+            </div>
+        </div>
+        </div>
+
+        <!-- Content Scroller -->
+        <div class="scroller">
+            <div class="intro-text-wrapper">
+                <p>The 10-Point Checklist requires a systematic approach to the decision to prosecute a child in care,
+                    referring to those in local authority care or accommodation, and must be completed before submitting
+                    to the CPS.</p>
+                <p>Whilst current practice dictates that this be completed for all cases going to CPS, best practice
+                    would be for this checklist to be completed for all cases involving a child looked after.</p>
+                <div class="note-box">
+                    <strong>NOTE:</strong> The 10-Point Checklist is currently being reviewed and will be replaced with
+                    a 5-Point Checklist. We will update this to the new 5-point checklist once available.
+                </div>
+            </div>
+
+            <!-- Single Container for List Items with alternating backgrounds -->
+            <div class="checklist-items">
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Disciplinary policy of the children's home</span>
+                </label>
+
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Why have the Police been involved and is it agreed in the policy? There
+                        should be an explanation from the home regarding their decision to involve the Police which
+                        should refer to the procedures and guidance on police involvement</span>
+                </label>
+
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Any informal action / disciplinary action already taken?</span>
+                </label>
+
+                <!-- Item 4 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Victim/staff views on whether formal action is necessary. Has restorative
+                        justice or mediation been considered as an alternative?</span>
+                </label>
+
+                <!-- Item 5 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">What is the exact nature and seriousness of the behaviour or
+                        offence?</span>
+                </label>
+
+                <!-- Item 6 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Does the child have any relevant previous convictions, reprimands,
+                        warnings, or ongoing investigations?</span>
+                </label>
+
+                <!-- Item 7 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Have all other avenues of dealing with the matter been explored within the
+                        home's behavioral framework?</span>
+                </label>
+
+                <!-- Item 8 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Has there been a recent change in the child's care plan, placement setting,
+                        familial contact, or medication that triggered this behavior?</span>
+                </label>
+
+                <!-- Item 9 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Is an informal warning, acceptable behaviour contract (ABC) or similar
+                        safeguarding intervention significantly more appropriate than prosecution?</span>
+                </label>
+
+                <!-- Item 10 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Extensive consideration of the child's individual complex needs (e.g.
+                        learning disabilities, ADHD, autism, past trauma, or attachment disorders).</span>
+                </label>
+
+                <!-- Item 11 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Is there an active multi-agency strategy in place that addresses the
+                        specific behaviours leading to this incident?</span>
+                </label>
+
+                <!-- Item 12 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Has the child’s Social Worker been informed and contributed to the
+                        assessment of whether police action is proportion?</span>
+                </label>
+
+                <!-- Item 13 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Review of any historical incidents involving this specific home to
+                        determine patterns of police reliance for behaviour management.</span>
+                </label>
+
+                <!-- Item 14 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">If damage to property is involved, what is the value of the damage?
+                        Could repair costs be managed through restorative methods?</span>
+                </label>
+
+                <!-- Item 15 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Are there any identifiable triggers for the child that staff were aware
+                        of but failed to adequately mitigate prior to the incident?</span>
+                </label>
+
+                <!-- Item 16 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Have any apologies or expressions of remorse been offered by the child
+                        following the incident?</span>
+                </label>
+
+                <!-- Item 17 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">What would be the likely psychological impact on the child if they were
+                        to undergo a formal prosecution process?</span>
+                </label>
+
+                <!-- Item 18 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Are any other children involved as co-accused or victims, and how does
+                        this affect the public interest test?</span>
+                </label>
+
+                <!-- Item 19 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Has a Youth Offending Team (YOT) or equivalent diversionary service
+                        been consulted regarding suitable non-criminal justice outcomes?</span>
+                </label>
+
+                <!-- Item 20 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Final Review: Considering all aforementioned points, does the
+                        evidentiary threshold and public interest test unequivocally justify submitting the file to
+                        the CPS?</span>
+                </label>
+
+                <!-- Item 21 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Has the child expressed any fears or concerns about the potential for
+                        court proceedings or contact with the police?</span>
+                </label>
+
+                <!-- Item 22 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Is there documentation of any de-escalation techniques that were used
+                        by staff before the decision was made to call for police assistance?</span>
+                </label>
+
+                <!-- Item 23 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Are there any cultural or religious factors that should be considered
+                        when assessing the child's reaction or the staff's response to the incident?</span>
+                </label>
+
+                <!-- Item 24 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Was the child under any significant emotional stress, such as a family
+                        bereavement or anniversary of a traumatic event, at the time of the offence?</span>
+                </label>
+
+                <!-- Item 25 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Has the home consulted with any independent advocates or legal
+                        representatives acting on behalf of the child?</span>
+                </label>
+
+                <!-- Item 26 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">What is the child's current education status, and how might a criminal
+                        record impact their remaining time in statutory education or future employment?</span>
+                </label>
+
+                <!-- Item 27 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Is the home currently meeting all the requirements set out in the
+                        National Minimum Standards for children's homes in relation to behaviour management?</span>
+                </label>
+
+                <!-- Item 28 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Could the incident be linked to the influence of other children in the
+                        home or potential exploitation by external individuals?</span>
+                </label>
+
+                <!-- Item 29 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Are there any existing court orders or local authority interventions
+                        that prosecution would conflict with or undermine?</span>
+                </label>
+
+                <!-- Item 30 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Summary Review: Has every reasonable alternative to criminalisation
+                        been exhausted in line with the concordat on children in care?</span>
+                </label>
+
+                <!-- Item 31 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Have any staff members involved in the incident received specific training
+                        in the care of children with harmful sexual behaviours or other high-risk indicators?</span>
+                </label>
+
+                <!-- Item 32 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Is there a clear record of the child's perspective on the incident and
+                        their reasons behind the alleged offence?</span>
+                </label>
+
+                <!-- Item 33 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Has the home's manager reviewed the incident to ensure that the response
+                        was in line with the home's stated Statement of Purpose?</span>
+                </label>
+
+                <!-- Item 34 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Were there any environmental factors in the home at the time (e.g.,
+                        overcrowding, noise, or high tension) that may have contributed to the outburst?</span>
+                </label>
+
+                <!-- Item 35 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Could the child's actions be a form of communication for an unmet need that
+                        they are unable to articulate?</span>
+                </label>
+
+                <!-- Item 36 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Was the police involvement sought primarily for 'containment' rather than
+                        because a crime was genuinely believed to have been committed?</span>
+                </label>
+
+                <!-- Item 37 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Has the impact of this incident on the child's long-term placement
+                        stability been assessed?</span>
+                </label>
+
+                <!-- Item 38 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Is prosecution likely to lead to a 'labeling' of the child as a criminal,
+                        potentially exacerbating future negative behaviours?</span>
+                </label>
+
+                <!-- Item 39 -->
+                <label class="check-item highlight">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Have the Independent Reviewing Officer (IRO) and the Virtual School Head
+                        (VSH) been consulted where appropriate?</span>
+                </label>
+
+                <!-- Item 40 -->
+                <label class="check-item">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="check-text">Final Determination: Does the balance of the CPS public interest test
+                        clearly outweigh the overarching duty to safeguard and promote the child's welfare?</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function resetCheckboxes() {
+            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                cb.checked = false;
+            });
+        }
+
+        // Handle Dynamic Title and Preservation of Links
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const title = urlParams.get('title');
+            const sub = urlParams.get('sub');
+
+            if (title) {
+                document.querySelector('.title-block h1').textContent = title;
+                document.title = title + " - Variant A";
+            }
+            if (sub) {
+                document.querySelector('.title-block p').textContent = sub;
+            }
+
+        });
+
+        // Header hide on scroll down, show on scroll up (same as Search page)
+        (function () {
+            const scroller = document.querySelector('.scroller');
+            const headerWrapper = document.getElementById('detailHeaderWrapper');
+            if (!scroller || !headerWrapper) return;
+            let lastScrollY = scroller.scrollTop;
+            scroller.addEventListener('scroll', () => {
+                const currentScrollY = scroller.scrollTop;
+                const delta = currentScrollY - lastScrollY;
+                const nearTop = currentScrollY <= 70;
+                const distanceFromBottom = scroller.scrollHeight - scroller.clientHeight - currentScrollY;
+                const nearBottom = distanceFromBottom <= 40;
+
+                // Ignore tiny deltas from momentum/rounding to prevent rapid toggles.
+                if (Math.abs(delta) <= 6) return;
+
+                // At/near top, keep header visible and stable.
+                if (nearTop) {
+                    headerWrapper.classList.remove('header-hidden');
+                    lastScrollY = currentScrollY;
+                    return;
+                }
+
+                // At/near bottom, ignore "bounce" upward deltas that cause the header to flash.
+                // Only allow showing the header again once the user has scrolled up away from bottom.
+                if (nearBottom && delta < 0) {
+                    lastScrollY = currentScrollY;
+                    return;
+                }
+
+                // Normal behavior everywhere else (including at bottom):
+                // scrolling down hides, scrolling up shows.
+                if (delta > 0) {
+                    headerWrapper.classList.add('header-hidden');
+                } else if (delta < 0) {
+                    headerWrapper.classList.remove('header-hidden');
+                }
+                lastScrollY = currentScrollY;
+            }, { passive: true });
+        })();
+    </script>
+
+</body>
+
+</html>
