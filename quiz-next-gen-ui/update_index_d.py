@@ -5,7 +5,7 @@ with open(path, 'r', encoding='utf-8') as f:
     content = f.read()
 
 # Introduce slate
-content = content.replace('--accent-blue: #546EA4;', '--accent-blue: #546EA4;\n            --accent-slate: #475569;')
+content = content.replace('--accent-blue: #466ba9;', '--accent-blue: #466ba9;\n            --accent-slate: #475569;')
 
 # Shadows to neutral slate
 content = content.replace('rgba(84, 110, 164', 'rgba(15, 23, 42')

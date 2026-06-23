@@ -11,7 +11,7 @@ with open(path, 'r', encoding='utf-8') as f:
     content = f.read()
 
 # 1. CSS adjustments (Typography & Slate variable)
-content = content.replace('--accent-blue: #546EA4;', '--accent-blue: #546EA4;\n            --accent-slate: #475569;')
+content = content.replace('--accent-blue: #466ba9;', '--accent-blue: #466ba9;\n            --accent-slate: #475569;')
 # search input font-size
 content = content.replace('padding: 14px 0;\n            font-size: 15px;', 'padding: 14px 0;\n            font-size: 16px;')
 # search cta font and color

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pocket-app-v77';
+const CACHE_NAME = 'pocket-app-v79';
 const ASSETS = [
   './',
   './index.html',
@@ -28,6 +28,7 @@ const ASSETS = [
   './images/checklist.svg',
   './images/contact-us.svg',
   './images/megaphone.svg',
+  './images/megaphone-black.svg',
   './images/ps-podcast.svg',
   './images/tags.svg',
   './images/phone-call.svg'

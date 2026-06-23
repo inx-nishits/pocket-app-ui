@@ -13,7 +13,7 @@ html_content = """<!DOCTYPE html>
     <title>Pocket App - New Horizon UI</title>
     <style>
         :root {
-            --bg-color: #F8FAFC;
+            --bg-color: var(--bg-color);
             --surface: #FFFFFF;
             --text-primary: #0F172A;
             --text-secondary: #64748B;
