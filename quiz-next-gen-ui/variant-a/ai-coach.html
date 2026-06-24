@@ -132,10 +132,13 @@
         }
 
         @keyframes pulse-border {
-            0%, 100% {
+
+            0%,
+            100% {
                 border-color: rgba(255, 255, 255, 0.2);
                 box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
             }
+
             50% {
                 border-color: var(--accent-cyan);
                 box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
@@ -339,10 +342,12 @@
         .feature-card.weak-areas::before {
             background: var(--accent-cyan);
         }
+
         .feature-card.weak-areas .card-icon-wrap {
             background: rgba(6, 182, 212, 0.08);
             color: var(--accent-cyan);
         }
+
         .feature-card.weak-areas .card-cta-btn {
             background: linear-gradient(135deg, var(--accent-cyan) 0%, #0891b2 100%);
             box-shadow: 0 4px 12px rgba(6, 182, 212, 0.18);
@@ -370,7 +375,8 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .action-chip:hover, .action-chip:active {
+        .action-chip:hover,
+        .action-chip:active {
             background: var(--accent-blue-light);
             border-color: var(--accent-blue);
             transform: translateY(-1px);
@@ -655,7 +661,8 @@
             letter-spacing: 0.5px;
         }
 
-        .form-select, .form-input {
+        .form-select,
+        .form-input {
             width: 100%;
             padding: 12px 14px;
             border-radius: 10px;
@@ -667,7 +674,8 @@
             transition: border-color 0.2s;
         }
 
-        .form-select:focus, .form-input:focus {
+        .form-select:focus,
+        .form-input:focus {
             border-color: var(--accent-blue);
         }
 
@@ -979,8 +987,9 @@
         .diag-readiness-circle .circle-progress {
             stroke: #ffffff;
             stroke-dasharray: 176;
-            stroke-dashoffset: 49.28; /* (1 - 0.72) * 176 */
-            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+            stroke-dashoffset: 49.28;
+            /* (1 - 0.72) * 176 */
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .weak-topics-list {
@@ -1065,7 +1074,8 @@
         <header class="app-header">
             <div class="header-top-row">
                 <button class="back-btn" onclick="window.location.href='quiz.html'" aria-label="Back">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </button>
@@ -1073,22 +1083,31 @@
                     <svg class="ai-avatar-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <!-- Outer glow and circles -->
                         <circle cx="50" cy="50" r="46" stroke="rgba(6, 182, 212, 0.15)" stroke-width="2" />
-                        <circle cx="50" cy="50" r="42" stroke="rgba(6, 182, 212, 0.3)" stroke-width="1.5" stroke-dasharray="6 3" />
+                        <circle cx="50" cy="50" r="42" stroke="rgba(6, 182, 212, 0.3)" stroke-width="1.5"
+                            stroke-dasharray="6 3" />
                         <!-- Shield Shape -->
-                        <path d="M50 20 C62 20, 72 26, 75 38 C75 56, 62 70, 50 78 C38 70, 25 56, 25 38 C28 26, 38 20, 50 20 Z" fill="url(#badgeGrad)" stroke="#466ba9" stroke-width="2" />
+                        <path
+                            d="M50 20 C62 20, 72 26, 75 38 C75 56, 62 70, 50 78 C38 70, 25 56, 25 38 C28 26, 38 20, 50 20 Z"
+                            fill="url(#badgeGrad)" stroke="#466ba9" stroke-width="2" />
                         <!-- Star Inside -->
-                        <path d="M50 34 L53.5 42 L62 42.5 L55.5 47.5 L57.5 56 L50 51.5 L42.5 56 L44.5 47.5 L38 42.5 L46.5 42 Z" fill="#ffffff" opacity="0.95" />
+                        <path
+                            d="M50 34 L53.5 42 L62 42.5 L55.5 47.5 L57.5 56 L50 51.5 L42.5 56 L44.5 47.5 L38 42.5 L46.5 42 Z"
+                            fill="#ffffff" opacity="0.95" />
                         <!-- Tech Lines -->
-                        <path d="M28 38 H40 L45 44" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.2" stroke-linecap="round" />
-                        <path d="M72 38 H60 L55 44" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.2" stroke-linecap="round" />
-                        <path d="M50 54 V64 L42 69" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.2" stroke-linecap="round" />
+                        <path d="M28 38 H40 L45 44" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.2"
+                            stroke-linecap="round" />
+                        <path d="M72 38 H60 L55 44" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.2"
+                            stroke-linecap="round" />
+                        <path d="M50 54 V64 L42 69" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.2"
+                            stroke-linecap="round" />
                         <!-- Nodes -->
                         <circle cx="45" cy="44" r="2" fill="#22d3ee" />
                         <circle cx="55" cy="44" r="2" fill="#22d3ee" />
                         <circle cx="42" cy="69" r="1.5" fill="#22d3ee" />
-                        
+
                         <defs>
-                            <linearGradient id="badgeGrad" x1="50" y1="20" x2="50" y2="78" gradientUnits="userSpaceOnUse">
+                            <linearGradient id="badgeGrad" x1="50" y1="20" x2="50" y2="78"
+                                gradientUnits="userSpaceOnUse">
                                 <stop offset="0%" stop-color="#466ba9" />
                                 <stop offset="100%" stop-color="#1b2e52" />
                             </linearGradient>
@@ -1114,9 +1133,12 @@
                     <div class="card-header-row">
                         <div class="card-icon-wrap">
                             <!-- Brain SVG -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-4.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2Z"/>
-                                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-4.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2Z"/>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-4.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2Z" />
+                                <path
+                                    d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-4.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2Z" />
                             </svg>
                         </div>
                         <div class="card-title-text">Generate Practice Questions</div>
@@ -1124,7 +1146,8 @@
                     <p class="card-desc">Create realistic promotion exam questions based on selected topics.</p>
                     <button class="card-cta-btn" onclick="openSimulator('questions')">
                         <span>Generate Questions</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </button>
@@ -1135,9 +1158,10 @@
                     <div class="card-header-row">
                         <div class="card-icon-wrap">
                             <!-- Book SVG -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
                             </svg>
                         </div>
                         <div class="card-title-text">Explain a Topic</div>
@@ -1151,7 +1175,8 @@
                     </div>
                     <button class="card-cta-btn" onclick="openSimulator('explain')">
                         <span>Ask AI</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </button>
@@ -1162,9 +1187,10 @@
                     <div class="card-header-row">
                         <div class="card-icon-wrap">
                             <!-- Podium / Medal SVG -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="8" r="6"/>
-                                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="6" />
+                                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
                             </svg>
                         </div>
                         <div class="card-title-text">Promotion Board Coach</div>
@@ -1177,7 +1203,8 @@
                     </div>
                     <button class="card-cta-btn" onclick="openSimulator('board')">
                         <span>Start Coaching</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </button>
@@ -1188,18 +1215,21 @@
                     <div class="card-header-row">
                         <div class="card-icon-wrap">
                             <!-- Shield Exclamation SVG -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                <line x1="12" y1="8" x2="12" y2="12"/>
-                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
                             </svg>
                         </div>
                         <div class="card-title-text">Review My Weak Areas</div>
                     </div>
-                    <p class="card-desc">AI analyzes previous quiz and exam performance and recommends topics requiring improvement.</p>
+                    <p class="card-desc">AI analyzes previous quiz and exam performance and recommends topics requiring
+                        improvement.</p>
                     <button class="card-cta-btn" onclick="openSimulator('weak')">
                         <span>View Recommendations</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </button>
@@ -1210,22 +1240,28 @@
             <div class="section-title">Suggested Questions</div>
             <div class="chips-grid">
                 <button class="action-chip" onclick="askChip('Explain PACE Code A')">Explain PACE Code A</button>
-                <button class="action-chip" onclick="askChip('Test me on Criminal Law')">Test me on Criminal Law</button>
-                <button class="action-chip" onclick="askChip('Generate 10 Sergeant Exam Questions')">Generate 10 Sergeant Exam Questions</button>
-                <button class="action-chip" onclick="askChip('Help me prepare for a Promotion Board')">Help me prepare for a Promotion Board</button>
-                <button class="action-chip" onclick="askChip('Explain Disclosure Rules')">Explain Disclosure Rules</button>
-                <button class="action-chip" onclick="askChip('Test my Evidence Knowledge')">Test my Evidence Knowledge</button>
+                <button class="action-chip" onclick="askChip('Test me on Criminal Law')">Test me on Criminal
+                    Law</button>
+                <button class="action-chip" onclick="askChip('Generate 10 Sergeant Exam Questions')">Generate 10
+                    Sergeant Exam Questions</button>
+                <button class="action-chip" onclick="askChip('Help me prepare for a Promotion Board')">Help me prepare
+                    for a Promotion Board</button>
+                <button class="action-chip" onclick="askChip('Explain Disclosure Rules')">Explain Disclosure
+                    Rules</button>
+                <button class="action-chip" onclick="askChip('Test my Evidence Knowledge')">Test my Evidence
+                    Knowledge</button>
             </div>
 
             <!-- Recent AI Sessions Section -->
             <div class="section-title">Recent AI Sessions</div>
             <div class="recent-sessions-list">
-                
+
                 <!-- Session 1 -->
                 <div class="recent-session-card" onclick="openSessionDetails('Criminal Law Revision')">
                     <div class="session-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                         </svg>
                     </div>
                     <div class="session-text-content">
@@ -1234,7 +1270,8 @@
                     </div>
                     <div class="session-score-tag">85% Score</div>
                     <div class="session-chevron">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </div>
@@ -1243,9 +1280,10 @@
                 <!-- Session 2 -->
                 <div class="recent-session-card" onclick="openSessionDetails('PACE Explanation')">
                     <div class="session-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
                         </svg>
                     </div>
                     <div class="session-text-content">
@@ -1254,7 +1292,8 @@
                     </div>
                     <div class="session-score-tag status-tag">Completed</div>
                     <div class="session-chevron">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </div>
@@ -1263,9 +1302,10 @@
                 <!-- Session 3 -->
                 <div class="recent-session-card" onclick="openSessionDetails('Promotion Board Practice')">
                     <div class="session-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="8" r="6"/>
-                            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="8" r="6" />
+                            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
                         </svg>
                     </div>
                     <div class="session-text-content">
@@ -1274,7 +1314,8 @@
                     </div>
                     <div class="session-score-tag">95% Score</div>
                     <div class="session-chevron">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </div>
@@ -1283,9 +1324,12 @@
                 <!-- Session 4 -->
                 <div class="recent-session-card" onclick="openSessionDetails('Evidence Quiz')">
                     <div class="session-icon-box">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-4.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2Z"/>
-                            <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-4.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2Z"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1 0-3.12 3 3 0 0 1 0-4.88 2.5 2.5 0 0 1 0-3.12A2.5 2.5 0 0 1 9.5 2Z" />
+                            <path
+                                d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 0-3.12 3 3 0 0 0 0-4.88 2.5 2.5 0 0 0 0-3.12A2.5 2.5 0 0 0 14.5 2Z" />
                         </svg>
                     </div>
                     <div class="session-text-content">
@@ -1294,7 +1338,8 @@
                     </div>
                     <div class="session-score-tag">78% Score</div>
                     <div class="session-chevron">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </div>
@@ -1312,7 +1357,8 @@
                 <button class="nav-btn" onclick="window.location.href='checklist.html'"><img
                         src="../images/checklist.svg" alt="Clipboard"></button>
                 <button class="nav-btn"><img src="../images/phone-call.svg" alt="Contact"></button>
-                <button class="nav-btn" onclick="window.location.href='menu.html'"><img src="../images/bar.svg" alt="Menu"></button>
+                <button class="nav-btn" onclick="window.location.href='menu.html'"><img src="../images/bar.svg"
+                        alt="Menu"></button>
             </nav>
         </div>
 
@@ -1322,8 +1368,9 @@
             <div class="sheet-drag-handle"></div>
             <div class="sheet-header">
                 <div class="sheet-title" id="sheetTitle">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                     <span>AI Coach Interactive</span>
                 </div>
@@ -1547,7 +1594,7 @@
         function startGenerating() {
             document.getElementById('simForm').style.display = 'none';
             document.getElementById('simLoading').style.display = 'flex';
-            
+
             setTimeout(() => {
                 document.getElementById('simLoading').style.display = 'none';
                 const topic = document.getElementById('qTopic').value;
