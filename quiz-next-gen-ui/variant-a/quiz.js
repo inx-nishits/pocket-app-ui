@@ -2883,6 +2883,7 @@ const QuizEngine = {
     initPracticeAids: function () {
         this.practiceAidsStep = 1;
         this.practiceSelectedMains = [];
+        this.practiceExpandedMains = [];
         this.practiceSelectedSubs = [];
         this.practiceSelectedSubSubs = [];
         this.practiceCollapsedSubs = []; // Tracks collapsed sub-topic headers in step 3
@@ -2916,12 +2917,13 @@ const QuizEngine = {
         const isDisabled = this.practiceSelectedCount === null;
         Object.keys(this.practiceAidsData).forEach(mainTopic => {
             const isSelected = this.practiceSelectedMains.includes(mainTopic);
+            const isExpanded = this.practiceExpandedMains.includes(mainTopic);
             const cardOpacity = isDisabled ? '0.5' : '1';
             const cardPointerEvents = isDisabled ? 'none' : 'auto';
 
             html += `
-                <div style="margin-bottom: ${isSelected ? '0' : '12px'}; opacity: ${cardOpacity}; pointer-events: ${cardPointerEvents}; transition: all 0.3s ease;">
-                    <div class="practice-card ${isSelected ? 'selected' : ''}" onclick="QuizEngine.togglePracticeMain('${mainTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; cursor: pointer; border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-bottom-color: ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; background: #ffffff; border-radius: ${isSelected ? '16px 16px 0 0' : '16px'}; transition: all 0.2s ease; position: relative; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                <div style="margin-bottom: ${isExpanded ? '0' : '12px'}; opacity: ${cardOpacity}; pointer-events: ${cardPointerEvents}; transition: all 0.3s ease;">
+                    <div class="practice-card ${isSelected ? 'selected' : ''}" onclick="QuizEngine.togglePracticeMainExpand('${mainTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; cursor: pointer; border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-bottom-color: ${isExpanded ? (isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)') : (isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)')}; background: #ffffff; border-radius: ${isExpanded ? '16px 16px 0 0' : '16px'}; transition: all 0.2s ease; position: relative; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
                         
                         <!-- Left Side: Emoji & Title -->
                         <div style="display: flex; align-items: center; gap: 16px; flex: 1;">
@@ -2933,17 +2935,17 @@ const QuizEngine = {
                         
                         <!-- Right Side: Checkbox -->
                         <div style="display: flex; align-items: center;">
-                            <div class="mixed-checkbox" style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid ${isSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0;">
+                            <div class="mixed-checkbox" onclick="event.stopPropagation(); QuizEngine.togglePracticeMain('${mainTopic}')" style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid ${isSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0;">
                                 ${isSelected ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
                             </div>
                         </div>
                     </div>
             `;
 
-            // Render subtopics if this main topic is selected
-            if (isSelected) {
+            // Render subtopics if this main topic is expanded
+            if (isExpanded) {
                 const subTopics = this.practiceAidsData[mainTopic].subTopics;
-                html += `<div style="border: 1.5px solid #466ba9; border-top: none; border-radius: 0 0 16px 16px; background: #ffffff; padding: 12px 16px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.05);">`;
+                html += `<div style="border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-top: none; border-radius: 0 0 16px 16px; background: #ffffff; padding: 12px 16px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.05);">`;
 
                 Object.keys(subTopics).forEach((subTopic) => {
                     const isSubSelected = this.practiceSelectedSubs.includes(subTopic);
@@ -2988,6 +2990,27 @@ const QuizEngine = {
         this.updatePracticeFooter();
     },
 
+    togglePracticeMainExpand: function (topic) {
+        if (this.practiceExpandedMains.includes(topic)) {
+            this.practiceExpandedMains = this.practiceExpandedMains.filter(t => t !== topic);
+        } else {
+            this.practiceExpandedMains.push(topic);
+        }
+
+        // Save current scroll position
+        const container = document.querySelector('#view-practice-topic .view-content');
+        const scrollPos = container ? container.scrollTop : 0;
+
+        this.renderPracticeStep1();
+
+        // Restore scroll position after render frame to prevent flickering
+        if (container) {
+            requestAnimationFrame(() => {
+                container.scrollTop = scrollPos;
+            });
+        }
+    },
+
     togglePracticeMain: function (topic) {
         if (this.practiceSelectedMains.includes(topic)) {
             // Deselect main topic
@@ -3005,6 +3028,10 @@ const QuizEngine = {
                     this.practiceSelectedSubs.push(sub);
                 }
             });
+            // Also expand it so the user can see what was checked
+            if (!this.practiceExpandedMains.includes(topic)) {
+                this.practiceExpandedMains.push(topic);
+            }
         }
 
         // Save current scroll position
