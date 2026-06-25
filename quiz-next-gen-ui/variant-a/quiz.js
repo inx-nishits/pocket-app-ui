@@ -1033,8 +1033,8 @@ const QuizEngine = {
         if (this.timerInterval) clearInterval(this.timerInterval);
 
         // If it's a Live Challenge, count down. Otherwise count up.
-        // For testing the timeout scenario quickly, set to 2 seconds per question (instead of 30)
-        this.timeLeft = this.totalQuestions * 2;
+        // 1 minute total for the exam (for quick scenario testing)
+        this.timeLeft = 60;
 
         this.timerInterval = setInterval(() => {
             this.timeLeft--;
@@ -1095,8 +1095,12 @@ const QuizEngine = {
                 mockActions.style.display = 'block';
                 const mockSkipBtn = document.getElementById('mock-skip-btn');
                 if (mockSkipBtn) {
-                    mockSkipBtn.style.display = 'inline-block';
-                    mockSkipBtn.innerText = 'Skip Question';
+                    if (this.isReviewingSkipped) {
+                        mockSkipBtn.style.display = 'none';
+                    } else {
+                        mockSkipBtn.style.display = 'inline-block';
+                        mockSkipBtn.innerText = 'Skip Question';
+                    }
                 }
             } else {
                 mockActions.style.display = 'none';
@@ -1280,6 +1284,15 @@ const QuizEngine = {
                     inlineXp.style.color = '#ffffff';
                     inlineXp.innerText = '+0 XP Earned';
                     inlineStreakMsg.innerText = `🔥 Streak Lost`;
+                }
+
+                // Hide XP and Accuracy for Practice Aids
+                if (this.currentMode === 'Practice By Topic') {
+                    inlineXp.style.display = 'none';
+                    inlineAccuracy.style.display = 'none';
+                } else {
+                    inlineXp.style.display = 'block';
+                    inlineAccuracy.style.display = 'block';
                 }
             }
 
