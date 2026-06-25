@@ -3698,26 +3698,13 @@
                         8/10</div>
 
                     <div
-                        style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 20px; border-top: 1px dashed #e2e8f0; padding-top: 20px;">
+                        style="display: flex; justify-content: center; margin-top: 20px; border-top: 1px dashed #e2e8f0; padding-top: 20px;">
                         <div>
                             <div
                                 style="font-size: 12px; color: #64748b; font-weight: 600; font-family: 'Inter', sans-serif; margin-bottom: 4px;">
                                 Accuracy</div>
-                            <div id="solo-accuracy-val" style="font-size: 18px; font-weight: 700; color: #1e293b;">80%
+                            <div id="solo-accuracy-val" style="font-size: 24px; font-weight: 700; color: #1e293b;">80%
                             </div>
-                        </div>
-                        <div>
-                            <div
-                                style="font-size: 12px; color: #64748b; font-weight: 600; font-family: 'Inter', sans-serif; margin-bottom: 4px;">
-                                XP Earned</div>
-                            <div id="solo-xp-val" style="font-size: 18px; font-weight: 700; color: #f59e0b;">+40 XP
-                            </div>
-                        </div>
-                        <div>
-                            <div
-                                style="font-size: 12px; color: #64748b; font-weight: 600; font-family: 'Inter', sans-serif; margin-bottom: 4px;">
-                                Streak</div>
-                            <div id="solo-streak-val" style="font-size: 18px; font-weight: 700; color: #10b981;">7</div>
                         </div>
                     </div>
                 </div>
@@ -3738,6 +3725,11 @@
                         <span style="color: #64748b; font-weight: 500;">Incorrect Answers</span>
                         <span id="solo-incorrect-val" style="color: #ef4444; font-weight: 700;">2</span>
                     </div>
+                    <div id="solo-skipped-container"
+                        style="display: none; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
+                        <span style="color: #64748b; font-weight: 500;">Skipped Answers</span>
+                        <span id="solo-skipped-val" style="color: #f59e0b; font-weight: 700;">0</span>
+                    </div>
                     <div
                         style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
                         <span style="color: #64748b; font-weight: 500;">Average Time</span>
@@ -3748,7 +3740,7 @@
                         <span style="color: #64748b; font-weight: 500;">Best Topic</span>
                         <span id="solo-best-topic-val" style="color: #1e293b; font-weight: 700;">Criminal Law</span>
                     </div>
-                    <div
+                    <div id="solo-weakest-topic-container"
                         style="display: flex; justify-content: space-between; padding: 10px 0; font-family: 'Inter', sans-serif;">
                         <span style="color: #64748b; font-weight: 500;">Weakest Topic</span>
                         <span id="solo-weakest-topic-val" style="color: #1e293b; font-weight: 700;">PACE</span>
@@ -4334,13 +4326,13 @@
                         <svg viewBox="0 0 36 36" class="circular-chart blue large">
                             <path class="circle-bg"
                                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            <path class="circle" stroke-dasharray="80, 100"
+                            <path id="analytics-circle" class="circle" stroke-dasharray="80, 100"
                                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            <text x="18" y="20.5" class="percentage">80%</text>
+                            <text id="analytics-percentage" x="18" y="20.5" class="percentage">80%</text>
                         </svg>
                     </div>
-                    <h3>Excellent Accuracy!</h3>
-                    <p>You answered 8 out of 10 questions correctly.</p>
+                    <h3 id="analytics-title">Excellent Accuracy!</h3>
+                    <p id="analytics-subtitle">You answered 8 out of 10 questions correctly.</p>
                 </div>
 
                 <div class="section-title-wrapper mt-4">

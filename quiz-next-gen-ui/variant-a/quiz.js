@@ -26,7 +26,7 @@ const QuizEngine = {
                 "Misuse of Drugs": { badge: "", subSubs: { "Classification": 8, "Possession": 10, "Supplying": 10, "Possession with Intent to Supply": 4, "Supply of Articles": 3, "Production of a Controlled Drug": 3, "Cultivation of Cannabis": 3, "General Defence under Section 28": 9, "Occupiers etc": 2, "Assisting or Inducing Offence Outside United Kingdom": 1, "Incitement": 1, "Travel Restriction Orders": 4, "Police Powers": 7, "Psychoactive and Intoxicating Substances": 5 } },
                 "Firearms and Gun Crime": { badge: "Bronze", subSubs: { "Definitions – Firearm, Ammunition and Imitation Firearm": 8, "Section 1 Firearm": 5, "Restrictions on Transfer of Firearms": 1, "Imitation Firearm Offences": 2, "Prohibited Weapon": 14, "General Exemptions": 6, "Criminal Use of Firearms": 21, "Further Firearms Offences": 8, "Police Powers": 8, "Possession or Acquisition of Firearms by Convicted Persons": 6 } },
                 "Weapons": { badge: "Silver", subSubs: { "Having Offensive Weapon in Public Place": 15, "Threatening with Offensive Weapon in Public": 2, "Having Bladed or Pointed Article in Public Place": 6, "Offences and Powers Relating to School Premises": 9, "Trespassing With Weapon of Offence": 4, "Manufacture and Sale of Weapons": 7, "Knives": 6 } },
-                "Racially and Religiously Aggravated Offences": { badge: "Rare", subSubs: { "'Racially or Religiously Aggravated'": 21 } },
+                "Racially and Religiously Aggravated Offences": { badge: "Rare", subSubs: { "Racially or Religiously Aggravated": 21 } },
                 "Non-Fatal Offences Against the Person": { badge: "Silver", subSubs: { "Assault": 8, "Battery": 1, "Consent": 7, "Assault Offences": 19, "Other Assault Offences": 12, "Threats to Kill": 3 } },
                 "Offences Involving the Deprivation of Liberty": { badge: "Rare", subSubs: { "False Imprisonment": 6, "Kidnapping": 3, "Slavery, Servitude and Forced or Compulsory Labour": 7 } },
                 "Sexual Offences": { badge: "", subSubs: { "Anonymity": 1, "Rape": 17, "Assault": 16, "Causing Sexual Activity without Consent": 2, "Rape and Other Offences Against Children Under 13": 2, "Child Sex Offences": 23, "Abuse of Position of Trust": 11, "Familial Child Sex Offences": 2, "Offences Involving Photographs and Images of Children": 20, "Sexual Exploitation of Children": 13, "Possession of a Paedophile Manual": 4, "Offences Outside the United Kingdom": 9, "Sexual Offences Against People with a Mental Disorder Impeding Choice": 1, "Offences Relating to Prostitution": 17, "Preparatory Offences": 5, "Sex with an Adult Relative": 3, "Other Sexual Offences": 18, "Possession of Extreme Pornographic Images": 1 } },
@@ -39,41 +39,41 @@ const QuizEngine = {
         "Evidence & Procedure": {
             icon: "1f4c4.png",
             subTopics: {
-                "Instituting Criminal Proceedings": { badge: "Silver", subSubs: { "Example": 10 } },
-                "Release of Person Arrested": { badge: "Bronze", subSubs: { "Example": 10 } },
-                "Court Procedure and Witnesses": { badge: "Bronze", subSubs: { "Example": 10 } },
-                "Exclusion of Admissible Evidence": { badge: "Bronze", subSubs: { "Example": 10 } },
-                "Disclosure of Evidence": { badge: "", subSubs: { "Example": 10 } },
-                "Detention and Treatment of Persons by Police Officers: PACE Code C": { badge: "", subSubs: { "Example": 10 } },
-                "Identification: PACE Code D": { badge: "", subSubs: { "Example": 10 } },
-                "Interviews: PACE Codes C, E and F": { badge: "", subSubs: { "Example": 10 } }
+                "Instituting Criminal Proceedings": { badge: "Silver", subSubs: { "Written Charge and Requisition": 2, "Service of Summons, Written Charge and Requisition": 3, "Service Outside England and Wales": 1, "Execution of Warrants": 6 } },
+                "Release of Person Arrested": { badge: "Bronze", subSubs: { "Person Arrested Elsewhere than at a Police Station": 18, "Pre-Charge Release of Person Arrested and Bail": 12, "Police Bail After Charge": 2, "Police Bail Restrictions": 6, "Grounds for Refusing Police Bail": 12, "Custody Officer – Granting Bail": 9, "Police Bail – Surety": 8, "Security": 2, "Liability to Arrest for Absconding or Breaking Bail Conditions": 4, "Offence of Absconding by Person Released on Bail": 2, "Remands in Police Custody": 1 } },
+                "Court Procedure and Witnesses": { badge: "Bronze", subSubs: { "Plea of Guilty by Post": 2, "Mode of Trial": 4, "Witnesses": 19, "Special Measures": 5, "Refreshing Memory": 6, "Oaths and Affirmations": 1, "Cross-Examination": 2 } },
+                "Exclusion of Admissible Evidence": { badge: "Bronze", subSubs: { "Confessions": 15, "Exclusion of Evidence Generally": 10, "Entrapment": 5 } },
+                "Disclosure of Evidence": { badge: "", subSubs: { "Failure to Comply": 5, "Disclosure Code of Practice – 2 Definitions": 3, "Disclosure Code of Practice – 3 General Responsibilities": 5, "Disclosure Code of Practice – 5 Retention of Material": 7, "Disclosure Code of Practice – 6 Preparation of Material for Prosecutor": 11, "Disclosure Code of Practice – 7 Revelation of Material to Prosecutor": 3, "Disclosure Code of Practice – 8 Subsequent Action by Disclosure Officer": 12, "Disclosure Code of Practice – 10 Disclosure of Material to Accused": 6 } },
+                "Detention and Treatment of Persons by Police Officers: PACE Code C": { badge: "", subSubs: { "Custody Officer": 5, "Designated Person": 2, "Designated Police Station": 1, "Police Detention": 3, "Code C – 1 General": 6, "Code C – 2 Custody Records": 7, "Code C – 3 Initial Action": 21, "Code C – 4 Detainee's Property": 10, "Code C – 5 Right not to be Held Incommunicado": 10, "Code C – 6 Right to Legal Advice": 15, "Code C – 7 Citizens of Independent Commonwealth Countries or Foreign Nationals": 1, "Code C – 8 Conditions of Detention": 6, "Code C – 9 Care and Treatment of Detained Persons": 9, "Code C – 13 Interpreters": 10, "Code C – 14 Questioning – Special Restrictions": 1, "Limits on Period of Detention without Charge": 11, "Code C – 15 Reviews and Extensions of Detention": 38, "Code C – 16 Charging Detained Persons": 13, "Cautions as a Means of Disposal": 3, "Code C – 17 Testing Persons for Presence of Specified Class A Drugs": 7, "Code C – Annex A – Intimate and Strip Searches": 10, "Code C – Annex E: Summary of Provisions Relating to Vulnerable Persons": 2, "Code C – Annex K – X-Rays and Ultrasound Scans": 2, "Code C – Annex L – Establishing Gender of Persons for the Purpose of Searching and Certain other Procedures": 2 } },
+                "Identification: PACE Code D": { badge: "", subSubs: { "Introduction": 1, "Code D – 2 General": 1, "Code D – 3 Identification by Witnesses": 38, "Code D – 4 Identification by Fingerprints and Footwear Impressions": 21, "Code D – 5 Examinations to Establish Identity and the Taking of Photographs": 10, "Code D – 6 Identification by Body Samples and Impressions": 23, "Code D – Annex A: Video Identification": 4, "Code D – Annex B: Identification Parades": 4, "Code D – Annex C: Group Identification": 2, "Code D – Annex D: Confrontation by an Eye-witness": 1, "Code D – Annex E: Showing Photographs to Eye Witnesses": 3, "Code D – Annex F: Fingerprints, Samples and Footwear Impressions – Destruction and Speculative Searches": 3, "Code D – Annex G: Requirement for a Person to Attend a Police Station for Fingerprints and Samples": 1 } },
+                "Interviews: PACE Codes C, E and F": { badge: "", subSubs: { "Code C – 10 Cautions": 11, "Code C – 11 Interviews – General": 17, "Code C – 12 Interviews in Police Stations": 11, "Code C – Annex C: Restriction on Drawing Adverse Inferences from Silence and Terms of the Caution when the Restriction Applies": 2, "Code C – Annex D: Written Statements under Caution": 1, "Code E – 1 General": 1, "Code E – 2 Interviews and other matters to be audio recorded under this Code": 2, "Code E – 3 Interview recording using removable recording media device": 11, "Code F – 1 General": 1, "Code F – 2 When interviews and matters to which Code F applies may be visually recorded with sound and provisions for their conduct and recording": 2, "Interviews on Behalf of Scottish Forces and Vice Versa": 2 } }
             }
         },
         "General Police Duties": {
             icon: "1f46e.png",
             subTopics: {
-                "Stop and Search": { badge: "", subSubs: { "Example": 10 } },
-                "Entry, Search and Seizure": { badge: "", subSubs: { "Example": 10 } },
-                "Powers of Arrest": { badge: "Bronze", subSubs: { "Example": 10 } },
-                "Protection of People Suffering from Mental Disorders": { badge: "Gold", subSubs: { "Example": 10 } },
-                "Offences Relating to Land and Premises": { badge: "", subSubs: { "Example": 10 } },
-                "Licensing and Offences Relating to Alcohol": { badge: "", subSubs: { "Example": 10 } },
-                "Protecting Citizens and the Community: Injunctions, Orders and Police Powers": { badge: "Bronze", subSubs: { "Example": 10 } },
-                "Processions and Assemblies": { badge: "", subSubs: { "Example": 10 } },
-                "Public Order Offences": { badge: "Silver", subSubs: { "Example": 10 } },
-                "Sporting Events": { badge: "", subSubs: { "Example": 10 } },
-                "Domestic Violence and Abuse": { badge: "Silver", subSubs: { "Example": 10 } },
-                "Hatred and Harassment Offences": { badge: "Silver", subSubs: { "Example": 10 } },
-                "Offences and Powers Relating to Information and Communications": { badge: "", subSubs: { "Example": 10 } },
-                "Offences Against the Administration of Justice & Public Interest": { badge: "", subSubs: { "Example": 10 } },
-                "Terrorism and Associated Offences": { badge: "", subSubs: { "Example": 10 } },
-                "Diversity, Equality and Inclusion": { badge: "", subSubs: { "Example": 10 } },
-                "Complaints and Misconduct": { badge: "", subSubs: { "Example": 10 } },
-                "Unsatisfactory Performance and Attendance": { badge: "", subSubs: { "Example": 10 } },
-                "Road Policing Definitions and Principles": { badge: "", subSubs: { "Example": 10 } },
-                "Key Police Powers Relating to Road Policing": { badge: "Bronze", subSubs: { "Example": 10 } },
-                "Offences Involving Standards of Driving": { badge: "", subSubs: { "Example": 10 } },
-                "Drink, Drugs and Driving": { badge: "", subSubs: { "Example": 10 } }
+                "Stop and Search": { badge: "", subSubs: { "Code A – 1 Principles Governing Stop and Search": 4, "Code A – 2 Types of Stop and Search Powers": 29, "Code A – 3 Conduct of Searches": 7, "Code A – 4 Recording Requirements": 9 } },
+                "Entry, Search and Seizure": { badge: "", subSubs: { "Code B – 2 General": 4, "Code B – 3 Search Warrants and Production Orders": 5, "Search Warrants for Indictable Offences": 3, "Execution of a Warrant": 1, "Code B – 4 Entry without Warrant – Particular Powers": 20, "Code B – 5 Search with Consent": 2, "Code B – 6 Searching Premises – General Considerations": 6, "Code B – 7 Seizure and Retention of Property": 13, "Code B – 8 Action After Searches": 2 } },
+                "Powers of Arrest": { badge: "Bronze", subSubs: { "Code G – 1 Introduction": 4, "Code G – 2 Elements of Arrest under Section 24 PACE": 11, "Code G – 3 Information to be Given on Arrest": 4, "Code G – 4 Records of Arrest": 1, "Arrest Without Warrant – \"Citizen's Arrest\"": 3, "Voluntary Attendance at a Police Station": 2, "After Arrest": 3 } },
+                "Protection of People Suffering from Mental Disorders": { badge: "Gold", subSubs: { "Removal etc of Mentally Disordered Persons Without a Warrant": 5, "Retaking of Patients Escaping from Custody": 2 } },
+                "Offences Relating to Land and Premises": { badge: "", subSubs: { "Aggravated Trespass": 2, "Failure to Leave Land or Re-entry to Land when Directed to Leave": 1, "Power to Remove Trespassers on Land": 10, "Power to Remove Trespassers: Alternative Site Available": 6, "Squatting in a Residential Building": 1, "Nuisance on Educational Premises": 6, "Causing Nuisance or Disturbance on NHS Premises": 2 } },
+                "Licensing and Offences Relating to Alcohol": { badge: "", subSubs: { "Power of Entry to Investigate Licensable Activities or Offences": 3, "Drunk and Disorderly": 3, "Found Drunk": 1, "Children – Offences under the Licensing Act 2003": 15, "Children – Other Offences": 9, "Licensed Premises: Exclusion Orders": 1, "Orders to Close Premises in Area Experiencing Disorder": 2, "Closure Notices and Orders for Unlicensed Premises": 2 } },
+                "Protecting Citizens and the Community: Injunctions, Orders and Police Powers": { badge: "Bronze", subSubs: { "Injunctions to Prevent Gang-related Violence and Drug Dealing Activity": 2, "Injunctions under the Anti-social Behaviour, Crime and Policing Act 2014": 3, "Criminal Behaviour Orders": 4, "Dispersal Powers": 4, "Community Protection Notices": 1, "Public Spaces Protection Orders": 2, "Closure of Premises Associated with Nuisance and Disorder": 2, "Orders Against Parents": 12, "Removal of Truants and Excluded Pupils to Designated Premises, etc.": 9 } },
+                "Processions and Assemblies": { badge: "", subSubs: { "Public Processions and Assemblies": 10 } },
+                "Public Order Offences": { badge: "Silver", subSubs: { "Breach of the Peace": 12, "Riot": 8, "Violent Disorder": 6, "Affray": 7, "Fear or Provocation of Violence": 4, "Intentional Harassment Alarm or Distress": 7, "Harassment Alarm or Distress": 8 } },
+                "Sporting Events": { badge: "", subSubs: { "Designated and Regulated Football Matches": 2, "The Football (Offences) Act 1991": 7, "Banning Orders and Detention": 4, "The Sporting Events (Control of Alcohol etc) Act 1985": 13, "Ticket Touts": 3 } },
+                "Domestic Violence and Abuse": { badge: "Silver", subSubs: { "Domestic Violence Protection Notices and Orders": 3 } },
+                "Hatred and Harassment Offences": { badge: "Silver", subSubs: { "Offences Involving Racial, Religious or Sexual Orientation Hatred": 7, "The Harassment Offences": 13, "Putting People in Fear of Violence": 6, "The Stalking Offences": 2, "Police Direction to Prevent Intimidation or Harassment": 2 } },
+                "Offences and Powers Relating to Information and Communications": { badge: "", subSubs: { "Offences Under the Computer Misuse Act 1990": 13, "The Data Protection Act 2018": 5, "The Regulation of Investigatory Powers Act 2000": 20, "Offence of Sending Letters etc. with Intent to Cause Distress or Anxiety": 3, "False Communications Offence": 1, "Improper Use of Public Electronic Communications Network": 5 } },
+                "Offences Against the Administration of Justice & Public Interest": { badge: "", subSubs: { "Perjury": 5, "Offences Similar to Perjury": 2, "Perverting the Course of Justice": 4, "Considerations Affecting Witnesses, Jurors and Others": 6, "Assisting Offenders": 8, "Concealing Relevant Offences": 3, "Miscellaneous Offences Relating to Offenders": 5, "Wasting Police Time": 6 } },
+                "Terrorism and Associated Offences": { badge: "", subSubs: { "Terrorism Defined": 4, "Terrorism Act 2000: Financial Measures": 2, "Terrorism Act 2000: Duty of Disclosure and Tipping Off": 2, "Terrorism Act 2006: Offences": 3, "Terrorism Act 2000: Police Powers": 3, "Cordons": 6, "Offences Involving Explosive Substance": 5 } },
+                "Diversity, Equality and Inclusion": { badge: "", subSubs: { "Article 14 – Prohibition of Discrimination": 1, "Protected Characteristics": 12, "Discrimination": 6, "Police Officers": 1, "Employees and Applicants": 5, "Liability for Discrimination in Employment": 2 } },
+                "Complaints and Misconduct": { badge: "", subSubs: { "The Standards of Professional Behaviour": 5, "The Role of the Police Friend": 5, "Misconduct Procedures": 6, "Misconduct Proceedings": 8, "Accelerated Misconduct Cases": 1, "Appeals to the Police Appeals Tribunal": 3 } },
+                "Unsatisfactory Performance and Attendance": { badge: "", subSubs: { "Applicability": 3, "The First Stage": 6, "The Second Stage": 3, "The Third Stage": 7, "Attendance at Each Stage of the Procedures and Ill Health": 1, "Other Regulations": 6, "Offences": 13, "Health and Safety": 1 } },
+                "Road Policing Definitions and Principles": { badge: "", subSubs: { "Mechanically Propelled Vehicle": 3, "Motor Vehicle": 7, "Driver": 1, "Drive and Driving": 7, "Attempting to Drive": 1, "In Charge": 3, "Road": 10, "Public Place": 4, "Use, Cause or Permit": 9, "Defences in Relation to Road Policing Offences": 16 } },
+                "Key Police Powers Relating to Road Policing": { badge: "Bronze", subSubs: { "Power to Stop a Vehicle": 7, "Road Checks": 13, "Power to Require Production of a Driving Licence": 7, "Power to Require Name and Address/Insurance/Test Certificate": 5, "Power to Seize Vehicles Driven without Licence or Insurance": 10, "Duty to Give Information as to Identity to Driver": 13 } },
+                "Offences Involving Standards of Driving": { badge: "", subSubs: { "Causing Death by Dangerous Driving": 17, "Causing Serious Injury by Dangerous Driving": 2, "Dangerous Driving": 13, "Causing Death by Careless Driving When Under the Influence of Drink or Drugs": 6, "Causing Death by Careless or Inconsiderate Driving": 6, "Causing Death by Driving: Unlicensed, Disqualified or Uninsured Drivers": 7, "Careless and Inconsiderate Driving": 16, "The Highway Code": 6 } },
+                "Drink, Drugs and Driving": { badge: "", subSubs: { "Introduction": 2, "Unfit Through Drink or Drugs": 16, "Over Prescribed Limit": 13, "Preliminary Tests": 46, "Evidential Specimens": 50, "Hospital Procedure": 3, "Detention of Persons Affected": 6 } }
             }
         }
     },
@@ -461,6 +461,7 @@ const QuizEngine = {
 
     // --- Routing & Navigation ---
     stopConfetti: function () {
+        QuizEngine.isConfettiActive = false;
         if (typeof confetti === 'function' && QuizEngine.myConfetti) {
             QuizEngine.myConfetti.reset();
         }
@@ -655,7 +656,7 @@ const QuizEngine = {
     proceedExit: function () {
         this.cancelExit();
         this.navigateBack();
-        
+
         if (this.currentMode === 'Practice By Topic') {
             const returnView = this.history.length >= 2 ? this.history[this.history.length - 2] : null;
             if (returnView === 'view-practice-topic') {
@@ -682,7 +683,7 @@ const QuizEngine = {
                 if (title) title.innerText = 'Select Main Topics';
                 const footer = document.getElementById('practice-aids-footer');
                 if (footer) footer.style.transform = 'translateY(100%)';
-                
+
                 this.renderPracticeStep1();
             }
         }
@@ -742,7 +743,7 @@ const QuizEngine = {
         // Permanently delete current progress
         localStorage.removeItem('saved_exam_progress');
         this.updateResumeWidget();
-        
+
         this.navigateBack();
         if (this.currentMode === 'Practice By Topic') {
             const returnView = this.history.length >= 2 ? this.history[this.history.length - 2] : null;
@@ -770,7 +771,7 @@ const QuizEngine = {
                 if (title) title.innerText = 'Select Main Topics';
                 const footer = document.getElementById('practice-aids-footer');
                 if (footer) footer.style.transform = 'translateY(100%)';
-                
+
                 this.renderPracticeStep1();
             }
         }
@@ -1003,7 +1004,9 @@ const QuizEngine = {
             this.streak = 0;
             this.bestStreak = 0;
             this.totalXp = 0;
-            this.totalQuestions = parseInt(document.getElementById('preview-count').innerText) || 5;
+            if (this.currentMode !== 'Practice By Topic') {
+                this.totalQuestions = parseInt(document.getElementById('preview-count').innerText) || 5;
+            }
         }
 
         const streakEl = document.getElementById('active-streak');
@@ -1030,8 +1033,8 @@ const QuizEngine = {
         if (this.timerInterval) clearInterval(this.timerInterval);
 
         // If it's a Live Challenge, count down. Otherwise count up.
-        // Let's implement a countdown timer for better urgency (e.g. 10 mins).
-        this.timeLeft = this.totalQuestions * 30; // 30 seconds per question
+        // For testing the timeout scenario quickly, set to 2 seconds per question (instead of 30)
+        this.timeLeft = this.totalQuestions * 2;
 
         this.timerInterval = setInterval(() => {
             this.timeLeft--;
@@ -1325,7 +1328,32 @@ const QuizEngine = {
         overlay.classList.add('hidden');
 
         if (this.isReviewingSkipped) {
-            this.showSkippedQuestionsView();
+            let nextSkipped = -1;
+            // Search forward
+            for (let i = this.currentQuestion; i < this.totalQuestions; i++) {
+                if (!this.mockAnswers[i] || !this.mockAnswers[i].answered) {
+                    nextSkipped = i;
+                    break;
+                }
+            }
+            // Search backward if not found forward
+            if (nextSkipped === -1) {
+                for (let i = 0; i < this.currentQuestion - 1; i++) {
+                    if (!this.mockAnswers[i] || !this.mockAnswers[i].answered) {
+                        nextSkipped = i;
+                        break;
+                    }
+                }
+            }
+
+            if (nextSkipped !== -1) {
+                this.reviewSkippedQuestion(nextSkipped);
+            } else {
+                this.showToast('🏆 Challenge Complete');
+                setTimeout(() => {
+                    this.finishQuiz();
+                }, 1000);
+            }
             return;
         }
 
@@ -1416,6 +1444,26 @@ const QuizEngine = {
         this.updateResumeWidget();
 
         const accuracy = Math.round((this.score / this.totalQuestions) * 100);
+
+        // Update progress data dynamically based on exam result
+        this.recentProgressData.push(accuracy);
+        if (this.recentProgressData.length > 5) this.recentProgressData.shift();
+        this.allProgressData.push(accuracy);
+
+        if (this.selectedCategory) {
+            let topicName = this.selectedCategory;
+            if (topicName === 'AI Focus Tutor' && this.weakestSubjectsList && this.weakestSubjectsList.length > 0) {
+                topicName = this.weakestSubjectsList[0];
+            }
+            let topicObj = this.topicsPerformance.find(t => t.name === topicName);
+            if (!topicObj && this.topicsPerformance.length > 0) {
+                topicObj = this.topicsPerformance[Math.floor(Math.random() * this.topicsPerformance.length)];
+            }
+            if (topicObj) {
+                topicObj.prevScore = topicObj.score;
+                topicObj.score = Math.round(topicObj.score * 0.7 + accuracy * 0.3);
+            }
+        }
 
         // Mock opponent score for the battle view
         const opponentScore = Math.max(0, this.score - 1 + Math.floor(Math.random() * 3));
@@ -1518,17 +1566,58 @@ const QuizEngine = {
                 avgTime = Math.max(0.1, ((Date.now() - this.quizStartTime) / 1000) / this.totalQuestions).toFixed(1);
             }
 
+            let actualCorrect = 0;
+            let actualIncorrect = 0;
+            let actualSkipped = 0;
+
+            if (this.mockAnswers && this.mockAnswers.length > 0) {
+                for (let i = 0; i < this.totalQuestions; i++) {
+                    if (this.mockAnswers[i] && this.mockAnswers[i].answered) {
+                        if (this.mockAnswers[i].isCorrect) {
+                            actualCorrect++;
+                        } else {
+                            actualIncorrect++;
+                        }
+                    } else {
+                        actualSkipped++;
+                    }
+                }
+            } else {
+                actualCorrect = this.score;
+                actualIncorrect = this.totalQuestions - this.score;
+            }
+
+            // Sync this.score just in case
+            this.score = actualCorrect;
+
             document.getElementById('solo-score-val').innerText = `${this.score}/${this.totalQuestions}`;
             document.getElementById('solo-accuracy-val').innerText = `${accuracy}%`;
-            document.getElementById('solo-xp-val').innerText = `+${this.totalXp || 40} XP`;
-            document.getElementById('solo-streak-val').innerText = `${myStreak}`;
 
             document.getElementById('solo-correct-val').innerText = `${this.score}`;
-            document.getElementById('solo-incorrect-val').innerText = `${this.totalQuestions - this.score}`;
+            document.getElementById('solo-incorrect-val').innerText = `${actualIncorrect}`;
+
+            const skippedContainer = document.getElementById('solo-skipped-container');
+            const skippedVal = document.getElementById('solo-skipped-val');
+            if (skippedContainer && skippedVal) {
+                if (actualSkipped > 0) {
+                    skippedContainer.style.display = 'flex';
+                    skippedVal.innerText = `${actualSkipped}`;
+                } else {
+                    skippedContainer.style.display = 'none';
+                }
+            }
+
             document.getElementById('solo-time-val').innerText = `${avgTime}s`;
 
             document.getElementById('solo-best-topic-val').innerText = this.selectedCategory || 'General Law';
-            document.getElementById('solo-weakest-topic-val').innerText = 'Tort Law'; // Mock weakest topic
+
+            const weakestTopicContainer = document.getElementById('solo-weakest-topic-container');
+            if (actualIncorrect === 0) {
+                if (weakestTopicContainer) weakestTopicContainer.style.display = 'none';
+            } else {
+                if (weakestTopicContainer) weakestTopicContainer.style.display = 'flex';
+                document.getElementById('solo-weakest-topic-val').innerText = 'Tort Law'; // Mock weakest topic
+            }
 
             document.getElementById('solo-insight-text').innerHTML = `You scored better than your last attempt.<br><strong>+${Math.floor(Math.random() * 10) + 5}% Improvement</strong>`;
 
@@ -1557,8 +1646,8 @@ const QuizEngine = {
                     `;
                 } else if (quizType === 'practice') {
                     actionsContainer.innerHTML = `
-                        <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.startFlow('topic')">
-                            Back to Practice Aids
+                        <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.returnHome()">
+                            Back to Hub
                         </button>
                         <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('mock')">
                             Start Mock Exam
@@ -1607,7 +1696,7 @@ const QuizEngine = {
                 document.querySelector('.app-container').appendChild(canvas);
                 QuizEngine.myConfetti = confetti.create(canvas, { resize: true });
             }
-            
+
             let shouldCelebrate = false;
             let isTieState = false;
             let isLossState = false;
@@ -1624,7 +1713,9 @@ const QuizEngine = {
                 // Fire multiple bursts for a winning celebration
                 const duration = 2000;
                 const end = Date.now() + duration;
+                QuizEngine.isConfettiActive = true;
                 (function frame() {
+                    if (!QuizEngine.isConfettiActive) return;
                     QuizEngine.myConfetti({
                         particleCount: 5,
                         angle: 60,
@@ -1641,6 +1732,8 @@ const QuizEngine = {
                     });
                     if (Date.now() < end) {
                         requestAnimationFrame(frame);
+                    } else {
+                        QuizEngine.isConfettiActive = false;
                     }
                 }());
             } else if (isTieState) {
@@ -1689,10 +1782,50 @@ const QuizEngine = {
         this.renderTopicPerformance();
         this.renderFocusAreas();
         this.renderAiFocusSection();
+        this.renderReadiness();
 
         setTimeout(() => {
             this.initProgressChart('recent');
         }, 100);
+    },
+
+    renderReadiness: function () {
+        if (this.recentProgressData.length === 0) return;
+        const avg = Math.round(this.recentProgressData.reduce((a, b) => a + b, 0) / this.recentProgressData.length);
+        const scoreEl = document.getElementById('readiness-score');
+        const gaugeEl = document.getElementById('readiness-gauge');
+        const statusEl = document.getElementById('readiness-status');
+        const gapEl = document.getElementById('readiness-gap');
+
+        if (scoreEl) scoreEl.innerText = `${avg}%`;
+        if (gaugeEl) gaugeEl.setAttribute('stroke-dasharray', `${avg}, 100`);
+
+        if (statusEl) {
+            if (avg >= 75) {
+                statusEl.innerText = 'Ready';
+                statusEl.style.color = '#10b981';
+                statusEl.style.background = '#ecfdf5';
+            } else if (avg >= 60) {
+                statusEl.innerText = 'Developing';
+                statusEl.style.color = '#f59e0b';
+                statusEl.style.background = '#fef3c7';
+            } else {
+                statusEl.innerText = 'Needs Work';
+                statusEl.style.color = '#ef4444';
+                statusEl.style.background = '#fee2e2';
+            }
+        }
+
+        if (gapEl) {
+            const gap = avg - 75;
+            if (gap >= 0) {
+                gapEl.innerText = `+${gap}%`;
+                gapEl.style.color = '#10b981';
+            } else {
+                gapEl.innerText = `${gap}%`;
+                gapEl.style.color = '#ef4444';
+            }
+        }
     },
 
     initProgressChart: function (mode) {
@@ -1751,6 +1884,9 @@ const QuizEngine = {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                layout: {
+                    padding: { top: 12, right: 12, bottom: 4, left: 4 }
+                },
                 plugins: {
                     legend: { display: false },
                     tooltip: {
@@ -1919,15 +2055,15 @@ const QuizEngine = {
         this.currentMode = 'Practice By Topic';
         this.selectedFormat = 'Practice By Topic';
         this.selectedCategory = topicName;
-        
+
         this.practiceSelectedMains = [topicName];
         this.practiceSelectedSubs = [];
         this.practiceSelectedSubSubs = [];
         this.practiceSelectedCount = 10;
-        
+
         this.totalQuestions = 10;
         this.currentDifficulty = 'Medium';
-        
+
         this.navigate('view-active');
     },
 
@@ -1935,6 +2071,28 @@ const QuizEngine = {
 
     // --- Analytics ---
     initAnalytics: function () {
+        const total = this.totalQuestions || 10;
+        const score = typeof this.score !== 'undefined' ? this.score : 8;
+        const accuracy = Math.round((score / total) * 100);
+
+        // Update Circular Chart
+        const circle = document.getElementById('analytics-circle');
+        const percentageText = document.getElementById('analytics-percentage');
+        if (circle) circle.setAttribute('stroke-dasharray', `${accuracy}, 100`);
+        if (percentageText) percentageText.textContent = `${accuracy}%`;
+
+        // Update Text
+        const titleEl = document.getElementById('analytics-title');
+        const subtitleEl = document.getElementById('analytics-subtitle');
+        if (titleEl) {
+            if (accuracy >= 80) titleEl.innerText = 'Excellent Accuracy!';
+            else if (accuracy >= 60) titleEl.innerText = 'Good Job!';
+            else titleEl.innerText = 'Needs Improvement';
+        }
+        if (subtitleEl) {
+            subtitleEl.innerText = `You answered ${score} out of ${total} questions correctly.`;
+        }
+
         const list = document.getElementById('analytics-question-list');
         if (!list) return;
         list.innerHTML = '';
@@ -2714,8 +2872,9 @@ const QuizEngine = {
         this.practiceSelectedMains = [];
         this.practiceSelectedSubs = [];
         this.practiceSelectedSubSubs = [];
+        this.practiceCollapsedSubs = []; // Tracks collapsed sub-topic headers in step 3
         this.practiceSelectedCount = null;
-        
+
         // Reset the count selector UI
         document.querySelectorAll('#practice-count-selector .count-btn').forEach(btn => {
             btn.style.background = '#ffffff';
@@ -2746,7 +2905,7 @@ const QuizEngine = {
             const isSelected = this.practiceSelectedMains.includes(mainTopic);
             const cardOpacity = isDisabled ? '0.5' : '1';
             const cardPointerEvents = isDisabled ? 'none' : 'auto';
-            
+
             html += `
                 <div style="margin-bottom: ${isSelected ? '0' : '12px'}; opacity: ${cardOpacity}; pointer-events: ${cardPointerEvents}; transition: all 0.3s ease;">
                     <div class="practice-card ${isSelected ? 'selected' : ''}" onclick="QuizEngine.togglePracticeMain('${mainTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; cursor: pointer; border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-bottom-color: ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; background: #ffffff; border-radius: ${isSelected ? '16px 16px 0 0' : '16px'}; transition: all 0.2s ease; position: relative; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
@@ -2767,12 +2926,12 @@ const QuizEngine = {
                         </div>
                     </div>
             `;
-            
+
             // Render subtopics if this main topic is selected
             if (isSelected) {
                 const subTopics = this.practiceAidsData[mainTopic].subTopics;
                 html += `<div style="border: 1.5px solid #466ba9; border-top: none; border-radius: 0 0 16px 16px; background: #ffffff; padding: 12px 16px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.05);">`;
-                
+
                 Object.keys(subTopics).forEach((subTopic) => {
                     const isSubSelected = this.practiceSelectedSubs.includes(subTopic);
                     const badge = subTopics[subTopic].badge;
@@ -2786,7 +2945,7 @@ const QuizEngine = {
                         else if (badge === 'Rare') { badgeColor = '#f3e8ff'; badgeText = '#7e22ce'; }
                         badgeHtml = `<div style="background: ${badgeColor}; color: ${badgeText}; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; margin-left: 12px; white-space: nowrap;">${badge}</div>`;
                     }
-                    
+
                     html += `
                         <div onclick="event.stopPropagation(); QuizEngine.togglePracticeSub('${subTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; border-radius: 12px; background: ${isSubSelected ? '#eff6ff' : 'transparent'}; border: 1.5px solid ${isSubSelected ? 'rgba(70, 107, 169, 0.3)' : 'transparent'}; box-shadow: ${isSubSelected ? '0 2px 8px rgba(70, 107, 169, 0.08)' : 'none'}; transition: all 0.2s ease;">
                             
@@ -2806,10 +2965,10 @@ const QuizEngine = {
                         </div>
                     `;
                 });
-                
+
                 html += `</div>`;
             }
-            
+
             html += `</div>`;
         });
         container.innerHTML = html;
@@ -2834,13 +2993,13 @@ const QuizEngine = {
                 }
             });
         }
-        
+
         // Save current scroll position
         const container = document.querySelector('#view-practice-topic .view-content');
         const scrollPos = container ? container.scrollTop : 0;
-        
+
         this.renderPracticeStep1();
-        
+
         // Restore scroll position after render frame to prevent flickering
         if (container) {
             requestAnimationFrame(() => {
@@ -2909,13 +3068,13 @@ const QuizEngine = {
         } else {
             this.practiceSelectedSubs.push(topic);
         }
-        
+
         // Save current scroll position
         const container = document.querySelector('#view-practice-topic .view-content');
         const scrollPos = container ? container.scrollTop : 0;
-        
+
         this.renderPracticeStep1();
-        
+
         // Restore scroll position
         if (container) {
             requestAnimationFrame(() => {
@@ -2933,21 +3092,33 @@ const QuizEngine = {
             const subTopics = this.practiceAidsData[mainTopic].subTopics;
             Object.keys(subTopics).forEach(subTopic => {
                 if (this.practiceSelectedSubs.includes(subTopic)) {
-                    html += `<h4 style="font-size: 15px; font-weight: 700; color: #334155; margin: ${html === '' ? '0' : '24px'} 0 12px 4px; text-transform: uppercase; letter-spacing: 0.5px;">${subTopic}</h4>`;
+                    const isCollapsed = this.practiceCollapsedSubs.includes(subTopic);
+                    html += `
+                        <div style="background: #ffffff; border-radius: 16px; margin-bottom: 16px; border: 1.5px solid rgba(15, 23, 42, 0.08); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                            <div onclick="QuizEngine.togglePracticeSubCollapse('${subTopic}')" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: #f8fafc; border-bottom: ${isCollapsed ? 'none' : '1.5px solid rgba(15, 23, 42, 0.08)'}; cursor: pointer;">
+                                <h4 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0; text-transform: capitalize;">${subTopic}</h4>
+                                <svg style="transform: rotate(${isCollapsed ? '-90deg' : '0deg'}); transition: transform 0.2s ease; color: #64748b;" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                            <div style="display: ${isCollapsed ? 'none' : 'block'};">
+                    `;
                     const subSubs = subTopics[subTopic].subSubs;
+                    const subSubKeys = Object.keys(subSubs);
 
-                    Object.keys(subSubs).forEach(subSub => {
+                    subSubKeys.forEach((subSub, idx) => {
                         const count = subSubs[subSub];
                         const isSelected = this.practiceSelectedSubSubs.includes(subSub);
+                        const isLast = idx === subSubKeys.length - 1;
+                        const safeSubSub = subSub.replace(/'/g, "\\'");
                         html += `
-                            <div class="format-card practice-card ${isSelected ? 'selected' : ''}" onclick="QuizEngine.togglePracticeSubSub('${subSub}')" style="align-items: center; padding: 16px 20px; cursor: pointer; border: 1.5px solid ${isSelected ? 'rgba(70, 107, 169, 0.3)' : 'rgba(15, 23, 42, 0.04)'}; background: ${isSelected ? '#eff6ff' : '#ffffff'}; margin-bottom: 12px; border-radius: 16px; transition: all 0.2s ease;">
-                                <div style="flex: 1; font-size: 16px; font-weight: 600; color: ${isSelected ? '#1e3a8a' : '#0f172a'};">${subSub} <span style="color: ${isSelected ? '#466ba9' : '#94a3b8'}; font-weight: 500;">(${count})</span></div>
+                            <div class="practice-sub-row" onclick="QuizEngine.togglePracticeSubSub('${safeSubSub}')" style="display: flex; align-items: center; padding: 16px 20px; cursor: pointer; border-bottom: ${isLast ? 'none' : '1.5px solid rgba(15, 23, 42, 0.04)'}; background: transparent; transition: background 0.2s ease;">
+                                <div style="flex: 1; font-size: 15px; font-weight: ${isSelected ? '700' : '500'}; color: ${isSelected ? '#1e3a8a' : '#334155'};">${subSub} <span style="color: #64748b; font-weight: 400; font-size: 14px;">(${count})</span></div>
                                 <div class="mixed-checkbox" style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid ${isSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">
                                     ${isSelected ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
                                 </div>
                             </div>
                         `;
                     });
+                    html += `</div></div>`;
                 }
             });
         });
@@ -2960,6 +3131,15 @@ const QuizEngine = {
             this.practiceSelectedSubSubs = this.practiceSelectedSubSubs.filter(t => t !== topic);
         } else {
             this.practiceSelectedSubSubs.push(topic);
+        }
+        this.renderPracticeStep3();
+    },
+
+    togglePracticeSubCollapse: function (subTopic) {
+        if (this.practiceCollapsedSubs.includes(subTopic)) {
+            this.practiceCollapsedSubs = this.practiceCollapsedSubs.filter(t => t !== subTopic);
+        } else {
+            this.practiceCollapsedSubs.push(subTopic);
         }
         this.renderPracticeStep3();
     },
@@ -3104,3 +3284,10 @@ window.addEventListener('popstate', function (event) {
 // Initialize first history state
 window.history.replaceState({ viewId: 'view-hub', index: 0 }, "", "#view-hub");
 QuizEngine.updateResumeWidget();
+
+// Stop confetti when switching to a different tab/screen
+document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+        QuizEngine.stopConfetti();
+    }
+});

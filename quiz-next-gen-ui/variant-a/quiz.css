@@ -1466,13 +1466,13 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 32px 20px;
+    padding: 16px;
 }
 
 .analytics-chart-container {
     width: 120px;
     height: 120px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 
 .circular-chart {
