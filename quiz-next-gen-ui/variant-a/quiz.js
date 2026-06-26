@@ -1215,7 +1215,12 @@ const QuizEngine = {
             let xpEarned = 25; // Base 25 XP
             if (timeTaken < 3.0) {
                 xpEarned += 15; // Speed bonus +15 XP
-                this.showToast('⚡ Quick Thinker +15 Bonus XP');
+                
+                const isPracticeMode = (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas');
+                
+                if (!isPracticeMode) {
+                    this.showToast('⚡ Quick Thinker +15 Bonus XP');
+                }
             }
             this.totalXp += xpEarned;
 
@@ -1444,10 +1449,14 @@ const QuizEngine = {
             return;
         }
 
-        if (this.currentQuestion === Math.floor(this.totalQuestions / 2)) {
-            this.showToast('🚀 Halfway There');
-        } else if (this.currentQuestion === this.totalQuestions - 1) {
-            this.showToast('⭐ Final Question');
+        const isPracticeMode = (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas');
+        
+        if (!isPracticeMode) {
+            if (this.currentQuestion === Math.floor(this.totalQuestions / 2)) {
+                this.showToast('🚀 Halfway There');
+            } else if (this.currentQuestion === this.totalQuestions - 1) {
+                this.showToast('⭐ Final Question');
+            }
         }
 
         this.loadQuestion();
