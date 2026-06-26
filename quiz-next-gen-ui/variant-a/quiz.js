@@ -101,6 +101,7 @@ const QuizEngine = {
         this.selectedCategory = examName;
         this.currentFormat = 'Mock Exam';
         this.currentMode = 'Mock Exam';
+        this.selectedFormat = 'Mock Exam';
 
         const examsData = {
             'Sergeant Exam': { icon: '1f46e.png', sub: 'Crime, Evidence, GP', q: 150, d: '3h 15m', pass: '55%' },
@@ -111,14 +112,15 @@ const QuizEngine = {
 
         const cardHtml = `
             <div class="format-card" style="flex-direction: column; align-items: stretch; padding: 20px; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
-                    <div style="display: flex; align-items: flex-start;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                    <div style="display: flex; align-items: center;">
                         <div style="background: #eff6ff; width: 48px; height: 48px; margin-right: 16px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
                             <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${data.icon}" style="width: 24px; height: 24px; object-fit: contain;">
                         </div>
                         <div>
-                            <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">${examName}</h3>
-                            <p style="font-size: 14px; color: #64748b; margin: 0;">${data.sub}</p>
+                            <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0; line-height: 1.3;">
+                                ${examName} ${examName.includes('Sergeant') || examName.includes('Inspector') ? '<span style="font-size: 14px; font-weight: 500; color: #64748b;">(NPPF Step 2)</span>' : ''}
+                            </h3>
                         </div>
                     </div>
                 </div>
@@ -146,6 +148,11 @@ const QuizEngine = {
     },
 
     beginMockSimulation: function () {
+        if (this.selectedCategory === 'National Investigators Exam') {
+            this.totalQuestions = 15; // Temporarily set to 15 for testing
+        } else {
+            this.totalQuestions = 15; // Temporarily set to 15 for testing
+        }
         this.navigate('view-active');
     },
 
@@ -185,6 +192,7 @@ const QuizEngine = {
 
     startFlow: function (flowName) {
         this.currentFlow = flowName;
+        this.launchedFromProgress = false;
         if (flowName === 'live') {
             this.navigate('view-live-list');
         } else if (flowName === 'mock') {
@@ -583,6 +591,16 @@ const QuizEngine = {
         }
         nextView.classList.add('active');
 
+        // Reset scroll position to top for the newly active view
+        setTimeout(() => {
+            const scrollable = nextView.querySelector('.view-content, .content-area');
+            if (scrollable) {
+                scrollable.scrollTop = 0;
+            }
+            nextView.scrollTop = 0;
+            window.scrollTo(0, 0);
+        }, 10);
+
         // Special initializers
         if (viewId === 'view-active') {
             if (!this.isReviewingSkipped) {
@@ -800,6 +818,24 @@ const QuizEngine = {
         document.getElementById('view-hub').classList.add('active');
     },
 
+    restartFlow: function (flowName) {
+        this.stopConfetti();
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.history = ['view-hub'];
+        window.history.pushState({ viewId: 'view-hub', index: 0 }, "", `#view-hub`);
+        document.querySelectorAll('.quiz-view').forEach(v => v.classList.remove('active'));
+        this.startFlow(flowName);
+    },
+
+    returnToProgress: function () {
+        this.stopConfetti();
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.history = ['view-hub'];
+        window.history.pushState({ viewId: 'view-hub', index: 0 }, "", `#view-hub`);
+        document.querySelectorAll('.quiz-view').forEach(v => v.classList.remove('active'));
+        this.navigate('view-progress');
+    },
+
     wrongQuestionsMockData: {
         'Homicide': [
             {
@@ -1004,7 +1040,9 @@ const QuizEngine = {
             this.streak = 0;
             this.bestStreak = 0;
             this.totalXp = 0;
-            if (this.currentMode !== 'Practice By Topic') {
+
+            const quickModes = ['Quick Play', 'Quick Quiz', '1v1 Challenge', 'Live Challenge', 'Classic Quiz'];
+            if (quickModes.includes(this.currentMode)) {
                 this.totalQuestions = parseInt(document.getElementById('preview-count').innerText) || 5;
             }
         }
@@ -1032,30 +1070,37 @@ const QuizEngine = {
 
         if (this.timerInterval) clearInterval(this.timerInterval);
 
-        // If it's a Live Challenge, count down. Otherwise count up.
-        // 1 minute total for the exam (for quick scenario testing)
-        this.timeLeft = 60;
+        if (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas') {
+            timerContainer.style.display = 'none'; // Hide timer for practice modes
+            this.timerInterval = setInterval(() => {
+                this.timeElapsed++;
+            }, 1000);
+        } else {
+            timerContainer.style.display = 'flex'; // Show timer for other flows
+            this.timeLeft = 60; // Default countdown
 
-        this.timerInterval = setInterval(() => {
-            this.timeLeft--;
-            if (this.timeLeft <= 0) {
-                clearInterval(this.timerInterval);
-                this.timeLeft = 0;
-                this.isTimeUp = true;
-                this.finishQuiz();
-                return;
-            }
+            this.timerInterval = setInterval(() => {
+                this.timeElapsed++;
+                this.timeLeft--;
+                if (this.timeLeft <= 0) {
+                    clearInterval(this.timerInterval);
+                    this.timeLeft = 0;
+                    this.isTimeUp = true;
+                    this.finishQuiz();
+                    return;
+                }
 
-            const m = Math.floor(this.timeLeft / 60);
-            const s = this.timeLeft % 60;
-            timerText.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                const m = Math.floor(this.timeLeft / 60);
+                const s = this.timeLeft % 60;
+                timerText.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 
-            if (this.timeLeft <= 10 && this.timeLeft > 0) {
-                timerContainer.classList.add('timer-urgent');
-            } else {
-                timerContainer.classList.remove('timer-urgent');
-            }
-        }, 1000);
+                if (this.timeLeft <= 10 && this.timeLeft > 0) {
+                    timerContainer.classList.add('timer-urgent');
+                } else {
+                    timerContainer.classList.remove('timer-urgent');
+                }
+            }, 1000);
+        }
 
         this.loadQuestion();
     },
@@ -1178,7 +1223,7 @@ const QuizEngine = {
             const floatXP = document.createElement('div');
             floatXP.className = 'floating-xp';
             floatXP.innerHTML = `✔ Correct<br>+${xpEarned} XP`;
-            btnElement.appendChild(floatXP);
+            // btnElement.appendChild(floatXP);
             setTimeout(() => floatXP.remove(), 1200);
 
             // Update Streak Indicator in top bar
@@ -1197,13 +1242,18 @@ const QuizEngine = {
             if (xpEl2) xpEl2.innerText = `${this.totalXp} XP`;
 
             sheet.classList.add('correct');
-            document.getElementById('feedback-details').style.display = 'flex';
+
+            if (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas') {
+                document.getElementById('feedback-details').style.display = 'none';
+            } else {
+                document.getElementById('feedback-details').style.display = 'flex';
+            }
 
             icon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
             title.innerText = 'Excellent!';
 
             streakMsg.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Streak: ${this.streak}`;
-            streakMsg.style.display = 'block';
+            streakMsg.style.display = 'none';
 
             document.getElementById('feedback-explanation').innerHTML = qData.expCorrect;
 
@@ -1265,29 +1315,29 @@ const QuizEngine = {
 
                 if (isCorrect) {
                     inlineIcon.style.background = 'transparent';
-                    inlineIcon.innerHTML = '🎉';
-                    inlineIcon.style.fontSize = '24px';
+                    inlineIcon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 32px; height: 32px; object-fit: contain; display: block; margin: 0; padding: 0; border: none;">';
+                    // inlineIcon.style.fontSize = '24px';
                     inlineTitle.innerText = 'Correct!';
                     inlineTitle.style.color = '#ffffff';
 
                     let xpEarned = (timeTaken < 3.0) ? 40 : 25;
                     inlineXp.style.color = '#ffffff';
                     inlineXp.innerText = `+${xpEarned} XP Earned`;
-                    inlineStreakMsg.innerText = `🔥 Streak: ${this.streak}`;
+                    inlineStreakMsg.innerText = ``;
                 } else {
                     inlineIcon.style.background = 'transparent';
-                    inlineIcon.innerHTML = '❌';
+                    inlineIcon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/274c.png" style="width: 32px; height: 32px; object-fit: contain; display: block; margin: 0; padding: 0; border: none;">';
                     inlineIcon.style.fontSize = '24px';
                     inlineTitle.innerText = 'Incorrect';
                     inlineTitle.style.color = '#ffffff';
 
                     inlineXp.style.color = '#ffffff';
                     inlineXp.innerText = '+0 XP Earned';
-                    inlineStreakMsg.innerText = `🔥 Streak Lost`;
+                    inlineStreakMsg.innerText = ``;
                 }
 
-                // Hide XP and Accuracy for Practice Aids
-                if (this.currentMode === 'Practice By Topic') {
+                // Hide XP and Accuracy for Practice Aids and AI Tutor
+                if (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas') {
                     inlineXp.style.display = 'none';
                     inlineAccuracy.style.display = 'none';
                 } else {
@@ -1456,7 +1506,18 @@ const QuizEngine = {
         localStorage.removeItem('saved_exam_progress');
         this.updateResumeWidget();
 
+        // Reset state flags so future quizzes start fresh
+        this.isReviewingSkipped = false;
+        this.isResuming = false;
+
         const accuracy = Math.round((this.score / this.totalQuestions) * 100);
+
+        // Capture total elapsed time instantly to prevent UI drift between summary and analytics
+        if (this.quizStartTime) {
+            this.finalTotalTimeSeconds = Math.max(1, Math.floor((Date.now() - this.quizStartTime) / 1000));
+        } else {
+            this.finalTotalTimeSeconds = this.timeElapsed || 0;
+        }
 
         // Update progress data dynamically based on exam result
         this.recentProgressData.push(accuracy);
@@ -1571,12 +1632,12 @@ const QuizEngine = {
         }
 
         const isCompetitive = this.currentFlow === 'colleague' || this.currentFlow === 'live' || this.currentMode === '1v1 Challenge' || this.currentMode === 'Live Challenge';
-        const isSolo = !isCompetitive && (this.currentFlow === 'quick' || this.currentFlow === 'mixed' || this.currentFlow === 'topic' || this.currentFlow === 'mock' || this.currentMode === 'Practice By Topic' || this.currentMode === 'Quick Quiz' || this.currentMode === 'Quick Play' || this.currentMode === 'Mixed Practice' || this.currentMode === 'Mock Exam' || this.selectedFormat === 'Quick Quiz' || this.selectedFormat === 'Quick Play' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice');
+        const isSolo = !isCompetitive && (this.currentFlow === 'quick' || this.currentFlow === 'mixed' || this.currentFlow === 'topic' || this.currentFlow === 'mock' || this.currentMode === 'Practice By Topic' || this.currentMode === 'Quick Quiz' || this.currentMode === 'Quick Play' || this.currentMode === 'Mixed Practice' || this.currentMode === 'Mock Exam' || this.currentMode === 'Practice Weak Areas' || this.selectedFormat === 'Quick Quiz' || this.selectedFormat === 'Quick Play' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice');
         if (isSolo) {
             const myStreak = this.bestStreak || Math.max(1, Math.floor(this.score / 2));
             let avgTime = 3.4; // Default mock
-            if (this.quizStartTime) {
-                avgTime = Math.max(0.1, ((Date.now() - this.quizStartTime) / 1000) / this.totalQuestions).toFixed(1);
+            if (this.finalTotalTimeSeconds > 0) {
+                avgTime = Math.max(0.1, this.finalTotalTimeSeconds / this.totalQuestions).toFixed(1);
             }
 
             let actualCorrect = 0;
@@ -1622,10 +1683,24 @@ const QuizEngine = {
 
             document.getElementById('solo-time-val').innerText = `${avgTime}s`;
 
-            document.getElementById('solo-best-topic-val').innerText = this.selectedCategory || 'General Law';
+            // Show total time for the second occurrence
+            const totalMin2 = Math.floor(this.finalTotalTimeSeconds / 60);
+            const totalSec2 = this.finalTotalTimeSeconds % 60;
+            const totalTimeStr2 = totalMin2 > 0 ? `${totalMin2}m ${totalSec2}s` : `${totalSec2}s`;
+            const totalTimeEl2 = document.getElementById('solo-total-time-val');
+            if (totalTimeEl2) totalTimeEl2.innerText = totalTimeStr2;
+
+
+            const bestTopicContainer = document.getElementById('solo-best-topic-container');
+            if (this.currentMode === 'Practice Weak Areas') {
+                if (bestTopicContainer) bestTopicContainer.style.display = 'none';
+            } else {
+                if (bestTopicContainer) bestTopicContainer.style.display = 'flex';
+                document.getElementById('solo-best-topic-val').innerText = this.selectedCategory || 'General Law';
+            }
 
             const weakestTopicContainer = document.getElementById('solo-weakest-topic-container');
-            if (actualIncorrect === 0) {
+            if (actualIncorrect === 0 && this.currentMode !== 'Practice Weak Areas') {
                 if (weakestTopicContainer) weakestTopicContainer.style.display = 'none';
             } else {
                 if (weakestTopicContainer) weakestTopicContainer.style.display = 'flex';
@@ -1639,6 +1714,8 @@ const QuizEngine = {
                 quizType = 'mock';
             } else if (this.currentFlow === 'topic' || this.currentFlow === 'mixed' || this.currentMode === 'Practice By Topic' || this.currentMode === 'Mixed Practice' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice') {
                 quizType = 'practice';
+            } else if (this.currentMode === 'Practice Weak Areas') {
+                quizType = 'ai-tutor';
             }
 
             const actionsContainer = document.getElementById('solo-completion-actions');
@@ -1658,14 +1735,54 @@ const QuizEngine = {
                         </button>
                     `;
                 } else if (quizType === 'practice') {
-                    actionsContainer.innerHTML = `
-                        <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.returnHome()">
-                            Back to Hub
-                        </button>
-                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('mock')">
-                            Start Mock Exam
-                        </button>
-                    `;
+                    const defaultPracticeBack = this.currentFlow === 'mixed' ? "QuizEngine.restartFlow('mixed')" : "QuizEngine.restartFlow('topic')";
+                    const backAction = this.launchedFromProgress ? "QuizEngine.returnToProgress()" : defaultPracticeBack;
+                    
+                    if (this.launchedFromProgress) {
+                        if (actualIncorrect > 0) {
+                            actionsContainer.innerHTML = `
+                                <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                    Back
+                                </button>
+                                <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
+                                    Practice Topic
+                                </button>
+                            `;
+                        } else {
+                            actionsContainer.innerHTML = `
+                                <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                    Back
+                                </button>
+                            `;
+                        }
+                    } else {
+                        actionsContainer.innerHTML = `
+                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                Back
+                            </button>
+                            <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('mock')">
+                                Start Mock Exam
+                            </button>
+                        `;
+                    }
+                } else if (quizType === 'ai-tutor') {
+                    const backAction = this.launchedFromProgress ? "QuizEngine.returnToProgress()" : "QuizEngine.returnHome()";
+                    if (actualIncorrect > 0) {
+                        actionsContainer.innerHTML = `
+                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                Back
+                            </button>
+                            <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
+                                Practice Topic
+                            </button>
+                        `;
+                    } else {
+                        actionsContainer.innerHTML = `
+                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                Back
+                            </button>
+                        `;
+                    }
                 } else {
                     actionsContainer.innerHTML = `
                         <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.startFlow('quick')">
@@ -1684,9 +1801,20 @@ const QuizEngine = {
             const emojiEl = document.getElementById('solo-completion-emoji');
             if (emojiEl) {
                 if (accuracy >= 60) {
-                    emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png" style="width: 120px; height: 120px; object-fit: contain;">`;
+                    emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 120px; height: 120px; object-fit: contain;">`;
                 } else {
                     emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f60a.png" style="width: 120px; height: 120px; object-fit: contain;">`;
+                }
+            }
+
+            const titleEl = document.getElementById('solo-completion-title');
+            if (titleEl) {
+                if (quizType === 'mock') {
+                    titleEl.innerText = 'Exam Complete!';
+                } else if (quizType === 'ai-tutor' || quizType === 'practice') {
+                    titleEl.innerText = 'Practice Completed!';
+                } else {
+                    titleEl.innerText = 'Quiz Complete!';
                 }
             }
 
@@ -1891,14 +2019,15 @@ const QuizEngine = {
                     pointBorderColor: isRecent ? '#ffffff' : 'transparent',
                     pointBorderWidth: isRecent ? 2 : 0,
                     pointRadius: isRecent ? 6 : 0,
-                    pointHoverRadius: 8
+                    pointHoverRadius: 8,
+                    clip: false
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 layout: {
-                    padding: { top: 12, right: 12, bottom: 4, left: 4 }
+                    padding: { top: 12, right: 16, bottom: 4, left: 12 }
                 },
                 plugins: {
                     legend: { display: false },
@@ -2032,9 +2161,9 @@ const QuizEngine = {
         document.querySelectorAll('.ai-count-btn').forEach(btn => {
             if (parseInt(btn.dataset.count) === count) {
                 btn.classList.add('selected');
-                btn.style.background = '#eff6ff';
+                btn.style.background = 'rgba(70, 107, 169, 0.1)';
                 btn.style.border = '2px solid #466ba9';
-                btn.style.color = '#1d4ed8';
+                btn.style.color = '#466ba9';
             } else {
                 btn.classList.remove('selected');
                 btn.style.background = 'white';
@@ -2049,6 +2178,7 @@ const QuizEngine = {
         this.selectedCategory = 'AI Focus Tutor';
         this.currentFormat = 'Standard Quiz';
         this.currentMode = 'Practice Weak Areas';
+        this.launchedFromProgress = true;
 
         // Setup state for new quiz
         this.totalQuestions = this.selectedAiQuestionCount;
@@ -2068,6 +2198,7 @@ const QuizEngine = {
         this.currentMode = 'Practice By Topic';
         this.selectedFormat = 'Practice By Topic';
         this.selectedCategory = topicName;
+        this.launchedFromProgress = true;
 
         this.practiceSelectedMains = [topicName];
         this.practiceSelectedSubs = [];
@@ -2115,10 +2246,7 @@ const QuizEngine = {
         const totalTimeEl = document.getElementById('analytics-total-time');
         const timeCard = document.getElementById('time-breakdown-card');
 
-        let totalTimeSeconds = 124;
-        if (this.quizStartTime) {
-            totalTimeSeconds = Math.floor((Date.now() - this.quizStartTime) / 1000);
-        }
+        let totalTimeSeconds = this.finalTotalTimeSeconds || 124;
         let avgTimeSeconds = Math.max(0.1, totalTimeSeconds / this.totalQuestions).toFixed(1);
         let fastestTimeSeconds = (1.0 + Math.random()).toFixed(1);
 
@@ -2159,25 +2287,30 @@ const QuizEngine = {
             const explanation = isCorrect ? (qData.expCorrect || '') : (qData.expWrong || qData.expCorrect || '');
 
             list.innerHTML += `
-                <div class="breakdown-item ${statusClass}" style="flex-direction: column; align-items: flex-start; padding: 16px;">
-                    <div style="display: flex; gap: 12px; width: 100%; margin-bottom: 12px;">
+                <div class="breakdown-item ${statusClass}" style="flex-direction: column; align-items: flex-start; padding: 16px; cursor: pointer;" onclick="const details = this.querySelector('.breakdown-details'); const icon = this.querySelector('.toggle-icon'); const wasClosed = details.style.display === 'none'; this.parentElement.querySelectorAll('.breakdown-details').forEach(el => el.style.display = 'none'); this.parentElement.querySelectorAll('.toggle-icon').forEach(el => el.style.transform = 'rotate(0deg)'); if(wasClosed) { details.style.display = 'block'; icon.style.transform = 'rotate(180deg)'; }">
+                    <div style="display: flex; gap: 12px; width: 100%; align-items: center;">
                         <div class="breakdown-icon" style="flex-shrink: 0;">
                             ${iconSvg}
                         </div>
-                        <div class="breakdown-text" style="flex-grow: 1;"><strong>Q${i + 1}:</strong> ${qData.q}</div>
+                        <div class="breakdown-text" style="flex-grow: 1; margin: 0;"><strong>Q${i + 1}:</strong> ${qData.q}</div>
+                        <div class="toggle-icon" style="flex-shrink: 0; transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
                     </div>
                     
-                    <div style="font-size: 14px; width: 100%; background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; margin-bottom: 8px;">
-                        <div style="margin-bottom: 8px;"><strong>Your Answer:</strong> <span style="color: ${isCorrect ? '#10b981' : (isSkipped ? '#64748b' : '#ef4444')}">${chosenText}</span></div>
-                        ${!isCorrect ? `<div><strong>Correct Answer:</strong> <span style="color: #10b981">${correctText}</span></div>` : ''}
+                    <div class="breakdown-details" style="display: none; width: 100%; margin-top: 12px;">
+                        <div style="font-size: 14px; width: 100%; background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                            <div style="margin-bottom: 8px;"><strong>Your Answer:</strong> <span style="color: ${isCorrect ? '#10b981' : (isSkipped ? '#64748b' : '#ef4444')}">${chosenText}</span></div>
+                            ${!isCorrect ? `<div><strong>Correct Answer:</strong> <span style="color: #10b981">${correctText}</span></div>` : ''}
+                        </div>
+                        
+                        ${explanation ? `
+                        <div style="font-size: 13px; color: #475569; width: 100%; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.05);">
+                            <strong>AI Explanation:</strong>
+                            <div style="margin-top: 4px;">${explanation}</div>
+                        </div>
+                        ` : ''}
                     </div>
-                    
-                    ${explanation ? `
-                    <div style="font-size: 13px; color: #475569; width: 100%; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.05);">
-                        <strong>AI Explanation:</strong>
-                        <div style="margin-top: 4px;">${explanation}</div>
-                    </div>
-                    ` : ''}
                 </div>
             `;
         }
@@ -2923,7 +3056,7 @@ const QuizEngine = {
 
             html += `
                 <div style="margin-bottom: ${isExpanded ? '0' : '12px'}; opacity: ${cardOpacity}; pointer-events: ${cardPointerEvents}; transition: all 0.3s ease;">
-                    <div class="practice-card ${isSelected ? 'selected' : ''}" onclick="QuizEngine.togglePracticeMainExpand('${mainTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; cursor: pointer; border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-bottom-color: ${isExpanded ? (isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)') : (isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)')}; background: #ffffff; border-radius: ${isExpanded ? '16px 16px 0 0' : '16px'}; transition: all 0.2s ease; position: relative; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                    <div class="practice-card ${isSelected ? 'selected' : ''}" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-bottom-color: ${isExpanded ? (isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)') : (isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)')}; background: #ffffff; border-radius: ${isExpanded ? '16px 16px 0 0' : '16px'}; transition: all 0.2s ease; position: relative; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
                         
                         <!-- Left Side: Emoji & Title -->
                         <div style="display: flex; align-items: center; gap: 16px; flex: 1;">
@@ -2933,10 +3066,13 @@ const QuizEngine = {
                             <div style="font-size: 16px; font-weight: 700; color: ${isSelected ? '#1e3a8a' : '#0f172a'};">${mainTopic}</div>
                         </div>
                         
-                        <!-- Right Side: Checkbox -->
-                        <div style="display: flex; align-items: center;">
-                            <div class="mixed-checkbox" onclick="event.stopPropagation(); QuizEngine.togglePracticeMain('${mainTopic}')" style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid ${isSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0;">
+                        <!-- Right Side: Checkbox and Arrow -->
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="mixed-checkbox" onclick="event.stopPropagation(); QuizEngine.togglePracticeMain('${mainTopic}')" style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid ${isSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0; cursor: pointer;">
                                 ${isSelected ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+                            </div>
+                            <div onclick="event.stopPropagation(); QuizEngine.togglePracticeMainExpand('${mainTopic}')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; transition: transform 0.3s ease; transform: ${isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                             </div>
                         </div>
                     </div>
@@ -3028,10 +3164,6 @@ const QuizEngine = {
                     this.practiceSelectedSubs.push(sub);
                 }
             });
-            // Also expand it so the user can see what was checked
-            if (!this.practiceExpandedMains.includes(topic)) {
-                this.practiceExpandedMains.push(topic);
-            }
         }
 
         // Save current scroll position
@@ -3103,10 +3235,31 @@ const QuizEngine = {
     },
 
     togglePracticeSub: function (topic) {
+        let parentMain = null;
+        Object.keys(this.practiceAidsData).forEach(main => {
+            if (this.practiceAidsData[main].subTopics && this.practiceAidsData[main].subTopics[topic]) {
+                parentMain = main;
+            }
+        });
+
         if (this.practiceSelectedSubs.includes(topic)) {
             this.practiceSelectedSubs = this.practiceSelectedSubs.filter(t => t !== topic);
+
+            if (parentMain) {
+                const allSubTopics = Object.keys(this.practiceAidsData[parentMain].subTopics);
+                const hasAnySelected = allSubTopics.some(sub => this.practiceSelectedSubs.includes(sub));
+
+                if (!hasAnySelected && this.practiceSelectedMains.includes(parentMain)) {
+                    this.practiceSelectedMains = this.practiceSelectedMains.filter(m => m !== parentMain);
+                }
+            }
         } else {
             this.practiceSelectedSubs.push(topic);
+
+            // Also tick the main topic if it's not already ticked
+            if (parentMain && !this.practiceSelectedMains.includes(parentMain)) {
+                this.practiceSelectedMains.push(parentMain);
+            }
         }
 
         // Save current scroll position
@@ -3222,7 +3375,13 @@ const QuizEngine = {
                     });
                 });
                 footer.style.transform = 'translateY(0)';
-                let finalQCount = this.practiceSelectedCount || (totalQs > 0 ? totalQs : 10);
+                let finalQCount = totalQs;
+                if (this.practiceSelectedCount && totalQs > this.practiceSelectedCount) {
+                    finalQCount = this.practiceSelectedCount;
+                }
+                if (finalQCount === 0) {
+                    finalQCount = this.practiceSelectedCount || 10;
+                }
                 btn.innerText = `Start Practice (${finalQCount})`;
             } else {
                 footer.style.transform = 'translateY(100%)';

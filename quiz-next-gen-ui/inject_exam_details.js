@@ -75,13 +75,12 @@ const newStartMock = `    startMockExam: function(examName) {
 
         const cardHtml = \`
             <div class="format-card" style="display: flex; flex-direction: column; padding: 24px; background: white; border-radius: 16px; border: 1.5px solid rgba(70,107,169,0.2); box-shadow: 0 8px 24px rgba(70,107,169,0.06); margin-bottom: 0;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
                     <div>
                         <div style="background: #eff6ff; width: 56px; height: 56px; margin-bottom: 16px; border-radius: 14px; display: flex; align-items: center; justify-content: center;">
                             <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/\${data.icon}" style="width: 28px; height: 28px; object-fit: contain;">
                         </div>
                         <h3 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 6px 0;">\${examName}</h3>
-                        <p style="font-size: 15px; color: #64748b; margin: 0; margin-bottom: 12px;">\${data.sub}</p>
                         <span style="display: inline-block; background: #eff6ff; color: #466ba9; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 20px;">Official Format</span>
                     </div>
                 </div>

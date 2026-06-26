@@ -27,10 +27,11 @@ const newMockHtml = `
                 <div style="padding: 0 20px;">
                     <!-- Sergeant Exam -->
                     <div class="format-card" onclick="QuizEngine.startMockExam('Sergeant Exam')" style="flex-direction: column; align-items: stretch; padding: 20px; cursor: pointer; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
                             <div>
-                                <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">Sergeant Exam</h3>
-                                <p style="font-size: 14px; color: #64748b; margin: 0;">Crime, Evidence, GP</p>
+                                <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0;">
+                                        Sergeant Exam</h3>
+                                
                             </div>
                             <span style="background: #eff6ff; color: #466ba9; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 20px;">Official Format</span>
                         </div>
@@ -52,10 +53,11 @@ const newMockHtml = `
 
                     <!-- Inspector Exam -->
                     <div class="format-card" onclick="QuizEngine.startMockExam('Inspector Exam')" style="flex-direction: column; align-items: stretch; padding: 20px; cursor: pointer; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
                             <div>
-                                <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">Inspector Exam</h3>
-                                <p style="font-size: 14px; color: #64748b; margin: 0;">Crime, Evidence, GP, Traffic</p>
+                                <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0;">
+                                        Inspector Exam</h3>
+                                
                             </div>
                             <span style="background: #eff6ff; color: #466ba9; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 20px;">Official Format</span>
                         </div>
@@ -77,10 +79,11 @@ const newMockHtml = `
 
                     <!-- National Investigators Exam -->
                     <div class="format-card" onclick="QuizEngine.startMockExam('National Investigators Exam')" style="flex-direction: column; align-items: stretch; padding: 20px; cursor: pointer; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 32px;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
                             <div>
-                                <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">National Investigators Exam</h3>
-                                <p style="font-size: 14px; color: #64748b; margin: 0;">Crime, Evidence, Investigation</p>
+                                <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0;">
+                                        National Investigators Exam</h3>
+                                
                             </div>
                             <span style="background: #eff6ff; color: #466ba9; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 20px;">Official Format</span>
                         </div>
@@ -100,7 +103,8 @@ const newMockHtml = `
                         </div>
                     </div>
 
-                    <!-- Future Exams -->
+                    <!-- Future Exams Hidden --><div style="display: none;">
+<!-- Future Exams -->
                     <div style="margin-bottom: 16px;">
                         <span style="font-size: 12px; font-weight: 700; color: #64748b; letter-spacing: 0.5px; text-transform: uppercase;">Future Exams &middot; Coming Soon</span>
                     </div>
@@ -157,6 +161,7 @@ const newMockHtml = `
                         </div>
                     </div>
                 </div>
+</div><!-- End Hidden Future Exams -->
             </div>
         </div>`;
 
