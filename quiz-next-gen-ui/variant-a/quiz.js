@@ -1279,7 +1279,7 @@ const QuizEngine = {
             }, 1000);
         } else {
             timerContainer.style.display = 'flex'; // Show timer for other flows
-            this.timeLeft = 60; // Default countdown
+            this.timeLeft = 120; // 2 minutes countdown
 
             this.timerInterval = setInterval(() => {
                 this.timeElapsed++;
@@ -2078,9 +2078,9 @@ const QuizEngine = {
             const emojiEl = document.getElementById('solo-completion-emoji');
             if (emojiEl) {
                 if (accuracy >= 60) {
-                    emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 120px; height: 120px; object-fit: contain;">`;
+                    emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 120px; height: 120px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));">`;
                 } else {
-                    emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f60a.png" style="width: 120px; height: 120px; object-fit: contain;">`;
+                    emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png" style="width: 120px; height: 120px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));">`;
                 }
             }
 

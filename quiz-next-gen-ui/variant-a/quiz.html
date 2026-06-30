@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -3655,7 +3655,7 @@
 
                     <div style="display: flex; justify-content: flex-end; width: 100%;">
                         <button id="mock-skip-btn" onclick="QuizEngine.skipCurrentQuestion()"
-                            style="background: var(--accent-blue); border: none; color: white; font-size: 14px; font-weight: 600; padding: 10px 20px; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.2); display: inline-flex; align-items: center; gap: 8px;">
+                            style="background: var(--accent-blue); border: none; color: white; font-size: 14px; font-weight: 600; padding: 10px 12px; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.2); display: inline-flex; align-items: center; gap: 8px;">
                             Skip Question
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -3665,7 +3665,8 @@
                         </button>
                     </div>
 
-                    <div style="display: flex; justify-content: center; width: 100%; margin-top: 140px;">
+                    <div
+                        style="display: flex; justify-content: center; width: 100%; margin-top: auto; position: sticky; bottom: 24px; z-index: 50; padding-top: 20px;">
                         <button id="open-navigator-btn" onclick="QuizEngine.openQuestionNavigator()"
                             style="background: white; border: 1.5px solid #e2e8f0; color: #64748b; font-size: 16px; font-weight: 700; padding: 14px 28px; border-radius: 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: all 0.2s ease; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -4608,7 +4609,8 @@
                         </h3>
                         <button onclick="QuizEngine.closeProgressPopup('journey')"
                             style="background: #fee2e2; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 2px 5px rgba(239, 68, 68, 0.15);"
-                            onmouseover="this.style.background='#fecaca'; this.style.transform='scale(1.05)';" onmouseout="this.style.background='#fee2e2'; this.style.transform='scale(1)';">
+                            onmouseover="this.style.background='#fecaca'; this.style.transform='scale(1.05)';"
+                            onmouseout="this.style.background='#fee2e2'; this.style.transform='scale(1)';">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -5812,7 +5814,7 @@
             onclick="QuizEngine.cancelExit()">
             <div onclick="event.stopPropagation()" class="exit-confirm-modal"
                 style="background: #ffffff; border-radius: 28px; padding: 26px; width: 85%; max-width: 340px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8); position: relative; display: flex; flex-direction: column; align-items: center; margin: auto; border: 1px solid rgba(15, 23, 42, 0.05); transform: scale(1.1); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                
+
                 <!-- Icon -->
                 <div
                     style="width: 68px; height: 68px; border-radius: 20px; background: linear-gradient(135deg, #f87171 0%, #ef4444 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; box-shadow: 0 10px 24px rgba(239, 68, 68, 0.35), inset 0 2px 4px rgba(255,255,255,0.4); transform: rotate(-5deg);">
@@ -5823,10 +5825,13 @@
                         <line x1="21" y1="12" x2="9" y2="12"></line>
                     </svg>
                 </div>
-                
-                <h3 style="font-size: 24px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">Exit Exam?</h3>
-                <p style="font-size: 15px; color: #64748b; margin: 0 0 16px 0; line-height: 1.5; padding: 0 10px;">What would you like to do with your current progress?</p>
-                
+
+                <h3
+                    style="font-size: 24px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">
+                    Exit Exam?</h3>
+                <p style="font-size: 15px; color: #64748b; margin: 0 0 16px 0; line-height: 1.5; padding: 0 10px;">What
+                    would you like to do with your current progress?</p>
+
                 <!-- Horizontal Two Buttons (Standard flow) -->
                 <div id="exit-two-buttons" style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
                     <button onclick="QuizEngine.proceedExit()"
@@ -5842,7 +5847,7 @@
                         Cancel
                     </button>
                 </div>
-                
+
                 <!-- Vertical Three Buttons (Exam/Practice flow) -->
                 <div id="exit-three-buttons" style="display: none; width: 100%; flex-direction: column; gap: 12px;">
                     <button onclick="QuizEngine.exitAndSaveProgress()"
@@ -5873,7 +5878,7 @@
             onclick="QuizEngine.cancelDiscardConfirm()">
             <div onclick="event.stopPropagation()" class="exit-confirm-modal"
                 style="background: #ffffff; border-radius: 28px; padding: 26px; width: 85%; max-width: 340px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8); position: relative; display: flex; flex-direction: column; align-items: center; margin: auto; border: 1px solid rgba(15, 23, 42, 0.05); transform: scale(1.1); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                
+
                 <!-- Icon -->
                 <div
                     style="width: 68px; height: 68px; border-radius: 20px; background: linear-gradient(135deg, #f87171 0%, #ef4444 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; box-shadow: 0 10px 24px rgba(239, 68, 68, 0.35), inset 0 2px 4px rgba(255,255,255,0.4); transform: rotate(-5deg);">
@@ -5885,10 +5890,13 @@
                         <line x1="14" y1="11" x2="14" y2="17"></line>
                     </svg>
                 </div>
-                
-                <h3 style="margin: 0 0 4px 0; font-size: 24px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">Discard Progress?</h3>
-                <p style="margin: 0 0 16px 0; font-size: 15px; color: #64748b; line-height: 1.5; padding: 0 10px;">This will permanently delete your current progress. You will start from Question 1 next time.</p>
-                
+
+                <h3
+                    style="margin: 0 0 4px 0; font-size: 24px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">
+                    Discard Progress?</h3>
+                <p style="margin: 0 0 16px 0; font-size: 15px; color: #64748b; line-height: 1.5; padding: 0 10px;">This
+                    will permanently delete your current progress. You will start from Question 1 next time.</p>
+
                 <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
                     <button onclick="QuizEngine.proceedDiscardExit()"
                         style="width: 100%; padding: 16px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);"
@@ -5912,7 +5920,7 @@
             onclick="QuizEngine.cancelResumeExam()">
             <div onclick="event.stopPropagation()" class="exit-confirm-modal"
                 style="background: #ffffff; border-radius: 28px; padding: 26px; width: 85%; max-width: 340px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8); position: relative; display: flex; flex-direction: column; align-items: center; margin: auto; border: 1px solid rgba(15, 23, 42, 0.05); transform: scale(1.1); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                
+
                 <!-- Icon -->
                 <div
                     style="width: 68px; height: 68px; border-radius: 20px; background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; box-shadow: 0 10px 24px rgba(59, 130, 246, 0.35), inset 0 2px 4px rgba(255,255,255,0.4); transform: rotate(-5deg);">
@@ -5922,10 +5930,13 @@
                         <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
                 </div>
-                
-                <h3 style="margin: 0 0 4px 0; font-size: 24px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">Incomplete Exam</h3>
-                <p style="margin: 0 0 16px 0; font-size: 15px; color: #64748b; line-height: 1.5; padding: 0 10px;">You must complete your resumed Mock Exam before starting a new one.</p>
-                
+
+                <h3
+                    style="margin: 0 0 4px 0; font-size: 24px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">
+                    Incomplete Exam</h3>
+                <p style="margin: 0 0 16px 0; font-size: 15px; color: #64748b; line-height: 1.5; padding: 0 10px;">You
+                    must complete your resumed Mock Exam before starting a new one.</p>
+
                 <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
                     <button onclick="QuizEngine.proceedResumeExam()"
                         style="width: 100%; padding: 16px; background: linear-gradient(135deg, #466ba9 0%, #38568a 100%); color: white; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);"
@@ -6110,7 +6121,7 @@
             onclick="this.style.display='none'">
             <div onclick="event.stopPropagation()"
                 style="background: #ffffff; border-radius: 28px; padding: 26px; width: 85%; max-width: 340px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8); animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; display: flex; flex-direction: column; align-items: center; margin: auto; border: 1px solid rgba(15, 23, 42, 0.05);">
-                
+
                 <!-- Icon -->
                 <div
                     style="width: 68px; height: 68px; border-radius: 20px; background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; box-shadow: 0 10px 24px rgba(245, 158, 11, 0.35), inset 0 2px 4px rgba(255,255,255,0.4); transform: rotate(-5deg);">
@@ -6121,10 +6132,13 @@
                         <line x1="12" y1="16" x2="12.01" y2="16"></line>
                     </svg>
                 </div>
-                
-                <h3 style="font-size: 24px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">Hold On!</h3>
-                <p style="font-size: 15px; color: #64748b; margin: 0 0 16px 0; line-height: 1.5; padding: 0 10px;">You have skipped some questions. Please review them before submitting.</p>
-                
+
+                <h3
+                    style="font-size: 24px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">
+                    Hold On!</h3>
+                <p style="font-size: 15px; color: #64748b; margin: 0 0 16px 0; line-height: 1.5; padding: 0 10px;">You
+                    have skipped some questions. Please review them before submitting.</p>
+
                 <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
                     <button
                         onclick="document.getElementById('incomplete-modal').style.display='none'; QuizEngine.startReviewSkipped();"
@@ -6133,14 +6147,7 @@
                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)';">
                         Review Skipped
                     </button>
-                    
-                    <button
-                        onclick="document.getElementById('incomplete-modal').style.display='none';"
-                        style="width: 100%; padding: 14px; background: transparent; color: #64748b; border: none; border-radius: 14px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s ease;"
-                        onmouseover="this.style.background='#f1f5f9'; this.style.color='#0f172a';"
-                        onmouseout="this.style.background='transparent'; this.style.color='#64748b';">
-                        Dismiss
-                    </button>
+
                 </div>
             </div>
         </div>
