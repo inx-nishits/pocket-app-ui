@@ -24,7 +24,7 @@ const QuizEngine = {
                 "General Defences": { badge: "Gold", subSubs: { "Inadvertence and Mistake": 2, "Duress": 11, "Duress of Circumstances": 4, "Use of Lethal Force and Human Rights": 3, "Use of Force to Defend, Prevent Crime and to Arrest": 3, "Police Officers": 1, "Infancy": 2 } },
                 "Homicide": { badge: "Bronze", subSubs: { "Murder": 10, "Voluntary Manslaughter and 'Special Defences'": 12, "Involuntary Manslaughter": 9, "Causing or Allowing a Child or Vulnerable Adult to Die or Suffer Serious Physical Harm": 3, "Encouraging or Assisting Suicide": 4, "Solicitation of Murder": 2 } },
                 "Misuse of Drugs": { badge: "", subSubs: { "Classification": 8, "Possession": 10, "Supplying": 10, "Possession with Intent to Supply": 4, "Supply of Articles": 3, "Production of a Controlled Drug": 3, "Cultivation of Cannabis": 3, "General Defence under Section 28": 9, "Occupiers etc": 2, "Assisting or Inducing Offence Outside United Kingdom": 1, "Incitement": 1, "Travel Restriction Orders": 4, "Police Powers": 7, "Psychoactive and Intoxicating Substances": 5 } },
-                "Firearms and Gun Crime": { badge: "Bronze", subSubs: { "Definitions – Firearm, Ammunition and Imitation Firearm": 8, "Section 1 Firearm": 5, "Restrictions on Transfer of Firearms": 1, "Imitation Firearm Offences": 2, "Prohibited Weapon": 14, "General Exemptions": 6, "Criminal Use of Firearms": 21, "Further Firearms Offences": 8, "Police Powers": 8, "Possession or Acquisition of Firearms by Convicted Persons": 6 } },
+                "Firearms and Gun Crime": { badge: "Bronze", subSubs: { "Definitions - Firearm, Ammunition and Imitation Firearm": 8, "Section 1 Firearm": 5, "Restrictions on Transfer of Firearms": 1, "Imitation Firearm Offences": 2, "Prohibited Weapon": 14, "General Exemptions": 6, "Criminal Use of Firearms": 21, "Further Firearms Offences": 8, "Police Powers": 8, "Possession or Acquisition of Firearms by Convicted Persons": 6 } },
                 "Weapons": { badge: "Silver", subSubs: { "Having Offensive Weapon in Public Place": 15, "Threatening with Offensive Weapon in Public": 2, "Having Bladed or Pointed Article in Public Place": 6, "Offences and Powers Relating to School Premises": 9, "Trespassing With Weapon of Offence": 4, "Manufacture and Sale of Weapons": 7, "Knives": 6 } },
                 "Racially and Religiously Aggravated Offences": { badge: "Rare", subSubs: { "Racially or Religiously Aggravated": 21 } },
                 "Non-Fatal Offences Against the Person": { badge: "Silver", subSubs: { "Assault": 8, "Battery": 1, "Consent": 7, "Assault Offences": 19, "Other Assault Offences": 12, "Threats to Kill": 3 } },
@@ -40,24 +40,24 @@ const QuizEngine = {
             icon: "1f4c4.png",
             subTopics: {
                 "Instituting Criminal Proceedings": { badge: "Silver", subSubs: { "Written Charge and Requisition": 2, "Service of Summons, Written Charge and Requisition": 3, "Service Outside England and Wales": 1, "Execution of Warrants": 6 } },
-                "Release of Person Arrested": { badge: "Bronze", subSubs: { "Person Arrested Elsewhere than at a Police Station": 18, "Pre-Charge Release of Person Arrested and Bail": 12, "Police Bail After Charge": 2, "Police Bail Restrictions": 6, "Grounds for Refusing Police Bail": 12, "Custody Officer – Granting Bail": 9, "Police Bail – Surety": 8, "Security": 2, "Liability to Arrest for Absconding or Breaking Bail Conditions": 4, "Offence of Absconding by Person Released on Bail": 2, "Remands in Police Custody": 1 } },
+                "Release of Person Arrested": { badge: "Bronze", subSubs: { "Person Arrested Elsewhere than at a Police Station": 18, "Pre-Charge Release of Person Arrested and Bail": 12, "Police Bail After Charge": 2, "Police Bail Restrictions": 6, "Grounds for Refusing Police Bail": 12, "Custody Officer - Granting Bail": 9, "Police Bail - Surety": 8, "Security": 2, "Liability to Arrest for Absconding or Breaking Bail Conditions": 4, "Offence of Absconding by Person Released on Bail": 2, "Remands in Police Custody": 1 } },
                 "Court Procedure and Witnesses": { badge: "Bronze", subSubs: { "Plea of Guilty by Post": 2, "Mode of Trial": 4, "Witnesses": 19, "Special Measures": 5, "Refreshing Memory": 6, "Oaths and Affirmations": 1, "Cross-Examination": 2 } },
                 "Exclusion of Admissible Evidence": { badge: "Bronze", subSubs: { "Confessions": 15, "Exclusion of Evidence Generally": 10, "Entrapment": 5 } },
-                "Disclosure of Evidence": { badge: "", subSubs: { "Failure to Comply": 5, "Disclosure Code of Practice – 2 Definitions": 3, "Disclosure Code of Practice – 3 General Responsibilities": 5, "Disclosure Code of Practice – 5 Retention of Material": 7, "Disclosure Code of Practice – 6 Preparation of Material for Prosecutor": 11, "Disclosure Code of Practice – 7 Revelation of Material to Prosecutor": 3, "Disclosure Code of Practice – 8 Subsequent Action by Disclosure Officer": 12, "Disclosure Code of Practice – 10 Disclosure of Material to Accused": 6 } },
-                "Detention and Treatment of Persons by Police Officers: PACE Code C": { badge: "", subSubs: { "Custody Officer": 5, "Designated Person": 2, "Designated Police Station": 1, "Police Detention": 3, "Code C – 1 General": 6, "Code C – 2 Custody Records": 7, "Code C – 3 Initial Action": 21, "Code C – 4 Detainee's Property": 10, "Code C – 5 Right not to be Held Incommunicado": 10, "Code C – 6 Right to Legal Advice": 15, "Code C – 7 Citizens of Independent Commonwealth Countries or Foreign Nationals": 1, "Code C – 8 Conditions of Detention": 6, "Code C – 9 Care and Treatment of Detained Persons": 9, "Code C – 13 Interpreters": 10, "Code C – 14 Questioning – Special Restrictions": 1, "Limits on Period of Detention without Charge": 11, "Code C – 15 Reviews and Extensions of Detention": 38, "Code C – 16 Charging Detained Persons": 13, "Cautions as a Means of Disposal": 3, "Code C – 17 Testing Persons for Presence of Specified Class A Drugs": 7, "Code C – Annex A – Intimate and Strip Searches": 10, "Code C – Annex E: Summary of Provisions Relating to Vulnerable Persons": 2, "Code C – Annex K – X-Rays and Ultrasound Scans": 2, "Code C – Annex L – Establishing Gender of Persons for the Purpose of Searching and Certain other Procedures": 2 } },
-                "Identification: PACE Code D": { badge: "", subSubs: { "Introduction": 1, "Code D – 2 General": 1, "Code D – 3 Identification by Witnesses": 38, "Code D – 4 Identification by Fingerprints and Footwear Impressions": 21, "Code D – 5 Examinations to Establish Identity and the Taking of Photographs": 10, "Code D – 6 Identification by Body Samples and Impressions": 23, "Code D – Annex A: Video Identification": 4, "Code D – Annex B: Identification Parades": 4, "Code D – Annex C: Group Identification": 2, "Code D – Annex D: Confrontation by an Eye-witness": 1, "Code D – Annex E: Showing Photographs to Eye Witnesses": 3, "Code D – Annex F: Fingerprints, Samples and Footwear Impressions – Destruction and Speculative Searches": 3, "Code D – Annex G: Requirement for a Person to Attend a Police Station for Fingerprints and Samples": 1 } },
-                "Interviews: PACE Codes C, E and F": { badge: "", subSubs: { "Code C – 10 Cautions": 11, "Code C – 11 Interviews – General": 17, "Code C – 12 Interviews in Police Stations": 11, "Code C – Annex C: Restriction on Drawing Adverse Inferences from Silence and Terms of the Caution when the Restriction Applies": 2, "Code C – Annex D: Written Statements under Caution": 1, "Code E – 1 General": 1, "Code E – 2 Interviews and other matters to be audio recorded under this Code": 2, "Code E – 3 Interview recording using removable recording media device": 11, "Code F – 1 General": 1, "Code F – 2 When interviews and matters to which Code F applies may be visually recorded with sound and provisions for their conduct and recording": 2, "Interviews on Behalf of Scottish Forces and Vice Versa": 2 } }
+                "Disclosure of Evidence": { badge: "", subSubs: { "Failure to Comply": 5, "Disclosure Code of Practice - 2 Definitions": 3, "Disclosure Code of Practice - 3 General Responsibilities": 5, "Disclosure Code of Practice - 5 Retention of Material": 7, "Disclosure Code of Practice - 6 Preparation of Material for Prosecutor": 11, "Disclosure Code of Practice - 7 Revelation of Material to Prosecutor": 3, "Disclosure Code of Practice - 8 Subsequent Action by Disclosure Officer": 12, "Disclosure Code of Practice - 10 Disclosure of Material to Accused": 6 } },
+                "Detention and Treatment of Persons by Police Officers: PACE Code C": { badge: "", subSubs: { "Custody Officer": 5, "Designated Person": 2, "Designated Police Station": 1, "Police Detention": 3, "Code C - 1 General": 6, "Code C - 2 Custody Records": 7, "Code C - 3 Initial Action": 21, "Code C - 4 Detainee's Property": 10, "Code C - 5 Right not to be Held Incommunicado": 10, "Code C - 6 Right to Legal Advice": 15, "Code C - 7 Citizens of Independent Commonwealth Countries or Foreign Nationals": 1, "Code C - 8 Conditions of Detention": 6, "Code C - 9 Care and Treatment of Detained Persons": 9, "Code C - 13 Interpreters": 10, "Code C - 14 Questioning - Special Restrictions": 1, "Limits on Period of Detention without Charge": 11, "Code C - 15 Reviews and Extensions of Detention": 38, "Code C - 16 Charging Detained Persons": 13, "Cautions as a Means of Disposal": 3, "Code C - 17 Testing Persons for Presence of Specified Class A Drugs": 7, "Code C - Annex A - Intimate and Strip Searches": 10, "Code C - Annex E: Summary of Provisions Relating to Vulnerable Persons": 2, "Code C - Annex K - X-Rays and Ultrasound Scans": 2, "Code C - Annex L - Establishing Gender of Persons for the Purpose of Searching and Certain other Procedures": 2 } },
+                "Identification: PACE Code D": { badge: "", subSubs: { "Introduction": 1, "Code D - 2 General": 1, "Code D - 3 Identification by Witnesses": 38, "Code D - 4 Identification by Fingerprints and Footwear Impressions": 21, "Code D - 5 Examinations to Establish Identity and the Taking of Photographs": 10, "Code D - 6 Identification by Body Samples and Impressions": 23, "Code D - Annex A: Video Identification": 4, "Code D - Annex B: Identification Parades": 4, "Code D - Annex C: Group Identification": 2, "Code D - Annex D: Confrontation by an Eye-witness": 1, "Code D - Annex E: Showing Photographs to Eye Witnesses": 3, "Code D - Annex F: Fingerprints, Samples and Footwear Impressions - Destruction and Speculative Searches": 3, "Code D - Annex G: Requirement for a Person to Attend a Police Station for Fingerprints and Samples": 1 } },
+                "Interviews: PACE Codes C, E and F": { badge: "", subSubs: { "Code C - 10 Cautions": 11, "Code C - 11 Interviews - General": 17, "Code C - 12 Interviews in Police Stations": 11, "Code C - Annex C: Restriction on Drawing Adverse Inferences from Silence and Terms of the Caution when the Restriction Applies": 2, "Code C - Annex D: Written Statements under Caution": 1, "Code E - 1 General": 1, "Code E - 2 Interviews and other matters to be audio recorded under this Code": 2, "Code E - 3 Interview recording using removable recording media device": 11, "Code F - 1 General": 1, "Code F - 2 When interviews and matters to which Code F applies may be visually recorded with sound and provisions for their conduct and recording": 2, "Interviews on Behalf of Scottish Forces and Vice Versa": 2 } }
             }
         },
         "General Police Duties": {
             icon: "1f46e.png",
             subTopics: {
-                "Stop and Search": { badge: "", subSubs: { "Code A – 1 Principles Governing Stop and Search": 4, "Code A – 2 Types of Stop and Search Powers": 29, "Code A – 3 Conduct of Searches": 7, "Code A – 4 Recording Requirements": 9 } },
-                "Entry, Search and Seizure": { badge: "", subSubs: { "Code B – 2 General": 4, "Code B – 3 Search Warrants and Production Orders": 5, "Search Warrants for Indictable Offences": 3, "Execution of a Warrant": 1, "Code B – 4 Entry without Warrant – Particular Powers": 20, "Code B – 5 Search with Consent": 2, "Code B – 6 Searching Premises – General Considerations": 6, "Code B – 7 Seizure and Retention of Property": 13, "Code B – 8 Action After Searches": 2 } },
-                "Powers of Arrest": { badge: "Bronze", subSubs: { "Code G – 1 Introduction": 4, "Code G – 2 Elements of Arrest under Section 24 PACE": 11, "Code G – 3 Information to be Given on Arrest": 4, "Code G – 4 Records of Arrest": 1, "Arrest Without Warrant – \"Citizen's Arrest\"": 3, "Voluntary Attendance at a Police Station": 2, "After Arrest": 3 } },
+                "Stop and Search": { badge: "", subSubs: { "Code A - 1 Principles Governing Stop and Search": 4, "Code A - 2 Types of Stop and Search Powers": 29, "Code A - 3 Conduct of Searches": 7, "Code A - 4 Recording Requirements": 9 } },
+                "Entry, Search and Seizure": { badge: "", subSubs: { "Code B - 2 General": 4, "Code B - 3 Search Warrants and Production Orders": 5, "Search Warrants for Indictable Offences": 3, "Execution of a Warrant": 1, "Code B - 4 Entry without Warrant - Particular Powers": 20, "Code B - 5 Search with Consent": 2, "Code B - 6 Searching Premises - General Considerations": 6, "Code B - 7 Seizure and Retention of Property": 13, "Code B - 8 Action After Searches": 2 } },
+                "Powers of Arrest": { badge: "Bronze", subSubs: { "Code G - 1 Introduction": 4, "Code G - 2 Elements of Arrest under Section 24 PACE": 11, "Code G - 3 Information to be Given on Arrest": 4, "Code G - 4 Records of Arrest": 1, "Arrest Without Warrant - \"Citizen's Arrest\"": 3, "Voluntary Attendance at a Police Station": 2, "After Arrest": 3 } },
                 "Protection of People Suffering from Mental Disorders": { badge: "Gold", subSubs: { "Removal etc of Mentally Disordered Persons Without a Warrant": 5, "Retaking of Patients Escaping from Custody": 2 } },
                 "Offences Relating to Land and Premises": { badge: "", subSubs: { "Aggravated Trespass": 2, "Failure to Leave Land or Re-entry to Land when Directed to Leave": 1, "Power to Remove Trespassers on Land": 10, "Power to Remove Trespassers: Alternative Site Available": 6, "Squatting in a Residential Building": 1, "Nuisance on Educational Premises": 6, "Causing Nuisance or Disturbance on NHS Premises": 2 } },
-                "Licensing and Offences Relating to Alcohol": { badge: "", subSubs: { "Power of Entry to Investigate Licensable Activities or Offences": 3, "Drunk and Disorderly": 3, "Found Drunk": 1, "Children – Offences under the Licensing Act 2003": 15, "Children – Other Offences": 9, "Licensed Premises: Exclusion Orders": 1, "Orders to Close Premises in Area Experiencing Disorder": 2, "Closure Notices and Orders for Unlicensed Premises": 2 } },
+                "Licensing and Offences Relating to Alcohol": { badge: "", subSubs: { "Power of Entry to Investigate Licensable Activities or Offences": 3, "Drunk and Disorderly": 3, "Found Drunk": 1, "Children - Offences under the Licensing Act 2003": 15, "Children - Other Offences": 9, "Licensed Premises: Exclusion Orders": 1, "Orders to Close Premises in Area Experiencing Disorder": 2, "Closure Notices and Orders for Unlicensed Premises": 2 } },
                 "Protecting Citizens and the Community: Injunctions, Orders and Police Powers": { badge: "Bronze", subSubs: { "Injunctions to Prevent Gang-related Violence and Drug Dealing Activity": 2, "Injunctions under the Anti-social Behaviour, Crime and Policing Act 2014": 3, "Criminal Behaviour Orders": 4, "Dispersal Powers": 4, "Community Protection Notices": 1, "Public Spaces Protection Orders": 2, "Closure of Premises Associated with Nuisance and Disorder": 2, "Orders Against Parents": 12, "Removal of Truants and Excluded Pupils to Designated Premises, etc.": 9 } },
                 "Processions and Assemblies": { badge: "", subSubs: { "Public Processions and Assemblies": 10 } },
                 "Public Order Offences": { badge: "Silver", subSubs: { "Breach of the Peace": 12, "Riot": 8, "Violent Disorder": 6, "Affray": 7, "Fear or Provocation of Violence": 4, "Intentional Harassment Alarm or Distress": 7, "Harassment Alarm or Distress": 8 } },
@@ -67,7 +67,7 @@ const QuizEngine = {
                 "Offences and Powers Relating to Information and Communications": { badge: "", subSubs: { "Offences Under the Computer Misuse Act 1990": 13, "The Data Protection Act 2018": 5, "The Regulation of Investigatory Powers Act 2000": 20, "Offence of Sending Letters etc. with Intent to Cause Distress or Anxiety": 3, "False Communications Offence": 1, "Improper Use of Public Electronic Communications Network": 5 } },
                 "Offences Against the Administration of Justice & Public Interest": { badge: "", subSubs: { "Perjury": 5, "Offences Similar to Perjury": 2, "Perverting the Course of Justice": 4, "Considerations Affecting Witnesses, Jurors and Others": 6, "Assisting Offenders": 8, "Concealing Relevant Offences": 3, "Miscellaneous Offences Relating to Offenders": 5, "Wasting Police Time": 6 } },
                 "Terrorism and Associated Offences": { badge: "", subSubs: { "Terrorism Defined": 4, "Terrorism Act 2000: Financial Measures": 2, "Terrorism Act 2000: Duty of Disclosure and Tipping Off": 2, "Terrorism Act 2006: Offences": 3, "Terrorism Act 2000: Police Powers": 3, "Cordons": 6, "Offences Involving Explosive Substance": 5 } },
-                "Diversity, Equality and Inclusion": { badge: "", subSubs: { "Article 14 – Prohibition of Discrimination": 1, "Protected Characteristics": 12, "Discrimination": 6, "Police Officers": 1, "Employees and Applicants": 5, "Liability for Discrimination in Employment": 2 } },
+                "Diversity, Equality and Inclusion": { badge: "", subSubs: { "Article 14 - Prohibition of Discrimination": 1, "Protected Characteristics": 12, "Discrimination": 6, "Police Officers": 1, "Employees and Applicants": 5, "Liability for Discrimination in Employment": 2 } },
                 "Complaints and Misconduct": { badge: "", subSubs: { "The Standards of Professional Behaviour": 5, "The Role of the Police Friend": 5, "Misconduct Procedures": 6, "Misconduct Proceedings": 8, "Accelerated Misconduct Cases": 1, "Appeals to the Police Appeals Tribunal": 3 } },
                 "Unsatisfactory Performance and Attendance": { badge: "", subSubs: { "Applicability": 3, "The First Stage": 6, "The Second Stage": 3, "The Third Stage": 7, "Attendance at Each Stage of the Procedures and Ill Health": 1, "Other Regulations": 6, "Offences": 13, "Health and Safety": 1 } },
                 "Road Policing Definitions and Principles": { badge: "", subSubs: { "Mechanically Propelled Vehicle": 3, "Motor Vehicle": 7, "Driver": 1, "Drive and Driving": 7, "Attempting to Drive": 1, "In Charge": 3, "Road": 10, "Public Place": 4, "Use, Cause or Permit": 9, "Defences in Relation to Road Policing Offences": 16 } },
@@ -80,60 +80,80 @@ const QuizEngine = {
 
 
     startMockExam: function (examName) {
-        const saved = localStorage.getItem('saved_exam_progress');
-        if (saved) {
-            try {
-                const data = JSON.parse(saved);
-                if (data.currentMode === 'Mock Exam' || data.currentFlow === 'mock' || data.selectedCategory === 'Mock Exam' || data.selectedCategory === 'Promotion Exam') {
-                    const overlay = document.getElementById('resume-exam-overlay');
-                    if (overlay) {
-                        overlay.style.opacity = '1';
-                        overlay.style.pointerEvents = 'auto';
-                        overlay.querySelector('.exit-confirm-modal').style.transform = 'scale(1)';
-                    }
-                    return;
-                }
-            } catch (e) {
-                console.error("Error parsing saved exam progress:", e);
-            }
-        }
+        // Always start a fresh mock exam by clearing any saved progress
+        localStorage.removeItem('saved_exam_progress');
+        // Continue with setting up the exam
+
 
         this.selectedCategory = examName;
         this.currentFormat = 'Mock Exam';
         this.currentMode = 'Mock Exam';
+        this.selectedFormat = 'Mock Exam';
 
         const examsData = {
-            'Sergeant Exam': { icon: '1f46e.png', sub: 'Crime, Evidence, GP', q: 150, d: '3h 15m', pass: '55%' },
-            'Inspector Exam': { icon: '1f46e.png', sub: 'Crime, Evidence, GP, Traffic', q: 150, d: '3h 15m', pass: '55%' },
-            'National Investigators Exam': { icon: '1f50d.png', sub: 'Crime, Evidence, Investigation', q: 80, d: '2h', pass: '55%' }
+            'Sergeant Exam': {
+                iconBg: '#bfdbfe', iconSrc: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f46e.png',
+                desc: 'Comprehensive mock exam covering all sergeant level responsibilities.',
+                q: 150, d: '3h 15m', pass: '55%'
+            },
+            'Inspector Exam': {
+                iconBg: '#bfdbfe', iconSrc: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f575-fe0f.png',
+                desc: 'Comprehensive mock exam covering all inspector level responsibilities.',
+                q: 150, d: '3h 15m', pass: '55%'
+            },
+            'National Investigators Exam': {
+                iconBg: '#bfdbfe', iconSrc: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f50d.png',
+                desc: 'Assess your investigative skills and knowledge.',
+                q: 80, d: '2h', pass: '55%'
+            }
         };
         const data = examsData[examName] || examsData['Sergeant Exam'];
 
+        const nppfTag = examName.includes('Sergeant') || examName.includes('Inspector')
+            ? `<div style="display: inline-block; background: #eff6ff; color: #1d4ed8; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 8px; margin: 6px 0;">NPPF Step 2</div>`
+            : '';
+
         const cardHtml = `
-            <div class="format-card" style="flex-direction: column; align-items: stretch; padding: 20px; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
-                    <div style="display: flex; align-items: flex-start;">
-                        <div style="background: #eff6ff; width: 48px; height: 48px; margin-right: 16px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-                            <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${data.icon}" style="width: 24px; height: 24px; object-fit: contain;">
+            <div class="format-card" style="flex-direction: column; align-items: stretch; padding: 20px; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px; background: white; border-radius: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                    <div style="display: flex; align-items: flex-start; width: 100%;">
+                        <div style="background: ${data.iconBg}; width: 64px; height: 64px; margin-right: 16px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                            <img src="${data.iconSrc}" style="width: 40px; height: 40px; object-fit: contain;" alt="${examName}">
                         </div>
-                        <div>
-                            <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">${examName}</h3>
-                            <p style="font-size: 14px; color: #64748b; margin: 0;">${data.sub}</p>
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0; line-height: 1.3;">${examName}</h3>
+                            ${nppfTag}
+                            <p style="font-size: 13px; color: #64748b; margin: 2px 0 0 0; line-height: 1.4;">${data.desc}</p>
                         </div>
                     </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; width: 100%; text-align: left; padding-top: 16px; border-top: 1.5px solid rgba(15, 23, 42, 0.04);">
-                    <div>
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Questions</div>
-                        <div style="font-size: 16px; font-weight: 700; color: #0f172a;">${data.q}</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; text-align: left; padding-top: 16px; border-top: 1.5px solid rgba(15, 23, 42, 0.04);">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 34px; height: 34px; border-radius: 9px; background: #f3e8ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9333ea;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Questions</div>
+                            <div style="font-size: 14px; font-weight: 700; color: #0f172a;">${data.q}</div>
+                        </div>
                     </div>
-                    <div>
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Duration</div>
-                        <div style="font-size: 16px; font-weight: 700; color: #0f172a;">${data.d}</div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 34px; height: 34px; border-radius: 9px; background: #fff7ed; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #ea580c;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Duration</div>
+                            <div style="font-size: 14px; font-weight: 700; color: #0f172a;">${data.d}</div>
+                        </div>
                     </div>
-                    <div>
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Pass Mark</div>
-                        <div style="font-size: 16px; font-weight: 700; color: #0f172a;">${data.pass}</div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 34px; height: 34px; border-radius: 9px; background: #ecfdf5; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #10b981;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Pass Mark</div>
+                            <div style="font-size: 14px; font-weight: 700; color: #0f172a;">${data.pass}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -146,6 +166,12 @@ const QuizEngine = {
     },
 
     beginMockSimulation: function () {
+        if (this.selectedCategory === 'National Investigators Exam') {
+            this.totalQuestions = 30; // Temporarily set to 30 for testing
+        } else {
+            this.totalQuestions = 30; // Temporarily set to 30 for testing
+        }
+        this.mockAnswers = new Array(this.totalQuestions).fill(null);
         this.navigate('view-active');
     },
 
@@ -185,6 +211,7 @@ const QuizEngine = {
 
     startFlow: function (flowName) {
         this.currentFlow = flowName;
+        this.launchedFromProgress = false;
         if (flowName === 'live') {
             this.navigate('view-live-list');
         } else if (flowName === 'mock') {
@@ -381,7 +408,7 @@ const QuizEngine = {
         if (type === 'report') {
             this.openReportSheet();
         } else {
-            this.showToast('✓ Thank You<br>Your feedback helps improve future questions. 🙏');
+            this.showToast('✅ Thank You<br>Your feedback helps improve future questions. 🙏');
         }
     },
 
@@ -436,7 +463,7 @@ const QuizEngine = {
         }
 
         this.closeReportSheet();
-        this.showToast('✓ Thank You<br>Your feedback helps improve future questions. 🙏');
+        this.showToast('✅ Thank You<br>Your feedback helps improve future questions. 🙏');
     },
 
     showToast: function (message) {
@@ -583,6 +610,16 @@ const QuizEngine = {
         }
         nextView.classList.add('active');
 
+        // Reset scroll position to top for the newly active view
+        setTimeout(() => {
+            const scrollable = nextView.querySelector('.view-content, .content-area');
+            if (scrollable) {
+                scrollable.scrollTop = 0;
+            }
+            nextView.scrollTop = 0;
+            window.scrollTo(0, 0);
+        }, 10);
+
         // Special initializers
         if (viewId === 'view-active') {
             if (!this.isReviewingSkipped) {
@@ -612,6 +649,7 @@ const QuizEngine = {
 
             // Check if current flow is an exam/practice flow
             const isExamFlow = (this.currentFlow === 'mock');
+            const isPracticeFlow = (this.currentFlow === 'topic' || this.currentFlow === 'mixed');
 
             if (isExamFlow) {
                 if (titleEl) titleEl.innerText = 'Exit Exam?';
@@ -622,6 +660,15 @@ const QuizEngine = {
                 const threeButtons = document.getElementById('exit-three-buttons');
                 if (twoButtons) twoButtons.style.display = 'none';
                 if (threeButtons) threeButtons.style.display = 'flex';
+            } else if (isPracticeFlow) {
+                if (titleEl) titleEl.innerText = 'Exit Practice?';
+                if (descEl) descEl.innerText = 'Are you sure you want to exit? Your practice progress will be lost.';
+
+                // Show horizontal two buttons and hide vertical three-button stack
+                const twoButtons = document.getElementById('exit-two-buttons');
+                const threeButtons = document.getElementById('exit-three-buttons');
+                if (twoButtons) twoButtons.style.display = 'flex';
+                if (threeButtons) threeButtons.style.display = 'none';
             } else {
                 if (titleEl) titleEl.innerText = 'Exit Quiz?';
                 if (descEl) descEl.innerText = 'Are you sure you want to exit? Your quiz progress will be lost.';
@@ -800,6 +847,24 @@ const QuizEngine = {
         document.getElementById('view-hub').classList.add('active');
     },
 
+    restartFlow: function (flowName) {
+        this.stopConfetti();
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.history = ['view-hub'];
+        window.history.pushState({ viewId: 'view-hub', index: 0 }, "", `#view-hub`);
+        document.querySelectorAll('.quiz-view').forEach(v => v.classList.remove('active'));
+        this.startFlow(flowName);
+    },
+
+    returnToProgress: function () {
+        this.stopConfetti();
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.history = ['view-hub'];
+        window.history.pushState({ viewId: 'view-hub', index: 0 }, "", `#view-hub`);
+        document.querySelectorAll('.quiz-view').forEach(v => v.classList.remove('active'));
+        this.navigate('view-progress');
+    },
+
     wrongQuestionsMockData: {
         'Homicide': [
             {
@@ -855,10 +920,10 @@ const QuizEngine = {
 
                     if (oIndex === qData.correct) {
                         style = "padding: 12px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #10b981; background: #ecfdf5; color: #065f46;";
-                        icon = '<span style="font-size: 16px; font-weight: 700; color: #10b981;">✓</span>';
+                        icon = '<span style="font-size: 16px; font-weight: 700; color: #10b981;">✅</span>';
                     } else if (oIndex === qData.selected) {
                         style = "padding: 12px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #ef4444; background: #fef2f2; color: #991b1b;";
-                        icon = '<span style="font-size: 16px; font-weight: 700; color: #ef4444;">✕</span>';
+                        icon = '<span style="font-size: 16px; font-weight: 700; color: #ef4444;">❌</span>';
                     }
 
                     return `<div style="${style}">${opt} ${icon}</div>`;
@@ -973,6 +1038,179 @@ const QuizEngine = {
         }
     ],
 
+
+    openQuestionNavigator: function () {
+        this.navigatorItemsPerPage = 18;
+        this.navigatorCurrentPage = Math.floor((this.currentQuestion - 1) / this.navigatorItemsPerPage);
+        const sheet = document.getElementById('navigator-sheet');
+        const overlay = document.getElementById('navigator-overlay');
+        if (sheet && overlay) {
+            this.renderNavigatorGrid();
+            sheet.classList.remove('hidden');
+            overlay.classList.remove('hidden');
+            if (!history.state || !history.state.isNavigatorOpen) {
+                const currentViewId = history.state ? history.state.viewId : 'view-active';
+                history.pushState({ isNavigatorOpen: true, viewId: currentViewId }, '');
+            }
+        }
+    },
+
+    closeQuestionNavigator: function (fromPopState = false) {
+        const sheet = document.getElementById('navigator-sheet');
+        const overlay = document.getElementById('navigator-overlay');
+        if (sheet && overlay) {
+            sheet.classList.add('hidden');
+            overlay.classList.add('hidden');
+            if (!fromPopState && history.state && history.state.isNavigatorOpen) {
+                history.back();
+            }
+        }
+    },
+
+    nextNavigatorPage: function () {
+        if ((this.navigatorCurrentPage + 1) * this.navigatorItemsPerPage < this.totalQuestions) {
+            this.navigatorCurrentPage++;
+            this.renderNavigatorGrid();
+        }
+    },
+
+    prevNavigatorPage: function () {
+        if (this.navigatorCurrentPage > 0) {
+            this.navigatorCurrentPage--;
+            this.renderNavigatorGrid();
+        }
+    },
+
+    renderNavigatorGrid: function () {
+        const grid = document.getElementById('navigator-grid');
+        if (!grid) return;
+
+        let skippedCount = 0;
+        let html = '';
+
+        for (let i = 0; i < this.totalQuestions; i++) {
+            const isAnswered = this.mockAnswers && this.mockAnswers[i] && this.mockAnswers[i].status === 'answered';
+            const isPending = !isAnswered;
+            if (isPending) {
+                skippedCount++;
+            }
+        }
+
+        this.navigatorItemsPerPage = 18;
+        const startIndex = this.navigatorCurrentPage * this.navigatorItemsPerPage;
+        const endIndex = Math.min(startIndex + this.navigatorItemsPerPage, this.totalQuestions);
+
+        for (let i = startIndex; i < endIndex; i++) {
+            let isCurrent = (i === this.currentQuestion - 1);
+            let stateClass = 'border-color: #9ca3af; color: #9ca3af;';
+            let iconHtml = '';
+
+            const isAnswered = this.mockAnswers && this.mockAnswers[i] && this.mockAnswers[i].status === 'answered';
+            const isExplicitlySkipped = this.mockAnswers && this.mockAnswers[i] && this.mockAnswers[i].status === 'skipped';
+            const isPending = !isAnswered;
+
+            if (isAnswered) {
+                stateClass = 'border-color: #10b981; color: #10b981;';
+                iconHtml = `<div style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px white;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>`;
+            } else if (isExplicitlySkipped || isPending) {
+                stateClass = 'border-color: #9ca3af; color: #9ca3af;';
+                iconHtml = `<div style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid #9ca3af; box-sizing: border-box; box-shadow: 0 0 0 2px white;"></div>`;
+            }
+
+            if (isCurrent) {
+                stateClass = 'border-color: #1d4ed8; color: #1d4ed8;';
+                iconHtml = `<div style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; background: #1d4ed8; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px white;"><div style="width: 6px; height: 6px; border-radius: 50%; background: white;"></div></div>`;
+            }
+
+            html += `<button onclick="QuizEngine.jumpToQuestion(` + i + `)" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 50px; border-radius: 12px; border: 1.5px solid currentColor; ` + stateClass + ` background: #ffffff; font-weight: 700; font-size: 16px; cursor: pointer;">` + (i + 1) + iconHtml + `</button>`;
+        }
+
+        grid.innerHTML = html;
+
+        const paginator = document.getElementById('navigator-paginator');
+        if (paginator) {
+            if (this.totalQuestions > this.navigatorItemsPerPage) {
+                paginator.style.display = 'flex';
+                
+                const prevBtn = document.getElementById('navigator-prev-btn');
+                const nextBtn = document.getElementById('navigator-next-btn');
+                
+                if (prevBtn) {
+                    if (this.navigatorCurrentPage === 0) {
+                        prevBtn.style.opacity = '0.4';
+                        prevBtn.style.pointerEvents = 'none';
+                    } else {
+                        prevBtn.style.opacity = '1';
+                        prevBtn.style.pointerEvents = 'auto';
+                    }
+                }
+                
+                if (nextBtn) {
+                    if (endIndex >= this.totalQuestions) {
+                        nextBtn.style.opacity = '0.4';
+                        nextBtn.style.pointerEvents = 'none';
+                    } else {
+                        nextBtn.style.opacity = '1';
+                        nextBtn.style.pointerEvents = 'auto';
+                    }
+                }
+            } else {
+                paginator.style.display = 'none';
+            }
+        }
+
+        const countSpan = document.getElementById('navigator-skipped-count');
+        if (countSpan) {
+            countSpan.innerText = skippedCount;
+        }
+        const reviewBtn = document.getElementById('navigator-review-skipped-btn');
+        if (reviewBtn) {
+            if (skippedCount > 0) {
+                reviewBtn.disabled = false;
+                reviewBtn.style.opacity = '1';
+                reviewBtn.style.pointerEvents = 'auto';
+            } else {
+                reviewBtn.disabled = true;
+                reviewBtn.style.opacity = '0.5';
+                reviewBtn.style.pointerEvents = 'none';
+            }
+        }
+    },
+
+    jumpToQuestion: function (index) {
+        if (index >= 0 && index < this.totalQuestions) {
+            if (this.mockAnswers && (!this.mockAnswers[index] || this.mockAnswers[index].status !== 'answered')) {
+                if (!this.isReviewingSkipped) {
+                    this.originalCurrentQuestion = this.currentQuestion;
+                    this.isReviewingSkipped = true;
+                }
+            } else {
+                this.isReviewingSkipped = false;
+            }
+            this.currentQuestion = index;
+            this.loadQuestion();
+            this.closeQuestionNavigator();
+        }
+    },
+
+    startReviewSkipped: function () {
+        if (!this.mockAnswers) return;
+        let firstSkipped = -1;
+        for (let i = 0; i < this.totalQuestions; i++) {
+            if ((!this.mockAnswers[i] || this.mockAnswers[i].status !== 'answered')) {
+                firstSkipped = i;
+                break;
+            }
+        }
+        if (firstSkipped !== -1) {
+            this.isReviewingSkipped = true;
+            this.currentQuestion = firstSkipped;
+            this.loadQuestion();
+            this.closeQuestionNavigator();
+            this.showToast('Reviewing Skipped Questions');
+        }
+    },
+
     initActiveQuiz: function () {
         this.mockAnswers = [];
         this.isTimeUp = false;
@@ -1004,7 +1242,9 @@ const QuizEngine = {
             this.streak = 0;
             this.bestStreak = 0;
             this.totalXp = 0;
-            if (this.currentMode !== 'Practice By Topic') {
+
+            const quickModes = ['Quick Play', 'Quick Quiz', '1v1 Challenge', 'Live Challenge', 'Classic Quiz'];
+            if (quickModes.includes(this.currentMode)) {
                 this.totalQuestions = parseInt(document.getElementById('preview-count').innerText) || 5;
             }
         }
@@ -1032,30 +1272,37 @@ const QuizEngine = {
 
         if (this.timerInterval) clearInterval(this.timerInterval);
 
-        // If it's a Live Challenge, count down. Otherwise count up.
-        // 1 minute total for the exam (for quick scenario testing)
-        this.timeLeft = 60;
+        if (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas') {
+            timerContainer.style.display = 'none'; // Hide timer for practice modes
+            this.timerInterval = setInterval(() => {
+                this.timeElapsed++;
+            }, 1000);
+        } else {
+            timerContainer.style.display = 'flex'; // Show timer for other flows
+            this.timeLeft = 60; // Default countdown
 
-        this.timerInterval = setInterval(() => {
-            this.timeLeft--;
-            if (this.timeLeft <= 0) {
-                clearInterval(this.timerInterval);
-                this.timeLeft = 0;
-                this.isTimeUp = true;
-                this.finishQuiz();
-                return;
-            }
+            this.timerInterval = setInterval(() => {
+                this.timeElapsed++;
+                this.timeLeft--;
+                if (this.timeLeft <= 0) {
+                    clearInterval(this.timerInterval);
+                    this.timeLeft = 0;
+                    this.isTimeUp = true;
+                    this.finishQuiz();
+                    return;
+                }
 
-            const m = Math.floor(this.timeLeft / 60);
-            const s = this.timeLeft % 60;
-            timerText.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                const m = Math.floor(this.timeLeft / 60);
+                const s = this.timeLeft % 60;
+                timerText.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 
-            if (this.timeLeft <= 10 && this.timeLeft > 0) {
-                timerContainer.classList.add('timer-urgent');
-            } else {
-                timerContainer.classList.remove('timer-urgent');
-            }
-        }, 1000);
+                if (this.timeLeft <= 10 && this.timeLeft > 0) {
+                    timerContainer.classList.add('timer-urgent');
+                } else {
+                    timerContainer.classList.remove('timer-urgent');
+                }
+            }, 1000);
+        }
 
         this.loadQuestion();
     },
@@ -1090,20 +1337,26 @@ const QuizEngine = {
         const mockActions = document.getElementById('mock-exam-actions');
         const isMockExam = (this.currentFlow === 'mock' || this.selectedCategory === 'Mock Exam' || this.selectedCategory === 'Promotion Exam');
 
+        const mockStatsContainer = document.getElementById('mock-stats-container');
         if (mockActions) {
             if (isMockExam) {
-                mockActions.style.display = 'block';
+                mockActions.style.display = 'flex';
+                if (mockStatsContainer) mockStatsContainer.style.display = 'flex';
+                this.updateMockStats();
+
                 const mockSkipBtn = document.getElementById('mock-skip-btn');
-                if (mockSkipBtn) {
-                    if (this.isReviewingSkipped) {
-                        mockSkipBtn.style.display = 'none';
-                    } else {
-                        mockSkipBtn.style.display = 'inline-block';
-                        mockSkipBtn.innerText = 'Skip Question';
-                    }
+                const mockNavActions = document.getElementById('mock-skipped-nav-actions');
+
+                if (this.isReviewingSkipped) {
+                    if (mockSkipBtn) mockSkipBtn.style.display = 'none';
+                    if (mockNavActions) mockNavActions.style.display = 'flex';
+                } else {
+                    if (mockSkipBtn) mockSkipBtn.style.display = 'inline-flex';
+                    if (mockNavActions) mockNavActions.style.display = 'none';
                 }
             } else {
                 mockActions.style.display = 'none';
+                if (mockStatsContainer) mockStatsContainer.style.display = 'none';
             }
         }
 
@@ -1117,8 +1370,8 @@ const QuizEngine = {
         answersGrid.innerHTML = qData.opts.map((opt, index) => {
             const isCorrect = (index === qData.correct);
             const letter = String.fromCharCode(65 + index);
-            return `<button class="answer-btn" onclick="QuizEngine.selectAnswer(this, ${isCorrect}, ${index})" style="transition: transform 0.1s ease, box-shadow 0.1s ease; display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="font-weight: 700; opacity: 0.7; flex-shrink: 0;">${letter}.</span>
+            return `<button class="answer-btn" onclick="QuizEngine.selectAnswer(this, ${isCorrect}, ${index})" style="transition: transform 0.1s ease, box-shadow 0.1s ease; display: flex; gap: 12px; align-items: center; text-align: left;">
+                        <span style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: rgba(15, 23, 42, 0.05); font-weight: 700; color: #475569; flex-shrink: 0; font-size: 14px;">${letter}</span>
                         <span>${opt}</span>
                     </button>`;
         }).join('');
@@ -1136,11 +1389,13 @@ const QuizEngine = {
         const isMockExam = (this.currentFlow === 'mock' || this.selectedCategory === 'Mock Exam' || this.selectedCategory === 'Promotion Exam');
         if (isMockExam) {
             btnElement.classList.add('mock-selected');
-            if (!this.mockAnswers) this.mockAnswers = [];
-            this.mockAnswers[this.currentQuestion - 1] = { answered: true, isCorrect: isCorrect, selectedIndex: selectedIndex };
+            if (!this.mockAnswers) this.mockAnswers = new Array(this.totalQuestions).fill(null);
+            this.mockAnswers[this.currentQuestion - 1] = { status: 'answered', isCorrect: isCorrect, selectedIndex: selectedIndex };
             if (isCorrect) this.score++;
             const mockSkipBtn = document.getElementById('mock-skip-btn');
             if (mockSkipBtn) mockSkipBtn.style.display = 'none';
+
+            this.updateMockStats();
 
             setTimeout(() => {
                 this.nextQuestion();
@@ -1170,15 +1425,20 @@ const QuizEngine = {
             let xpEarned = 25; // Base 25 XP
             if (timeTaken < 3.0) {
                 xpEarned += 15; // Speed bonus +15 XP
-                this.showToast('⚡ Quick Thinker +15 Bonus XP');
+
+                const isPracticeMode = (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas');
+
+                if (!isPracticeMode) {
+                    this.showToast('⚡ Quick Thinker +15 Bonus XP');
+                }
             }
             this.totalXp += xpEarned;
 
             // Floating XP Gamification
             const floatXP = document.createElement('div');
             floatXP.className = 'floating-xp';
-            floatXP.innerHTML = `✔ Correct<br>+${xpEarned} XP`;
-            btnElement.appendChild(floatXP);
+            floatXP.innerHTML = `✅ Correct<br>+${xpEarned} XP`;
+            // btnElement.appendChild(floatXP);
             setTimeout(() => floatXP.remove(), 1200);
 
             // Update Streak Indicator in top bar
@@ -1197,13 +1457,18 @@ const QuizEngine = {
             if (xpEl2) xpEl2.innerText = `${this.totalXp} XP`;
 
             sheet.classList.add('correct');
-            document.getElementById('feedback-details').style.display = 'flex';
+
+            if (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas') {
+                document.getElementById('feedback-details').style.display = 'none';
+            } else {
+                document.getElementById('feedback-details').style.display = 'flex';
+            }
 
             icon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
             title.innerText = 'Excellent!';
 
             streakMsg.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Streak: ${this.streak}`;
-            streakMsg.style.display = 'block';
+            streakMsg.style.display = 'none';
 
             document.getElementById('feedback-explanation').innerHTML = qData.expCorrect;
 
@@ -1265,29 +1530,29 @@ const QuizEngine = {
 
                 if (isCorrect) {
                     inlineIcon.style.background = 'transparent';
-                    inlineIcon.innerHTML = '🎉';
-                    inlineIcon.style.fontSize = '24px';
+                    inlineIcon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 32px; height: 32px; object-fit: contain; display: block; margin: 0; padding: 0; border: none;">';
+                    // inlineIcon.style.fontSize = '24px';
                     inlineTitle.innerText = 'Correct!';
                     inlineTitle.style.color = '#ffffff';
 
                     let xpEarned = (timeTaken < 3.0) ? 40 : 25;
                     inlineXp.style.color = '#ffffff';
                     inlineXp.innerText = `+${xpEarned} XP Earned`;
-                    inlineStreakMsg.innerText = `🔥 Streak: ${this.streak}`;
+                    inlineStreakMsg.innerText = ``;
                 } else {
                     inlineIcon.style.background = 'transparent';
-                    inlineIcon.innerHTML = '❌';
+                    inlineIcon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/274c.png" style="width: 32px; height: 32px; object-fit: contain; display: block; margin: 0; padding: 0; border: none;">';
                     inlineIcon.style.fontSize = '24px';
                     inlineTitle.innerText = 'Incorrect';
                     inlineTitle.style.color = '#ffffff';
 
                     inlineXp.style.color = '#ffffff';
                     inlineXp.innerText = '+0 XP Earned';
-                    inlineStreakMsg.innerText = `🔥 Streak Lost`;
+                    inlineStreakMsg.innerText = ``;
                 }
 
-                // Hide XP and Accuracy for Practice Aids
-                if (this.currentMode === 'Practice By Topic') {
+                // Hide XP and Accuracy for Practice Aids and AI Tutor
+                if (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas') {
                     inlineXp.style.display = 'none';
                     inlineAccuracy.style.display = 'none';
                 } else {
@@ -1333,50 +1598,100 @@ const QuizEngine = {
         }
     },
 
+    previousSkippedQuestion: function () {
+        if (!this.isReviewingSkipped) return;
+        let prevSkipped = -1;
+        // Search backward
+        for (let i = this.currentQuestion - 2; i >= 0; i--) {
+            if ((!this.mockAnswers[i] || this.mockAnswers[i].status !== 'answered')) {
+                prevSkipped = i;
+                break;
+            }
+        }
+        // Wrap around to end
+        if (prevSkipped === -1) {
+            for (let i = this.totalQuestions - 1; i >= this.currentQuestion; i--) {
+                if ((!this.mockAnswers[i] || this.mockAnswers[i].status !== 'answered')) {
+                    prevSkipped = i;
+                    break;
+                }
+            }
+        }
+
+        if (prevSkipped !== -1 && prevSkipped !== this.currentQuestion - 1) {
+            this.currentQuestion = prevSkipped;
+            this.loadQuestion();
+        }
+    },
+
+    nextSkippedQuestion: function () {
+        this.nextQuestion();
+    },
+
     nextQuestion: function () {
         this.stopConfetti();
         const sheet = document.getElementById('feedback-sheet');
         const overlay = document.getElementById('feedback-overlay');
-        sheet.classList.add('hidden');
-        overlay.classList.add('hidden');
+        if (sheet) sheet.classList.add('hidden');
+        if (overlay) overlay.classList.add('hidden');
 
         if (this.isReviewingSkipped) {
             let nextSkipped = -1;
             // Search forward
             for (let i = this.currentQuestion; i < this.totalQuestions; i++) {
-                if (!this.mockAnswers[i] || !this.mockAnswers[i].answered) {
+                if ((!this.mockAnswers[i] || this.mockAnswers[i].status !== 'answered')) {
                     nextSkipped = i;
                     break;
                 }
             }
-            // Search backward if not found forward
+            // Search backward if not found forward (wrap around)
             if (nextSkipped === -1) {
                 for (let i = 0; i < this.currentQuestion - 1; i++) {
-                    if (!this.mockAnswers[i] || !this.mockAnswers[i].answered) {
+                    if ((!this.mockAnswers[i] || this.mockAnswers[i].status !== 'answered')) {
                         nextSkipped = i;
                         break;
                     }
                 }
             }
 
-            if (nextSkipped !== -1) {
-                this.reviewSkippedQuestion(nextSkipped);
+            if (nextSkipped !== -1 && nextSkipped !== this.currentQuestion - 1) {
+                this.currentQuestion = nextSkipped;
+                this.loadQuestion();
             } else {
-                this.showToast('🏆 Challenge Complete');
-                setTimeout(() => {
-                    this.finishQuiz();
-                }, 1000);
+                this.isReviewingSkipped = false;
+                this.showToast('All Skipped Answered');
+                // Return to original current question or first unanswered
+                if (this.originalCurrentQuestion !== undefined && this.originalCurrentQuestion !== null) {
+                    this.currentQuestion = this.originalCurrentQuestion;
+                    this.originalCurrentQuestion = null;
+                    this.loadQuestion(this.currentQuestion);
+                } else {
+                    let firstUnanswered = -1;
+                    for (let i = 0; i < this.totalQuestions; i++) {
+                        if ((!this.mockAnswers[i] || this.mockAnswers[i].status !== 'answered')) {
+                            firstUnanswered = i; break;
+                        }
+                    }
+                    if (firstUnanswered !== -1) {
+                        this.currentQuestion = firstUnanswered;
+                        this.loadQuestion();
+                    } else {
+                        this.showToast('🎉 Challenge Complete');
+                        setTimeout(() => {
+                            this.finishQuiz();
+                        }, 1000);
+                    }
+                }
             }
             return;
         }
 
-        // currentQuestion is incremented by loadQuestion(), so we check against currentQuestion (before incrementing)
         if (this.currentQuestion >= this.totalQuestions) {
             const isMockExam = (this.currentFlow === 'mock' || this.selectedCategory === 'Mock Exam' || this.selectedCategory === 'Promotion Exam');
             let hasSkipped = false;
             if (isMockExam) {
                 for (let i = 0; i < this.totalQuestions; i++) {
-                    if (!this.mockAnswers[i] || !this.mockAnswers[i].answered) {
+                    if ((!this.mockAnswers[i] || this.mockAnswers[i].status !== 'answered')) {
                         hasSkipped = true;
                         break;
                     }
@@ -1384,9 +1699,12 @@ const QuizEngine = {
             }
 
             if (hasSkipped && !this.isTimeUp) {
-                this.showSkippedQuestionsView();
+                const modal = document.getElementById('incomplete-modal');
+                if (modal) {
+                    modal.style.display = 'flex';
+                }
             } else {
-                this.showToast('🏆 Challenge Complete');
+                this.showToast('🎉 Challenge Complete');
                 setTimeout(() => {
                     this.finishQuiz();
                 }, 1000);
@@ -1394,13 +1712,19 @@ const QuizEngine = {
             return;
         }
 
-        if (this.currentQuestion === Math.floor(this.totalQuestions / 2)) {
-            this.showToast('🚀 Halfway There');
-        } else if (this.currentQuestion === this.totalQuestions - 1) {
-            this.showToast('⭐ Final Question');
+        this.currentQuestion++;
+
+        const isPracticeMode = (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas');
+
+        if (!isPracticeMode) {
+            if (this.currentQuestion === Math.floor(this.totalQuestions / 2)) {
+                this.showToast('🚀 Halfway There');
+            } else if (this.currentQuestion === this.totalQuestions - 1) {
+                this.showToast('🏁 Final Question');
+            }
         }
 
-        this.loadQuestion();
+        this.loadQuestion(this.currentQuestion);
     },
 
     showSkippedQuestionsView: function () {
@@ -1412,7 +1736,7 @@ const QuizEngine = {
 
             for (let i = 0; i < this.totalQuestions; i++) {
                 const answerData = this.mockAnswers[i];
-                if (!answerData || !answerData.answered) {
+                if (!answerData || answerData.status !== 'answered') {
                     hasSkipped = true;
                     const btn = document.createElement('button');
                     btn.className = '';
@@ -1446,7 +1770,10 @@ const QuizEngine = {
     },
 
     reviewSkippedQuestion: function (index) {
-        this.isReviewingSkipped = true;
+        if (!this.isReviewingSkipped) {
+            this.originalCurrentQuestion = this.currentQuestion; // Store 1-based index
+            this.isReviewingSkipped = true;
+        }
         this.navigate('view-active', 'view-skipped-questions');
         this.loadQuestion(index + 1);
     },
@@ -1456,7 +1783,18 @@ const QuizEngine = {
         localStorage.removeItem('saved_exam_progress');
         this.updateResumeWidget();
 
+        // Reset state flags so future quizzes start fresh
+        this.isReviewingSkipped = false;
+        this.isResuming = false;
+
         const accuracy = Math.round((this.score / this.totalQuestions) * 100);
+
+        // Capture total elapsed time instantly to prevent UI drift between summary and analytics
+        if (this.quizStartTime) {
+            this.finalTotalTimeSeconds = Math.max(1, Math.floor((Date.now() - this.quizStartTime) / 1000));
+        } else {
+            this.finalTotalTimeSeconds = this.timeElapsed || 0;
+        }
 
         // Update progress data dynamically based on exam result
         this.recentProgressData.push(accuracy);
@@ -1571,12 +1909,12 @@ const QuizEngine = {
         }
 
         const isCompetitive = this.currentFlow === 'colleague' || this.currentFlow === 'live' || this.currentMode === '1v1 Challenge' || this.currentMode === 'Live Challenge';
-        const isSolo = !isCompetitive && (this.currentFlow === 'quick' || this.currentFlow === 'mixed' || this.currentFlow === 'topic' || this.currentFlow === 'mock' || this.currentMode === 'Practice By Topic' || this.currentMode === 'Quick Quiz' || this.currentMode === 'Quick Play' || this.currentMode === 'Mixed Practice' || this.currentMode === 'Mock Exam' || this.selectedFormat === 'Quick Quiz' || this.selectedFormat === 'Quick Play' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice');
+        const isSolo = !isCompetitive && (this.currentFlow === 'quick' || this.currentFlow === 'mixed' || this.currentFlow === 'topic' || this.currentFlow === 'mock' || this.currentMode === 'Practice By Topic' || this.currentMode === 'Quick Quiz' || this.currentMode === 'Quick Play' || this.currentMode === 'Mixed Practice' || this.currentMode === 'Mock Exam' || this.currentMode === 'Practice Weak Areas' || this.selectedFormat === 'Quick Quiz' || this.selectedFormat === 'Quick Play' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice');
         if (isSolo) {
             const myStreak = this.bestStreak || Math.max(1, Math.floor(this.score / 2));
             let avgTime = 3.4; // Default mock
-            if (this.quizStartTime) {
-                avgTime = Math.max(0.1, ((Date.now() - this.quizStartTime) / 1000) / this.totalQuestions).toFixed(1);
+            if (this.finalTotalTimeSeconds > 0) {
+                avgTime = Math.max(0.1, this.finalTotalTimeSeconds / this.totalQuestions).toFixed(1);
             }
 
             let actualCorrect = 0;
@@ -1585,7 +1923,7 @@ const QuizEngine = {
 
             if (this.mockAnswers && this.mockAnswers.length > 0) {
                 for (let i = 0; i < this.totalQuestions; i++) {
-                    if (this.mockAnswers[i] && this.mockAnswers[i].answered) {
+                    if (this.mockAnswers[i] && this.mockAnswers[i].status === 'answered') {
                         if (this.mockAnswers[i].isCorrect) {
                             actualCorrect++;
                         } else {
@@ -1622,10 +1960,24 @@ const QuizEngine = {
 
             document.getElementById('solo-time-val').innerText = `${avgTime}s`;
 
-            document.getElementById('solo-best-topic-val').innerText = this.selectedCategory || 'General Law';
+            // Show total time for the second occurrence
+            const totalMin2 = Math.floor(this.finalTotalTimeSeconds / 60);
+            const totalSec2 = this.finalTotalTimeSeconds % 60;
+            const totalTimeStr2 = totalMin2 > 0 ? `${totalMin2}m ${totalSec2}s` : `${totalSec2}s`;
+            const totalTimeEl2 = document.getElementById('solo-total-time-val');
+            if (totalTimeEl2) totalTimeEl2.innerText = totalTimeStr2;
+
+
+            const bestTopicContainer = document.getElementById('solo-best-topic-container');
+            if (this.currentMode === 'Practice Weak Areas') {
+                if (bestTopicContainer) bestTopicContainer.style.display = 'none';
+            } else {
+                if (bestTopicContainer) bestTopicContainer.style.display = 'flex';
+                document.getElementById('solo-best-topic-val').innerText = this.selectedCategory || 'General Law';
+            }
 
             const weakestTopicContainer = document.getElementById('solo-weakest-topic-container');
-            if (actualIncorrect === 0) {
+            if (actualIncorrect === 0 && this.currentMode !== 'Practice Weak Areas') {
                 if (weakestTopicContainer) weakestTopicContainer.style.display = 'none';
             } else {
                 if (weakestTopicContainer) weakestTopicContainer.style.display = 'flex';
@@ -1639,6 +1991,8 @@ const QuizEngine = {
                 quizType = 'mock';
             } else if (this.currentFlow === 'topic' || this.currentFlow === 'mixed' || this.currentMode === 'Practice By Topic' || this.currentMode === 'Mixed Practice' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice') {
                 quizType = 'practice';
+            } else if (this.currentMode === 'Practice Weak Areas') {
+                quizType = 'ai-tutor';
             }
 
             const actionsContainer = document.getElementById('solo-completion-actions');
@@ -1658,14 +2012,54 @@ const QuizEngine = {
                         </button>
                     `;
                 } else if (quizType === 'practice') {
-                    actionsContainer.innerHTML = `
-                        <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.returnHome()">
-                            Back to Hub
-                        </button>
-                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('mock')">
-                            Start Mock Exam
-                        </button>
-                    `;
+                    const defaultPracticeBack = this.currentFlow === 'mixed' ? "QuizEngine.restartFlow('mixed')" : "QuizEngine.restartFlow('topic')";
+                    const backAction = this.launchedFromProgress ? "QuizEngine.returnToProgress()" : defaultPracticeBack;
+
+                    if (this.launchedFromProgress) {
+                        if (actualIncorrect > 0) {
+                            actionsContainer.innerHTML = `
+                                <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                    Back
+                                </button>
+                                <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
+                                    Practice Topic
+                                </button>
+                            `;
+                        } else {
+                            actionsContainer.innerHTML = `
+                                <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                    Back
+                                </button>
+                            `;
+                        }
+                    } else {
+                        actionsContainer.innerHTML = `
+                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                Back
+                            </button>
+                            <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('mock')">
+                                Start Mock Exam
+                            </button>
+                        `;
+                    }
+                } else if (quizType === 'ai-tutor') {
+                    const backAction = this.launchedFromProgress ? "QuizEngine.returnToProgress()" : "QuizEngine.returnHome()";
+                    if (actualIncorrect > 0) {
+                        actionsContainer.innerHTML = `
+                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                Back
+                            </button>
+                            <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
+                                Practice Topic
+                            </button>
+                        `;
+                    } else {
+                        actionsContainer.innerHTML = `
+                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                Back
+                            </button>
+                        `;
+                    }
                 } else {
                     actionsContainer.innerHTML = `
                         <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.startFlow('quick')">
@@ -1684,9 +2078,20 @@ const QuizEngine = {
             const emojiEl = document.getElementById('solo-completion-emoji');
             if (emojiEl) {
                 if (accuracy >= 60) {
-                    emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f389.png" style="width: 120px; height: 120px; object-fit: contain;">`;
+                    emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 120px; height: 120px; object-fit: contain;">`;
                 } else {
                     emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f60a.png" style="width: 120px; height: 120px; object-fit: contain;">`;
+                }
+            }
+
+            const titleEl = document.getElementById('solo-completion-title');
+            if (titleEl) {
+                if (quizType === 'mock') {
+                    titleEl.innerText = 'Exam Complete!';
+                } else if (quizType === 'ai-tutor' || quizType === 'practice') {
+                    titleEl.innerText = 'Practice Completed!';
+                } else {
+                    titleEl.innerText = 'Quiz Complete!';
                 }
             }
 
@@ -1796,10 +2201,39 @@ const QuizEngine = {
         this.renderFocusAreas();
         this.renderAiFocusSection();
         this.renderReadiness();
+    },
 
-        setTimeout(() => {
-            this.initProgressChart('recent');
-        }, 100);
+    openProgressPopup: function (type) {
+        const overlay = document.getElementById(`progress-popup-${type}`);
+        const sheet = document.getElementById(`progress-popup-${type}-sheet`);
+        if (overlay && sheet) {
+            overlay.classList.add('active');
+            sheet.classList.add('active');
+            if (type === 'trend') {
+                setTimeout(() => {
+                    this.initProgressChart('recent');
+                }, 350);
+            }
+        }
+    },
+
+    closeProgressPopup: function (type) {
+        const overlay = document.getElementById(`progress-popup-${type}`);
+        const sheet = document.getElementById(`progress-popup-${type}-sheet`);
+        if (overlay && sheet) {
+            overlay.classList.remove('active');
+            sheet.classList.remove('active');
+
+            // Reset Journey state on close
+            if (type === 'journey') {
+                setTimeout(() => {
+                    const viewBtn = document.getElementById('view-previous-exams-btn');
+                    const olderContainer = document.getElementById('older-exams-container');
+                    if (viewBtn) viewBtn.style.display = 'flex';
+                    if (olderContainer) olderContainer.style.display = 'none';
+                }, 300); // Wait for transition to finish
+            }
+        }
     },
 
     renderReadiness: function () {
@@ -1891,14 +2325,15 @@ const QuizEngine = {
                     pointBorderColor: isRecent ? '#ffffff' : 'transparent',
                     pointBorderWidth: isRecent ? 2 : 0,
                     pointRadius: isRecent ? 6 : 0,
-                    pointHoverRadius: 8
+                    pointHoverRadius: 8,
+                    clip: false
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 layout: {
-                    padding: { top: 12, right: 12, bottom: 4, left: 4 }
+                    padding: { top: 12, right: 16, bottom: 4, left: 12 }
                 },
                 plugins: {
                     legend: { display: false },
@@ -1947,21 +2382,21 @@ const QuizEngine = {
         this.topicsPerformance.forEach(topic => {
             let color, bgColor, icon, title;
             if (topic.score >= 90) {
-                color = '#16a34a'; bgColor = '#ecfdf5'; icon = '🏅'; title = 'Mastered';
+                color = '#16a34a'; bgColor = '#ecfdf5'; icon = '🥇'; title = 'Mastered';
             } else if (topic.score >= 80) {
-                color = '#10b981'; bgColor = '#d1fae5'; icon = '✅'; title = 'Strong';
+                color = '#10b981'; bgColor = '#d1fae5'; icon = '💪'; title = 'Strong';
             } else if (topic.score >= 65) {
-                color = '#f59e0b'; bgColor = '#fef3c7'; icon = '📈'; title = 'Developing';
+                color = '#f59e0b'; bgColor = '#fef3c7'; icon = '🌱'; title = 'Developing';
             } else {
-                color = '#ef4444'; bgColor = '#fee2e2'; icon = '⚠️'; title = 'Weak';
+                color = '#ef4444'; bgColor = '#fee2e2'; icon = '🚨'; title = 'Weak';
             }
 
             const diff = topic.score - topic.prevScore;
             let trendHtml = '';
             if (diff > 0) {
-                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #16a34a; margin-left: 6px;">↑ +${diff}%</span>`;
+                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #16a34a; margin-left: 6px;">📈 +${diff}%</span>`;
             } else if (diff < 0) {
-                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #ef4444; margin-left: 6px;">↓ ${diff}%</span>`;
+                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #ef4444; margin-left: 6px;">📉 ${diff}%</span>`;
             } else {
                 trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #94a3b8; margin-left: 6px;">- 0%</span>`;
             }
@@ -2032,9 +2467,9 @@ const QuizEngine = {
         document.querySelectorAll('.ai-count-btn').forEach(btn => {
             if (parseInt(btn.dataset.count) === count) {
                 btn.classList.add('selected');
-                btn.style.background = '#eff6ff';
+                btn.style.background = 'rgba(70, 107, 169, 0.1)';
                 btn.style.border = '2px solid #466ba9';
-                btn.style.color = '#1d4ed8';
+                btn.style.color = '#466ba9';
             } else {
                 btn.classList.remove('selected');
                 btn.style.background = 'white';
@@ -2049,6 +2484,7 @@ const QuizEngine = {
         this.selectedCategory = 'AI Focus Tutor';
         this.currentFormat = 'Standard Quiz';
         this.currentMode = 'Practice Weak Areas';
+        this.launchedFromProgress = true;
 
         // Setup state for new quiz
         this.totalQuestions = this.selectedAiQuestionCount;
@@ -2068,6 +2504,7 @@ const QuizEngine = {
         this.currentMode = 'Practice By Topic';
         this.selectedFormat = 'Practice By Topic';
         this.selectedCategory = topicName;
+        this.launchedFromProgress = true;
 
         this.practiceSelectedMains = [topicName];
         this.practiceSelectedSubs = [];
@@ -2115,10 +2552,7 @@ const QuizEngine = {
         const totalTimeEl = document.getElementById('analytics-total-time');
         const timeCard = document.getElementById('time-breakdown-card');
 
-        let totalTimeSeconds = 124;
-        if (this.quizStartTime) {
-            totalTimeSeconds = Math.floor((Date.now() - this.quizStartTime) / 1000);
-        }
+        let totalTimeSeconds = this.finalTotalTimeSeconds || 124;
         let avgTimeSeconds = Math.max(0.1, totalTimeSeconds / this.totalQuestions).toFixed(1);
         let fastestTimeSeconds = (1.0 + Math.random()).toFixed(1);
 
@@ -2135,11 +2569,11 @@ const QuizEngine = {
         for (let i = 0; i < this.totalQuestions; i++) {
             const qData = this.questionsData[i % this.questionsData.length];
             const answerData = this.mockAnswers ? this.mockAnswers[i] : null;
-            if (!answerData || !answerData.answered) {
+            if (!answerData || answerData.status !== 'answered') {
                 skippedCount++;
             }
 
-            const isAnswered = answerData && answerData.answered;
+            const isAnswered = answerData && answerData.status === 'answered';
             const isCorrect = isAnswered && answerData.isCorrect;
             const isSkipped = !isAnswered;
 
@@ -2159,25 +2593,30 @@ const QuizEngine = {
             const explanation = isCorrect ? (qData.expCorrect || '') : (qData.expWrong || qData.expCorrect || '');
 
             list.innerHTML += `
-                <div class="breakdown-item ${statusClass}" style="flex-direction: column; align-items: flex-start; padding: 16px;">
-                    <div style="display: flex; gap: 12px; width: 100%; margin-bottom: 12px;">
+                <div class="breakdown-item ${statusClass}" style="flex-direction: column; align-items: flex-start; padding: 16px; cursor: pointer;" onclick="const details = this.querySelector('.breakdown-details'); const icon = this.querySelector('.toggle-icon'); const wasClosed = details.style.display === 'none'; this.parentElement.querySelectorAll('.breakdown-details').forEach(el => el.style.display = 'none'); this.parentElement.querySelectorAll('.toggle-icon').forEach(el => el.style.transform = 'rotate(0deg)'); if(wasClosed) { details.style.display = 'block'; icon.style.transform = 'rotate(180deg)'; }">
+                    <div style="display: flex; gap: 12px; width: 100%; align-items: center;">
                         <div class="breakdown-icon" style="flex-shrink: 0;">
                             ${iconSvg}
                         </div>
-                        <div class="breakdown-text" style="flex-grow: 1;"><strong>Q${i + 1}:</strong> ${qData.q}</div>
+                        <div class="breakdown-text" style="flex-grow: 1; margin: 0;"><strong>Q${i + 1}:</strong> ${qData.q}</div>
+                        <div class="toggle-icon" style="flex-shrink: 0; transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
                     </div>
                     
-                    <div style="font-size: 14px; width: 100%; background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; margin-bottom: 8px;">
-                        <div style="margin-bottom: 8px;"><strong>Your Answer:</strong> <span style="color: ${isCorrect ? '#10b981' : (isSkipped ? '#64748b' : '#ef4444')}">${chosenText}</span></div>
-                        ${!isCorrect ? `<div><strong>Correct Answer:</strong> <span style="color: #10b981">${correctText}</span></div>` : ''}
+                    <div class="breakdown-details" style="display: none; width: 100%; margin-top: 12px;">
+                        <div style="font-size: 14px; width: 100%; background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                            <div style="margin-bottom: 8px;"><strong>Your Answer:</strong> <span style="color: ${isCorrect ? '#10b981' : (isSkipped ? '#64748b' : '#ef4444')}">${chosenText}</span></div>
+                            ${!isCorrect ? `<div style=\"margin-bottom:8px\"><strong>✅ Correct Answer:</strong> <span style=\"color: #10b981\">${correctText}</span></div>` : ''}
+                        </div>
+                        
+                        ${explanation ? `
+                        <div style="font-size: 13px; color: #475569; width: 100%; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.05);">
+                            <strong>AI Explanation:</strong>
+                            <div style="margin-top: 4px;">${explanation}</div>
+                        </div>
+                        ` : ''}
                     </div>
-                    
-                    ${explanation ? `
-                    <div style="font-size: 13px; color: #475569; width: 100%; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.05);">
-                        <strong>AI Explanation:</strong>
-                        <div style="margin-top: 4px;">${explanation}</div>
-                    </div>
-                    ` : ''}
                 </div>
             `;
         }
@@ -2264,7 +2703,7 @@ const QuizEngine = {
             const descColor = showFullColor ? '#4b5563' : '#8e8e93';
 
             const lockIndicator = isUnlocked ? '' : `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f512.png" style="position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; z-index: 2; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); opacity: 0.9;">`;
-            const checkIndicator = isUnlocked ? `<div style="position: absolute; top: 12px; right: 12px; font-size: 13.33px; z-index: 2; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));">✓</div>` : '';
+            const checkIndicator = isUnlocked ? `<div style="position: absolute; top: 12px; right: 12px; font-size: 13.33px; z-index: 2; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));">✅</div>` : '';
 
             const iconBg = '#ffffff';
 
@@ -2327,7 +2766,7 @@ const QuizEngine = {
 
         const isUnlocked = badge.state === 'unlocked';
         const statusBadge = isUnlocked
-            ? `<div style="display: inline-block; background: rgba(70,107,169,0.1); color: #466ba9; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; margin-bottom: 24px; font-family: 'Inter', sans-serif;">✓ Unlocked</div>`
+            ? `<div style="display: inline-block; background: rgba(70,107,169,0.1); color: #466ba9; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; margin-bottom: 24px; font-family: 'Inter', sans-serif;">✅ Unlocked</div>`
             : `<div style="display: inline-block; background: #f1f5f9; color: var(--text-secondary, #64748b); padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; margin-bottom: 24px; font-family: 'Inter', sans-serif;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f512.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Locked</div>`;
 
         const iconFilter = 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))';
@@ -2379,7 +2818,7 @@ const QuizEngine = {
 
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <span style="font-size: 13px; color: var(--text-secondary, #64748b); font-weight: 500;">Reward XP</span>
-                        <span style="font-size: 14px; color: #b45309; font-weight: 700;">⭐ +${badge.rewardXp} XP</span>
+                        <span style="font-size: 14px; color: #b45309; font-weight: 700;">⭐ +${badge.rewardXp} XP</span>
                     </div>
                     <div style="height: 1px; background: rgba(15,23,42,0.05); margin-bottom: 16px;"></div>
                     
@@ -2893,8 +3332,9 @@ const QuizEngine = {
         document.querySelectorAll('#practice-count-selector .count-btn').forEach(btn => {
             btn.style.background = '#ffffff';
             btn.style.color = '#64748b';
-            btn.style.borderColor = '#cbd5e1';
-            btn.style.boxShadow = 'none';
+            btn.style.borderColor = 'rgba(15, 23, 42, 0.08)';
+            btn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.01)';
+            btn.style.transform = 'translateY(0) scale(1)';
         });
         this.currentFlow = 'topic'; // Sets flow context
         this.currentMode = 'Practice By Topic';
@@ -2921,22 +3361,50 @@ const QuizEngine = {
             const cardOpacity = isDisabled ? '0.5' : '1';
             const cardPointerEvents = isDisabled ? 'none' : 'auto';
 
+            const subTopics = this.practiceAidsData[mainTopic].subTopics;
+            const subTopicsCount = Object.keys(subTopics).length;
+            
+            let totalQuestionsCount = 0;
+            Object.keys(subTopics).forEach(subTopic => {
+                const subSubs = subTopics[subTopic].subSubs;
+                if (subSubs) {
+                    Object.values(subSubs).forEach(count => {
+                        totalQuestionsCount += count;
+                    });
+                }
+            });
+
             html += `
-                <div style="margin-bottom: ${isExpanded ? '0' : '12px'}; opacity: ${cardOpacity}; pointer-events: ${cardPointerEvents}; transition: all 0.3s ease;">
-                    <div class="practice-card ${isSelected ? 'selected' : ''}" onclick="QuizEngine.togglePracticeMainExpand('${mainTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; cursor: pointer; border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-bottom-color: ${isExpanded ? (isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)') : (isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)')}; background: #ffffff; border-radius: ${isExpanded ? '16px 16px 0 0' : '16px'}; transition: all 0.2s ease; position: relative; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                <div style="margin-bottom: ${isExpanded ? '0' : '16px'}; opacity: ${cardOpacity}; pointer-events: ${cardPointerEvents}; transition: all 0.3s ease;">
+                    <div class="practice-card ${isSelected ? 'selected' : ''}" 
+                         onclick="QuizEngine.togglePracticeMainExpand('${mainTopic}')"
+                         style="display: flex; align-items: flex-start; gap: 16px; padding: 20px; border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; background: #ffffff; border-radius: ${isExpanded ? '20px 20px 0 0' : '20px'}; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; z-index: 2; box-shadow: ${isSelected ? '0 10px 25px -5px rgba(70, 107, 169, 0.15)' : '0 4px 18px rgba(15, 23, 42, 0.03)'};">
                         
-                        <!-- Left Side: Emoji & Title -->
-                        <div style="display: flex; align-items: center; gap: 16px; flex: 1;">
-                            <div style="width: 44px; height: 44px; background: #E9F5FF; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease;">
-                                <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${this.practiceAidsData[mainTopic].icon}" style="width: 24px; height: 24px; object-fit: contain;">
-                            </div>
-                            <div style="font-size: 16px; font-weight: 700; color: ${isSelected ? '#1e3a8a' : '#0f172a'};">${mainTopic}</div>
+                        <!-- Icon -->
+                        <div style="width: 52px; height: 52px; background: #bfdbfe; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 4px 8px rgba(15, 23, 42, 0.05);">
+                            <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${this.practiceAidsData[mainTopic].icon}" style="width: 32px; height: 32px; object-fit: contain;">
                         </div>
                         
-                        <!-- Right Side: Checkbox -->
-                        <div style="display: flex; align-items: center;">
-                            <div class="mixed-checkbox" onclick="event.stopPropagation(); QuizEngine.togglePracticeMain('${mainTopic}')" style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid ${isSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0;">
-                                ${isSelected ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+                        <!-- Content -->
+                        <div style="flex: 1; display: flex; flex-direction: column;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px;">
+                                <h3 style="font-size: 16px; font-weight: 800; color: ${isSelected ? '#1e3a8a' : '#0f172a'}; margin: 0; line-height: 1.3;">${mainTopic}</h3>
+                                
+                                <!-- Right Toggles -->
+                                <div style="display: flex; align-items: center; gap: 12px;" onclick="event.stopPropagation();">
+                                    <div class="mixed-checkbox" onclick="event.stopPropagation(); QuizEngine.togglePracticeMain('${mainTopic}')" style="width: 24px; height: 24px; border-radius: 8px; border: 2px solid ${isSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0; cursor: pointer; box-shadow: ${isSelected ? '0 4px 10px rgba(70, 107, 169, 0.2)' : 'none'};">
+                                        ${isSelected ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+                                    </div>
+                                    <div onclick="event.stopPropagation(); QuizEngine.togglePracticeMainExpand('${mainTopic}')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; transition: transform 0.3s ease; transform: ${isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Badges -->
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <span style="font-size: 11px; font-weight: 600; color: #466ba9; background: #eff6ff; padding: 4px 12px; border-radius: 12px;">${subTopicsCount} Topics</span>
+                                <span style="font-size: 11px; font-weight: 600; color: #466ba9; background: #eff6ff; padding: 4px 12px; border-radius: 12px;">${totalQuestionsCount} Qs</span>
                             </div>
                         </div>
                     </div>
@@ -2945,7 +3413,7 @@ const QuizEngine = {
             // Render subtopics if this main topic is expanded
             if (isExpanded) {
                 const subTopics = this.practiceAidsData[mainTopic].subTopics;
-                html += `<div style="border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-top: none; border-radius: 0 0 16px 16px; background: #ffffff; padding: 12px 16px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.05);">`;
+                html += `<div style="border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-top: none; border-radius: 0 0 20px 20px; background: #ffffff; padding: 12px 18px 18px; margin-bottom: 16px; box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.02);">`;
 
                 Object.keys(subTopics).forEach((subTopic) => {
                     const isSubSelected = this.practiceSelectedSubs.includes(subTopic);
@@ -2954,24 +3422,24 @@ const QuizEngine = {
                     if (badge) {
                         let badgeColor = '';
                         let badgeText = '';
-                        if (badge === 'Gold') { badgeColor = '#fef08a'; badgeText = '#854d0e'; }
-                        else if (badge === 'Silver') { badgeColor = '#e2e8f0'; badgeText = '#334155'; }
-                        else if (badge === 'Bronze') { badgeColor = '#ffedd5'; badgeText = '#9a3412'; }
-                        else if (badge === 'Rare') { badgeColor = '#f3e8ff'; badgeText = '#7e22ce'; }
-                        badgeHtml = `<div style="background: ${badgeColor}; color: ${badgeText}; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; margin-left: 12px; white-space: nowrap;">${badge}</div>`;
+                        if (badge === 'Gold') { badgeColor = 'linear-gradient(135deg, #fef08a 0%, #fde047 100%)'; badgeText = '#854d0e'; }
+                        else if (badge === 'Silver') { badgeColor = 'linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%)'; badgeText = '#334155'; }
+                        else if (badge === 'Bronze') { badgeColor = 'linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)'; badgeText = '#9a3412'; }
+                        else if (badge === 'Rare') { badgeColor = 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%)'; badgeText = '#7e22ce'; }
+                        badgeHtml = `<div style="background: ${badgeColor}; color: ${badgeText}; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; margin-left: 12px; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">${badge}</div>`;
                     }
 
                     html += `
-                        <div onclick="event.stopPropagation(); QuizEngine.togglePracticeSub('${subTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; border-radius: 12px; background: ${isSubSelected ? '#eff6ff' : 'transparent'}; border: 1.5px solid ${isSubSelected ? 'rgba(70, 107, 169, 0.3)' : 'transparent'}; box-shadow: ${isSubSelected ? '0 2px 8px rgba(70, 107, 169, 0.08)' : 'none'}; transition: all 0.2s ease;">
+                        <div onclick="event.stopPropagation(); QuizEngine.togglePracticeSub('${subTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; margin-bottom: 8px; cursor: pointer; border-radius: 12px; background: ${isSubSelected ? '#eff6ff' : 'rgba(15, 23, 42, 0.01)'}; border: 1.5px solid ${isSubSelected ? 'rgba(37, 99, 235, 0.2)' : 'rgba(15, 23, 42, 0.03)'}; box-shadow: ${isSubSelected ? '0 4px 10px rgba(37, 99, 235, 0.05)' : 'none'}; transition: all 0.2s ease;">
                             
-                            <div style="display: flex; align-items: center; gap: 14px; flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
                                 <!-- Checkbox -->
-                                <div class="mixed-checkbox" style="width: 22px; height: 22px; border-radius: 6px; border: 2px solid ${isSubSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSubSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0;">
-                                    ${isSubSelected ? '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+                                <div class="mixed-checkbox" style="width: 20px; height: 20px; border-radius: 6px; border: 2px solid ${isSubSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSubSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0;">
+                                    ${isSubSelected ? '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
                                 </div>
                                 
                                 <!-- Title -->
-                                <div style="font-size: 15px; font-weight: 500; color: ${isSubSelected ? '#1e3a8a' : '#475569'}; line-height: 1.4;">
+                                <div style="font-size: 14px; font-weight: 600; color: ${isSubSelected ? '#1e3a8a' : '#475569'}; line-height: 1.4;">
                                     ${subTopic}
                                 </div>
                             </div>
@@ -3028,10 +3496,6 @@ const QuizEngine = {
                     this.practiceSelectedSubs.push(sub);
                 }
             });
-            // Also expand it so the user can see what was checked
-            if (!this.practiceExpandedMains.includes(topic)) {
-                this.practiceExpandedMains.push(topic);
-            }
         }
 
         // Save current scroll position
@@ -3055,13 +3519,15 @@ const QuizEngine = {
             if (parseInt(btn.dataset.count) === count) {
                 btn.style.background = '#466ba9';
                 btn.style.color = '#ffffff';
-                btn.style.borderColor = '#466ba9';
-                btn.style.boxShadow = '0 4px 12px rgba(70, 107, 169, 0.3)';
+                btn.style.borderColor = 'transparent';
+                btn.style.boxShadow = '0 4px 10px rgba(70, 107, 169, 0.3)';
+                btn.style.transform = 'translateY(-1px) scale(1.02)';
             } else {
                 btn.style.background = '#ffffff';
                 btn.style.color = '#64748b';
-                btn.style.borderColor = '#cbd5e1';
-                btn.style.boxShadow = 'none';
+                btn.style.borderColor = 'rgba(15, 23, 42, 0.08)';
+                btn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.01)';
+                btn.style.transform = 'translateY(0) scale(1)';
             }
         });
         // re-render the list to enable topics
@@ -3103,10 +3569,31 @@ const QuizEngine = {
     },
 
     togglePracticeSub: function (topic) {
+        let parentMain = null;
+        Object.keys(this.practiceAidsData).forEach(main => {
+            if (this.practiceAidsData[main].subTopics && this.practiceAidsData[main].subTopics[topic]) {
+                parentMain = main;
+            }
+        });
+
         if (this.practiceSelectedSubs.includes(topic)) {
             this.practiceSelectedSubs = this.practiceSelectedSubs.filter(t => t !== topic);
+
+            if (parentMain) {
+                const allSubTopics = Object.keys(this.practiceAidsData[parentMain].subTopics);
+                const hasAnySelected = allSubTopics.some(sub => this.practiceSelectedSubs.includes(sub));
+
+                if (!hasAnySelected && this.practiceSelectedMains.includes(parentMain)) {
+                    this.practiceSelectedMains = this.practiceSelectedMains.filter(m => m !== parentMain);
+                }
+            }
         } else {
             this.practiceSelectedSubs.push(topic);
+
+            // Also tick the main topic if it's not already ticked
+            if (parentMain && !this.practiceSelectedMains.includes(parentMain)) {
+                this.practiceSelectedMains.push(parentMain);
+            }
         }
 
         // Save current scroll position
@@ -3222,7 +3709,13 @@ const QuizEngine = {
                     });
                 });
                 footer.style.transform = 'translateY(0)';
-                let finalQCount = this.practiceSelectedCount || (totalQs > 0 ? totalQs : 10);
+                let finalQCount = totalQs;
+                if (this.practiceSelectedCount && totalQs > this.practiceSelectedCount) {
+                    finalQCount = this.practiceSelectedCount;
+                }
+                if (finalQCount === 0) {
+                    finalQCount = this.practiceSelectedCount || 10;
+                }
                 btn.innerText = `Start Practice (${finalQCount})`;
             } else {
                 footer.style.transform = 'translateY(100%)';
@@ -3293,12 +3786,49 @@ const QuizEngine = {
             // go back to hub
             this.navigateBack();
         }
+    },
+
+    updateMockStats: function () {
+        if (!this.mockAnswers) return;
+
+        let answered = 0;
+        let skipped = 0;
+        for (let i = 0; i < this.totalQuestions; i++) {
+            if (this.mockAnswers[i] && this.mockAnswers[i].status === 'answered') answered++;
+            if (this.mockAnswers[i] && this.mockAnswers[i].status === 'skipped') skipped++;
+        }
+
+        const statAnswered = document.getElementById('stat-answered');
+        const statSkipped = document.getElementById('stat-skipped');
+        if (statAnswered) statAnswered.innerText = answered;
+        if (statSkipped) statSkipped.innerText = skipped;
+    },
+
+    skipCurrentQuestion: function () {
+        if (!this.mockAnswers) this.mockAnswers = new Array(this.totalQuestions).fill(null);
+
+        if (!this.mockAnswers[this.currentQuestion - 1] || this.mockAnswers[this.currentQuestion - 1].status !== 'answered') {
+            this.mockAnswers[this.currentQuestion - 1] = { status: 'skipped' };
+        }
+        this.updateMockStats();
+        this.nextQuestion();
+    },
+
+    prevQuestion: function () {
+        if (this.currentQuestion > 1) {
+            this.loadQuestion(this.currentQuestion - 1);
+        }
     }
 };
 
 // Handle Native Browser Back Button
 window.addEventListener('popstate', function (event) {
     QuizEngine.stopConfetti();
+    const sheet = document.getElementById('navigator-sheet');
+    if (sheet && !sheet.classList.contains('hidden')) {
+        QuizEngine.closeQuestionNavigator(true);
+        return;
+    }
     if (event.state && event.state.viewId) {
         const index = QuizEngine.history.indexOf(event.state.viewId);
         if (index !== -1) {
@@ -3331,3 +3861,5 @@ document.addEventListener('visibilitychange', function () {
         QuizEngine.stopConfetti();
     }
 });
+
+

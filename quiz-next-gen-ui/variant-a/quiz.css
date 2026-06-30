@@ -1314,6 +1314,7 @@ body {
     font-size: 20px;
     font-weight: 700;
     flex: 1;
+    margin: 0;
 }
 
 .feedback-sheet.correct .feedback-title {
@@ -1521,8 +1522,13 @@ body {
     border-bottom: 1px solid rgba(15, 23, 42, 0.05);
 }
 
+.time-stat-row:first-child {
+    padding-top: 0;
+}
+
 .time-stat-row:last-child {
     border-bottom: none;
+    padding-bottom: 0;
 }
 
 .time-stat-row span {
@@ -1576,6 +1582,11 @@ body {
 .breakdown-item.wrong .breakdown-icon {
     background: rgba(255, 59, 48, 0.15);
     color: var(--danger);
+}
+
+.breakdown-item.skipped .breakdown-icon {
+    background: rgba(255, 149, 0, 0.15);
+    color: var(--warning);
 }
 
 .breakdown-text {

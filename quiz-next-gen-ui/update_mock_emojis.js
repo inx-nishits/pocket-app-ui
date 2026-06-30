@@ -10,18 +10,20 @@ html = html.replace('<div style="padding: 0 20px;">', '<div style="padding: 0;">
 // Sergeant Exam
 const sergeantHtml = `
                             <div>
-                                <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">Sergeant Exam</h3>
-                                <p style="font-size: 14px; color: #64748b; margin: 0;">Crime, Evidence, GP</p>
+                                <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0;">
+                                        Sergeant Exam</h3>
+                                
                             </div>
 `;
 const newSergeantHtml = `
-                            <div style="display: flex; align-items: flex-start;">
+                            <div style="display: flex; align-items: center;">
                                 <div style="background: #eff6ff; width: 48px; height: 48px; margin-right: 16px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
                                     <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f46e.png" style="width: 24px; height: 24px; object-fit: contain;" alt="Sergeant">
                                 </div>
                                 <div>
-                                    <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">Sergeant Exam</h3>
-                                    <p style="font-size: 14px; color: #64748b; margin: 0;">Crime, Evidence, GP</p>
+                                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0;">
+                                        Sergeant Exam</h3>
+                                    
                                 </div>
                             </div>
 `;
@@ -30,18 +32,20 @@ html = html.replace(sergeantHtml.trim(), newSergeantHtml.trim());
 // Inspector Exam
 const inspectorHtml = `
                             <div>
-                                <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">Inspector Exam</h3>
-                                <p style="font-size: 14px; color: #64748b; margin: 0;">Crime, Evidence, GP, Traffic</p>
+                                <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0;">
+                                        Inspector Exam</h3>
+                                
                             </div>
 `;
 const newInspectorHtml = `
-                            <div style="display: flex; align-items: flex-start;">
+                            <div style="display: flex; align-items: center;">
                                 <div style="background: #eff6ff; width: 48px; height: 48px; margin-right: 16px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
                                     <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f46e.png" style="width: 24px; height: 24px; object-fit: contain;" alt="Inspector">
                                 </div>
                                 <div>
-                                    <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">Inspector Exam</h3>
-                                    <p style="font-size: 14px; color: #64748b; margin: 0;">Crime, Evidence, GP, Traffic</p>
+                                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0;">
+                                        Inspector Exam</h3>
+                                    
                                 </div>
                             </div>
 `;
@@ -50,18 +54,20 @@ html = html.replace(inspectorHtml.trim(), newInspectorHtml.trim());
 // NIE Exam
 const nieHtml = `
                             <div>
-                                <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">National Investigators Exam</h3>
-                                <p style="font-size: 14px; color: #64748b; margin: 0;">Crime, Evidence, Investigation</p>
+                                <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0;">
+                                        National Investigators Exam</h3>
+                                
                             </div>
 `;
 const newNieHtml = `
-                            <div style="display: flex; align-items: flex-start;">
-                                <div style="background: #fdf4ff; width: 48px; height: 48px; margin-right: 16px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                            <div style="display: flex; align-items: center;">
+                                <div style="background: #eff6ff; width: 48px; height: 48px; margin-right: 16px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
                                     <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f50d.png" style="width: 24px; height: 24px; object-fit: contain;" alt="NIE">
                                 </div>
                                 <div>
-                                    <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">National Investigators Exam</h3>
-                                    <p style="font-size: 14px; color: #64748b; margin: 0;">Crime, Evidence, Investigation</p>
+                                    <h3 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0;">
+                                        National Investigators Exam</h3>
+                                    
                                 </div>
                             </div>
 `;
