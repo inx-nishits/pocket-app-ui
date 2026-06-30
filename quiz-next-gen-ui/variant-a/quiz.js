@@ -114,15 +114,16 @@ const QuizEngine = {
             : '';
 
         const cardHtml = `
-            <div class="format-card" style="flex-direction: column; align-items: stretch; padding: 20px; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
-                    <div style="display: flex; align-items: flex-start;">
-                        <div style="background: #eff6ff; width: 48px; height: 48px; margin-right: 16px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-                            <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${data.icon}" style="width: 24px; height: 24px; object-fit: contain;">
+            <div class="format-card" style="flex-direction: column; align-items: stretch; padding: 20px; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px; background: white; border-radius: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                    <div style="display: flex; align-items: flex-start; width: 100%;">
+                        <div style="background: ${data.iconBg}; width: 64px; height: 64px; margin-right: 16px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                            <img src="${data.iconSrc}" style="width: 40px; height: 40px; object-fit: contain;" alt="${examName}">
                         </div>
-                        <div>
-                            <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">${examName}</h3>
-                            <p style="font-size: 14px; color: #64748b; margin: 0;">${data.sub}</p>
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0; line-height: 1.3;">${examName}</h3>
+                            ${nppfTag}
+                            <p style="font-size: 13px; color: #64748b; margin: 2px 0 0 0; line-height: 1.4;">${data.desc}</p>
                         </div>
                     </div>
                 </div>
@@ -165,6 +166,12 @@ const QuizEngine = {
     },
 
     beginMockSimulation: function () {
+        if (this.selectedCategory === 'National Investigators Exam') {
+            this.totalQuestions = 30; // Temporarily set to 30 for testing
+        } else {
+            this.totalQuestions = 30; // Temporarily set to 30 for testing
+        }
+        this.mockAnswers = new Array(this.totalQuestions).fill(null);
         this.navigate('view-active');
     },
 
@@ -1124,10 +1131,10 @@ const QuizEngine = {
         if (paginator) {
             if (this.totalQuestions > this.navigatorItemsPerPage) {
                 paginator.style.display = 'flex';
-
+                
                 const prevBtn = document.getElementById('navigator-prev-btn');
                 const nextBtn = document.getElementById('navigator-next-btn');
-
+                
                 if (prevBtn) {
                     if (this.navigatorCurrentPage === 0) {
                         prevBtn.style.opacity = '0.4';
@@ -1137,7 +1144,7 @@ const QuizEngine = {
                         prevBtn.style.pointerEvents = 'auto';
                     }
                 }
-
+                
                 if (nextBtn) {
                     if (endIndex >= this.totalQuestions) {
                         nextBtn.style.opacity = '0.4';
@@ -1418,15 +1425,20 @@ const QuizEngine = {
             let xpEarned = 25; // Base 25 XP
             if (timeTaken < 3.0) {
                 xpEarned += 15; // Speed bonus +15 XP
-                this.showToast('⚡ Quick Thinker +15 Bonus XP');
+
+                const isPracticeMode = (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas');
+
+                if (!isPracticeMode) {
+                    this.showToast('⚡ Quick Thinker +15 Bonus XP');
+                }
             }
             this.totalXp += xpEarned;
 
             // Floating XP Gamification
             const floatXP = document.createElement('div');
             floatXP.className = 'floating-xp';
-            floatXP.innerHTML = `✔ Correct<br>+${xpEarned} XP`;
-            btnElement.appendChild(floatXP);
+            floatXP.innerHTML = `✅ Correct<br>+${xpEarned} XP`;
+            // btnElement.appendChild(floatXP);
             setTimeout(() => floatXP.remove(), 1200);
 
             // Update Streak Indicator in top bar
@@ -1700,10 +1712,16 @@ const QuizEngine = {
             return;
         }
 
-        if (this.currentQuestion === Math.floor(this.totalQuestions / 2)) {
-            this.showToast('🚀 Halfway There');
-        } else if (this.currentQuestion === this.totalQuestions - 1) {
-            this.showToast('⭐ Final Question');
+        this.currentQuestion++;
+
+        const isPracticeMode = (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas');
+
+        if (!isPracticeMode) {
+            if (this.currentQuestion === Math.floor(this.totalQuestions / 2)) {
+                this.showToast('🚀 Halfway There');
+            } else if (this.currentQuestion === this.totalQuestions - 1) {
+                this.showToast('🏁 Final Question');
+            }
         }
 
         this.loadQuestion(this.currentQuestion);
@@ -1994,14 +2012,54 @@ const QuizEngine = {
                         </button>
                     `;
                 } else if (quizType === 'practice') {
-                    actionsContainer.innerHTML = `
-                        <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.returnHome()">
-                            Back to Hub
-                        </button>
-                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('mock')">
-                            Start Mock Exam
-                        </button>
-                    `;
+                    const defaultPracticeBack = this.currentFlow === 'mixed' ? "QuizEngine.restartFlow('mixed')" : "QuizEngine.restartFlow('topic')";
+                    const backAction = this.launchedFromProgress ? "QuizEngine.returnToProgress()" : defaultPracticeBack;
+
+                    if (this.launchedFromProgress) {
+                        if (actualIncorrect > 0) {
+                            actionsContainer.innerHTML = `
+                                <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                    Back
+                                </button>
+                                <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
+                                    Practice Topic
+                                </button>
+                            `;
+                        } else {
+                            actionsContainer.innerHTML = `
+                                <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                    Back
+                                </button>
+                            `;
+                        }
+                    } else {
+                        actionsContainer.innerHTML = `
+                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                Back
+                            </button>
+                            <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('mock')">
+                                Start Mock Exam
+                            </button>
+                        `;
+                    }
+                } else if (quizType === 'ai-tutor') {
+                    const backAction = this.launchedFromProgress ? "QuizEngine.returnToProgress()" : "QuizEngine.returnHome()";
+                    if (actualIncorrect > 0) {
+                        actionsContainer.innerHTML = `
+                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                Back
+                            </button>
+                            <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
+                                Practice Topic
+                            </button>
+                        `;
+                    } else {
+                        actionsContainer.innerHTML = `
+                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
+                                Back
+                            </button>
+                        `;
+                    }
                 } else {
                     actionsContainer.innerHTML = `
                         <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.startFlow('quick')">
@@ -2546,17 +2604,19 @@ const QuizEngine = {
                         </div>
                     </div>
                     
-                    <div style="font-size: 14px; width: 100%; background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; margin-bottom: 8px;">
-                        <div style="margin-bottom: 8px;"><strong>Your Answer:</strong> <span style="color: ${isCorrect ? '#10b981' : (isSkipped ? '#64748b' : '#ef4444')}">${chosenText}</span></div>
-                        ${!isCorrect ? `<div><strong>Correct Answer:</strong> <span style="color: #10b981">${correctText}</span></div>` : ''}
+                    <div class="breakdown-details" style="display: none; width: 100%; margin-top: 12px;">
+                        <div style="font-size: 14px; width: 100%; background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                            <div style="margin-bottom: 8px;"><strong>Your Answer:</strong> <span style="color: ${isCorrect ? '#10b981' : (isSkipped ? '#64748b' : '#ef4444')}">${chosenText}</span></div>
+                            ${!isCorrect ? `<div style=\"margin-bottom:8px\"><strong>✅ Correct Answer:</strong> <span style=\"color: #10b981\">${correctText}</span></div>` : ''}
+                        </div>
+                        
+                        ${explanation ? `
+                        <div style="font-size: 13px; color: #475569; width: 100%; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.05);">
+                            <strong>AI Explanation:</strong>
+                            <div style="margin-top: 4px;">${explanation}</div>
+                        </div>
+                        ` : ''}
                     </div>
-                    
-                    ${explanation ? `
-                    <div style="font-size: 13px; color: #475569; width: 100%; padding-top: 8px; border-top: 1px solid rgba(0,0,0,0.05);">
-                        <strong>AI Explanation:</strong>
-                        <div style="margin-top: 4px;">${explanation}</div>
-                    </div>
-                    ` : ''}
                 </div>
             `;
         }
@@ -3303,7 +3363,7 @@ const QuizEngine = {
 
             const subTopics = this.practiceAidsData[mainTopic].subTopics;
             const subTopicsCount = Object.keys(subTopics).length;
-
+            
             let totalQuestionsCount = 0;
             Object.keys(subTopics).forEach(subTopic => {
                 const subSubs = subTopics[subTopic].subSubs;
@@ -3315,24 +3375,36 @@ const QuizEngine = {
             });
 
             html += `
-                <div style="margin-bottom: ${isExpanded ? '0' : '12px'}; opacity: ${cardOpacity}; pointer-events: ${cardPointerEvents}; transition: all 0.3s ease;">
-                    <div class="practice-card ${isSelected ? 'selected' : ''}" onclick="QuizEngine.togglePracticeMainExpand('${mainTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 16px; cursor: pointer; border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-bottom-color: ${isExpanded ? (isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)') : (isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)')}; background: #ffffff; border-radius: ${isExpanded ? '16px 16px 0 0' : '16px'}; transition: all 0.2s ease; position: relative; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                <div style="margin-bottom: ${isExpanded ? '0' : '16px'}; opacity: ${cardOpacity}; pointer-events: ${cardPointerEvents}; transition: all 0.3s ease;">
+                    <div class="practice-card ${isSelected ? 'selected' : ''}" 
+                         onclick="QuizEngine.togglePracticeMainExpand('${mainTopic}')"
+                         style="display: flex; align-items: flex-start; gap: 16px; padding: 20px; border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; background: #ffffff; border-radius: ${isExpanded ? '20px 20px 0 0' : '20px'}; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; z-index: 2; box-shadow: ${isSelected ? '0 10px 25px -5px rgba(70, 107, 169, 0.15)' : '0 4px 18px rgba(15, 23, 42, 0.03)'};">
                         
-                        <!-- Left Side: Emoji & Title -->
-                        <div style="display: flex; align-items: center; gap: 16px; flex: 1;">
-                            <div style="width: 44px; height: 44px; background: #E9F5FF; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease;">
-                                <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${this.practiceAidsData[mainTopic].icon}" style="width: 24px; height: 24px; object-fit: contain;">
-                            </div>
-                            <div style="font-size: 16px; font-weight: 700; color: ${isSelected ? '#1e3a8a' : '#0f172a'};">${mainTopic}</div>
+                        <!-- Icon -->
+                        <div style="width: 52px; height: 52px; background: #bfdbfe; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 4px 8px rgba(15, 23, 42, 0.05);">
+                            <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${this.practiceAidsData[mainTopic].icon}" style="width: 32px; height: 32px; object-fit: contain;">
                         </div>
                         
-                        <!-- Right Side: Checkbox -->
-                        <div style="display: flex; align-items: center;">
-                            <div class="mixed-checkbox" onclick="event.stopPropagation(); QuizEngine.togglePracticeMain('${mainTopic}')" style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid ${isSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0;">
-                                ${isSelected ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+                        <!-- Content -->
+                        <div style="flex: 1; display: flex; flex-direction: column;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px;">
+                                <h3 style="font-size: 16px; font-weight: 800; color: ${isSelected ? '#1e3a8a' : '#0f172a'}; margin: 0; line-height: 1.3;">${mainTopic}</h3>
+                                
+                                <!-- Right Toggles -->
+                                <div style="display: flex; align-items: center; gap: 12px;" onclick="event.stopPropagation();">
+                                    <div class="mixed-checkbox" onclick="event.stopPropagation(); QuizEngine.togglePracticeMain('${mainTopic}')" style="width: 24px; height: 24px; border-radius: 8px; border: 2px solid ${isSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; flex-shrink: 0; cursor: pointer; box-shadow: ${isSelected ? '0 4px 10px rgba(70, 107, 169, 0.2)' : 'none'};">
+                                        ${isSelected ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
+                                    </div>
+                                    <div onclick="event.stopPropagation(); QuizEngine.togglePracticeMainExpand('${mainTopic}')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; transition: transform 0.3s ease; transform: ${isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </div>
+                                </div>
                             </div>
-                            <div onclick="event.stopPropagation(); QuizEngine.togglePracticeMainExpand('${mainTopic}')" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; transition: transform 0.3s ease; transform: ${isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            
+                            <!-- Badges -->
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <span style="font-size: 11px; font-weight: 600; color: #466ba9; background: #eff6ff; padding: 4px 12px; border-radius: 12px;">${subTopicsCount} Topics</span>
+                                <span style="font-size: 11px; font-weight: 600; color: #466ba9; background: #eff6ff; padding: 4px 12px; border-radius: 12px;">${totalQuestionsCount} Qs</span>
                             </div>
                         </div>
                     </div>
