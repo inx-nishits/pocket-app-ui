@@ -1,4 +1,4 @@
-/* quiz.css - High Fidelity Quiz Module Styles */
+﻿/* quiz.css - High Fidelity Quiz Module Styles */
 :root {
     --bg-color: #e9f5ff;
     /* iOS native system background light */
@@ -83,7 +83,7 @@ body {
     overflow: hidden;
 }
 
-/* Desktop mockup frame — only on wide viewports, not real phones */
+/* Desktop mockup frame â€” only on wide viewports, not real phones */
 @media (min-width: 500px) {
     body {
         padding: 40px 0;
@@ -1983,7 +1983,7 @@ body {
 .format-card:hover .card-nav-arrow {
     background: #eff6ff;
     border-color: #bfdbfe;
-    color: #2563eb;
+    color: var(--accent-blue);
 }
 
 @media (hover: hover) {
@@ -3512,7 +3512,7 @@ body {
 
 /* Top Reward Summary */
 .achieve-summary-card {
-    background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, var(--accent-blue) 0%, #8b5cf6 100%);
     border-radius: 28px;
     padding: 28px 24px;
     margin: 16px;
