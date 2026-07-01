@@ -221,7 +221,7 @@ const newCode = `
                 btn.classList.add('selected');
                 btn.style.background = '#eff6ff';
                 btn.style.border = '2px solid #3b82f6';
-                btn.style.color = '#1d4ed8';
+                btn.style.color = '#466ba9';
             } else {
                 btn.classList.remove('selected');
                 btn.style.background = 'white';

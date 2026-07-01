@@ -37,7 +37,7 @@ const newSection = `<!-- Screen: Practice By Topic -->
                     
                     <!-- Criminal Law -->
                     <div onclick="QuizEngine.handleCategorySelection('Criminal Law')" style="display: flex; align-items: flex-start; padding: 16px; border-bottom: 1px solid #f1f5f9; cursor: pointer;">
-                        <div style="width: 36px; height: 36px; border-radius: 50%; background: #2563eb; color: white; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0; margin-top: 2px;">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: #466ba9; color: white; display: flex; align-items: center; justify-content: center; margin-right: 16px; flex-shrink: 0; margin-top: 2px;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;"><path d="M12 3v18M3 7h18M5 7v6a7 7 0 0 0 14 0V7"/></svg>
                         </div>
                         <div style="flex: 1;">

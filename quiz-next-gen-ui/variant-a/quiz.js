@@ -1,4 +1,4 @@
-﻿/**
+/**
  * quiz.js - High Fidelity Quiz Module Interaction Engine
  */
 
@@ -110,7 +110,7 @@ const QuizEngine = {
         const data = examsData[examName] || examsData['Sergeant Exam'];
 
         const nppfTag = examName.includes('Sergeant') || examName.includes('Inspector')
-            ? `<div style="display: inline-block; background: #eff6ff; color: var(--accent-blue); font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 8px; margin: 6px 0;">NPPF Step 2</div>`
+            ? `<div style="display: inline-block; background: #eff6ff; color: #466ba9; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 8px; margin: 6px 0;">NPPF Step 2</div>`
             : '';
 
         const cardHtml = `
@@ -129,7 +129,7 @@ const QuizEngine = {
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; text-align: left; padding-top: 16px; border-top: 1.5px solid rgba(15, 23, 42, 0.04);">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 34px; height: 34px; border-radius: 9px; background: #eff6ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent-blue);">
+                        <div style="width: 34px; height: 34px; border-radius: 9px; background: #eff6ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #466ba9;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                         </div>
                         <div>
@@ -408,7 +408,7 @@ const QuizEngine = {
         if (type === 'report') {
             this.openReportSheet();
         } else {
-            this.showToast('âœ… Thank You<br>Your feedback helps improve future questions. ðŸ™');
+            this.showToast('✅ Thank You<br>Your feedback helps improve future questions. 🙏');
         }
     },
 
@@ -463,7 +463,7 @@ const QuizEngine = {
         }
 
         this.closeReportSheet();
-        this.showToast('âœ… Thank You<br>Your feedback helps improve future questions. ðŸ™');
+        this.showToast('✅ Thank You<br>Your feedback helps improve future questions. 🙏');
     },
 
     showToast: function (message) {
@@ -895,7 +895,7 @@ const QuizEngine = {
                 opts: ["Only if it might reasonably be considered capable of undermining the prosecution case or assisting the defense case", "Any material that the police have collected during the investigation, regardless of relevance", "Only material that the prosecution intends to rely on at trial", "Only if requested by the defense solicitor"],
                 correct: 0,
                 selected: 1,
-                expWrong: "The statutory test for prosecution disclosure under Section 3 of the CPIA 1996 requires the disclosure of unused material only if it meets the 'disclosure test'â€”meaning it might reasonably be considered capable of undermining the prosecution case or assisting the defense case."
+                expWrong: "The statutory test for prosecution disclosure under Section 3 of the CPIA 1996 requires the disclosure of unused material only if it meets the 'disclosure test'—meaning it might reasonably be considered capable of undermining the prosecution case or assisting the defense case."
             }
         ]
     },
@@ -906,7 +906,7 @@ const QuizEngine = {
 
         let questions = this.wrongQuestionsMockData[topic] || [];
 
-        titleEl.innerText = topic === 'Homicide' ? 'Homicide â€” Intent' : 'Disclosure â€” CPIA Schedules';
+        titleEl.innerText = topic === 'Homicide' ? 'Homicide — Intent' : 'Disclosure — CPIA Schedules';
 
         contentEl.innerHTML = '';
 
@@ -920,10 +920,10 @@ const QuizEngine = {
 
                     if (oIndex === qData.correct) {
                         style = "padding: 12px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #10b981; background: #ecfdf5; color: #065f46;";
-                        icon = '<span style="font-size: 16px; font-weight: 700; color: #10b981;">âœ…</span>';
+                        icon = '<span style="font-size: 16px; font-weight: 700; color: #10b981;">✅</span>';
                     } else if (oIndex === qData.selected) {
                         style = "padding: 12px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #ef4444; background: #fef2f2; color: #991b1b;";
-                        icon = '<span style="font-size: 16px; font-weight: 700; color: #ef4444;">âŒ</span>';
+                        icon = '<span style="font-size: 16px; font-weight: 700; color: #ef4444;">❌</span>';
                     }
 
                     return `<div style="${style}">${opt} ${icon}</div>`;
@@ -1118,8 +1118,8 @@ const QuizEngine = {
             }
 
             if (isCurrent) {
-                stateClass = 'border-color: var(--accent-blue); color: var(--accent-blue);';
-                iconHtml = `<div style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; background: var(--accent-blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px white;"><div style="width: 6px; height: 6px; border-radius: 50%; background: white;"></div></div>`;
+                stateClass = 'border-color: #466ba9; color: #466ba9;';
+                iconHtml = `<div style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; background: #466ba9; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px white;"><div style="width: 6px; height: 6px; border-radius: 50%; background: white;"></div></div>`;
             }
 
             html += `<button onclick="QuizEngine.jumpToQuestion(` + i + `)" style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 50px; border-radius: 12px; border: 1.5px solid currentColor; ` + stateClass + ` background: #ffffff; font-weight: 700; font-size: 16px; cursor: pointer;">` + (i + 1) + iconHtml + `</button>`;
@@ -1258,7 +1258,7 @@ const QuizEngine = {
         }
 
         const streakEl = document.getElementById('active-streak');
-        if (streakEl) streakEl.innerText = `ðŸ”¥ ${this.streak} Streak`;
+        if (streakEl) streakEl.innerText = `🔥 ${this.streak} Streak`;
         const xpEl = document.getElementById('active-xp');
         if (xpEl) xpEl.innerText = `${this.totalXp} XP`;
 
@@ -1366,11 +1366,6 @@ const QuizEngine = {
             }
         }
 
-        const mockBottomBar = document.getElementById('mock-bottom-bar');
-        if (mockBottomBar) {
-            mockBottomBar.style.display = isMockExam ? 'flex' : 'none';
-        }
-
         // Layout is now uniform: timer is always in the top bar and XP/Level/Streak are removed.
 
         // Mock Question Data
@@ -1405,8 +1400,6 @@ const QuizEngine = {
             if (isCorrect) this.score++;
             const mockSkipBtn = document.getElementById('mock-skip-btn');
             if (mockSkipBtn) mockSkipBtn.style.display = 'none';
-            const mockBottomBar = document.getElementById('mock-bottom-bar');
-            if (mockBottomBar) mockBottomBar.style.display = 'none';
 
             this.updateMockStats();
 
@@ -1442,7 +1435,7 @@ const QuizEngine = {
                 const isPracticeMode = (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas');
 
                 if (!isPracticeMode) {
-                    this.showToast('âš¡ Quick Thinker +15 Bonus XP');
+                    this.showToast('⚡ Quick Thinker +15 Bonus XP');
                 }
             }
             this.totalXp += xpEarned;
@@ -1450,7 +1443,7 @@ const QuizEngine = {
             // Floating XP Gamification
             const floatXP = document.createElement('div');
             floatXP.className = 'floating-xp';
-            floatXP.innerHTML = `âœ… Correct<br>+${xpEarned} XP`;
+            floatXP.innerHTML = `✅ Correct<br>+${xpEarned} XP`;
             // btnElement.appendChild(floatXP);
             setTimeout(() => floatXP.remove(), 1200);
 
@@ -1458,7 +1451,7 @@ const QuizEngine = {
             const streakContainer = document.getElementById('streak-container');
             const streakEl = document.getElementById('active-streak');
 
-            if (streakEl) streakEl.innerText = `ðŸ”¥ ${this.streak} Streak`;
+            if (streakEl) streakEl.innerText = `🔥 ${this.streak} Streak`;
 
             if (streakContainer) {
                 streakContainer.classList.remove('streak-pulse');
@@ -1500,7 +1493,7 @@ const QuizEngine = {
             this.streak = 0;
             this.streak = 0;
             const streakElReset = document.getElementById('active-streak');
-            if (streakElReset) streakElReset.innerText = 'ðŸ”¥ 0 Streak';
+            if (streakElReset) streakElReset.innerText = '🔥 0 Streak';
 
             sheet.classList.add('wrong');
             icon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/274c.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
@@ -1539,7 +1532,7 @@ const QuizEngine = {
                     inlineContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 100);
                 const currentAccuracy = Math.round((this.score / this.currentQuestion) * 100);
-                inlineAccuracy.innerText = `ðŸŽ¯ Accuracy: ${currentAccuracy}%`;
+                inlineAccuracy.innerText = `🎯 Accuracy: ${currentAccuracy}%`;
 
                 if (isCorrect) {
                     inlineIcon.style.background = 'transparent';
@@ -1690,7 +1683,7 @@ const QuizEngine = {
                         this.currentQuestion = firstUnanswered;
                         this.loadQuestion();
                     } else {
-                        this.showToast('ðŸŽ‰ Challenge Complete');
+                        this.showToast('🎉 Challenge Complete');
                         setTimeout(() => {
                             this.finishQuiz();
                         }, 1000);
@@ -1719,7 +1712,7 @@ const QuizEngine = {
                     modal.style.display = 'flex';
                 }
             } else {
-                this.showToast('ðŸŽ‰ Challenge Complete');
+                this.showToast('🎉 Challenge Complete');
                 setTimeout(() => {
                     this.finishQuiz();
                 }, 1000);
@@ -1733,9 +1726,9 @@ const QuizEngine = {
 
         if (!isPracticeMode) {
             if (this.currentQuestion === Math.floor(this.totalQuestions / 2)) {
-                this.showToast('ðŸš€ Halfway There');
+                this.showToast('🚀 Halfway There');
             } else if (this.currentQuestion === this.totalQuestions - 1) {
-                this.showToast('ðŸ Final Question');
+                this.showToast('🏁 Final Question');
             }
         }
 
@@ -2393,21 +2386,21 @@ const QuizEngine = {
         this.topicsPerformance.forEach(topic => {
             let color, bgColor, icon, title;
             if (topic.score >= 90) {
-                color = '#16a34a'; bgColor = '#ecfdf5'; icon = 'ðŸ¥‡'; title = 'Mastered';
+                color = '#16a34a'; bgColor = '#ecfdf5'; icon = '🥇'; title = 'Mastered';
             } else if (topic.score >= 80) {
-                color = '#10b981'; bgColor = '#d1fae5'; icon = 'ðŸ’ª'; title = 'Strong';
+                color = '#10b981'; bgColor = '#d1fae5'; icon = '💪'; title = 'Strong';
             } else if (topic.score >= 65) {
-                color = '#f59e0b'; bgColor = '#fef3c7'; icon = 'ðŸŒ±'; title = 'Developing';
+                color = '#f59e0b'; bgColor = '#fef3c7'; icon = '🌱'; title = 'Developing';
             } else {
-                color = '#ef4444'; bgColor = '#fee2e2'; icon = 'ðŸš¨'; title = 'Weak';
+                color = '#ef4444'; bgColor = '#fee2e2'; icon = '🚨'; title = 'Weak';
             }
 
             const diff = topic.score - topic.prevScore;
             let trendHtml = '';
             if (diff > 0) {
-                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #16a34a; margin-left: 6px;">ðŸ“ˆ +${diff}%</span>`;
+                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #16a34a; margin-left: 6px;">📈 +${diff}%</span>`;
             } else if (diff < 0) {
-                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #ef4444; margin-left: 6px;">ðŸ“‰ ${diff}%</span>`;
+                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #ef4444; margin-left: 6px;">📉 ${diff}%</span>`;
             } else {
                 trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #94a3b8; margin-left: 6px;">- 0%</span>`;
             }
@@ -2440,7 +2433,7 @@ const QuizEngine = {
         const weakTopics = this.topicsPerformance.filter(t => t.score < 65).sort((a, b) => a.score - b.score);
         let html = '';
         weakTopics.forEach(topic => {
-            const pooIcon = topic.score < 50 ? 'ðŸ’© ' : '';
+            const pooIcon = topic.score < 50 ? '💩 ' : '';
             html += `
                 <div onclick="QuizEngine.startTopicRevision('${topic.name}')" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #fff7ed; padding: 14px 16px; border-radius: 12px; border: 1px solid #ffedd5; transition: transform 0.1s ease, box-shadow 0.2s; box-shadow: 0 1px 2px rgba(234, 88, 12, 0.05);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(234, 88, 12, 0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 2px rgba(234, 88, 12, 0.05)';">
                     <div style="display: flex; align-items: center; gap: 10px;">
@@ -2618,7 +2611,7 @@ const QuizEngine = {
                     <div class="breakdown-details" style="display: none; width: 100%; margin-top: 12px;">
                         <div style="font-size: 14px; width: 100%; background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; margin-bottom: 8px;">
                             <div style="margin-bottom: 8px;"><strong>Your Answer:</strong> <span style="color: ${isCorrect ? '#10b981' : (isSkipped ? '#64748b' : '#ef4444')}">${chosenText}</span></div>
-                            ${!isCorrect ? `<div style=\"margin-bottom:8px\"><strong>âœ… Correct Answer:</strong> <span style=\"color: #10b981\">${correctText}</span></div>` : ''}
+                            ${!isCorrect ? `<div style=\"margin-bottom:8px\"><strong>✅ Correct Answer:</strong> <span style=\"color: #10b981\">${correctText}</span></div>` : ''}
                         </div>
                         
                         ${explanation ? `
@@ -2714,7 +2707,7 @@ const QuizEngine = {
             const descColor = showFullColor ? '#4b5563' : '#8e8e93';
 
             const lockIndicator = isUnlocked ? '' : `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f512.png" style="position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; z-index: 2; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); opacity: 0.9;">`;
-            const checkIndicator = isUnlocked ? `<div style="position: absolute; top: 12px; right: 12px; font-size: 13.33px; z-index: 2; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));">âœ…</div>` : '';
+            const checkIndicator = isUnlocked ? `<div style="position: absolute; top: 12px; right: 12px; font-size: 13.33px; z-index: 2; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));">✅</div>` : '';
 
             const iconBg = '#ffffff';
 
@@ -2777,7 +2770,7 @@ const QuizEngine = {
 
         const isUnlocked = badge.state === 'unlocked';
         const statusBadge = isUnlocked
-            ? `<div style="display: inline-block; background: rgba(70,107,169,0.1); color: #466ba9; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; margin-bottom: 24px; font-family: 'Inter', sans-serif;">âœ… Unlocked</div>`
+            ? `<div style="display: inline-block; background: rgba(70,107,169,0.1); color: #466ba9; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; margin-bottom: 24px; font-family: 'Inter', sans-serif;">✅ Unlocked</div>`
             : `<div style="display: inline-block; background: #f1f5f9; color: var(--text-secondary, #64748b); padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 600; margin-bottom: 24px; font-family: 'Inter', sans-serif;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f512.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Locked</div>`;
 
         const iconFilter = 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))';
@@ -2829,7 +2822,7 @@ const QuizEngine = {
 
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <span style="font-size: 13px; color: var(--text-secondary, #64748b); font-weight: 500;">Reward XP</span>
-                        <span style="font-size: 14px; color: #b45309; font-weight: 700;">â­Â +${badge.rewardXp} XP</span>
+                        <span style="font-size: 14px; color: #b45309; font-weight: 700;">⭐ +${badge.rewardXp} XP</span>
                     </div>
                     <div style="height: 1px; background: rgba(15,23,42,0.05); margin-bottom: 16px;"></div>
                     
@@ -2976,8 +2969,8 @@ const QuizEngine = {
 
         // Helper to render trend badge
         const getTrendHTML = (trend, val) => {
-            if (trend === 'up') return `<span class="lb-trend up">â†‘ ${val}</span>`;
-            if (trend === 'down') return `<span class="lb-trend down">â†“ ${val}</span>`;
+            if (trend === 'up') return `<span class="lb-trend up">↑ ${val}</span>`;
+            if (trend === 'down') return `<span class="lb-trend down">↓ ${val}</span>`;
             if (trend === 'new') return `<span class="lb-trend new">NEW</span>`;
             return '';
         };
@@ -3023,7 +3016,7 @@ const QuizEngine = {
                     <div style="flex: 1;">
                         <div style="font-size: 12px; font-weight: 800; color: #b45309; text-transform: uppercase;">Weekly MVP</div>
                         <div style="font-size: 16px; font-weight: 800; color: #92400e; margin-bottom: 4px;">Officer Smith</div>
-                        <div style="font-size: 12px; color: #b45309; font-weight: 600;">+520 XP This Week â€¢ 12 Challenges</div>
+                        <div style="font-size: 12px; color: #b45309; font-weight: 600;">+520 XP This Week • 12 Challenges</div>
                     </div>
                 </div>
             `;
@@ -3035,7 +3028,7 @@ const QuizEngine = {
                     <div style="display: flex; flex-direction: column; gap: 12px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 14px 16px; border-radius: 12px;">
                             <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 20px;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></span> <span style="font-size: 14px; font-weight: 700; color: var(--text-secondary);">Fastest Climber</span></div>
-                            <div style="text-align: right;"><div style="font-size: 14px; font-weight: 700; margin-bottom: 6px;">Officer Smith</div><div style="font-size: 12px; font-weight: 600; color: #166534;">â†‘ 12 Positions</div></div>
+                            <div style="text-align: right;"><div style="font-size: 14px; font-weight: 700; margin-bottom: 6px;">Officer Smith</div><div style="font-size: 12px; font-weight: 600; color: #166534;">↑ 12 Positions</div></div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 14px 16px; border-radius: 12px;">
                             <div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 20px;"><img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"></span> <span style="font-size: 14px; font-weight: 700; color: var(--text-secondary);">Most Completed</span></div>
