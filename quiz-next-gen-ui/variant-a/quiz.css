@@ -317,8 +317,8 @@ body {
     width: 100%;
 }
 
-.btn-primary {
-    background: var(--accent-blue);
+.btn-primary, .ios-btn-primary {
+    background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5);
     color: white;
     border: none;
     padding: 16px;
@@ -335,9 +335,9 @@ body {
     min-height: 56px;
 }
 
-.btn-primary:active {
+.btn-primary:active, .ios-btn-primary:active {
     transform: scale(0.97);
-    background: var(--accent-active);
+    background: linear-gradient(to bottom, #4b73b7, #345da5, #1e3a8a);
     box-shadow: 0 2px 6px rgba(70, 107, 169, 0.1);
 }
 
@@ -1960,12 +1960,240 @@ body {
     color: #94a3b8;
 }
 
+.card-nav-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #94a3b8;
+    flex-shrink: 0;
+    align-self: flex-start;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.card-nav-arrow svg {
+    width: 16px;
+    height: 16px;
+}
+
+.format-card:hover .card-nav-arrow {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #2563eb;
+}
+
+@media (hover: hover) {
+    .format-card:hover {
+        border-color: rgba(37, 99, 235, 0.25);
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.06);
+    }
+}
+
 /* Choose Participants UI */
 .participant-list {
     padding-top: 16px;
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.participant-option-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.02);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.participant-option-card:active {
+    transform: scale(0.98);
+}
+
+.participant-option-card.active {
+    border-color: #466BA9;
+    background: #f0f9ff;
+}
+
+.participant-option-card.active .category-icon-top {
+    background: white;
+}
+
+.participant-option-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
+/* Dynamic Reveal Areas */
+.dynamic-reveal-area {
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    max-height: 500px;
+    opacity: 1;
+    margin-bottom: 8px;
+    padding: 0 4px;
+}
+
+.dynamic-reveal-area.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    pointer-events: none;
+}
+
+/* Colleague Selection */
+.colleague-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+    border: 1px solid rgba(15, 23, 42, 0.04);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.colleague-card:active {
+    transform: scale(0.97);
+}
+
+.colleague-card.active {
+    border-color: #466BA9;
+    background: #fafafc;
+}
+
+.colleague-card.active .radio-circle {
+    border-color: #466BA9;
+    background: #466BA9;
+    box-shadow: inset 0 0 0 3px white;
+}
+
+.colleague-avatar {
+    position: relative;
+    width: 44px;
+    height: 44px;
+}
+
+.colleague-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.status-dot.online {
+    background: #10b981;
+}
+
+.status-dot.offline {
+    background: #94a3b8;
+}
+
+.colleague-info {
+    flex: 1;
+}
+
+.colleague-info h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.colleague-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.radio-circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    transition: all 0.2s ease;
+}
+
+/* Matchmaking Area */
+.matchmaking-container {
+    background: white;
+    border-radius: 16px;
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.02);
+    border: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+.radar-spinner {
+    width: 56px;
+    height: 56px;
+    border: 4px solid var(--accent-light);
+    border-top-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    margin-bottom: 16px;
+    box-shadow: 0 0 24px rgba(70, 107, 169, 0.2);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.matchmaking-text {
+    text-align: center;
+}
+
+.matchmaking-text h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.matchmaking-text p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Sticky Bottom Action */
+.sticky-bottom-action {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 16px 20px;
 }
 
 .participant-option-card {
@@ -2171,8 +2399,11 @@ body {
     width: 100%;
     margin-bottom: 0;
     transition: opacity 0.3s ease;
+    background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(70, 107, 169, 0.2);
 }
-
 .sticky-bottom-action .primary-btn.disabled {
     opacity: 0.5;
     pointer-events: none;
@@ -5303,6 +5534,12 @@ body {
 .report-option-label:has(input[type="radio"]:checked) {
     background: #fef2f2 !important;
     border-color: #fca5a5 !important;
+}
+
+.ios-btn-primary:not([style*="background: #ffffff"]):not([style*="background: white"]):not([style*="background:rgb(255, 255, 255)"]),
+.btn-primary:not([style*="background: #ffffff"]):not([style*="background: white"]):not([style*="background:rgb(255, 255, 255)"]),
+.primary-btn:not([style*="background: #ffffff"]):not([style*="background: white"]):not([style*="background:rgb(255, 255, 255)"]) {
+    background: linear-gradient(135deg, #466ba9 0%, #bfdbfe 100%);
 }
 
 /*

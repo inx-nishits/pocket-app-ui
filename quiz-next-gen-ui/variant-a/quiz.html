@@ -16,7 +16,7 @@
         rel="stylesheet">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="quiz.css?v=5">
+    <link rel="stylesheet" href="quiz.css?v=6">
 
     <!-- Chart.js & Plugins -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -61,7 +61,7 @@
 
         /* Professional Resume Exam Widget - App Strict Dark Theme */
         .resume-exam-card {
-            background: var(--accent-blue);
+            background: linear-gradient(to bottom, rgb(134, 174, 244), #345da5);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 0;
@@ -169,7 +169,7 @@
             position: absolute;
             width: 54px;
             height: 54px;
-            background: var(--accent-blue);
+            background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5);
             /* Matches card bg */
             border-radius: 50%;
         }
@@ -361,8 +361,8 @@
                             style="display: flex; align-items: center; gap: 16px; margin-bottom: 4px; padding: 4px 8px 0;">
                             <div
                                 style="width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));">
-                                <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4dd.png"
-                                    style="width: 64px; height: 64px; object-fit: contain;" alt="Exam">
+                                <img src="../images/Design_flipped.png"
+                                    style="width: 95px; height: 95px; object-fit: contain;" alt="Exam">
                             </div>
                             <div style="padding-top: 4px;">
                                 <h3
@@ -373,60 +373,49 @@
                             </div>
                         </div>
                         <div
-                            style="display: flex; gap: 12px; background: #ffffff; border-radius: 0 0 20px 20px; padding: 16px 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); justify-content: space-between; margin: 20px -20px -20px -20px; width: auto;">
-                            <!-- Item 1: Questions -->
-                            <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                            style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; background: #ffffff; border-radius: 0 0 20px 20px; padding: 16px 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); margin: 20px -20px -20px -20px; width: auto; text-align: left;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
                                 <div
-                                    style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: #faf5ff; border-radius: 10px; flex-shrink: 0;">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7"
-                                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    style="width: 34px; height: 34px; border-radius: 9px; background: #eff6ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #1d4ed8;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                                     </svg>
                                 </div>
-                                <div style="display: flex; flex-direction: column;">
-                                    <span
-                                        style="font-size: 11px; font-weight: 600; color: #64748b; line-height: 1.2;">Questions</span>
-                                    <span
-                                        style="font-size: 14px; font-weight: 800; color: #0f172a; line-height: 1.2; margin-top: 2px;">150</span>
+                                <div>
+                                    <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Mock Exam</div>
+                                    <div style="font-size: 14px; font-weight: 700; color: #0f172a;">3</div>
                                 </div>
                             </div>
-                            <!-- Item 2: Duration -->
-                            <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
                                 <div
-                                    style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: #fff7ed; border-radius: 10px; flex-shrink: 0;">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea580c"
-                                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    style="width: 34px; height: 34px; border-radius: 9px; background: #f0f9ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #0284c7;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <polyline points="12 6 12 12 16 14"></polyline>
                                     </svg>
                                 </div>
-                                <div style="display: flex; flex-direction: column;">
-                                    <span
-                                        style="font-size: 11px; font-weight: 600; color: #64748b; line-height: 1.2;">Duration</span>
-                                    <span
-                                        style="font-size: 14px; font-weight: 800; color: #0f172a; line-height: 1.2; margin-top: 2px;">3h
-                                        15m</span>
+                                <div>
+                                    <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Total Time</div>
+                                    <div style="font-size: 14px; font-weight: 700; color: #0f172a;">9h 15m</div>
                                 </div>
                             </div>
-                            <!-- Item 3: Pass Mark -->
-                            <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
                                 <div
-                                    style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: #f0fdf4; border-radius: 10px; flex-shrink: 0;">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a"
-                                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    style="width: 34px; height: 34px; border-radius: 9px; background: #ecfdf5; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #10b981;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <circle cx="12" cy="12" r="6"></circle>
                                         <circle cx="12" cy="12" r="2"></circle>
                                     </svg>
                                 </div>
-                                <div style="display: flex; flex-direction: column;">
-                                    <span
-                                        style="font-size: 11px; font-weight: 600; color: #64748b; line-height: 1.2;">Pass
-                                        Mark</span>
-                                    <span
-                                        style="font-size: 14px; font-weight: 800; color: #0f172a; line-height: 1.2; margin-top: 2px;">55%</span>
+                                <div>
+                                    <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Pass Mark</div>
+                                    <div style="font-size: 14px; font-weight: 700; color: #0f172a;">55%</div>
                                 </div>
                             </div>
                         </div>
@@ -460,6 +449,12 @@
                         <p style="font-size: 13px; color: #475569; margin: 0; line-height: 1.4; font-weight: 400;">
                             Simulate real exam conditions with timed, full-length tests.</p>
                     </div>
+                    <div class="card-nav-arrow">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
                 </div>
 
                 <!-- 2. Revision Aids -->
@@ -482,6 +477,12 @@
                         <p style="font-size: 13px; color: #475569; margin: 0; line-height: 1.4; font-weight: 400;">Study
                             key topics with bite-sized content and practice questions.</p>
                     </div>
+                    <div class="card-nav-arrow">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
                 </div>
 
                 <!-- 3. My Progress -->
@@ -503,6 +504,12 @@
                         </div>
                         <p style="font-size: 13px; color: #475569; margin: 0; line-height: 1.4; font-weight: 400;">Track
                             performance, review results and identify areas to improve.</p>
+                    </div>
+                    <div class="card-nav-arrow">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
                     </div>
                 </div>
 
@@ -696,8 +703,8 @@
                 <div id="view-category-list" class="format-list">
                     <!-- 1. Sergeant Promotion Exam -->
                     <div class="format-card" onclick="QuizEngine.handleExamSelection('Sergeant')"
-                        style="align-items: flex-start; border-radius: 20px;">
-                        <div class="format-card-left" style="align-items: flex-start;">
+                        style="align-items: center; border-radius: 20px;">
+                        <div class="format-card-left" style="align-items: flex-start; flex: 1;">
                             <div class="category-icon-top"
                                 style="background: #eff6ff; color: #3b82f6; width: 48px; height: 48px; margin-bottom: 0;">
                                 <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f46e.png"
@@ -722,12 +729,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card-nav-arrow">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
                     </div>
 
                     <!-- 2. Inspector Promotion Exam -->
                     <div class="format-card" onclick="QuizEngine.handleExamSelection('Inspector')"
-                        style="align-items: flex-start; border-radius: 20px;">
-                        <div class="format-card-left" style="align-items: flex-start;">
+                        style="align-items: center; border-radius: 20px;">
+                        <div class="format-card-left" style="align-items: flex-start; flex: 1;">
                             <div class="category-icon-top"
                                 style="background: #eff6ff; color: #8b5cf6; width: 48px; height: 48px; margin-bottom: 0;">
                                 <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f396.png"
@@ -752,12 +765,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card-nav-arrow">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
                     </div>
 
                     <!-- 3. National Investigators' Examination (NIE) -->
                     <div class="format-card" onclick="QuizEngine.handleExamSelection('NIE')"
-                        style="align-items: flex-start; border-radius: 20px;">
-                        <div class="format-card-left" style="align-items: flex-start;">
+                        style="align-items: center; border-radius: 20px;">
+                        <div class="format-card-left" style="align-items: flex-start; flex: 1;">
                             <div class="category-icon-top"
                                 style="background: #eff6ff; color: #ef4444; width: 48px; height: 48px; margin-bottom: 0;">
                                 <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f50d.png"
@@ -778,6 +797,12 @@
                                         Choice</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="card-nav-arrow">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
                         </div>
                     </div>
 
@@ -1065,8 +1090,8 @@
             <!-- Sticky Footer for Practice Aids -->
             <div id="practice-aids-footer"
                 style="position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 20px 32px; background: #eff6ff; border-top: 1px solid rgba(15, 23, 42, 0.05); box-shadow: 0 -8px 24px rgba(70, 107, 169, 0.05); transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 50;">
-                <button class="primary-btn" id="practice-aids-action-btn" onclick="QuizEngine.practiceAidsNext()"
-                    style="width: 100%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; border-radius: 12px; padding: 16px; background: #466ba9; color: white; border: none; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.2); cursor: pointer; transition: transform 0.2s ease;">
+                <button class="btn-primary" id="practice-aids-action-btn" onclick="QuizEngine.practiceAidsNext()"
+                    style="width: 100%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; border-radius: 12px; padding: 16px; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: white; border: none;  cursor: pointer; transition: transform 0.2s ease;">
                     Next
                 </button>
             </div>
@@ -1267,8 +1292,8 @@
                     <div class="format-card" onclick="QuizEngine.startMockExam('Sergeant Exam')"
                         style="flex-direction: column; align-items: stretch; padding: 20px; cursor: pointer; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px;">
                         <div
-                            style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-                            <div style="display: flex; align-items: flex-start; width: 100%;">
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <div style="display: flex; align-items: flex-start; flex: 1;">
                                 <div
                                     style="background: #bfdbfe; width: 64px; height: 64px; margin-right: 16px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
                                     <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f46e.png"
@@ -1285,12 +1310,18 @@
                                         Comprehensive mock exam covering all sergeant level responsibilities.</p>
                                 </div>
                             </div>
+                            <div class="card-nav-arrow">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
                         </div>
                         <div
                             style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; text-align: left; padding-top: 16px; border-top: 1.5px solid rgba(15, 23, 42, 0.04);">
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div
-                                    style="width: 34px; height: 34px; border-radius: 9px; background: #f3e8ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9333ea;">
+                                    style="width: 34px; height: 34px; border-radius: 9px; background: #eff6ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #1d4ed8;">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"></circle>
@@ -1305,7 +1336,7 @@
                             </div>
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div
-                                    style="width: 34px; height: 34px; border-radius: 9px; background: #fff7ed; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #ea580c;">
+                                    style="width: 34px; height: 34px; border-radius: 9px; background: #f0f9ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #0284c7;">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"></circle>
@@ -1339,8 +1370,8 @@
                     <div class="format-card" onclick="QuizEngine.startMockExam('Inspector Exam')"
                         style="flex-direction: column; align-items: stretch; padding: 20px; cursor: pointer; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px;">
                         <div
-                            style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-                            <div style="display: flex; align-items: flex-start; width: 100%;">
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <div style="display: flex; align-items: flex-start; flex: 1;">
                                 <div
                                     style="background: #bfdbfe; width: 64px; height: 64px; margin-right: 16px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
                                     <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f575-fe0f.png"
@@ -1357,12 +1388,18 @@
                                         Test your knowledge and decision making at inspector level.</p>
                                 </div>
                             </div>
+                            <div class="card-nav-arrow">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
                         </div>
                         <div
                             style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; text-align: left; padding-top: 16px; border-top: 1.5px solid rgba(15, 23, 42, 0.04);">
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div
-                                    style="width: 34px; height: 34px; border-radius: 9px; background: #f3e8ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9333ea;">
+                                    style="width: 34px; height: 34px; border-radius: 9px; background: #eff6ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #1d4ed8;">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"></circle>
@@ -1377,7 +1414,7 @@
                             </div>
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div
-                                    style="width: 34px; height: 34px; border-radius: 9px; background: #fff7ed; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #ea580c;">
+                                    style="width: 34px; height: 34px; border-radius: 9px; background: #f0f9ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #0284c7;">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"></circle>
@@ -1411,8 +1448,8 @@
                     <div class="format-card" onclick="QuizEngine.startMockExam('National Investigators Exam')"
                         style="flex-direction: column; align-items: stretch; padding: 20px; cursor: pointer; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 32px;">
                         <div
-                            style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-                            <div style="display: flex; align-items: flex-start; width: 100%;">
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <div style="display: flex; align-items: flex-start; flex: 1;">
                                 <div
                                     style="background: #bfdbfe; width: 64px; height: 64px; margin-right: 16px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
                                     <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f50d.png"
@@ -1426,12 +1463,18 @@
                                         Assess your investigative skills and knowledge.</p>
                                 </div>
                             </div>
+                            <div class="card-nav-arrow">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
                         </div>
                         <div
                             style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; text-align: left; padding-top: 16px; border-top: 1.5px solid rgba(15, 23, 42, 0.04);">
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div
-                                    style="width: 34px; height: 34px; border-radius: 9px; background: #f3e8ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9333ea;">
+                                    style="width: 34px; height: 34px; border-radius: 9px; background: #eff6ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #1d4ed8;">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"></circle>
@@ -1446,7 +1489,7 @@
                             </div>
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div
-                                    style="width: 34px; height: 34px; border-radius: 9px; background: #fff7ed; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #ea580c;">
+                                    style="width: 34px; height: 34px; border-radius: 9px; background: #f0f9ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #0284c7;">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="10"></circle>
@@ -1751,12 +1794,18 @@
                         style="display: flex; flex-direction: column; padding: 20px; background: white; border-radius: 16px; border: 1px solid rgba(15,23,42,0.05); box-shadow: 0 4px 16px rgba(15,23,42,0.02); cursor: pointer; align-items: stretch; margin-bottom: 0;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                            <div>
+                            <div style="flex: 1;">
                                 <h3
                                     style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0; line-height: 1.3;">
                                     Sergeant Exam <span style="font-size: 14px; font-weight: 500; color: #64748b;">(NPPF
                                         Step 2)</span></h3>
 
+                            </div>
+                            <div class="card-nav-arrow">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
                             </div>
                         </div>
                         <div
@@ -1781,13 +1830,19 @@
                         style="display: flex; flex-direction: column; padding: 20px; background: white; border-radius: 16px; border: 1px solid rgba(15,23,42,0.05); box-shadow: 0 4px 16px rgba(15,23,42,0.02); cursor: pointer; align-items: stretch; margin-bottom: 0;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                            <div>
+                            <div style="flex: 1;">
                                 <h3
                                     style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0; line-height: 1.3;">
                                     Inspector Exam <span
                                         style="font-size: 14px; font-weight: 500; color: #64748b;">(NPPF Step 2)</span>
                                 </h3>
 
+                            </div>
+                            <div class="card-nav-arrow">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
                             </div>
                         </div>
                         <div
@@ -1812,11 +1867,17 @@
                         style="display: flex; flex-direction: column; padding: 20px; background: white; border-radius: 16px; border: 1px solid rgba(15,23,42,0.05); box-shadow: 0 4px 16px rgba(15,23,42,0.02); cursor: pointer; align-items: stretch; margin-bottom: 0;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                            <div>
+                            <div style="flex: 1;">
                                 <h3
                                     style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0; line-height: 1.3;">
                                     National Investigators Exam</h3>
 
+                            </div>
+                            <div class="card-nav-arrow">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
                             </div>
                         </div>
                         <div
@@ -2299,7 +2360,7 @@
                     <h2 class="section-title">Friends & Colleagues</h2>
                     <div class="filter-dropdown-container" style="position: relative;">
                         <button class="text-btn" onclick="toggleFilterDropdown(event)"
-                            style="color: #ffffff; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--accent-blue); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            style="color: #ffffff; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                             <img src="../images/filter.svg" alt="Filter"
                                 style="width: 18px; height: 18px; filter: brightness(0) invert(1);">
                         </button>
@@ -2652,7 +2713,7 @@
 
             <!-- Blue Header with Time Illustration -->
             <div
-                style="background: var(--accent-blue); padding: 40px 20px 40px; position: relative; overflow: hidden; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: 0 10px 20px rgba(59,130,246,0.2);">
+                style="background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); padding: 40px 20px 40px; position: relative; overflow: hidden; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: 0 10px 20px rgba(59,130,246,0.2);">
                 <!-- Back button -->
                 <button onclick="QuizEngine.navigateBack()"
                     style="position: absolute; top: 20px; left: 20px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); border: none; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; z-index: 10;">
@@ -2949,28 +3010,28 @@
                     <div style="display: flex; flex-direction: column; gap: 14px;">
                         <div style="display: flex; gap: 12px; align-items: flex-start;">
                             <div
-                                style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; margin-top: 7px;">
+                                style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); flex-shrink: 0; margin-top: 7px;">
                             </div>
                             <div style="font-size: 15px; font-weight: 500; color: #334155; line-height: 1.5;">Accept the
                                 challenge.</div>
                         </div>
                         <div style="display: flex; gap: 12px; align-items: flex-start;">
                             <div
-                                style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; margin-top: 7px;">
+                                style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); flex-shrink: 0; margin-top: 7px;">
                             </div>
                             <div style="font-size: 15px; font-weight: 500; color: #334155; line-height: 1.5;">Complete
                                 all 15 questions.</div>
                         </div>
                         <div style="display: flex; gap: 12px; align-items: flex-start;">
                             <div
-                                style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; margin-top: 7px;">
+                                style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); flex-shrink: 0; margin-top: 7px;">
                             </div>
                             <div style="font-size: 15px; font-weight: 500; color: #334155; line-height: 1.5;">Your score
                                 is recorded.</div>
                         </div>
                         <div style="display: flex; gap: 12px; align-items: flex-start;">
                             <div
-                                style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; margin-top: 7px;">
+                                style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); flex-shrink: 0; margin-top: 7px;">
                             </div>
                             <div style="font-size: 15px; font-weight: 500; color: #334155; line-height: 1.5;">Compare
                                 results against your opponent.</div>
@@ -3472,7 +3533,7 @@
                     <!-- About Card -->
                     <div class="format-card"
                         style="display: flex; justify-content: space-between; align-items: flex-start; padding: 20px; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px; background: #ffffff; border-radius: 16px;">
-                        <div style="flex: 1; padding-right: 16px;">
+                        <div style="flex: 1;">
                             <h2
                                 style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px;">
                                 <span
@@ -3491,11 +3552,7 @@
                                 begin, the timer cannot be paused. Ensure you are in a quiet environment before
                                 starting.</p>
                         </div>
-                        <div style="flex-shrink: 0;">
-                            <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4cb.png"
-                                style="width: 56px; height: 56px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));"
-                                alt="About">
-                        </div>
+
                     </div>
 
                     <!-- Requirements Card -->
@@ -3553,7 +3610,7 @@
             <div
                 style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px; background: #eff6ff; z-index: 50;">
                 <button class="ios-btn-primary" onclick="QuizEngine.beginMockSimulation()"
-                    style="background: #466ba9; color: white; width: 100%; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 700; border: none;">Start
+                    style="background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: white; width: 100%; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 700; border: none;">Start
                     Mock Exam</button>
             </div>
         </div>
@@ -3591,7 +3648,7 @@
                     <div class="quiz-progress-bar"
                         style="width: 100%; margin: 0; background: rgba(255,255,255,0.2); height: 6px; border-radius: 4px;">
                         <div class="quiz-progress-fill" id="active-progress-fill"
-                            style="width: 0%; background: #4ade80; box-shadow: 0 0 10px rgba(74, 222, 128, 0.5); border-radius: 4px;">
+                            style="width: 0%; background: #22c55e; border-radius: 4px;">
                         </div>
                     </div>
 
@@ -3601,7 +3658,7 @@
                         <!-- Answered Stat -->
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <div
-                                style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #4ade80; box-shadow: 0 2px 8px rgba(74,222,128,0.4);">
+                                style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #22c55e;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white"
                                     stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                     <polyline points="20 6 9 17 4 12"></polyline>
@@ -3651,11 +3708,11 @@
                 </div>
 
                 <div id="mock-exam-actions"
-                    style="display: none; margin-top: 16px; width: 500px; max-width: 100%; flex-direction: column; align-items: stretch; flex: 1; padding-bottom: 120px;">
+                    style="display: none; margin-top: 16px; width: 500px; max-width: 100%; flex-direction: column; align-items: stretch; flex: 1;">
 
                     <div style="display: flex; justify-content: flex-end; width: 100%;">
                         <button id="mock-skip-btn" onclick="QuizEngine.skipCurrentQuestion()"
-                            style="background: var(--accent-blue); border: none; color: white; font-size: 14px; font-weight: 600; padding: 10px 12px; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.2); display: inline-flex; align-items: center; gap: 8px;">
+                            style="background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); border: none; color: white; font-size: 14px; font-weight: 600; padding: 10px 12px; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.2); display: inline-flex; align-items: center; gap: 8px;">
                             Skip Question
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -3665,9 +3722,10 @@
                         </button>
                     </div>
 
-                    <div style="display: flex; justify-content: center; position: absolute; bottom: 24px; left: 0; right: 0; z-index: 50; padding-top: 20px; pointer-events: none;">
+                    <div
+                        style="display: flex; justify-content: center; width: 100%; margin-top: auto; position: sticky; bottom: 24px; z-index: 50; padding-top: 20px;">
                         <button id="open-navigator-btn" onclick="QuizEngine.openQuestionNavigator()"
-                            style="background: white; border: 1.5px solid #e2e8f0; color: #64748b; font-size: 16px; font-weight: 700; padding: 14px 28px; border-radius: 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: all 0.2s ease; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); pointer-events: auto;">
+                            style="background: white; border: 1.5px solid #e2e8f0; color: #64748b; font-size: 16px; font-weight: 700; padding: 14px 28px; border-radius: 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: all 0.2s ease; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="3" width="7" height="7"></rect>
@@ -3766,7 +3824,7 @@
 
 
                 <button class="btn-primary w-100" id="feedback-next-btn"
-                    style="padding: 16px; font-size: 16px; font-weight: 700; background: var(--accent-blue); color: white; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"
+                    style="padding: 16px; font-size: 16px; font-weight: 700; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: white; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"
                     onclick="QuizEngine.closeFeedbackSheet()">Close Explanation</button>
             </div>
 
@@ -3807,8 +3865,8 @@
                 <div class="result-hero" style="text-align: center; margin-bottom: 40px;">
                     <div id="completion-emoji" class="hero-illustration"
                         style="margin-bottom: 24px; animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25)); display: flex; justify-content: center;">
-                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png"
-                            style="width: 160px; height: 160px; object-fit: contain;">
+                        <img src="../images/result_hero_3d.png"
+                            style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));">
                     </div>
                     <h1 id="completion-title"
                         style="font-family: 'Poppins', sans-serif; font-size: 42px; font-weight: 700; color: #ffffff; margin-bottom: 8px;">
@@ -3883,7 +3941,9 @@
                             <span id="my-correct-val"
                                 style="font-size: 15px; font-weight: 700; color: var(--result-accent); width: 50px; text-align: left;">8</span>
                             <span
-                                style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Correct</span>
+                                style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 4px;"><img
+                                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2705.png"
+                                    style="width: 1.2em; height: 1.2em;"> Correct</span>
                             <span id="opp-correct-val"
                                 style="font-size: 15px; font-weight: 700; color: #000000; width: 50px; text-align: right;">6</span>
                         </div>
@@ -3894,7 +3954,9 @@
                             <span id="my-acc-val"
                                 style="font-size: 15px; font-weight: 700; color: var(--result-accent); width: 50px; text-align: left;">80%</span>
                             <span
-                                style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Accuracy</span>
+                                style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 4px;"><img
+                                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
+                                    style="width: 1.2em; height: 1.2em;"> Accuracy</span>
                             <span id="opp-acc-val"
                                 style="font-size: 15px; font-weight: 700; color: #000000; width: 50px; text-align: right;">60%</span>
                         </div>
@@ -3905,7 +3967,9 @@
                             <span id="my-fastest-val"
                                 style="font-size: 15px; font-weight: 700; color: var(--result-accent); width: 50px; text-align: left;">1.2s</span>
                             <span
-                                style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Fastest</span>
+                                style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 4px;"><img
+                                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/26a1.png"
+                                    style="width: 1.2em; height: 1.2em;"> Fastest</span>
                             <span id="opp-fastest-val"
                                 style="font-size: 15px; font-weight: 700; color: #000000; width: 50px; text-align: right;">1.8s</span>
                         </div>
@@ -3916,7 +3980,9 @@
                             <span id="my-streak-val"
                                 style="font-size: 15px; font-weight: 700; color: var(--result-accent); width: 50px; text-align: left;">5</span>
                             <span
-                                style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Best
+                                style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 4px;"><img
+                                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png"
+                                    style="width: 1.2em; height: 1.2em;"> Best
                                 Streak</span>
                             <span id="opp-streak-val"
                                 style="font-size: 15px; font-weight: 700; color: #000000; width: 50px; text-align: right;">3</span>
@@ -3928,7 +3994,9 @@
                             <span id="my-time-val"
                                 style="font-size: 15px; font-weight: 700; color: var(--result-accent); width: 50px; text-align: left;">2.4s</span>
                             <span
-                                style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px;">Avg
+                                style="font-size: 12px; color: #64748b; font-weight: 600; flex: 1; text-align: center; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 4px;"><img
+                                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/23f1-fe0f.png"
+                                    style="width: 1.2em; height: 1.2em;"> Avg
                                 Time</span>
                             <span id="opp-time-val"
                                 style="font-size: 15px; font-weight: 700; color: #000000; width: 50px; text-align: right;">3.1s</span>
@@ -3983,7 +4051,7 @@
                 <div style="display: flex; flex-direction: column; gap: 12px; font-family: 'Poppins', sans-serif;">
                     <button class="ios-btn-primary"
                         onclick="QuizEngine.startFlow(QuizEngine.currentFlow || 'colleague')"
-                        style="background: #ffffff; color: #466ba9; width: 100%; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: 600; border: none; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;">
+                        style="background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: #ffffff; width: 100%; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: 600; border: none; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;">
                         Rematch
                     </button>
                     <button class="ios-btn-secondary" onclick="QuizEngine.returnHome()"
@@ -4010,8 +4078,8 @@
                 <div class="result-hero" style="text-align: center; margin-bottom: 32px;">
                     <div id="solo-completion-emoji" class="hero-illustration"
                         style="margin-bottom: 20px; animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; justify-content: center;">
-                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png"
-                            style="width: 120px; height: 120px; object-fit: contain;">
+                        <img src="../images/result_hero_3d.png"
+                            style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));">
                     </div>
                     <h1 id="solo-completion-title"
                         style="font-family: 'Poppins', sans-serif; font-size: 32px; font-weight: 800; color: #ffffff; margin-bottom: 8px;">
@@ -4022,8 +4090,10 @@
                 <div class="card"
                     style="background: #ffffff; border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center;">
                     <div
-                        style="font-size: 14px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Inter', sans-serif;">
-                        Score</div>
+                        style="font-size: 14px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
+                            style="width: 1.2em; height: 1.2em;"> Score
+                    </div>
                     <div id="solo-score-val"
                         style="font-size: 48px; font-weight: 800; color: var(--accent-blue); line-height: 1; margin-bottom: 16px;">
                         8/10</div>
@@ -4032,8 +4102,10 @@
                         style="display: flex; justify-content: center; margin-top: 20px; border-top: 1px dashed #e2e8f0; padding-top: 20px;">
                         <div>
                             <div
-                                style="font-size: 12px; color: #64748b; font-weight: 600; font-family: 'Inter', sans-serif; margin-bottom: 4px;">
-                                Accuracy</div>
+                                style="font-size: 12px; color: #64748b; font-weight: 600; font-family: 'Inter', sans-serif; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
+                                    style="width: 1.2em; height: 1.2em;"> Accuracy
+                            </div>
                             <div id="solo-accuracy-val" style="font-size: 24px; font-weight: 700; color: #1e293b;">80%
                             </div>
                         </div>
@@ -4043,42 +4115,66 @@
                 <!-- Performance Summary -->
                 <div class="card"
                     style="background: #ffffff; border-radius: 24px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
-                    <h3 style="font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 16px; margin-top: 0;">
-                        Performance Summary</h3>
+                    <h3
+                        style="font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 16px; margin-top: 0; display: flex; align-items: center; gap: 8px;">
+                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4ca.png"
+                            style="width: 1.2em; height: 1.2em;"> Performance Summary
+                    </h3>
 
                     <div
                         style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span style="color: #64748b; font-weight: 500;">Correct Answers</span>
+                        <span
+                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
+                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2705.png"
+                                style="width: 1.2em; height: 1.2em;"> Correct Answers</span>
                         <span id="solo-correct-val" style="color: #10b981; font-weight: 700;">8</span>
                     </div>
                     <div
                         style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span style="color: #64748b; font-weight: 500;">Incorrect Answers</span>
+                        <span
+                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
+                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/274c.png"
+                                style="width: 1.2em; height: 1.2em;"> Incorrect Answers</span>
                         <span id="solo-incorrect-val" style="color: #ef4444; font-weight: 700;">2</span>
                     </div>
                     <div id="solo-skipped-container"
                         style="display: none; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span style="color: #64748b; font-weight: 500;">Skipped Answers</span>
+                        <span
+                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
+                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/23ed-fe0f.png"
+                                style="width: 1.2em; height: 1.2em;"> Skipped Answers</span>
                         <span id="solo-skipped-val" style="color: #f59e0b; font-weight: 700;">0</span>
                     </div>
                     <div
                         style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span style="color: #64748b; font-weight: 500;">Total Time</span>
+                        <span
+                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
+                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/23f1-fe0f.png"
+                                style="width: 1.2em; height: 1.2em;"> Total Time</span>
                         <span id="solo-total-time-val" style="color: #1e293b; font-weight: 700;">0s</span>
                     </div>
                     <div
                         style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span style="color: #64748b; font-weight: 500;">Average Time</span>
+                        <span
+                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
+                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/26a1.png"
+                                style="width: 1.2em; height: 1.2em;"> Average Time</span>
                         <span id="solo-time-val" style="color: #1e293b; font-weight: 700;">3.4s</span>
                     </div>
                     <div id="solo-best-topic-container"
                         style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span style="color: #64748b; font-weight: 500;">Best Topic</span>
+                        <span
+                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
+                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f31f.png"
+                                style="width: 1.2em; height: 1.2em;"> Best Topic</span>
                         <span id="solo-best-topic-val" style="color: #1e293b; font-weight: 700;">Criminal Law</span>
                     </div>
                     <div id="solo-weakest-topic-container"
                         style="display: flex; justify-content: space-between; padding: 10px 0; font-family: 'Inter', sans-serif;">
-                        <span style="color: #64748b; font-weight: 500;">Weakest Topic</span>
+                        <span
+                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
+                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f6e0-fe0f.png"
+                                style="width: 1.2em; height: 1.2em;"> Weakest Topic</span>
                         <span id="solo-weakest-topic-val" style="color: #1e293b; font-weight: 700;">PACE</span>
                     </div>
                 </div>
@@ -4101,14 +4197,20 @@
 
                 <!-- Actions -->
                 <div id="solo-completion-actions" class="quick-completion-actions">
-                    <button class="btn-primary w-100" onclick="QuizEngine.startFlow('quick')">
-                        Play Again
+                    <button class="btn-primary w-100" onclick="QuizEngine.startFlow('quick')"
+                        style="display: flex; align-items: center; justify-content: center;">
+                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f504.png"
+                            style="width: 1.3em; height: 1.3em; margin-right: 8px;"> Play Again
                     </button>
-                    <button class="btn-secondary w-100" onclick="QuizEngine.startFlow('colleague')">
-                        Challenge Officer
+                    <button class="btn-secondary w-100" onclick="QuizEngine.startFlow('colleague')"
+                        style="display: flex; align-items: center; justify-content: center;">
+                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2694-fe0f.png"
+                            style="width: 1.3em; height: 1.3em; margin-right: 8px;"> Challenge Officer
                     </button>
-                    <button class="btn-secondary w-100" onclick="QuizEngine.navigate('view-leaderboard')">
-                        Leaderboard
+                    <button class="btn-secondary w-100" onclick="QuizEngine.navigate('view-leaderboard')"
+                        style="display: flex; align-items: center; justify-content: center;">
+                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
+                            style="width: 1.3em; height: 1.3em; margin-right: 8px;"> Leaderboard
                     </button>
                 </div>
             </div>
@@ -4341,7 +4443,7 @@
                     </div>
 
                     <button onclick="QuizEngine.startAiPractice()"
-                        style="background: #466ba9; color: white; width: 100%; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.25); transition: background 0.2s;">
+                        style="background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: white; width: 100%; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.25); transition: background 0.2s;">
                         Start AI Focus Session
                     </button>
                 </div>
@@ -4586,7 +4688,7 @@
                         <canvas id="progressChart" style="width: 100%; height: 100%; max-height: 250px;"></canvas>
                     </div>
                     <button onclick="QuizEngine.closeProgressPopup('trend')" class="btn-primary w-100"
-                        style="padding: 14px; font-size: 15px; font-weight: 700; background: #466ba9; color: #ffffff; border: none; border-radius: 12px; cursor: pointer; flex-shrink: 0; margin-top: 10px; box-shadow: 0 4px 12px rgba(70,107,169,0.25);">Close</button>
+                        style="padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: #ffffff; border: none; border-radius: 12px; cursor: pointer; flex-shrink: 0; margin-top: 10px; box-shadow: 0 4px 12px rgba(70,107,169,0.25);">Close</button>
                 </div>
 
                 <!-- Mock Exam Journey Popup -->
@@ -5240,6 +5342,11 @@
             <div class="view-content"
                 style="background: #e9f5ff; border-radius: 24px 24px 0 0; padding: 24px 20px 40px; display: flex; flex-direction: column; gap: 0; overflow-y: auto;">
 
+                <!-- Hero Section -->
+                <div style="text-align: center; margin-bottom: 24px; display: flex; justify-content: center;">
+                    <img src="../images/result_hero_3d.png" style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.15));">
+                </div>
+
                 <!-- Score Card -->
                 <div
                     style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border-radius: 24px; padding: 28px; display: flex; align-items: center; gap: 28px; box-shadow: 0 12px 36px rgba(14, 165, 233, 0.15); border: 1px solid rgba(255, 255, 255, 0.5); margin-bottom: 36px; position: relative; overflow: hidden;">
@@ -5276,29 +5383,23 @@
                     <div style="flex: 1; display: flex; flex-direction: column; gap: 12px; z-index: 1;">
                         <div>
                             <span
-                                style="font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px;">Accuracy</span>
+                                style="font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; margin-bottom: 4px;"><img
+                                    src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png"
+                                    style="width: 1.2em; height: 1.2em;"> Accuracy</span>
                             <span id="practice-accuracy-val"
                                 style="font-size: 38px; font-weight: 800; color: #0f172a; line-height: 1; font-family: 'Poppins', sans-serif;">90%</span>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
                             <div
                                 style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.7); color: #d97706; padding: 6px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; border: 1px solid rgba(253, 230, 138, 0.8); width: fit-content; line-height: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"
-                                    style="vertical-align: middle;">
-                                    <polygon
-                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-                                    </polygon>
-                                </svg>
+                                <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2b50.png"
+                                    style="width: 1.2em; height: 1.2em;">
                                 <span id="practice-xp-val">+360 XP</span>
                             </div>
                             <div
                                 style="display: inline-flex; align-items: center; gap: 6px; color: #475569; font-size: 14px; font-weight: 600;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                                    style="color: #64748b;">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
+                                <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/23f1-fe0f.png"
+                                    style="width: 1.2em; height: 1.2em;">
                                 <span id="practice-time-val">Avg time 2s / question</span>
                             </div>
                         </div>
@@ -5308,8 +5409,10 @@
                 <!-- Weak Areas -->
                 <div style="margin-bottom: 36px;">
                     <h3
-                        style="font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; margin: 0 0 14px 4px;">
-                        Weak Areas</h3>
+                        style="font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; margin: 0 0 14px 4px; display: flex; align-items: center; gap: 6px;">
+                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f6e0-fe0f.png"
+                            style="width: 1.2em; height: 1.2em;"> Weak Areas
+                    </h3>
                     <div style="background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; overflow: hidden;"
                         id="weak-areas-container">
                         <!-- Populated dynamically or fallback -->
@@ -5372,11 +5475,11 @@
                 <!-- Action Buttons -->
                 <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 12px; margin-bottom: 32px;">
                     <button class="ios-btn-primary" onclick="QuizEngine.startFlow('topic')"
-                        style="background: #466ba9; color: #ffffff; width: 100%; padding: 18px; border-radius: 16px; font-size: 16px; font-weight: 700; border: none; box-shadow: 0 6px 16px rgba(70, 107, 169, 0.25); cursor: pointer; transition: all 0.2s;">
+                        style="background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: #ffffff; width: 100%; padding: 18px; border-radius: 16px; font-size: 16px; font-weight: 700; border: none; box-shadow: 0 6px 16px rgba(70, 107, 169, 0.25); cursor: pointer; transition: all 0.2s;">
                         Practice Weak Areas
                     </button>
                     <button class="ios-btn-primary" onclick="QuizEngine.startFlow('mock')"
-                        style="background: #ffffff; color: #466ba9; width: 100%; padding: 18px; border-radius: 16px; font-size: 16px; font-weight: 700; border: 2px solid #466ba9; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
+                        style="background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: #ffffff; width: 100%; padding: 18px; border-radius: 16px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
                         Start Mock Exam
                     </button>
                     <button class="ios-btn-secondary" onclick="QuizEngine.returnHome()"
@@ -5850,7 +5953,7 @@
                 <!-- Vertical Three Buttons (Exam/Practice flow) -->
                 <div id="exit-three-buttons" style="display: none; width: 100%; flex-direction: column; gap: 12px;">
                     <button onclick="QuizEngine.exitAndSaveProgress()"
-                        style="width: 100%; padding: 16px; background: linear-gradient(135deg, #466ba9 0%, #38568a 100%); color: white; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);"
+                        style="width: 100%; padding: 16px; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: white; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);"
                         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 24px rgba(70, 107, 169, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)';"
                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)';">
                         Resume Later
@@ -5938,7 +6041,7 @@
 
                 <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
                     <button onclick="QuizEngine.proceedResumeExam()"
-                        style="width: 100%; padding: 16px; background: linear-gradient(135deg, #466ba9 0%, #38568a 100%); color: white; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);"
+                        style="width: 100%; padding: 16px; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: white; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);"
                         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 24px rgba(70, 107, 169, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)';"
                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)';">
                         Resume Exam
@@ -6067,7 +6170,7 @@
                     style="display: flex; gap: 32px; justify-content: flex-start; margin-bottom: 16px; font-size: 13px; color: #4b5563; font-weight: 500;">
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <div
-                            style="width: 18px; height: 18px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center;">
+                            style="width: 18px; height: 18px; border-radius: 50%; background: #22c55e; display: flex; align-items: center; justify-content: center;">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="20 6 9 17 4 12"></polyline>
@@ -6141,7 +6244,7 @@
                 <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
                     <button
                         onclick="document.getElementById('incomplete-modal').style.display='none'; QuizEngine.startReviewSkipped();"
-                        style="width: 100%; padding: 16px; background: linear-gradient(135deg, #466ba9 0%, #38568a 100%); color: white; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);"
+                        style="width: 100%; padding: 16px; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: white; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);"
                         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 24px rgba(70, 107, 169, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)';"
                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)';">
                         Review Skipped

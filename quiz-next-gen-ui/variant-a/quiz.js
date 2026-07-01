@@ -16,7 +16,7 @@ const QuizEngine = {
     practiceSelectedSubSubs: [],
     practiceAidsData: {
         "Crime": {
-            icon: "1f4dd.png",
+            icon: "1f6a8.png",
             subTopics: {
                 "Mens Rea (State of Mind)": { badge: "Gold", subSubs: { "Intent": 8, "Recklessness": 3, "Negligence": 1, "Strict Liability": 3, "Transferred Mens Rea": 4 } },
                 "Actus Reus (Criminal Conduct)": { badge: "Gold", subSubs: { "Automatism": 2, "Coincidence with Mens Rea": 5, "Omissions": 3, "Causal Link or Chain of Causation": 5, "Intervening Act": 5, "Principals and Accessories": 18, "Joint Enterprise": 3, "Corporate Liability": 2 } },
@@ -37,7 +37,7 @@ const QuizEngine = {
             }
         },
         "Evidence & Procedure": {
-            icon: "1f4c4.png",
+            icon: "1f50d.png",
             subTopics: {
                 "Instituting Criminal Proceedings": { badge: "Silver", subSubs: { "Written Charge and Requisition": 2, "Service of Summons, Written Charge and Requisition": 3, "Service Outside England and Wales": 1, "Execution of Warrants": 6 } },
                 "Release of Person Arrested": { badge: "Bronze", subSubs: { "Person Arrested Elsewhere than at a Police Station": 18, "Pre-Charge Release of Person Arrested and Bail": 12, "Police Bail After Charge": 2, "Police Bail Restrictions": 6, "Grounds for Refusing Police Bail": 12, "Custody Officer - Granting Bail": 9, "Police Bail - Surety": 8, "Security": 2, "Liability to Arrest for Absconding or Breaking Bail Conditions": 4, "Offence of Absconding by Person Released on Bail": 2, "Remands in Police Custody": 1 } },
@@ -129,7 +129,7 @@ const QuizEngine = {
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; text-align: left; padding-top: 16px; border-top: 1.5px solid rgba(15, 23, 42, 0.04);">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 34px; height: 34px; border-radius: 9px; background: #f3e8ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9333ea;">
+                        <div style="width: 34px; height: 34px; border-radius: 9px; background: #eff6ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #1d4ed8;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                         </div>
                         <div>
@@ -138,7 +138,7 @@ const QuizEngine = {
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 34px; height: 34px; border-radius: 9px; background: #fff7ed; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #ea580c;">
+                        <div style="width: 34px; height: 34px; border-radius: 9px; background: #f0f9ff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #0284c7;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                         </div>
                         <div>
@@ -298,7 +298,7 @@ const QuizEngine = {
         if (btn) {
             if (this.selectedMixedTopics.length >= 2) {
                 btn.disabled = false;
-                btn.style.background = '#466ba9';
+                btn.style.background = 'linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5)';
                 btn.style.color = 'white';
                 btn.style.boxShadow = '0 8px 16px rgba(37, 99, 235, 0.25)';
             } else {
@@ -548,7 +548,7 @@ const QuizEngine = {
                     const title = document.getElementById('waiting-title');
                     if (title) {
                         title.innerText = "Match Found!";
-                        title.style.color = "#4ade80"; // Light green text for blue header
+                        title.style.color = "#22c55e"; // Proper green text
                         title.style.animation = "popIn 0.5s ease-out";
                     }
                     const subtitle = document.getElementById('waiting-subtitle');
@@ -557,7 +557,7 @@ const QuizEngine = {
                     const spinner = document.getElementById('waiting-spinner');
                     if (spinner) {
                         spinner.style.animation = "none";
-                        spinner.innerHTML = '<polyline points="20 6 9 17 4 12" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>';
+                        spinner.innerHTML = '<polyline points="20 6 9 17 4 12" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>';
                         spinner.parentElement.style.animation = "success-pulse 0.6s ease-out";
                     }
 
@@ -1110,8 +1110,8 @@ const QuizEngine = {
             const isPending = !isAnswered;
 
             if (isAnswered) {
-                stateClass = 'border-color: #10b981; color: #10b981;';
-                iconHtml = `<div style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px white;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>`;
+                stateClass = 'border-color: #22c55e; color: #22c55e;';
+                iconHtml = `<div style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; background: #22c55e; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px white;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>`;
             } else if (isExplicitlySkipped || isPending) {
                 stateClass = 'border-color: #9ca3af; color: #9ca3af;';
                 iconHtml = `<div style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid #9ca3af; box-sizing: border-box; box-shadow: 0 0 0 2px white;"></div>`;
@@ -1180,9 +1180,14 @@ const QuizEngine = {
     jumpToQuestion: function (index) {
         if (index >= 0 && index < this.totalQuestions) {
             if (this.mockAnswers && (!this.mockAnswers[index] || this.mockAnswers[index].status !== 'answered')) {
-                if (!this.isReviewingSkipped) {
-                    this.originalCurrentQuestion = this.currentQuestion;
-                    this.isReviewingSkipped = true;
+                const searchLimit = this.examFullyTraversed ? this.totalQuestions : (this.maxQuestionReached - 1);
+                if (index < searchLimit) {
+                    if (!this.isReviewingSkipped) {
+                        this.originalCurrentQuestion = this.currentQuestion;
+                        this.isReviewingSkipped = true;
+                    }
+                } else {
+                    this.isReviewingSkipped = false;
                 }
             } else {
                 this.isReviewingSkipped = false;
@@ -1215,10 +1220,13 @@ const QuizEngine = {
         this.mockAnswers = [];
         this.isTimeUp = false;
         this.isReviewingSkipped = false;
+        this.examFullyTraversed = false;
+        this.maxQuestionReached = 0;
         if (this.isResuming) {
             this.isResuming = false;
             // First, try to restore from resumedData
             const resumedCurrent = this.resumedData?.currentQuestion || 67;
+            this.maxQuestionReached = this.resumedData?.maxQuestionReached || resumedCurrent;
             this.currentQuestion = resumedCurrent;
             this.score = this.resumedData?.score || 30;
             this.streak = this.resumedData?.streak || 5;
@@ -1313,6 +1321,9 @@ const QuizEngine = {
         } else {
             this.currentQuestion++;
         }
+        if (this.currentQuestion > this.maxQuestionReached) {
+            this.maxQuestionReached = this.currentQuestion;
+        }
         this.questionStartTime = Date.now();
         if (this.currentQuestion === 1) {
             this.quizStartTime = Date.now();
@@ -1347,13 +1358,8 @@ const QuizEngine = {
                 const mockSkipBtn = document.getElementById('mock-skip-btn');
                 const mockNavActions = document.getElementById('mock-skipped-nav-actions');
 
-                if (this.isReviewingSkipped) {
-                    if (mockSkipBtn) mockSkipBtn.style.display = 'none';
-                    if (mockNavActions) mockNavActions.style.display = 'flex';
-                } else {
-                    if (mockSkipBtn) mockSkipBtn.style.display = 'inline-flex';
-                    if (mockNavActions) mockNavActions.style.display = 'none';
-                }
+                if (mockSkipBtn) mockSkipBtn.style.display = 'inline-flex';
+                if (mockNavActions) mockNavActions.style.display = 'none';
             } else {
                 mockActions.style.display = 'none';
                 if (mockStatsContainer) mockStatsContainer.style.display = 'none';
@@ -1637,8 +1643,9 @@ const QuizEngine = {
 
         if (this.isReviewingSkipped) {
             let nextSkipped = -1;
+            const searchLimit = this.examFullyTraversed ? this.totalQuestions : (this.maxQuestionReached - 1);
             // Search forward
-            for (let i = this.currentQuestion; i < this.totalQuestions; i++) {
+            for (let i = this.currentQuestion; i < searchLimit; i++) {
                 if ((!this.mockAnswers[i] || this.mockAnswers[i].status !== 'answered')) {
                     nextSkipped = i;
                     break;
@@ -1687,6 +1694,7 @@ const QuizEngine = {
         }
 
         if (this.currentQuestion >= this.totalQuestions) {
+            this.examFullyTraversed = true;
             const isMockExam = (this.currentFlow === 'mock' || this.selectedCategory === 'Mock Exam' || this.selectedCategory === 'Promotion Exam');
             let hasSkipped = false;
             if (isMockExam) {
@@ -1846,7 +1854,7 @@ const QuizEngine = {
             viewCompletion.style.setProperty('--result-accent', accentColor);
         }
 
-        document.getElementById('completion-emoji').innerHTML = `<img src="${emojiUrl}" style="width: 160px; height: 160px; object-fit: contain;">`;
+        document.getElementById('completion-emoji').innerHTML = `<img src="../images/result_hero_3d.png" style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));">`;
 
         // Multiplier for score to make it look like a real game score
         const scoreMultiplier = 25;
@@ -2077,11 +2085,7 @@ const QuizEngine = {
 
             const emojiEl = document.getElementById('solo-completion-emoji');
             if (emojiEl) {
-                if (accuracy >= 60) {
-                    emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png" style="width: 120px; height: 120px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));">`;
-                } else {
-                    emojiEl.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3af.png" style="width: 120px; height: 120px; object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));">`;
-                }
+                emojiEl.innerHTML = `<img src="../images/result_hero_3d.png" style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));">`;
             }
 
             const titleEl = document.getElementById('solo-completion-title');
@@ -2834,7 +2838,7 @@ const QuizEngine = {
                     </div>
                 </div>
 
-                <button onclick="QuizEngine.closeIosBadgeDetails()" style="width: 100%; padding: 16px; background: #466ba9; color: #ffffff; border-radius: 14px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; font-family: 'Poppins', sans-serif; box-shadow: 0 8px 16px rgba(70,107,169,0.25);">
+                <button onclick="QuizEngine.closeIosBadgeDetails()" style="width: 100%; padding: 16px; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: #ffffff; border-radius: 14px; border: none; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; font-family: 'Poppins', sans-serif; box-shadow: 0 8px 16px rgba(70,107,169,0.25);">
                     Close
                 </button>
             </div>
@@ -2889,7 +2893,7 @@ const QuizEngine = {
 
         document.getElementById('completion-title').innerText = title;
         document.getElementById('completion-subtitle').innerText = subtitle;
-        document.getElementById('completion-emoji').innerHTML = `<img src="${emojiUrl}" style="width: 140px; height: 140px; object-fit: contain;">`;
+        document.getElementById('completion-emoji').innerHTML = `<img src="../images/result_hero_3d.png" style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));">`;
 
         document.getElementById('my-score-val').innerText = myScore;
         document.getElementById('opp-score-val').innerText = oppScore;
@@ -3517,7 +3521,7 @@ const QuizEngine = {
         // update UI for count buttons
         document.querySelectorAll('#practice-count-selector .count-btn').forEach(btn => {
             if (parseInt(btn.dataset.count) === count) {
-                btn.style.background = '#466ba9';
+                btn.style.background = 'linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5)';
                 btn.style.color = '#ffffff';
                 btn.style.borderColor = 'transparent';
                 btn.style.boxShadow = '0 4px 10px rgba(70, 107, 169, 0.3)';
