@@ -3521,7 +3521,7 @@ const QuizEngine = {
         // update UI for count buttons
         document.querySelectorAll('#practice-count-selector .count-btn').forEach(btn => {
             if (parseInt(btn.dataset.count) === count) {
-                btn.style.background = 'linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5)';
+                btn.style.background = 'var(--accent-blue)';
                 btn.style.color = '#ffffff';
                 btn.style.borderColor = 'transparent';
                 btn.style.boxShadow = '0 4px 10px rgba(70, 107, 169, 0.3)';
