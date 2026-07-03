@@ -1069,6 +1069,42 @@ body {
     flex-direction: column;
 }
 
+.mock-skipped-bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding: 8px 16px;
+    padding-bottom: calc(max(12px, env(safe-area-inset-bottom, 12px)));
+    background: var(--bg-color);
+}
+
+.mock-skipped-nav-btn {
+    background: white;
+    border: 1.5px solid #e2e8f0;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: fit-content;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+#view-active.mock-exam-active .view-content {
+    padding-bottom: calc(68px + max(12px, env(safe-area-inset-bottom, 12px)));
+}
+
 .question-text {
     font-family: 'Poppins', sans-serif;
     font-size: 19px;

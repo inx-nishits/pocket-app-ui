@@ -1346,22 +1346,25 @@ const QuizEngine = {
         }
 
         const mockActions = document.getElementById('mock-exam-actions');
+        const mockSkippedBar = document.getElementById('mock-skipped-bottom-bar');
+        const viewActive = document.getElementById('view-active');
         const isMockExam = (this.currentFlow === 'mock' || this.selectedCategory === 'Mock Exam' || this.selectedCategory === 'Promotion Exam');
 
         const mockStatsContainer = document.getElementById('mock-stats-container');
         if (mockActions) {
             if (isMockExam) {
                 mockActions.style.display = 'flex';
+                if (mockSkippedBar) mockSkippedBar.style.display = 'flex';
+                if (viewActive) viewActive.classList.add('mock-exam-active');
                 if (mockStatsContainer) mockStatsContainer.style.display = 'flex';
                 this.updateMockStats();
 
                 const mockSkipBtn = document.getElementById('mock-skip-btn');
-                const mockNavActions = document.getElementById('mock-skipped-nav-actions');
-
                 if (mockSkipBtn) mockSkipBtn.style.display = 'inline-flex';
-                if (mockNavActions) mockNavActions.style.display = 'none';
             } else {
                 mockActions.style.display = 'none';
+                if (mockSkippedBar) mockSkippedBar.style.display = 'none';
+                if (viewActive) viewActive.classList.remove('mock-exam-active');
                 if (mockStatsContainer) mockStatsContainer.style.display = 'none';
             }
         }
@@ -1519,7 +1522,6 @@ const QuizEngine = {
         setTimeout(() => {
             // Populate inline feedback
             const inlineContainer = document.getElementById('inline-feedback-container');
-            const inlineIcon = document.getElementById('inline-feedback-icon');
             const inlineTitle = document.getElementById('inline-feedback-title');
             const inlineXp = document.getElementById('inline-feedback-xp');
             const inlineStreakMsg = document.getElementById('inline-feedback-streak-msg');
@@ -1532,12 +1534,9 @@ const QuizEngine = {
                     inlineContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 100);
                 const currentAccuracy = Math.round((this.score / this.currentQuestion) * 100);
-                inlineAccuracy.innerText = `🎯 Accuracy: ${currentAccuracy}%`;
+                inlineAccuracy.innerText = `Accuracy: ${currentAccuracy}%`;
 
                 if (isCorrect) {
-                    inlineIcon.style.background = 'transparent';
-                    inlineIcon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 32px; height: 32px; object-fit: contain; display: block; margin: 0; padding: 0; border: none;">';
-                    // inlineIcon.style.fontSize = '24px';
                     inlineTitle.innerText = 'Correct!';
                     inlineTitle.style.color = '#ffffff';
 
@@ -1546,9 +1545,6 @@ const QuizEngine = {
                     inlineXp.innerText = `+${xpEarned} XP Earned`;
                     inlineStreakMsg.innerText = ``;
                 } else {
-                    inlineIcon.style.background = 'transparent';
-                    inlineIcon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/274c.png" style="width: 32px; height: 32px; object-fit: contain; display: block; margin: 0; padding: 0; border: none;">';
-                    inlineIcon.style.fontSize = '24px';
                     inlineTitle.innerText = 'Incorrect';
                     inlineTitle.style.color = '#ffffff';
 
