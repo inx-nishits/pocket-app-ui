@@ -92,17 +92,17 @@ const QuizEngine = {
 
         const examsData = {
             'Sergeant Exam': {
-                iconBg: '#bfdbfe', iconSrc: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2b06.png',
+                iconBg: '#bfdbfe', iconSrc: '../images/sergeant-chevron.svg',
                 desc: 'Comprehensive mock exam covering all sergeant level responsibilities.',
                 q: 150, d: '3h 15m', pass: '55%'
             },
             'Inspector Exam': {
-                iconBg: '#bfdbfe', iconSrc: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2b50.png',
+                iconBg: '#bfdbfe', iconSrc: '../images/inspector-pip.svg',
                 desc: 'Comprehensive mock exam covering all inspector level responsibilities.',
                 q: 150, d: '3h 15m', pass: '55%'
             },
             'National Investigators Exam': {
-                iconBg: '#bfdbfe', iconSrc: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f50d.png',
+                iconBg: '#bfdbfe', iconSrc: '../images/nie-magnifier.svg',
                 desc: 'Assess your investigative skills and knowledge.',
                 q: 80, d: '2h', pass: '55%'
             }
@@ -118,7 +118,7 @@ const QuizEngine = {
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
                     <div style="display: flex; align-items: flex-start; width: 100%;">
                         <div style="background: ${data.iconBg}; width: 64px; height: 64px; margin-right: 16px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-                            <img src="${data.iconSrc}" style="width: 40px; height: 40px; object-fit: contain;" alt="${examName}">
+                            <img src="${data.iconSrc}" style="width: 52px; height: 52px; object-fit: contain;" alt="${examName}">
                         </div>
                         <div style="flex: 1;">
                             <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0; line-height: 1.3;">${examName}</h3>
@@ -625,6 +625,8 @@ const QuizEngine = {
             if (!this.isReviewingSkipped) {
                 this.initActiveQuiz();
             }
+        } else {
+            this.updateSkippedNavigatorBar();
         }
         if (viewId === 'view-leaderboard') this.initLeaderboard();
         if (viewId === 'view-analytics') this.initAnalytics();
@@ -1141,21 +1143,17 @@ const QuizEngine = {
 
                 if (prevBtn) {
                     if (this.navigatorCurrentPage === 0) {
-                        prevBtn.style.opacity = '0.4';
-                        prevBtn.style.pointerEvents = 'none';
+                        prevBtn.classList.add('is-disabled');
                     } else {
-                        prevBtn.style.opacity = '1';
-                        prevBtn.style.pointerEvents = 'auto';
+                        prevBtn.classList.remove('is-disabled');
                     }
                 }
 
                 if (nextBtn) {
                     if (endIndex >= this.totalQuestions) {
-                        nextBtn.style.opacity = '0.4';
-                        nextBtn.style.pointerEvents = 'none';
+                        nextBtn.classList.add('is-disabled');
                     } else {
-                        nextBtn.style.opacity = '1';
-                        nextBtn.style.pointerEvents = 'auto';
+                        nextBtn.classList.remove('is-disabled');
                     }
                 }
             } else {
@@ -1360,15 +1358,14 @@ const QuizEngine = {
                 this.updateMockStats();
 
                 const mockSkipBtn = document.getElementById('mock-skip-btn');
-                const mockNavActions = document.getElementById('mock-skipped-nav-actions');
-
                 if (mockSkipBtn) mockSkipBtn.style.display = 'inline-flex';
-                if (mockNavActions) mockNavActions.style.display = 'none';
             } else {
                 mockActions.style.display = 'none';
                 if (mockStatsContainer) mockStatsContainer.style.display = 'none';
             }
         }
+
+        this.updateSkippedNavigatorBar();
 
         // Layout is now uniform: timer is always in the top bar and XP/Level/Streak are removed.
 
@@ -1640,12 +1637,17 @@ const QuizEngine = {
                 }
 
                 // Hide XP and Accuracy for Practice Aids and AI Tutor
+                const inlineDetails = document.getElementById('inline-feedback-details');
                 if (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas') {
                     inlineXp.style.display = 'none';
                     inlineAccuracy.style.display = 'none';
+                    if (inlineStreakMsg) inlineStreakMsg.style.display = 'none';
+                    if (inlineDetails) inlineDetails.style.display = 'none';
                 } else {
                     inlineXp.style.display = 'block';
                     inlineAccuracy.style.display = 'block';
+                    if (inlineStreakMsg) inlineStreakMsg.style.display = '';
+                    if (inlineDetails) inlineDetails.style.display = 'flex';
                 }
             }
 
@@ -1670,7 +1672,6 @@ const QuizEngine = {
         const sheet = document.getElementById('feedback-sheet');
         const overlay = document.getElementById('feedback-overlay');
         if (sheet && overlay) {
-            // Remove correct/wrong classes to ensure it uses default white background
             sheet.classList.remove('correct', 'wrong');
             sheet.classList.remove('hidden');
             overlay.classList.remove('hidden');
@@ -3900,6 +3901,40 @@ const QuizEngine = {
         const statSkipped = document.getElementById('stat-skipped');
         if (statAnswered) statAnswered.innerText = answered;
         if (statSkipped) statSkipped.innerText = skipped;
+
+        this.updateSkippedNavigatorBar();
+    },
+
+    updateSkippedNavigatorBar: function () {
+        const bar = document.getElementById('open-navigator-bar');
+        const badge = document.getElementById('skipped-count-badge');
+        const viewActive = document.getElementById('view-active');
+        if (!bar) return;
+
+        const isMockExam = (this.currentFlow === 'mock' || this.selectedCategory === 'Mock Exam' || this.selectedCategory === 'Promotion Exam');
+        const isActiveView = viewActive && viewActive.classList.contains('active');
+        const shouldShow = isMockExam && isActiveView;
+
+        if (shouldShow) {
+            bar.classList.add('visible');
+            bar.setAttribute('aria-hidden', 'false');
+            if (viewActive) viewActive.classList.add('has-skipped-nav-bar');
+
+            let skipped = 0;
+            if (this.mockAnswers) {
+                for (let i = 0; i < this.totalQuestions; i++) {
+                    if (this.mockAnswers[i] && this.mockAnswers[i].status === 'skipped') skipped++;
+                }
+            }
+            if (badge) {
+                badge.innerText = skipped;
+                badge.style.display = skipped > 0 ? '' : 'none';
+            }
+        } else {
+            bar.classList.remove('visible');
+            bar.setAttribute('aria-hidden', 'true');
+            if (viewActive) viewActive.classList.remove('has-skipped-nav-bar');
+        }
     },
 
     skipCurrentQuestion: function () {

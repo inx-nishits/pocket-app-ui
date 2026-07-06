@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <defs>
+        <linearGradient id="goldHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fff8b0" />
+            <stop offset="50%" stop-color="#ffb703" />
+            <stop offset="100%" stop-color="#805300" />
+        </linearGradient>
+    </defs>
+    <rect width="64" height="64" rx="16" fill="#0f172a" />
+    <!-- Three chevrons pointing down -->
+    <!-- Top chevron -->
+    <path d="M12 21 L32 7 L52 21 L52 28 L32 14 L12 28 Z" fill="url(#goldHighlight)" />
+    <!-- Middle chevron -->
+    <path d="M12 36 L32 22 L52 36 L52 43 L32 29 L12 43 Z" fill="url(#goldHighlight)" />
+    <!-- Bottom chevron -->
+    <path d="M12 51 L32 37 L52 51 L52 58 L32 44 L12 58 Z" fill="url(#goldHighlight)" />
+</svg>
