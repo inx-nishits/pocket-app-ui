@@ -76,7 +76,7 @@ const examReviewHtml = `
                 <!-- Footer Nav -->
                 <div style="display: flex; gap: 12px;">
                     <button id="review-prev-btn" class="btn-secondary" style="flex: 1; padding: 14px; border-radius: 12px; font-weight: 600;" onclick="changeReviewQuestion(-1)">Previous</button>
-                    <button id="review-next-btn" class="btn-primary" style="flex: 1; padding: 14px; border-radius: 12px; font-weight: 600;" onclick="changeReviewQuestion(1)">Next</button>
+                    <button id="review-next-btn" class="btn-primary" style="flex: 1; padding: 14px; border-radius: 12px; font-weight: 600; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: white; border: none; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.25); cursor: pointer; transition: all 0.2s;" onclick="changeReviewQuestion(1)">Next</button>
                 </div>
             </div>
         </div>

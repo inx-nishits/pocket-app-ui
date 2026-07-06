@@ -92,12 +92,12 @@ const QuizEngine = {
 
         const examsData = {
             'Sergeant Exam': {
-                iconBg: '#bfdbfe', iconSrc: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f46e.png',
+                iconBg: '#bfdbfe', iconSrc: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2b06.png',
                 desc: 'Comprehensive mock exam covering all sergeant level responsibilities.',
                 q: 150, d: '3h 15m', pass: '55%'
             },
             'Inspector Exam': {
-                iconBg: '#bfdbfe', iconSrc: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f575-fe0f.png',
+                iconBg: '#bfdbfe', iconSrc: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2b50.png',
                 desc: 'Comprehensive mock exam covering all inspector level responsibilities.',
                 q: 150, d: '3h 15m', pass: '55%'
             },
@@ -114,7 +114,7 @@ const QuizEngine = {
             : '';
 
         const cardHtml = `
-            <div class="format-card" style="flex-direction: column; align-items: stretch; padding: 20px; border: 1.5px solid rgba(15, 23, 42, 0.04); margin-bottom: 16px; background: white; border-radius: 16px;">
+            <div class="format-card" style="flex-direction: column; align-items: stretch; padding: 20px; border: none; margin-bottom: 16px; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
                     <div style="display: flex; align-items: flex-start; width: 100%;">
                         <div style="background: ${data.iconBg}; width: 64px; height: 64px; margin-right: 16px; border-radius: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
@@ -704,13 +704,15 @@ const QuizEngine = {
         this.cancelExit();
         this.navigateBack();
 
-        if (this.currentMode === 'Practice By Topic') {
+        if (this.currentMode === 'Practice By Topic' || this.currentMode === 'Mixed Practice' || this.currentFlow === 'topic' || this.currentFlow === 'mixed') {
             const returnView = this.history.length >= 2 ? this.history[this.history.length - 2] : null;
             if (returnView === 'view-practice-topic') {
                 this.practiceAidsStep = 1;
                 this.practiceSelectedMains = [];
+                this.practiceExpandedMains = [];
                 this.practiceSelectedSubs = [];
                 this.practiceSelectedSubSubs = [];
+                this.practiceCollapsedSubs = [];
                 this.practiceSelectedCount = null;
 
                 document.querySelectorAll('#practice-count-selector .count-btn').forEach(btn => {
@@ -792,13 +794,15 @@ const QuizEngine = {
         this.updateResumeWidget();
 
         this.navigateBack();
-        if (this.currentMode === 'Practice By Topic') {
+        if (this.currentMode === 'Practice By Topic' || this.currentMode === 'Mixed Practice' || this.currentFlow === 'topic' || this.currentFlow === 'mixed') {
             const returnView = this.history.length >= 2 ? this.history[this.history.length - 2] : null;
             if (returnView === 'view-practice-topic') {
                 this.practiceAidsStep = 1;
                 this.practiceSelectedMains = [];
+                this.practiceExpandedMains = [];
                 this.practiceSelectedSubs = [];
                 this.practiceSelectedSubSubs = [];
+                this.practiceCollapsedSubs = [];
                 this.practiceSelectedCount = null;
 
                 document.querySelectorAll('#practice-count-selector .count-btn').forEach(btn => {
@@ -1131,10 +1135,10 @@ const QuizEngine = {
         if (paginator) {
             if (this.totalQuestions > this.navigatorItemsPerPage) {
                 paginator.style.display = 'flex';
-                
+
                 const prevBtn = document.getElementById('navigator-prev-btn');
                 const nextBtn = document.getElementById('navigator-next-btn');
-                
+
                 if (prevBtn) {
                     if (this.navigatorCurrentPage === 0) {
                         prevBtn.style.opacity = '0.4';
@@ -1144,7 +1148,7 @@ const QuizEngine = {
                         prevBtn.style.pointerEvents = 'auto';
                     }
                 }
-                
+
                 if (nextBtn) {
                     if (endIndex >= this.totalQuestions) {
                         nextBtn.style.opacity = '0.4';
@@ -1346,25 +1350,22 @@ const QuizEngine = {
         }
 
         const mockActions = document.getElementById('mock-exam-actions');
-        const mockSkippedBar = document.getElementById('mock-skipped-bottom-bar');
-        const viewActive = document.getElementById('view-active');
         const isMockExam = (this.currentFlow === 'mock' || this.selectedCategory === 'Mock Exam' || this.selectedCategory === 'Promotion Exam');
 
         const mockStatsContainer = document.getElementById('mock-stats-container');
         if (mockActions) {
             if (isMockExam) {
                 mockActions.style.display = 'flex';
-                if (mockSkippedBar) mockSkippedBar.style.display = 'flex';
-                if (viewActive) viewActive.classList.add('mock-exam-active');
                 if (mockStatsContainer) mockStatsContainer.style.display = 'flex';
                 this.updateMockStats();
 
                 const mockSkipBtn = document.getElementById('mock-skip-btn');
+                const mockNavActions = document.getElementById('mock-skipped-nav-actions');
+
                 if (mockSkipBtn) mockSkipBtn.style.display = 'inline-flex';
+                if (mockNavActions) mockNavActions.style.display = 'none';
             } else {
                 mockActions.style.display = 'none';
-                if (mockSkippedBar) mockSkippedBar.style.display = 'none';
-                if (viewActive) viewActive.classList.remove('mock-exam-active');
                 if (mockStatsContainer) mockStatsContainer.style.display = 'none';
             }
         }
@@ -1423,6 +1424,7 @@ const QuizEngine = {
 
         const qData = this.questionsData[(this.currentQuestion - 1) % this.questionsData.length];
         const timeTaken = (Date.now() - this.questionStartTime) / 1000;
+        const isPracticeAidsFlow = (this.currentFlow === 'topic' || this.currentFlow === 'mixed' || this.currentMode === 'Practice By Topic' || this.currentMode === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice');
 
         if (isCorrect) {
             btnElement.classList.add('correct');
@@ -1473,8 +1475,28 @@ const QuizEngine = {
                 document.getElementById('feedback-details').style.display = 'flex';
             }
 
-            icon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
-            title.innerText = 'Excellent!';
+            if (isPracticeAidsFlow) {
+                icon.style.display = 'none';
+                if (icon.parentElement) icon.parentElement.style.alignItems = 'flex-start';
+                title.innerText = 'Correct!';
+                const fbSub = document.getElementById('feedback-subtitle');
+                if (fbSub) {
+                    fbSub.style.display = 'block';
+                    fbSub.innerText = "You've selected the right option";
+                }
+            } else {
+                icon.style.display = 'flex';
+                icon.style.alignSelf = '';
+                icon.style.flexShrink = '';
+                if (icon.parentElement) icon.parentElement.style.alignItems = 'center';
+                icon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
+                title.innerText = 'Excellent!';
+                const fbSub = document.getElementById('feedback-subtitle');
+                if (fbSub) {
+                    fbSub.style.display = 'none';
+                    fbSub.innerText = "";
+                }
+            }
 
             streakMsg.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f525.png" style="width: 1.2em; height: 1.2em; vertical-align: -0.2em; display: inline-block;"> Streak: ${this.streak}`;
             streakMsg.style.display = 'none';
@@ -1499,8 +1521,28 @@ const QuizEngine = {
             if (streakElReset) streakElReset.innerText = '🔥 0 Streak';
 
             sheet.classList.add('wrong');
-            icon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/274c.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
-            title.innerText = 'Incorrect';
+            if (isPracticeAidsFlow) {
+                icon.style.display = 'none';
+                if (icon.parentElement) icon.parentElement.style.alignItems = 'flex-start';
+                title.innerText = 'Incorrect';
+                const fbSub = document.getElementById('feedback-subtitle');
+                if (fbSub) {
+                    fbSub.style.display = 'block';
+                    fbSub.innerText = "You've selected the wrong option";
+                }
+            } else {
+                icon.style.display = 'flex';
+                icon.style.alignSelf = '';
+                icon.style.flexShrink = '';
+                if (icon.parentElement) icon.parentElement.style.alignItems = 'center';
+                icon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/274c.png" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">';
+                title.innerText = 'Incorrect';
+                const fbSub = document.getElementById('feedback-subtitle');
+                if (fbSub) {
+                    fbSub.style.display = 'none';
+                    fbSub.innerText = "";
+                }
+            }
             document.getElementById('feedback-details').style.display = 'none';
 
             document.getElementById('feedback-explanation').innerHTML = qData.expWrong;
@@ -1522,6 +1564,7 @@ const QuizEngine = {
         setTimeout(() => {
             // Populate inline feedback
             const inlineContainer = document.getElementById('inline-feedback-container');
+            const inlineIcon = document.getElementById('inline-feedback-icon');
             const inlineTitle = document.getElementById('inline-feedback-title');
             const inlineXp = document.getElementById('inline-feedback-xp');
             const inlineStreakMsg = document.getElementById('inline-feedback-streak-msg');
@@ -1534,9 +1577,32 @@ const QuizEngine = {
                     inlineContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 100);
                 const currentAccuracy = Math.round((this.score / this.currentQuestion) * 100);
-                inlineAccuracy.innerText = `Accuracy: ${currentAccuracy}%`;
+                inlineAccuracy.innerText = `🎯 Accuracy: ${currentAccuracy}%`;
+
+                const inlineSub = document.getElementById('inline-feedback-subtitle');
 
                 if (isCorrect) {
+                    inlineIcon.style.background = 'transparent';
+                    if (isPracticeAidsFlow) {
+                        inlineIcon.style.display = 'none';
+                        if (inlineIcon.parentElement) inlineIcon.parentElement.style.alignItems = 'flex-start';
+
+                        if (inlineSub) {
+                            inlineSub.style.display = 'block';
+                            inlineSub.innerText = "You've selected the right option";
+                        }
+                    } else {
+                        inlineIcon.style.display = 'flex';
+                        inlineIcon.style.alignSelf = '';
+                        inlineIcon.style.flexShrink = '';
+                        if (inlineIcon.parentElement) inlineIcon.parentElement.style.alignItems = 'center';
+                        inlineIcon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f973.png" style="width: 32px; height: 32px; object-fit: contain; display: block; margin: 0; padding: 0; border: none;">';
+                        // inlineIcon.style.fontSize = '24px';
+                        if (inlineSub) {
+                            inlineSub.style.display = 'none';
+                            inlineSub.innerText = '';
+                        }
+                    }
                     inlineTitle.innerText = 'Correct!';
                     inlineTitle.style.color = '#ffffff';
 
@@ -1545,6 +1611,26 @@ const QuizEngine = {
                     inlineXp.innerText = `+${xpEarned} XP Earned`;
                     inlineStreakMsg.innerText = ``;
                 } else {
+                    inlineIcon.style.background = 'transparent';
+                    if (isPracticeAidsFlow) {
+                        inlineIcon.style.display = 'none';
+                        if (inlineIcon.parentElement) inlineIcon.parentElement.style.alignItems = 'flex-start';
+                        if (inlineSub) {
+                            inlineSub.style.display = 'block';
+                            inlineSub.innerText = "You've selected the wrong option";
+                        }
+                    } else {
+                        inlineIcon.style.display = 'flex';
+                        inlineIcon.style.alignSelf = '';
+                        inlineIcon.style.flexShrink = '';
+                        if (inlineIcon.parentElement) inlineIcon.parentElement.style.alignItems = 'center';
+                        inlineIcon.innerHTML = '<img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/274c.png" style="width: 32px; height: 32px; object-fit: contain; display: block; margin: 0; padding: 0; border: none;">';
+                        inlineIcon.style.fontSize = '24px';
+                        if (inlineSub) {
+                            inlineSub.style.display = 'none';
+                            inlineSub.innerText = '';
+                        }
+                    }
                     inlineTitle.innerText = 'Incorrect';
                     inlineTitle.style.color = '#ffffff';
 
@@ -2004,7 +2090,7 @@ const QuizEngine = {
                 if (quizType === 'mock') {
                     actionsContainer.innerHTML = `
                         <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.navigate('view-analytics')">
-                            Review Answer
+                            Review Answers
                         </button>
                         ${this.score < this.totalQuestions ? `
                         <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
@@ -2087,11 +2173,20 @@ const QuizEngine = {
             const titleEl = document.getElementById('solo-completion-title');
             if (titleEl) {
                 if (quizType === 'mock') {
-                    titleEl.innerText = 'Exam Complete!';
+                    titleEl.innerText = 'Assessment Complete!';
                 } else if (quizType === 'ai-tutor' || quizType === 'practice') {
                     titleEl.innerText = 'Practice Completed!';
                 } else {
                     titleEl.innerText = 'Quiz Complete!';
+                }
+            }
+
+            const soloView = document.getElementById('view-solo-completion');
+            if (soloView) {
+                if (quizType === 'mock' || quizType === 'practice' || quizType === 'ai-tutor') {
+                    soloView.style.background = 'linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5)';
+                } else {
+                    soloView.style.background = '#466ba9';
                 }
             }
 
@@ -2599,7 +2694,7 @@ const QuizEngine = {
                             ${iconSvg}
                         </div>
                         <div class="breakdown-text" style="flex-grow: 1; margin: 0;"><strong>Q${i + 1}:</strong> ${qData.q}</div>
-                        <div class="toggle-icon" style="flex-shrink: 0; transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center;">
+                        <div class="toggle-icon" style="flex-shrink: 0; transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center; align-self: flex-start; margin-top: 2px;">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                     </div>
@@ -3363,7 +3458,7 @@ const QuizEngine = {
 
             const subTopics = this.practiceAidsData[mainTopic].subTopics;
             const subTopicsCount = Object.keys(subTopics).length;
-            
+
             let totalQuestionsCount = 0;
             Object.keys(subTopics).forEach(subTopic => {
                 const subSubs = subTopics[subTopic].subSubs;
@@ -3378,7 +3473,7 @@ const QuizEngine = {
                 <div style="margin-bottom: ${isExpanded ? '0' : '16px'}; opacity: ${cardOpacity}; pointer-events: ${cardPointerEvents}; transition: all 0.3s ease;">
                     <div class="practice-card ${isSelected ? 'selected' : ''}" 
                          onclick="QuizEngine.togglePracticeMainExpand('${mainTopic}')"
-                         style="display: flex; align-items: flex-start; gap: 16px; padding: 20px; border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; background: #ffffff; border-radius: ${isExpanded ? '20px 20px 0 0' : '20px'}; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; z-index: 2; box-shadow: ${isSelected ? '0 10px 25px -5px rgba(70, 107, 169, 0.15)' : '0 4px 18px rgba(15, 23, 42, 0.03)'};">
+                         style="display: flex; align-items: flex-start; gap: 16px; padding: 20px; border: ${isSelected ? '1.5px solid #466ba9' : 'none'}; background: #ffffff; border-radius: ${isExpanded ? '20px 20px 0 0' : '20px'}; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; z-index: 2; box-shadow: ${isSelected ? '0 10px 25px -5px rgba(70, 107, 169, 0.15)' : '0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02)'};">
                         
                         <!-- Icon -->
                         <div style="width: 52px; height: 52px; background: #bfdbfe; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 4px 8px rgba(15, 23, 42, 0.05);">
@@ -3413,7 +3508,7 @@ const QuizEngine = {
             // Render subtopics if this main topic is expanded
             if (isExpanded) {
                 const subTopics = this.practiceAidsData[mainTopic].subTopics;
-                html += `<div style="border: 1.5px solid ${isSelected ? '#466ba9' : 'rgba(15, 23, 42, 0.04)'}; border-top: none; border-radius: 0 0 20px 20px; background: #ffffff; padding: 12px 18px 18px; margin-bottom: 16px; box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.02);">`;
+                html += `<div class="practice-card-body ${isSelected ? 'selected' : ''}" style="border: ${isSelected ? '1.5px solid #466ba9' : 'none'}; ${isSelected ? 'border-top: none;' : ''} border-radius: 0 0 20px 20px; background: #ffffff; padding: 12px 18px 18px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);">`;
 
                 Object.keys(subTopics).forEach((subTopic) => {
                     const isSubSelected = this.practiceSelectedSubs.includes(subTopic);
@@ -3430,7 +3525,7 @@ const QuizEngine = {
                     }
 
                     html += `
-                        <div onclick="event.stopPropagation(); QuizEngine.togglePracticeSub('${subTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; margin-bottom: 8px; cursor: pointer; border-radius: 12px; background: ${isSubSelected ? '#eff6ff' : 'rgba(15, 23, 42, 0.01)'}; border: 1.5px solid ${isSubSelected ? 'rgba(37, 99, 235, 0.2)' : 'rgba(15, 23, 42, 0.03)'}; box-shadow: ${isSubSelected ? '0 4px 10px rgba(37, 99, 235, 0.05)' : 'none'}; transition: all 0.2s ease;">
+                        <div class="practice-sub-card ${isSubSelected ? 'selected' : ''}" onclick="event.stopPropagation(); QuizEngine.togglePracticeSub('${subTopic}')" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; margin-bottom: 8px; cursor: pointer; border-radius: 12px; background: ${isSubSelected ? '#eff6ff' : 'rgba(15, 23, 42, 0.01)'}; border: ${isSubSelected ? '1.5px solid rgba(37, 99, 235, 0.2)' : 'none'}; box-shadow: ${isSubSelected ? '0 4px 10px rgba(37, 99, 235, 0.05)' : 'none'}; transition: all 0.2s ease;">
                             
                             <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
                                 <!-- Checkbox -->
@@ -3517,9 +3612,9 @@ const QuizEngine = {
         // update UI for count buttons
         document.querySelectorAll('#practice-count-selector .count-btn').forEach(btn => {
             if (parseInt(btn.dataset.count) === count) {
-                btn.style.background = 'var(--accent-blue)';
+                btn.style.background = '#466ba9';
                 btn.style.color = '#ffffff';
-                btn.style.borderColor = 'transparent';
+                btn.style.borderColor = '#466ba9';
                 btn.style.boxShadow = '0 4px 10px rgba(70, 107, 169, 0.3)';
                 btn.style.transform = 'translateY(-1px) scale(1.02)';
             } else {
@@ -3555,7 +3650,7 @@ const QuizEngine = {
                 else if (badge === 'Rare') { badgeColor = '#f3e8ff'; badgeText = '#7e22ce'; }
 
                 html += `
-                    <div class="practice-card ${isSelected ? 'selected' : ''}" onclick="QuizEngine.togglePracticeSub('${subTopic}')" style="align-items: center; padding: 16px 20px; cursor: pointer; border: 1.5px solid ${isSelected ? 'rgba(70, 107, 169, 0.3)' : 'rgba(15, 23, 42, 0.04)'}; background: ${isSelected ? '#eff6ff' : '#ffffff'}; margin-bottom: 12px; border-radius: 16px; transition: all 0.2s ease; position: relative; overflow: hidden;">
+                    <div class="practice-card ${isSelected ? 'selected' : ''}" onclick="QuizEngine.togglePracticeSub('${subTopic}')" style="align-items: center; padding: 16px 20px; cursor: pointer; border: ${isSelected ? '1.5px solid rgba(70, 107, 169, 0.3)' : 'none'}; background: ${isSelected ? '#eff6ff' : '#ffffff'}; margin-bottom: 12px; border-radius: 16px; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);">
                         <div style="flex: 1; font-size: 16px; font-weight: 700; color: ${isSelected ? '#1e3a8a' : '#0f172a'};">${subTopic}</div>
                         <div class="mixed-checkbox" style="width: 24px; height: 24px; border-radius: 6px; border: 2px solid ${isSelected ? '#466ba9' : '#cbd5e1'}; background: ${isSelected ? '#466ba9' : 'transparent'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; margin-right: ${badge ? '30px' : '0'};">
                             ${isSelected ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
@@ -3621,7 +3716,7 @@ const QuizEngine = {
                 if (this.practiceSelectedSubs.includes(subTopic)) {
                     const isCollapsed = this.practiceCollapsedSubs.includes(subTopic);
                     html += `
-                        <div style="background: #ffffff; border-radius: 16px; margin-bottom: 16px; border: 1.5px solid rgba(15, 23, 42, 0.08); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                        <div class="practice-card" style="background: #ffffff; border-radius: 16px; margin-bottom: 16px; border: none; overflow: hidden; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);">
                             <div onclick="QuizEngine.togglePracticeSubCollapse('${subTopic}')" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: #f8fafc; border-bottom: ${isCollapsed ? 'none' : '1.5px solid rgba(15, 23, 42, 0.08)'}; cursor: pointer;">
                                 <h4 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0; text-transform: capitalize;">${subTopic}</h4>
                                 <svg style="transform: rotate(${isCollapsed ? '-90deg' : '0deg'}); transition: transform 0.2s ease; color: #64748b;" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -3778,10 +3873,13 @@ const QuizEngine = {
     practiceAidsGoBack: function () {
         if (this.practiceAidsStep === 3) {
             this.practiceAidsStep = 1;
+            this.practiceExpandedMains = [];
+            this.practiceCollapsedSubs = [];
             document.getElementById('practice-step-3').style.display = 'none';
             document.getElementById('practice-step-1').style.display = 'block';
             document.getElementById('practice-aids-title').innerText = 'Select Main Topics';
             this.updatePracticeFooter();
+            this.renderPracticeStep1();
         } else {
             // go back to hub
             this.navigateBack();

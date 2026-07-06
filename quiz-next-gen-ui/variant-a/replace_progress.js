@@ -95,7 +95,7 @@ const newHTML = `
                     <div style="margin-bottom: 20px;">
                         <div style="font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 10px;">Select Practice Length:</div>
                         <div style="display: flex; gap: 8px;">
-                            <button class="ai-count-btn selected" onclick="QuizEngine.setAiCount(10)" data-count="10" style="flex: 1; padding: 10px 0; border-radius: 10px; border: 2px solid #3b82f6; background: #eff6ff; color: #1d4ed8; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s;">10 Qs</button>
+                            <button class="ai-count-btn selected" onclick="QuizEngine.setAiCount(10)" data-count="10" style="flex: 1; padding: 10px 0; border-radius: 10px; border: 2px solid #3b82f6; background: #eff6ff; color: #466ba9; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s;">10 Qs</button>
                             <button class="ai-count-btn" onclick="QuizEngine.setAiCount(20)" data-count="20" style="flex: 1; padding: 10px 0; border-radius: 10px; border: 2px solid #e2e8f0; background: white; color: #64748b; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s;">20 Qs</button>
                             <button class="ai-count-btn" onclick="QuizEngine.setAiCount(30)" data-count="30" style="flex: 1; padding: 10px 0; border-radius: 10px; border: 2px solid #e2e8f0; background: white; color: #64748b; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s;">30 Qs</button>
                         </div>

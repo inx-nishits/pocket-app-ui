@@ -306,18 +306,46 @@ body {
     border-radius: 16px;
     /* Native iOS standard for medium cards */
     padding: 16px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.05), 0 1px 4px rgba(15, 23, 42, 0.025) !important;
     /* Premium layered shadow */
-    border: 1px solid rgba(15, 23, 42, 0.03);
+    border: none !important;
     /* Extremely subtle border */
     backdrop-filter: blur(10px);
+}
+
+/* Enforce consistent borderless design and layered shadow across all cards and interactive cards */
+.format-card,
+.category-card,
+.stat-card,
+.achievement-card,
+.lb-weekly-mvp-card,
+.badge-card,
+#practice-count-selector,
+#review-question-container {
+    border: none !important;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.05), 0 1px 4px rgba(15, 23, 42, 0.025) !important;
+}
+
+.difficulty-card,
+.participant-option-card,
+.practice-card,
+.practice-card-body,
+.practice-sub-card {
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02) !important;
+}
+
+.practice-card:not(.selected),
+.practice-card-body:not(.selected),
+.practice-sub-card:not(.selected) {
+    border: none !important;
 }
 
 .w-100 {
     width: 100%;
 }
 
-.btn-primary, .ios-btn-primary {
+.btn-primary,
+.ios-btn-primary {
     background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5);
     color: white;
     border: none;
@@ -335,7 +363,8 @@ body {
     min-height: 56px;
 }
 
-.btn-primary:active, .ios-btn-primary:active {
+.btn-primary:active,
+.ios-btn-primary:active {
     transform: scale(0.97);
     background: linear-gradient(to bottom, #4b73b7, #345da5, #1e3a8a);
     box-shadow: 0 2px 6px rgba(70, 107, 169, 0.1);
@@ -1069,42 +1098,6 @@ body {
     flex-direction: column;
 }
 
-.mock-skipped-bottom-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 50;
-    display: flex;
-    justify-content: center;
-    padding: 8px 16px;
-    padding-bottom: calc(max(12px, env(safe-area-inset-bottom, 12px)));
-    background: var(--bg-color);
-}
-
-.mock-skipped-nav-btn {
-    background: white;
-    border: 1.5px solid #e2e8f0;
-    color: #64748b;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 10px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    width: fit-content;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-}
-
-#view-active.mock-exam-active .view-content {
-    padding-bottom: calc(68px + max(12px, env(safe-area-inset-bottom, 12px)));
-}
-
 .question-text {
     font-family: 'Poppins', sans-serif;
     font-size: 19px;
@@ -1347,7 +1340,7 @@ body {
 
 .feedback-title {
     font-family: 'Poppins', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     flex: 1;
     margin: 0;
@@ -1632,6 +1625,11 @@ body {
     flex: 1;
 }
 
+.question-breakdown-list .toggle-icon {
+    align-self: flex-start;
+    margin-top: 2px;
+}
+
 
 /* Leaderboard */
 .tabs-container {
@@ -1910,8 +1908,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.02);
-    border: 1px solid rgba(15, 23, 42, 0.05);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02) !important;
+    border: none !important;
     cursor: pointer;
     transition: transform 0.2s ease, border-color 0.2s ease;
 }
@@ -2217,19 +2215,19 @@ body {
     margin-bottom: 4px;
 }
 
-.matchmaking-text p {
-    font-size: 14px;
-    color: var(--text-secondary);
+@media (hover: hover) {
+    .format-card:hover {
+        border-color: rgba(70, 107, 169, 0.25);
+        box-shadow: 0 8px 24px rgba(70, 107, 169, 0.06);
+    }
 }
 
-/* Sticky Bottom Action */
-.sticky-bottom-action {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    padding: 16px 20px;
+/* Choose Participants UI */
+.participant-list {
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .participant-option-card {
@@ -2440,6 +2438,7 @@ body {
     border: none;
     box-shadow: 0 4px 12px rgba(70, 107, 169, 0.2);
 }
+
 .sticky-bottom-action .primary-btn.disabled {
     opacity: 0.5;
     pointer-events: none;

@@ -40,7 +40,7 @@ if (html.match(mock1Regex)) {
 const buttonRegex = /<!-- View Previous Exams Button -->[\s\S]*?<\/button>/;
 
 const newButtonHtml = `<!-- View Previous Exams Button -->
-                    <button id="view-previous-exams-btn" class="btn-primary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px;" onclick="document.getElementById('older-exams-container').style.display='flex'; this.style.display='none';">
+                    <button id="view-previous-exams-btn" class="btn-primary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: white; border: none; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.25); margin-top: 20px; cursor: pointer; transition: all 0.2s;" onclick="document.getElementById('older-exams-container').style.display='flex'; this.style.display='none';">
                         View Previous Exams
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 1px;">
                             <polyline points="6 9 12 15 18 9"></polyline>
