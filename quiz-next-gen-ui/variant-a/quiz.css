@@ -642,6 +642,51 @@ body {
     height: 22px;
 }
 
+.icon-shell-light {
+    background: #bfdbfe !important;
+    border: 1px solid #c7dbff;
+}
+
+.icon-shell-light img {
+    background: #0f2347;
+    border-radius: 10px;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+#view-hub .format-card .category-icon-top,
+#view-select-category .format-card .category-icon-top,
+#view-practice-topic .format-card .category-icon-top,
+#view-mock-exams .format-card .category-icon-top,
+#view-mixed-topic-selection .format-card .category-icon-top,
+#view-practice-questions .format-card .category-icon-top,
+#view-topics .category-card .category-icon-top,
+#view-select-category .category-card .category-icon-top,
+.practice-card .category-icon-top,
+.practice-card-body .category-icon-top,
+.practice-sub-card .category-icon-top {
+    background: #bfdbfe !important;
+    color: #2f5ea8 !important;
+    border-radius: 12px !important;
+    border: 1px solid #c7dbff !important;
+}
+
+#view-hub .format-card .category-icon-top img,
+#view-select-category .format-card .category-icon-top img,
+#view-practice-topic .format-card .category-icon-top img,
+#view-mock-exams .format-card .category-icon-top img,
+#view-mixed-topic-selection .format-card .category-icon-top img,
+#view-practice-questions .format-card .category-icon-top img,
+#view-topics .category-card .category-icon-top img,
+#view-select-category .category-card .category-icon-top img,
+.practice-card .category-icon-top img,
+.practice-card-body .category-icon-top img,
+.practice-sub-card .category-icon-top img {
+    width: 24px !important;
+    height: 24px !important;
+    object-fit: contain;
+}
+
 #view-hub .category-icon-top {
     font-size: 20px;
 }

@@ -37,7 +37,7 @@ const QuizEngine = {
             }
         },
         "Evidence & Procedure": {
-            icon: "1f50d.png",
+            icon: "../images/nie-magnifier.svg",
             subTopics: {
                 "Instituting Criminal Proceedings": { badge: "Silver", subSubs: { "Written Charge and Requisition": 2, "Service of Summons, Written Charge and Requisition": 3, "Service Outside England and Wales": 1, "Execution of Warrants": 6 } },
                 "Release of Person Arrested": { badge: "Bronze", subSubs: { "Person Arrested Elsewhere than at a Police Station": 18, "Pre-Charge Release of Person Arrested and Bail": 12, "Police Bail After Charge": 2, "Police Bail Restrictions": 6, "Grounds for Refusing Police Bail": 12, "Custody Officer - Granting Bail": 9, "Police Bail - Surety": 8, "Security": 2, "Liability to Arrest for Absconding or Breaking Bail Conditions": 4, "Offence of Absconding by Person Released on Bail": 2, "Remands in Police Custody": 1 } },
@@ -2285,7 +2285,7 @@ const QuizEngine = {
             this.currentQuestion = firstSkipped;
             this.loadQuestion();
             this.closeQuestionNavigator();
-            this.showToast('Reviewing Skipped Questions');
+            this.showToast('Opening Question Navigator');
         }
     },
 
@@ -2449,8 +2449,8 @@ const QuizEngine = {
             const isCorrect = (index === qData.correct);
             const letter = String.fromCharCode(65 + index);
             return `<button class="answer-btn" onclick="QuizEngine.selectAnswer(this, ${isCorrect}, ${index})" style="transition: transform 0.1s ease, box-shadow 0.1s ease; display: flex; gap: 12px; align-items: flex-start; text-align: left;">
-                        <span style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 9px; background: rgba(15, 23, 42, 0.05); font-weight: 700; color: #475569; flex-shrink: 0; font-size: 14px; margin-top: 1px;">${letter}</span>
-                        <span style="display: block; flex: 1; min-width: 0; line-height: 1.45; padding-top: 2px;">${opt}</span>
+                        <span style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 9px; background: rgba(15, 23, 42, 0.05); font-weight: 700; color: #475569; flex-shrink: 0; font-size: 14px;">${letter}</span>
+                        <span style="display: flex; align-items: center; min-height: 28px; flex: 1; min-width: 0; line-height: 1.45;">${opt}</span>
                     </button>`;
         }).join('');
     },
@@ -4528,6 +4528,10 @@ const QuizEngine = {
                 }
             });
 
+            const mainIconSrc = this.practiceAidsData[mainTopic].icon.includes('/')
+                ? this.practiceAidsData[mainTopic].icon
+                : `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${this.practiceAidsData[mainTopic].icon}`;
+
             html += `
                 <div style="margin-bottom: ${isExpanded ? '0' : '16px'}; opacity: ${cardOpacity}; pointer-events: ${cardPointerEvents}; transition: all 0.3s ease;">
                     <div class="practice-card ${isSelected ? 'selected' : ''}" 
@@ -4535,8 +4539,8 @@ const QuizEngine = {
                          style="display: flex; align-items: flex-start; gap: 16px; padding: 20px; border: ${isSelected ? '1.5px solid #466ba9' : 'none'}; background: #ffffff; border-radius: ${isExpanded ? '20px 20px 0 0' : '20px'}; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; z-index: 2; box-shadow: ${isSelected ? '0 10px 25px -5px rgba(70, 107, 169, 0.15)' : '0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02)'};">
                         
                         <!-- Icon -->
-                        <div style="width: 52px; height: 52px; background: #bfdbfe; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 4px 8px rgba(15, 23, 42, 0.05);">
-                            <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${this.practiceAidsData[mainTopic].icon}" style="width: 32px; height: 32px; object-fit: contain;">
+                        <div style="width: 64px; height: 64px; background: #bfdbfe; border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 4px 8px rgba(15, 23, 42, 0.05); border: 1px solid #c7dbff;">
+                            <img src="${mainIconSrc}" style="width: 52px; height: 52px; object-fit: contain; background: #0f2347; border-radius: 10px; padding: 4px; box-sizing: border-box;">
                         </div>
                         
                         <!-- Content -->

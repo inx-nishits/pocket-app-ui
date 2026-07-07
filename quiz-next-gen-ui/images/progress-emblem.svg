@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="progBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#122a57"/>
+      <stop offset="1" stop-color="#0c1e44"/>
+    </linearGradient>
+    <linearGradient id="progAccent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6fb0ff"/>
+      <stop offset="1" stop-color="#3f83de"/>
+    </linearGradient>
+  </defs>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="13" fill="url(#progBg)" stroke="#5d84c8" stroke-width="2"/>
+  <path d="M14 49h36" fill="none" stroke="#8fb0e8" stroke-width="3" stroke-linecap="round"/>
+  <rect x="17" y="33" width="5.5" height="16" rx="2.2" fill="#8fb0e8"/>
+  <rect x="27" y="27" width="5.5" height="22" rx="2.2" fill="#8fb0e8"/>
+  <rect x="37" y="21" width="5.5" height="28" rx="2.2" fill="#8fb0e8"/>
+  <path d="M16 26l8-7 8 5 12-10" fill="none" stroke="url(#progAccent)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="16" cy="26" r="2.2" fill="#6fb0ff"/>
+  <circle cx="24" cy="19" r="2.2" fill="#6fb0ff"/>
+  <circle cx="32" cy="24" r="2.2" fill="#6fb0ff"/>
+  <circle cx="44" cy="14" r="2.2" fill="#6fb0ff"/>
+</svg>

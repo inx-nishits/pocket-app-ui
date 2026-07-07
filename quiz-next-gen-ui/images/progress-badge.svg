@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="progMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="45%" stop-color="#dbe4f0" />
+      <stop offset="100%" stop-color="#6b7b94" />
+    </linearGradient>
+    <linearGradient id="progBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#93c5fd" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+    <linearGradient id="progGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+
+  <rect x="1.5" y="1.5" width="61" height="61" rx="15" fill="#0f172a" stroke="#1e293b" />
+
+  <circle cx="32" cy="32" r="21" fill="none" stroke="url(#progMetal)" stroke-width="2.6" />
+  <circle cx="32" cy="32" r="17" fill="#0b1220" stroke="#24324a" stroke-width="1.2" />
+
+  <!-- progress chart symbol -->
+  <path d="M20 42h24" stroke="#7dd3fc" stroke-width="1.8" stroke-linecap="round" />
+  <rect x="22" y="33" width="4.8" height="9" rx="1.2" fill="url(#progBlue)" />
+  <rect x="30" y="28" width="4.8" height="14" rx="1.2" fill="url(#progBlue)" />
+  <rect x="38" y="23" width="4.8" height="19" rx="1.2" fill="url(#progBlue)" />
+  <path d="M21 27l7-5 6 3 9-8" fill="none" stroke="url(#progGold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M41.8 16.8l3.2.6-.7 3.2" fill="none" stroke="url(#progGold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
