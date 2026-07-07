@@ -16,7 +16,7 @@ const QuizEngine = {
     practiceSelectedSubSubs: [],
     practiceAidsData: {
         "Crime": {
-            icon: "1f6a8.png",
+            icon: "../images/crime-badge.svg",
             subTopics: {
                 "Mens Rea (State of Mind)": { badge: "Gold", subSubs: { "Intent": 8, "Recklessness": 3, "Negligence": 1, "Strict Liability": 3, "Transferred Mens Rea": 4 } },
                 "Actus Reus (Criminal Conduct)": { badge: "Gold", subSubs: { "Automatism": 2, "Coincidence with Mens Rea": 5, "Omissions": 3, "Causal Link or Chain of Causation": 5, "Intervening Act": 5, "Principals and Accessories": 18, "Joint Enterprise": 3, "Corporate Liability": 2 } },
@@ -50,7 +50,7 @@ const QuizEngine = {
             }
         },
         "General Police Duties": {
-            icon: "1f46e.png",
+            icon: "../images/general-police-duties-badge.svg",
             subTopics: {
                 "Stop and Search": { badge: "", subSubs: { "Code A - 1 Principles Governing Stop and Search": 4, "Code A - 2 Types of Stop and Search Powers": 29, "Code A - 3 Conduct of Searches": 7, "Code A - 4 Recording Requirements": 9 } },
                 "Entry, Search and Seizure": { badge: "", subSubs: { "Code B - 2 General": 4, "Code B - 3 Search Warrants and Production Orders": 5, "Search Warrants for Indictable Offences": 3, "Execution of a Warrant": 1, "Code B - 4 Entry without Warrant - Particular Powers": 20, "Code B - 5 Search with Consent": 2, "Code B - 6 Searching Premises - General Considerations": 6, "Code B - 7 Seizure and Retention of Property": 13, "Code B - 8 Action After Searches": 2 } },
@@ -4539,8 +4539,8 @@ const QuizEngine = {
                          style="display: flex; align-items: flex-start; gap: 16px; padding: 20px; border: ${isSelected ? '1.5px solid #466ba9' : 'none'}; background: #ffffff; border-radius: ${isExpanded ? '20px 20px 0 0' : '20px'}; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; z-index: 2; box-shadow: ${isSelected ? '0 10px 25px -5px rgba(70, 107, 169, 0.15)' : '0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02)'};">
                         
                         <!-- Icon -->
-                        <div style="width: 64px; height: 64px; background: #bfdbfe; border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 4px 8px rgba(15, 23, 42, 0.05); border: 1px solid #c7dbff;">
-                            <img src="${mainIconSrc}" style="width: 52px; height: 52px; object-fit: contain; background: #0f2347; border-radius: 10px; padding: 4px; box-sizing: border-box;">
+                        <div style="width: 64px; height: 64px; background: #bfdbfe; border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <img src="${mainIconSrc}" style="width: 52px; height: 52px; object-fit: contain;" alt="${mainTopic}">
                         </div>
                         
                         <!-- Content -->
