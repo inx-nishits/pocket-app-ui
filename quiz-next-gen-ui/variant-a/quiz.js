@@ -844,6 +844,69 @@ const QuizEngine = {
         this.resumeMockQuiz();
     },
 
+    resultCtaIcons: {
+        review: '<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14h6"/><path d="M9 18h6"/><path d="M9 10h6"/>',
+        'practice-weak': '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+        home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+        back: '<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>',
+        'mock-exam': '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/>',
+        'practice-topic': '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+        'play-again': '<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/>',
+        challenge: '<path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/>',
+        leaderboard: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+        rematch: '<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
+        'match-details': '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>'
+    },
+
+    updateNextQuestionBtn: function () {
+        const btn = document.getElementById('inline-next-btn');
+        if (!btn) return;
+        const isLast = this.currentQuestion >= this.totalQuestions;
+        const arrowSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+        btn.innerHTML = isLast ? `View Result ${arrowSvg}` : `Next Question ${arrowSvg}`;
+    },
+
+    buildResultCta: function (label, iconKey, onclick, variant = 'primary', width = '') {
+        const paths = this.resultCtaIcons[iconKey] || '';
+        const widthClass = width ? ` result-cta-btn--${width}` : '';
+        return `<button class="result-cta-btn result-cta-btn--${variant}${widthClass}" onclick="${onclick}">
+            <svg class="result-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>
+            <span class="result-cta-label">${label}</span>
+        </button>`;
+    },
+
+    setResultBackLink: function (label, onclick) {
+        const backEl = document.getElementById('solo-completion-back');
+        if (!backEl) return;
+        if (!label) {
+            backEl.style.display = 'none';
+            return;
+        }
+        const btn = backEl.querySelector('button');
+        if (btn) {
+            btn.setAttribute('onclick', onclick);
+            const labelEl = btn.querySelector('span');
+            if (labelEl) labelEl.textContent = label;
+        }
+        backEl.style.display = 'flex';
+    },
+
+    renderResultActions: function (container, buttons) {
+        if (!container) return;
+        let countClass = '';
+        if (buttons.length === 1) {
+            countClass = 'result-sticky-actions--single';
+        } else if (buttons.length >= 3) {
+            countClass = 'result-sticky-actions--stacked';
+        } else if (buttons.length === 2) {
+            const hasSplitLayout = buttons.some(b => b.includes('result-cta-btn--compact'))
+                && buttons.some(b => b.includes('result-cta-btn--grow'));
+            countClass = hasSplitLayout ? 'result-sticky-actions--duo' : '';
+        }
+        container.className = `result-sticky-actions ${countClass}`.trim();
+        container.innerHTML = buttons.join('');
+    },
+
     returnHome: function () {
         this.stopConfetti();
         if (this.timerInterval) clearInterval(this.timerInterval);
@@ -1015,11 +1078,16 @@ const QuizEngine = {
             expWrong: "You selected the wrong code! <strong>Code A</strong> is exclusively for <strong>Stop and Search</strong>.<br><br><strong>Where the other codes apply:</strong><ul style='margin-top: 8px; padding-left: 20px; line-height: 1.5;'><li><strong>Detention & Questioning:</strong> Code C</li><li><strong>Searching Premises:</strong> Code B</li><li><strong>Identification:</strong> Code D</li></ul><em>Tip: Think 'A for Action' (Stop & Search in the streets).</em>"
         },
         {
-            q: "Under PACE Code C, how often should a detained person be offered a meal?",
-            opts: ["Every 4 hours", "Every 6 hours", "Approximately every 8 hours", "Only upon request"],
-            correct: 2,
-            expCorrect: "<strong>Correct!</strong> Code C requires at least two light meals and one main meal in any 24-hour period, which averages to approximately every 8 hours.<br><br><strong>Why other options are incorrect:</strong><ul style='margin-top: 8px; padding-left: 20px; line-height: 1.5;'><li><strong>Every 4/6 hours:</strong> This exceeds the statutory minimums.</li><li><strong>Only upon request:</strong> Police have a proactive duty of care; they must <em>offer</em> meals at recognised meal times, regardless of requests.</li></ul>",
-            expWrong: "Incorrect. The statutory minimum under Code C requires meals to be offered <strong>approximately every 8 hours</strong>.<br><br><strong>Why your selection is wrong:</strong><ul style='margin-top: 8px; padding-left: 20px; line-height: 1.5;'><li><strong>Every 4/6 hours:</strong> Too frequent compared to statutory rules.</li><li><strong>Only upon request:</strong> Police have a proactive duty of care and cannot wait for the suspect to ask.</li></ul>"
+            q: "Sandford CID is conducting two investigations. In the first case, CARTER, following an all-day drinking session, goes home and assaults his girlfriend, breaking her arm. In the second, QUENTIN decides to exact revenge with a baseball bat on STEVENS for assaulting QUENTIN's brother, and prior to going round to STEVENS' house, he drinks a bottle of whisky to build up his courage. The injuries to CARTER's girlfriend and STEVENS are considered to amount to grievous bodily harm.\n\nWho, if either, may have a defence of intoxication against a charge of wounding with intent contrary to s. 18 of the Offences Against the Person Act 1861?",
+            opts: [
+                "CARTER's voluntary intoxication can be raised as a defence to GBH with intent, but QUENTIN's cannot as he consumed alcohol to build up the courage to commit the offence for which he formed the mens rea whilst sober.",
+                "CARTER cannot be excused due to his voluntary intoxication, whereas QUENTIN can raise the defence if he can show his actions went beyond that originally intended.",
+                "Neither CARTER nor QUENTIN can raise the defence, as both of them made a conscious decision to become intoxicated and hence they could have foreseen such matters arising.",
+                "Both CARTER and QUENTIN can raise the defence, as GBH with intent is an offence of specific intent, and hence they cannot form the mens rea when voluntarily intoxicated."
+            ],
+            correct: 0,
+            expCorrect: "This question requires you to consider voluntary intoxication in the context of specific and basic intent offences.<br><br>Generally speaking, specific intent offences are those where the mens rea may only be formed by the defendant having the intent. Basic intent offences are those where the mens rea can be formed by intent or recklessness.<br><br>Voluntary intoxication cannot be used as a defence to basic intent offences, such as criminal damage, however, it can be used for specific intent offences.<br><br>s. 18 of the Offences Against the Person Act is a specific intent offence, and as such voluntary intoxication can be used as a defence. CARTER therefore has a defence to a s. 18 GBH with intent, but he may be charged with s. 20 GBH as that does not require specific intent.<br><br>However the defence is not available if the intent (mens rea) was formed while the defendant was sober and he became intoxicated in order to build up courage to commit the crime. This is known as the \"Dutch courage rule\" (AG for Northern Ireland v Gallagher [1963] AC 349). QUENTIN cannot therefore rely on this defence.",
+            expWrong: "This question requires you to consider voluntary intoxication in the context of specific and basic intent offences.<br><br>Generally speaking, specific intent offences are those where the mens rea may only be formed by the defendant having the intent. Basic intent offences are those where the mens rea can be formed by intent or recklessness.<br><br>Voluntary intoxication cannot be used as a defence to basic intent offences, such as criminal damage, however, it can be used for specific intent offences.<br><br>s. 18 of the Offences Against the Person Act is a specific intent offence, and as such voluntary intoxication can be used as a defence. CARTER therefore has a defence to a s. 18 GBH with intent, but he may be charged with s. 20 GBH as that does not require specific intent.<br><br>However the defence is not available if the intent (mens rea) was formed while the defendant was sober and he became intoxicated in order to build up courage to commit the crime. This is known as the \"Dutch courage rule\" (AG for Northern Ireland v Gallagher [1963] AC 349). QUENTIN cannot therefore rely on this defence."
         },
         {
             q: "Which section of PACE 1984 gives police the power of arrest without warrant?",
@@ -1377,9 +1445,9 @@ const QuizEngine = {
         answersGrid.innerHTML = qData.opts.map((opt, index) => {
             const isCorrect = (index === qData.correct);
             const letter = String.fromCharCode(65 + index);
-            return `<button class="answer-btn" onclick="QuizEngine.selectAnswer(this, ${isCorrect}, ${index})" style="transition: transform 0.1s ease, box-shadow 0.1s ease; display: flex; gap: 12px; align-items: center; text-align: left;">
-                        <span style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: rgba(15, 23, 42, 0.05); font-weight: 700; color: #475569; flex-shrink: 0; font-size: 14px;">${letter}</span>
-                        <span>${opt}</span>
+            return `<button class="answer-btn" onclick="QuizEngine.selectAnswer(this, ${isCorrect}, ${index})" style="transition: transform 0.1s ease, box-shadow 0.1s ease; display: flex; gap: 12px; align-items: flex-start; text-align: left;">
+                        <span style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 9px; background: rgba(15, 23, 42, 0.05); font-weight: 700; color: #475569; flex-shrink: 0; font-size: 14px; margin-top: 1px;">${letter}</span>
+                        <span style="display: block; flex: 1; min-width: 0; line-height: 1.45; padding-top: 2px;">${opt}</span>
                     </button>`;
         }).join('');
     },
@@ -1649,6 +1717,8 @@ const QuizEngine = {
                     if (inlineStreakMsg) inlineStreakMsg.style.display = '';
                     if (inlineDetails) inlineDetails.style.display = 'flex';
                 }
+
+                this.updateNextQuestionBtn();
             }
 
             // Only update bottom sheet XP animation in case it gets opened
@@ -1937,7 +2007,7 @@ const QuizEngine = {
             viewCompletion.style.setProperty('--result-accent', accentColor);
         }
 
-        document.getElementById('completion-emoji').innerHTML = `<img src="../images/result_hero_3d.png" style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));">`;
+        document.getElementById('completion-emoji').innerHTML = `<img src="../images/exam_image-badge.png" class="result-badge-img" alt="">`;
 
         // Multiplier for score to make it look like a real game score
         const scoreMultiplier = 25;
@@ -2035,6 +2105,16 @@ const QuizEngine = {
             document.getElementById('solo-score-val').innerText = `${this.score}/${this.totalQuestions}`;
             document.getElementById('solo-accuracy-val').innerText = `${accuracy}%`;
 
+            const accuracyRing = document.getElementById('solo-accuracy-ring');
+            if (accuracyRing) {
+                accuracyRing.setAttribute('stroke-dasharray', `${accuracy}, 100`);
+                accuracyRing.classList.remove('result-score-ring__progress--excellent', 'result-score-ring__progress--good', 'result-score-ring__progress--fair', 'result-score-ring__progress--low');
+                if (accuracy >= 80) accuracyRing.classList.add('result-score-ring__progress--excellent');
+                else if (accuracy >= 60) accuracyRing.classList.add('result-score-ring__progress--good');
+                else if (accuracy >= 40) accuracyRing.classList.add('result-score-ring__progress--fair');
+                else accuracyRing.classList.add('result-score-ring__progress--low');
+            }
+
             document.getElementById('solo-correct-val').innerText = `${this.score}`;
             document.getElementById('solo-incorrect-val').innerText = `${actualIncorrect}`;
 
@@ -2089,96 +2169,71 @@ const QuizEngine = {
             const actionsContainer = document.getElementById('solo-completion-actions');
             if (actionsContainer) {
                 if (quizType === 'mock') {
-                    actionsContainer.innerHTML = `
-                        <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.navigate('view-analytics')">
-                            Review Answers
-                        </button>
-                        ${this.score < this.totalQuestions ? `
-                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
-                            Practice Weak Area
-                        </button>
-                        ` : ''}
-                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.returnHome()">
-                            Return to Hub
-                        </button>
-                    `;
+                    this.setResultBackLink('Return to Hub', 'QuizEngine.returnHome()');
+                    const buttons = [
+                        this.buildResultCta('Review Answers', 'review', "QuizEngine.navigate('view-analytics')", 'primary')
+                    ];
+                    if (this.score < this.totalQuestions) {
+                        buttons.push(this.buildResultCta('Practice Weak Area', 'practice-weak', "QuizEngine.startFlow('topic')", 'secondary'));
+                    }
+                    this.renderResultActions(actionsContainer, buttons);
                 } else if (quizType === 'practice') {
+                    this.setResultBackLink(null);
                     const defaultPracticeBack = this.currentFlow === 'mixed' ? "QuizEngine.restartFlow('mixed')" : "QuizEngine.restartFlow('topic')";
                     const backAction = this.launchedFromProgress ? "QuizEngine.returnToProgress()" : defaultPracticeBack;
 
                     if (this.launchedFromProgress) {
                         if (actualIncorrect > 0) {
-                            actionsContainer.innerHTML = `
-                                <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
-                                    Back
-                                </button>
-                                <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
-                                    Practice Topic
-                                </button>
-                            `;
+                            this.renderResultActions(actionsContainer, [
+                                this.buildResultCta('Back', 'back', backAction, 'primary', 'compact'),
+                                this.buildResultCta('Practice Topic', 'practice-topic', "QuizEngine.startFlow('topic')", 'secondary', 'grow')
+                            ]);
                         } else {
-                            actionsContainer.innerHTML = `
-                                <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
-                                    Back
-                                </button>
-                            `;
+                            this.renderResultActions(actionsContainer, [
+                                this.buildResultCta('Back', 'back', backAction, 'primary')
+                            ]);
                         }
                     } else {
-                        actionsContainer.innerHTML = `
-                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
-                                Back
-                            </button>
-                            <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('mock')">
-                                Start Mock Exam
-                            </button>
-                        `;
+                        this.renderResultActions(actionsContainer, [
+                            this.buildResultCta('Back', 'back', backAction, 'primary', 'compact'),
+                            this.buildResultCta('Start Mock Exam', 'mock-exam', "QuizEngine.startFlow('mock')", 'secondary', 'grow')
+                        ]);
                     }
                 } else if (quizType === 'ai-tutor') {
+                    this.setResultBackLink(null);
                     const backAction = this.launchedFromProgress ? "QuizEngine.returnToProgress()" : "QuizEngine.returnHome()";
                     if (actualIncorrect > 0) {
-                        actionsContainer.innerHTML = `
-                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
-                                Back
-                            </button>
-                            <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('topic')">
-                                Practice Topic
-                            </button>
-                        `;
+                        this.renderResultActions(actionsContainer, [
+                            this.buildResultCta('Back', 'back', backAction, 'primary', 'compact'),
+                            this.buildResultCta('Practice Topic', 'practice-topic', "QuizEngine.startFlow('topic')", 'secondary', 'grow')
+                        ]);
                     } else {
-                        actionsContainer.innerHTML = `
-                            <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="${backAction}">
-                                Back
-                            </button>
-                        `;
+                        this.renderResultActions(actionsContainer, [
+                            this.buildResultCta('Back', 'back', backAction, 'primary')
+                        ]);
                     }
                 } else {
-                    actionsContainer.innerHTML = `
-                        <button class="w-100" style="background: #ffffff; color: #466ba9; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.15);" onclick="QuizEngine.startFlow('quick')">
-                            Play Again
-                        </button>
-                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.startFlow('colleague')">
-                            Challenge Officer
-                        </button>
-                        <button class="w-100" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.3);" onclick="QuizEngine.navigate('view-leaderboard')">
-                            Leaderboard
-                        </button>
-                    `;
+                    this.setResultBackLink(null);
+                    this.renderResultActions(actionsContainer, [
+                        this.buildResultCta('Play Again', 'play-again', "QuizEngine.startFlow('quick')", 'primary'),
+                        this.buildResultCta('Leaderboard', 'leaderboard', "QuizEngine.navigate('view-leaderboard')", 'secondary')
+                    ]);
                 }
             }
 
             const emojiEl = document.getElementById('solo-completion-emoji');
             if (emojiEl) {
-                emojiEl.innerHTML = `<img src="../images/result_hero_3d.png" style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));">`;
+                emojiEl.innerHTML = `<img src="../images/exam_image-badge.png" class="result-badge-img" alt="">`;
             }
 
-            const titleEl = document.getElementById('solo-completion-title');
-            if (titleEl) {
+            const statusEl = document.getElementById('solo-completion-status');
+            if (statusEl) {
                 if (quizType === 'mock') {
-                    titleEl.innerText = 'Assessment Complete!';
+                    statusEl.innerText = 'Assessment Complete';
                 } else if (quizType === 'ai-tutor' || quizType === 'practice') {
-                    titleEl.innerText = 'Practice Completed!';
+                    statusEl.innerText = 'Practice Completed';
                 } else {
-                    titleEl.innerText = 'Quiz Complete!';
+                    statusEl.innerText = 'Quiz Complete';
                 }
             }
 
@@ -2985,7 +3040,7 @@ const QuizEngine = {
 
         document.getElementById('completion-title').innerText = title;
         document.getElementById('completion-subtitle').innerText = subtitle;
-        document.getElementById('completion-emoji').innerHTML = `<img src="../images/result_hero_3d.png" style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));">`;
+        document.getElementById('completion-emoji').innerHTML = `<img src="../images/exam_image-badge.png" class="result-badge-img" alt="">`;
 
         document.getElementById('my-score-val').innerText = myScore;
         document.getElementById('opp-score-val').innerText = oppScore;

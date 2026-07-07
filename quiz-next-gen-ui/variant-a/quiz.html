@@ -3768,7 +3768,7 @@
                             </svg>
                             View Explanation
                         </button>
-                        <button class="btn-primary"
+                        <button class="btn-primary" id="inline-next-btn"
                             style="flex: 1; height: 40px; margin-top: 0; padding: 0 12px; font-size: 13px; font-weight: 700; border-radius: 12px; background: white; color: var(--accent-blue); border: 1px solid transparent; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0, 0.2); transition: transform 0.2s, box-shadow 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px;"
                             onclick="QuizEngine.nextQuestion()">
                             Next Question
@@ -3883,14 +3883,13 @@
             style="background: #466ba9; height: 100%; color: #ffffff; transition: background 0.8s ease; font-family: 'Poppins', sans-serif;">
 
             <div class="view-content"
-                style="padding: 0 20px; padding-top: 60px; padding-bottom: 120px; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+                style="padding: 0 20px; overflow-y: auto; -webkit-overflow-scrolling: touch;">
 
                 <!-- Hero Section -->
-                <div class="result-hero" style="text-align: center; margin-bottom: 40px;">
+                <div class="result-hero result-badge-hero">
                     <div id="completion-emoji" class="hero-illustration"
-                        style="margin-bottom: 24px; animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25)); display: flex; justify-content: center;">
-                        <img src="../images/result_hero_3d.png"
-                            style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));">
+                        style="animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; justify-content: center;">
+                        <img src="../images/exam_image-badge.png" class="result-badge-img" alt="">
                     </div>
                     <h1 id="completion-title"
                         style="font-family: 'Poppins', sans-serif; font-size: 42px; font-weight: 700; color: #ffffff; margin-bottom: 8px;">
@@ -4071,23 +4070,23 @@
                     </div>
                 </div>
 
-                <!-- Actions -->
-                <div style="display: flex; flex-direction: column; gap: 12px; font-family: 'Poppins', sans-serif;">
-                    <button class="ios-btn-primary"
-                        onclick="QuizEngine.startFlow(QuizEngine.currentFlow || 'colleague')"
-                        style="background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: #ffffff; width: 100%; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: 600; border: none; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;">
-                        Rematch
-                    </button>
-                    <button class="ios-btn-secondary" onclick="QuizEngine.returnHome()"
-                        style="background: rgba(255, 255, 255, 0.15); color: #ffffff; width: 100%; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; transition: background 0.2s;">
-                        Back to Hub
-                    </button>
-                    <button class="ios-btn-secondary" onclick="QuizEngine.navigate('view-analytics')"
-                        style="background: rgba(255, 255, 255, 0.15); color: #ffffff; width: 100%; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; transition: background 0.2s;">
-                        View Match Details
-                    </button>
-                </div>
+            </div>
 
+            <div id="completion-actions" class="result-sticky-actions result-sticky-actions--stacked">
+                <button class="result-cta-btn result-cta-btn--primary"
+                    onclick="QuizEngine.startFlow(QuizEngine.currentFlow || 'colleague')">
+                    <svg class="result-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+                    <span class="result-cta-label">Rematch</span>
+                </button>
+                <button class="result-cta-btn result-cta-btn--secondary" onclick="QuizEngine.returnHome()">
+                    <svg class="result-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span class="result-cta-label">Back to Hub</span>
+                </button>
+                <button class="result-cta-btn result-cta-btn--secondary"
+                    onclick="QuizEngine.navigate('view-analytics')">
+                    <svg class="result-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span class="result-cta-label">Match Details</span>
+                </button>
             </div>
         </div>
 
@@ -4096,113 +4095,85 @@
             style="background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); height: 100%; font-family: 'Poppins', sans-serif;">
 
             <div class="view-content"
-                style="padding: 0 20px; padding-top: 40px; padding-bottom: 120px; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+                style="padding: 0 20px; overflow-y: auto; -webkit-overflow-scrolling: touch;">
 
                 <!-- Hero Section -->
-                <div class="result-hero" style="text-align: center; margin-bottom: 32px;">
+                <div class="result-hero result-badge-hero">
                     <div id="solo-completion-emoji" class="hero-illustration"
-                        style="margin-bottom: 20px; animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; justify-content: center;">
-                        <img src="../images/result_hero_3d.png"
-                            style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));">
+                        style="animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; justify-content: center;">
+                        <img src="../images/exam_image-badge.png" class="result-badge-img" alt="">
                     </div>
-                    <h1 id="solo-completion-title"
-                        style="font-family: 'Poppins', sans-serif; font-size: 32px; font-weight: 800; color: #ffffff; margin-bottom: 8px;">
-                        Quiz Complete!</h1>
+                    <div class="result-title-block">
+                        <h1 id="solo-completion-status" class="result-status-headline">Practice Completed</h1>
+                    </div>
                 </div>
 
-                <!-- Main Score Card -->
-                <div class="card"
-                    style="background: #ffffff; border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02); text-align: center;">
-                    <div style="display: flex; align-items: center; justify-content: center;">
-                        <div style="flex: 1; padding-right: 12px; border-right: 1px dashed #e2e8f0;">
-                            <div
-                                style="font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; font-family: 'Inter', sans-serif;">
-                                Score
-                            </div>
-                            <div id="solo-score-val"
-                                style="font-size: 38px; font-weight: 800; color: var(--accent-blue); line-height: 1;">
-                                8/10</div>
+                <!-- Score & Accuracy Panel -->
+                <div class="result-score-panel">
+                    <div class="result-score-panel__ring">
+                        <svg viewBox="0 0 36 36" class="result-score-ring" aria-hidden="true">
+                            <path class="result-score-ring__bg"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path id="solo-accuracy-ring" class="result-score-ring__progress"
+                                stroke-dasharray="80, 100"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div class="result-score-ring__center">
+                            <span id="solo-accuracy-val" class="result-score-ring__value">80%</span>
+                            <span class="result-score-ring__label">Accuracy</span>
                         </div>
-                        <div style="flex: 1; padding-left: 12px;">
-                            <div
-                                style="font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; font-family: 'Inter', sans-serif;">
-                                Accuracy
-                            </div>
-                            <div id="solo-accuracy-val"
-                                style="font-size: 38px; font-weight: 800; color: #1e293b; line-height: 1;">80%</div>
+                    </div>
+
+                    <div class="result-stats">
+                        <div class="result-stats__score-block">
+                            <span id="solo-score-val" class="result-stats__score">8/10</span>
+                            <span class="result-stats__label">Your Score</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Performance Summary -->
-                <div class="card"
-                    style="background: #ffffff; border-radius: 24px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);">
-                    <h3 style="font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 16px; margin-top: 0;">
-                        Performance Summary
-                    </h3>
+                <div class="perf-summary">
+                    <div class="perf-summary__header">
+                        <h3 class="perf-summary__title">Performance Summary</h3>
+                    </div>
 
-                    <div
-                        style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span
-                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
-                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2705.png"
-                                style="width: 1.2em; height: 1.2em;"> Correct Answers</span>
-                        <span id="solo-correct-val" style="color: #1e293b; font-weight: 700;">8</span>
-                    </div>
-                    <div
-                        style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span
-                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
-                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/274c.png"
-                                style="width: 1.2em; height: 1.2em;"> Incorrect Answers</span>
-                        <span id="solo-incorrect-val" style="color: #1e293b; font-weight: 700;">2</span>
-                    </div>
-                    <div id="solo-skipped-container"
-                        style="display: none; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span
-                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
-                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/23ed-fe0f.png"
-                                style="width: 1.2em; height: 1.2em;"> Skipped Answers</span>
-                        <span id="solo-skipped-val" style="color: #1e293b; font-weight: 700;">0</span>
-                    </div>
-                    <div
-                        style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span
-                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
-                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/23f1-fe0f.png"
-                                style="width: 1.2em; height: 1.2em;"> Total Time</span>
-                        <span id="solo-total-time-val" style="color: #1e293b; font-weight: 700;">0s</span>
-                    </div>
-                    <div
-                        style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span
-                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
-                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/26a1.png"
-                                style="width: 1.2em; height: 1.2em;"> Average Time</span>
-                        <span id="solo-time-val" style="color: #1e293b; font-weight: 700;">3.4s</span>
-                    </div>
-                    <div id="solo-best-topic-container"
-                        style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-family: 'Inter', sans-serif;">
-                        <span
-                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
-                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f31f.png"
-                                style="width: 1.2em; height: 1.2em;"> Best Topic</span>
-                        <span id="solo-best-topic-val" style="color: #1e293b; font-weight: 700;">Criminal Law</span>
-                    </div>
-                    <div id="solo-weakest-topic-container"
-                        style="display: flex; justify-content: space-between; padding: 10px 0; font-family: 'Inter', sans-serif;">
-                        <span
-                            style="color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px;"><img
-                                src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f6e0-fe0f.png"
-                                style="width: 1.2em; height: 1.2em;"> Weakest Topic</span>
-                        <span id="solo-weakest-topic-val" style="color: #1e293b; font-weight: 700;">PACE</span>
-                    </div>
+                    <ul class="perf-summary__list">
+                        <li class="perf-summary__row perf-summary__row--correct">
+                            <span class="perf-summary__label">Correct Answers</span>
+                            <span id="solo-correct-val" class="perf-summary__value">8</span>
+                        </li>
+                        <li class="perf-summary__row perf-summary__row--incorrect">
+                            <span class="perf-summary__label">Incorrect Answers</span>
+                            <span id="solo-incorrect-val" class="perf-summary__value">2</span>
+                        </li>
+                        <li id="solo-skipped-container" class="perf-summary__row perf-summary__row--skipped" style="display: none;">
+                            <span class="perf-summary__label">Skipped Answers</span>
+                            <span id="solo-skipped-val" class="perf-summary__value">0</span>
+                        </li>
+                        <li class="perf-summary__row perf-summary__row--time">
+                            <span class="perf-summary__label">Total Time</span>
+                            <span id="solo-total-time-val" class="perf-summary__value">0s</span>
+                        </li>
+                        <li class="perf-summary__row perf-summary__row--time">
+                            <span class="perf-summary__label">Average Time</span>
+                            <span id="solo-time-val" class="perf-summary__value">3.4s</span>
+                        </li>
+                        <li id="solo-best-topic-container" class="perf-summary__row perf-summary__row--topic">
+                            <span class="perf-summary__label">Best Topic</span>
+                            <span id="solo-best-topic-val" class="perf-summary__topic-value">Criminal Law</span>
+                        </li>
+                        <li id="solo-weakest-topic-container" class="perf-summary__row perf-summary__row--topic">
+                            <span class="perf-summary__label">Weakest Topic</span>
+                            <span id="solo-weakest-topic-val" class="perf-summary__topic-value">PACE</span>
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Small Progress Insight -->
                 <div class="card"
-                    style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #bfdbfe; border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 32px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);">
-                    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+                    style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #bfdbfe; border-radius: 20px; padding: 20px; text-align: left; margin-bottom: 32px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);">
+                    <div style="display: flex; align-items: center; justify-content: flex-start; margin-bottom: 8px;">
                         <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4c8.png"
                             style="width: 24px; height: 24px; margin-right: 8px;">
                         <span
@@ -4215,24 +4186,29 @@
                     </p>
                 </div>
 
-                <!-- Actions -->
-                <div id="solo-completion-actions" class="quick-completion-actions">
-                    <button class="btn-primary w-100" onclick="QuizEngine.startFlow('quick')"
-                        style="display: flex; align-items: center; justify-content: center;">
-                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f504.png"
-                            style="width: 1.3em; height: 1.3em; margin-right: 8px;"> Play Again
-                    </button>
-                    <button class="btn-secondary w-100" onclick="QuizEngine.startFlow('colleague')"
-                        style="display: flex; align-items: center; justify-content: center;">
-                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2694-fe0f.png"
-                            style="width: 1.3em; height: 1.3em; margin-right: 8px;"> Challenge Officer
-                    </button>
-                    <button class="btn-secondary w-100" onclick="QuizEngine.navigate('view-leaderboard')"
-                        style="display: flex; align-items: center; justify-content: center;">
-                        <img src="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3c6.png"
-                            style="width: 1.3em; height: 1.3em; margin-right: 8px;"> Leaderboard
+            </div>
+
+            <div class="result-sticky-footer">
+                <div id="solo-completion-back" class="result-back-link" style="display: none;">
+                    <button type="button" onclick="QuizEngine.returnHome()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M15 19l-7-7 7-7" />
+                        </svg>
+                        <span>Return to Hub</span>
                     </button>
                 </div>
+                <div id="solo-completion-actions" class="result-sticky-actions">
+                <button class="result-cta-btn result-cta-btn--primary" onclick="QuizEngine.startFlow('quick')">
+                    <svg class="result-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                    <span class="result-cta-label">Play Again</span>
+                </button>
+                <button class="result-cta-btn result-cta-btn--secondary"
+                    onclick="QuizEngine.navigate('view-leaderboard')">
+                    <svg class="result-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                    <span class="result-cta-label">Leaderboard</span>
+                </button>
+            </div>
             </div>
         </div>
 
@@ -5360,12 +5336,11 @@
             </div>
 
             <div class="view-content"
-                style="background: #e9f5ff; border-radius: 24px 24px 0 0; padding: 24px 20px 40px; display: flex; flex-direction: column; gap: 0; overflow-y: auto;">
+                style="background: #e9f5ff; border-radius: 24px 24px 0 0; padding: 0 20px 40px; display: flex; flex-direction: column; gap: 0; overflow-y: auto;">
 
                 <!-- Hero Section -->
-                <div style="text-align: center; margin-bottom: 24px; display: flex; justify-content: center;">
-                    <img src="../images/result_hero_3d.png"
-                        style="height: 180px; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.15));">
+                <div class="result-badge-hero">
+                    <img src="../images/exam_image-badge.png" class="result-badge-img" alt="">
                 </div>
 
                 <!-- Score Card -->
