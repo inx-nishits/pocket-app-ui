@@ -742,29 +742,42 @@
         .menu-subtitle {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            line-height: 1.35;
+            gap: 6px;
+            font-size: 12px;
+            line-height: 1.3;
             position: relative;
             z-index: 1002;
         }
 
         .menu-version {
             color: #ffffff;
-            font-weight: 700;
+            font-weight: 600;
             background: rgba(255, 255, 255, 0.2);
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            letter-spacing: 0.2px;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-size: 10px;
+            letter-spacing: 0.15px;
             line-height: 1.2;
         }
 
         .menu-disclaimer {
             color: #ffffff;
-            font-weight: 700;
+            font-weight: 400;
             cursor: pointer;
-            line-height: 1.35;
+            line-height: 1.3;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 11px;
+        }
+
+        .menu-disclaimer svg {
+            width: 10px;
+            height: 10px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            flex-shrink: 0;
+            opacity: 0.9;
         }
 
         .menu-star-btn {
@@ -1253,8 +1266,13 @@
                     <div class="menu-header-left">
                         <h1>Pocket Sergeant</h1>
                         <div class="menu-subtitle">
-                            <span class="menu-version">V 50.2</span>
-                            <span class="menu-disclaimer">Disclaimer</span>
+                            <span class="menu-version">V 51.0</span>
+                            <span class="menu-disclaimer">
+                                Disclaimer
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>
                         </div>
                     </div>
                     <button class="menu-star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
