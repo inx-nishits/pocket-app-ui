@@ -31,6 +31,8 @@
             --shadow-md: 0 8px 32px rgba(15, 23, 42, 0.12);
             --safe-area-top: env(safe-area-inset-top, 24px);
             --safe-area-bottom: env(safe-area-inset-bottom, 24px);
+            --menu-header-offset: 140px;
+            --menu-content-gap: 14px;
         }
 
         * {
@@ -864,12 +866,12 @@
         }
 
         .scroller-spacer {
-            height: calc(var(--safe-area-top, 24px) + 150px);
+            height: calc(var(--safe-area-top, 24px) + var(--menu-header-offset));
             flex-shrink: 0;
         }
 
         .menu-section:first-of-type {
-            margin-top: 6px;
+            margin-top: var(--menu-content-gap);
         }
 
         .menu-scroller::-webkit-scrollbar {
