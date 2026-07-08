@@ -698,10 +698,9 @@
             top: 0;
             left: 0;
             width: 100%;
-            overflow: hidden;
+            overflow: visible;
             z-index: 1000;
-            background: var(--accent-blue);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
             will-change: transform;
         }
@@ -713,17 +712,21 @@
         }
 
         .menu-header {
-            padding: calc(var(--safe-area-top) + 12px) 16px 16px;
+            padding: calc(var(--safe-area-top) + 12px) 16px 25px;
             position: relative;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            background: var(--accent-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .menu-header-left {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
+            margin-bottom: 14px;
+            min-width: 0;
         }
 
         .menu-header h1 {
@@ -741,22 +744,27 @@
             align-items: center;
             gap: 8px;
             font-size: 14px;
+            line-height: 1.35;
+            position: relative;
+            z-index: 1002;
         }
 
         .menu-version {
             color: #ffffff;
             font-weight: 700;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 3px 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
             border-radius: 8px;
             font-size: 12px;
             letter-spacing: 0.2px;
+            line-height: 1.2;
         }
 
         .menu-disclaimer {
-            color: rgba(255, 255, 255, 0.8);
+            color: #ffffff;
             font-weight: 700;
             cursor: pointer;
+            line-height: 1.35;
         }
 
         .menu-star-btn {
@@ -783,6 +791,52 @@
             filter: invert(72%) sepia(87%) saturate(1072%) hue-rotate(335deg) brightness(104%) contrast(97%);
         }
 
+        .menu-search-section {
+            padding: 0 16px;
+            margin-top: -25px;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .menu-search-input-wrapper {
+            width: 100%;
+            background: #ffffff;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            padding: 0 18px;
+            min-height: 50px;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+        }
+
+        .menu-search-input-wrapper img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            flex-shrink: 0;
+            opacity: 0.55;
+            filter: grayscale(1) brightness(0.55);
+        }
+
+        .menu-search-input-wrapper input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 14px 0;
+            font-size: 16px;
+            line-height: 1.4;
+            outline: none;
+            color: var(--text-primary);
+            min-width: 0;
+            font-weight: 500;
+        }
+
+        .menu-search-input-wrapper input::placeholder {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
         .menu-scroller {
             position: absolute;
             top: 0;
@@ -797,8 +851,12 @@
         }
 
         .scroller-spacer {
-            height: calc(var(--safe-area-top, 24px) + 96px);
+            height: calc(var(--safe-area-top, 24px) + 150px);
             flex-shrink: 0;
+        }
+
+        .menu-section:first-of-type {
+            margin-top: 6px;
         }
 
         .menu-scroller::-webkit-scrollbar {
@@ -806,7 +864,7 @@
         }
 
         .menu-section {
-            margin-bottom: 40px;
+            margin-bottom: 24px;
         }
 
         .menu-section-title {
@@ -815,6 +873,111 @@
             color: var(--text-primary);
             margin-bottom: 20px;
             letter-spacing: -0.4px;
+        }
+
+        .promo-academy-card {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            padding: 14px;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+            border: 1px solid #dbeafe;
+            border-radius: 18px;
+            box-shadow: 0 6px 18px rgba(70, 107, 169, 0.08);
+            cursor: pointer;
+            transition: transform 0.16s ease, box-shadow 0.2s ease;
+        }
+
+        .promo-academy-card:active {
+            transform: scale(0.99);
+            box-shadow: 0 4px 14px rgba(70, 107, 169, 0.12);
+        }
+
+        .promo-academy-main {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .promo-academy-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            flex-shrink: 0;
+            aspect-ratio: 1 / 1;
+            border-radius: 0;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+        }
+
+        .promo-academy-icon img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .promo-academy-copy {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .promo-academy-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .promo-academy-copy h3 {
+            margin: 0 0 2px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+
+        .promo-academy-copy p {
+            margin: 0;
+            font-size: 11px;
+            font-weight: 500;
+            color: #64748b;
+            line-height: 1.3;
+        }
+
+        .promo-academy-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            flex-shrink: 0;
+            width: auto;
+            min-height: 38px;
+            margin-top: 0;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(70, 107, 169, 0.22);
+        }
+
+        .promo-academy-cta svg {
+            width: 13px;
+            height: 13px;
+            stroke: currentColor;
+            stroke-width: 2.5;
         }
 
         /* ----- Dashboard Tile Grid (Professional Tile Layout) ----- */
@@ -829,7 +992,7 @@
         }
 
         .menu-card {
-            background: #f5f7fa !important;
+            background: #ffffff !important;
             border: 1px solid #e3e8ef !important;
             border-radius: 16px;
             min-height: 104px;
@@ -862,7 +1025,7 @@
             content: "";
             position: absolute;
             right: 10px;
-            bottom: 16px;
+            top: 12px;
             transform: none;
             width: 12px;
             height: 12px;
@@ -880,7 +1043,7 @@
 
         .menu-card:active {
             transform: scale(0.98);
-            background: #eef2f6 !important;
+            background: #ffffff !important;
         }
 
         .menu-card:active .menu-card-icon {
@@ -926,14 +1089,15 @@
             line-height: 1.22;
             letter-spacing: -0.2px;
             text-align: left;
-            max-width: calc(100% - 18px);
+            width: 100%;
+            max-width: 100%;
             margin-top: auto;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             line-clamp: 2;
             -webkit-box-orient: vertical;
-            overflow-wrap: anywhere;
-            word-break: break-word;
+            overflow-wrap: normal;
+            word-break: normal;
             overflow: hidden;
         }
 
@@ -945,74 +1109,38 @@
             display: contents;
         }
 
-        .see-more-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-top: 6px;
-            margin-bottom: 28px;
-            position: relative;
-            z-index: 100;
+        .more-apps-card.hidden {
+            display: none !important;
         }
 
-        .see-more-btn {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.8));
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 1);
-            padding: 12px 24px;
-            border-radius: 40px;
+        .see-less-wrapper {
+            display: none;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: -4px;
+            margin-bottom: 20px;
+            padding-right: 2px;
+        }
+
+        .see-less-wrapper.visible {
+            display: flex;
+        }
+
+        .see-less-link {
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--accent-blue);
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow:
-                0 10px 25px -5px rgba(15, 23, 42, 0.1),
-                inset 0 2px 0 rgba(255, 255, 255, 1);
-            letter-spacing: -0.3px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            animation: ctaPulse 3s infinite;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            letter-spacing: -0.2px;
         }
 
-        .see-more-btn:active {
-            transform: scale(0.94);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-        }
-
-        .see-more-btn.active {
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            color: #0369a1;
-            border: 1px solid #bae6fd;
-            animation: none;
-        }
-
-        .see-more-btn svg {
-            width: 14px;
-            height: 14px;
-            stroke: currentColor;
-            stroke-width: 3;
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes ctaPulse {
-            0% {
-                box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 0 0 0 rgba(15, 23, 42, 0.05);
-            }
-
-            50% {
-                box-shadow: 0 15px 30px -5px rgba(15, 23, 42, 0.15), 0 0 0 10px rgba(15, 23, 42, 0);
-            }
-
-            100% {
-                box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 0 0 0 rgba(15, 23, 42, 0);
-            }
-        }
-
-        .see-more-btn svg.rotated {
-            transform: rotate(180deg);
+        .see-less-link:active {
+            opacity: 0.75;
         }
 
         /* ----- Unified List Block ----- */
@@ -1126,35 +1254,37 @@
                     </div>
                     <button class="menu-star-btn"><img src="../images/star-sm.svg" alt="Star"></button>
                 </div>
+                <div class="menu-search-section">
+                    <div class="menu-search-input-wrapper">
+                        <img src="../images/search.svg" alt="Search">
+                        <input type="text" placeholder="Search Pocket Sergeant...">
+                    </div>
+                </div>
             </div>
 
             <div class="menu-scroller">
                 <div class="scroller-spacer"></div>
                 <div class="menu-section">
-                    <h3 class="menu-section-title">Top Features</h3>
-                    <div class="menu-grid">
-
-                        <div class="menu-card" onclick="window.location.href='quiz.html'">
-                            <div class="menu-card-icon">
-                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <linearGradient id="quizGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#97ADD4" />
-                                            <stop offset="100%" stop-color="#4677CB" />
-                                        </linearGradient>
-                                        <filter id="iconShadow" x="-10%" y="-10%" width="120%" height="120%">
-                                            <feDropShadow dx="0" dy="1.5" stdDeviation="1" flood-color="#4677CB"
-                                                flood-opacity="0.3" />
-                                        </filter>
-                                    </defs>
-                                    <path
-                                        d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"
-                                        fill="url(#quizGrad)" filter="url(#iconShadow)" />
-                                </svg>
+                    <div class="promo-academy-card" onclick="window.location.href='quiz.html'">
+                        <div class="promo-academy-main">
+                            <div class="promo-academy-icon">
+                                <img src="../images/menu_icons/pramotion-acadamy.png" alt="Promotion Academy">
                             </div>
-                            <span>Promotion Academy</span>
+                            <div class="promo-academy-copy">
+                                <div class="promo-academy-text">
+                                    <h3>Promotion Academy</h3>
+                                    <p>Quizzes, mock exams &amp; revision aids.</p>
+                                </div>
+                                <button type="button" class="promo-academy-cta">
+                                    Boost Rank
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
+                    </div>
+                    <div class="menu-grid">
 
                         <div class="menu-card">
                             <div class="menu-card-icon"><img src="../images/menu_icons/app_incubator.png"
@@ -1181,12 +1311,12 @@
                             <span>Hughes Guides</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/vehicle-check.png"
+                            <div class="menu-card-icon"><img src="../images/menu_icons/vehical-check-icon.png"
                                     alt="Vehicle Check"></div>
                             <span>Vehicle Check</span>
                         </div>
                         <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/tor.png" alt="TOR Codes">
+                            <div class="menu-card-icon"><img src="../images/menu_icons/tor-code-icon.png" alt="TOR Codes">
                             </div>
                             <span>TOR Codes</span>
                         </div>
@@ -1210,26 +1340,26 @@
                                     alt="Police Regulations"></div>
                             <span>Police Regulations</span>
                         </div>
-                        <div class="menu-card">
+                        <div class="menu-card more-apps-card" id="more-apps-card">
                             <div class="menu-card-icon"><img src="../images/menu_icons/more-apps.png" alt="More Apps">
                             </div>
                             <span>More Apps</span>
                         </div>
-                        <div class="menu-card">
-                            <div class="menu-card-icon"><img src="../images/menu_icons/case-file.png" alt="Case Files">
-                            </div>
-                            <span>Case Files</span>
-                        </div>
 
                         <!-- Hidden Features -->
                         <div class="hidden-features" id="hidden-features">
+                            <div class="menu-card">
+                                <div class="menu-card-icon"><img src="../images/menu_icons/case-file.png" alt="Case Files">
+                                </div>
+                                <span>Case Files</span>
+                            </div>
                             <div class="menu-card">
                                 <div class="menu-card-icon"><img src="../images/menu_icons/self-care.png"
                                         alt="Self-Care"></div>
                                 <span>Self-Care</span>
                             </div>
                             <div class="menu-card">
-                                <div class="menu-card-icon"><img src="../images/menu_icons/get-in-touch.png"
+                                <div class="menu-card-icon"><img src="../images/menu_icons/get-in-touch-icon.png"
                                         alt="Get in touch">
                                 </div>
                                 <span>Get in touch</span>
@@ -1242,14 +1372,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="see-more-wrapper">
-                        <button class="see-more-btn" id="see-more-btn">
-                            <span class="btn-text">See More</span>
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2.5"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
+                    <div class="see-less-wrapper" id="see-less-wrapper">
+                        <button type="button" class="see-less-link" id="see-less-link">See Less</button>
                     </div>
                 </div>
 
@@ -1257,7 +1381,7 @@
                     <h3 class="menu-section-title">Support & Information</h3>
                     <div class="menu-list">
                         <div class="menu-list-item">
-                            <div class="menu-list-item-icon"><img src="../images/menu_icons/subscription.png"
+                            <div class="menu-list-item-icon"><img src="../images/menu_icons/subscription-icon.png"
                                     alt="Subscription"></div>
                             <span>Subscription</span>
                         </div>
@@ -1302,26 +1426,27 @@
             });
         });
 
-        // See More toggle logic
-        const seeMoreBtn = document.getElementById('see-more-btn');
+        // More Apps / See Less toggle logic
+        const moreAppsCard = document.getElementById('more-apps-card');
+        const seeLessWrapper = document.getElementById('see-less-wrapper');
+        const seeLessLink = document.getElementById('see-less-link');
         const hiddenFeatures = document.getElementById('hidden-features');
 
-        if (seeMoreBtn && hiddenFeatures) {
-            const btnText = seeMoreBtn.querySelector('.btn-text');
-            const btnSvg = seeMoreBtn.querySelector('svg');
-            seeMoreBtn.addEventListener('click', () => {
-                if (hiddenFeatures.classList.contains('expanded')) {
-                    hiddenFeatures.classList.remove('expanded');
-                    seeMoreBtn.classList.remove('active');
-                    if (btnSvg) btnSvg.classList.remove('rotated');
-                    if (btnText) btnText.textContent = 'See More';
-                } else {
-                    hiddenFeatures.classList.add('expanded');
-                    seeMoreBtn.classList.add('active');
-                    if (btnSvg) btnSvg.classList.add('rotated');
-                    if (btnText) btnText.textContent = 'See Less';
-                }
-            });
+        const expandHiddenFeatures = () => {
+            hiddenFeatures.classList.add('expanded');
+            moreAppsCard.classList.add('hidden');
+            seeLessWrapper.classList.add('visible');
+        };
+
+        const collapseHiddenFeatures = () => {
+            hiddenFeatures.classList.remove('expanded');
+            moreAppsCard.classList.remove('hidden');
+            seeLessWrapper.classList.remove('visible');
+        };
+
+        if (moreAppsCard && seeLessLink && hiddenFeatures) {
+            moreAppsCard.addEventListener('click', expandHiddenFeatures);
+            seeLessLink.addEventListener('click', collapseHiddenFeatures);
         }
 
         const scroller = document.querySelector('.menu-scroller');
