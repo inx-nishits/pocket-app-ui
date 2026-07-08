@@ -2422,18 +2422,17 @@ const QuizEngine = {
         const isMockExam = (this.currentFlow === 'mock' || this.selectedCategory === 'Mock Exam' || this.selectedCategory === 'Promotion Exam');
 
         const mockStatsContainer = document.getElementById('mock-stats-container');
-        if (mockActions) {
-            if (isMockExam) {
-                mockActions.style.display = 'flex';
-                if (mockStatsContainer) mockStatsContainer.style.display = 'flex';
-                this.updateMockStats();
+        if (mockStatsContainer) {
+            mockStatsContainer.style.display = isMockExam ? 'flex' : 'none';
+        }
+        if (isMockExam) {
+            this.updateMockStats();
+        }
 
-                const mockSkipBtn = document.getElementById('mock-skip-btn');
-                if (mockSkipBtn) mockSkipBtn.style.display = 'inline-flex';
-            } else {
-                mockActions.style.display = 'none';
-                if (mockStatsContainer) mockStatsContainer.style.display = 'none';
-            }
+        this.updateMockSkipButton();
+
+        if (mockActions) {
+            mockActions.style.display = 'none';
         }
 
         this.updateSkippedNavigatorBar();
@@ -2470,8 +2469,7 @@ const QuizEngine = {
             if (!this.mockAnswers) this.mockAnswers = new Array(this.totalQuestions).fill(null);
             this.mockAnswers[this.currentQuestion - 1] = { status: 'answered', isCorrect: isCorrect, selectedIndex: selectedIndex };
             if (isCorrect) this.score++;
-            const mockSkipBtn = document.getElementById('mock-skip-btn');
-            if (mockSkipBtn) mockSkipBtn.style.display = 'none';
+            this.updateMockSkipButton();
 
             this.updateMockStats();
 
@@ -2862,7 +2860,11 @@ const QuizEngine = {
                 }
             }
 
-            if (hasSkipped && !this.isTimeUp) {
+            if (this.isTimeUp) {
+                return; // Let the timer finish logic handle it, avoid 1 sec delay
+            }
+
+            if (hasSkipped) {
                 const modal = document.getElementById('incomplete-modal');
                 if (modal) {
                     modal.style.display = 'flex';
@@ -2881,11 +2883,11 @@ const QuizEngine = {
         const isPracticeMode = (this.currentMode === 'Practice By Topic' || this.selectedFormat === 'Practice By Topic' || this.selectedFormat === 'Mixed Practice' || this.currentMode === 'Practice Weak Areas');
 
         if (!isPracticeMode) {
-            if (this.currentQuestion === Math.floor(this.totalQuestions / 2)) {
-                this.showToast('🚀 Halfway There');
-            } else if (this.currentQuestion === this.totalQuestions - 1) {
-                this.showToast('🏁 Final Question');
-            }
+            // if (this.currentQuestion === Math.floor(this.totalQuestions / 2)) {
+            //     this.showToast('Halfway There');
+            // } else if (this.currentQuestion === this.totalQuestions - 1) {
+            //     this.showToast('Final Question');
+            // }
         }
 
         this.loadQuestion(this.currentQuestion);
@@ -2943,6 +2945,10 @@ const QuizEngine = {
     },
 
     finishQuiz: function () {
+        // Hide the incomplete modal if it's currently open
+        const incompleteModal = document.getElementById('incomplete-modal');
+        if (incompleteModal) incompleteModal.style.display = 'none';
+
         // Clear any saved progress since the exam is now finished
         localStorage.removeItem('saved_exam_progress');
         this.updateResumeWidget();
@@ -3534,25 +3540,25 @@ const QuizEngine = {
 
         let html = '';
         this.topicsPerformance.forEach(topic => {
-            let color, bgColor, icon, title;
+            let color, bgColor, title;
             if (topic.score >= 90) {
-                color = '#16a34a'; bgColor = '#ecfdf5'; icon = '🥇'; title = 'Mastered';
+                color = '#16a34a'; bgColor = '#ecfdf5'; title = 'Mastered';
             } else if (topic.score >= 80) {
-                color = '#10b981'; bgColor = '#d1fae5'; icon = '💪'; title = 'Strong';
+                color = '#10b981'; bgColor = '#d1fae5'; title = 'Strong';
             } else if (topic.score >= 65) {
-                color = '#f59e0b'; bgColor = '#fef3c7'; icon = '🌱'; title = 'Developing';
+                color = '#f59e0b'; bgColor = '#fef3c7'; title = 'Developing';
             } else {
-                color = '#ef4444'; bgColor = '#fee2e2'; icon = '🚨'; title = 'Weak';
+                color = '#ef4444'; bgColor = '#fee2e2'; title = 'Weak';
             }
 
             const diff = topic.score - topic.prevScore;
             let trendHtml = '';
             if (diff > 0) {
-                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #16a34a; margin-left: 6px;">📈 +${diff}%</span>`;
+                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #16a34a; margin-left: 6px;">+${diff}%</span>`;
             } else if (diff < 0) {
-                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #ef4444; margin-left: 6px;">📉 ${diff}%</span>`;
+                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #ef4444; margin-left: 6px;">${diff}%</span>`;
             } else {
-                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #94a3b8; margin-left: 6px;">- 0%</span>`;
+                trendHtml = `<span style="font-size: 11px; font-weight: 700; color: #94a3b8; margin-left: 6px;">0%</span>`;
             }
 
             html += `
@@ -3560,7 +3566,7 @@ const QuizEngine = {
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <span style="font-size: 14px; font-weight: 700; color: #1e293b;">${topic.name}</span>
-                            <span style="font-size: 10px; font-weight: 700; color: ${color}; background: ${bgColor}; padding: 2px 6px; border-radius: 6px; display: flex; align-items: center; gap: 4px;">${icon} ${title}</span>
+                            <span style="font-size: 10px; font-weight: 700; color: ${color}; background: ${bgColor}; padding: 2px 6px; border-radius: 6px;">${title}</span>
                         </div>
                         <div style="display: flex; align-items: center;">
                             <span style="font-size: 15px; font-weight: 800; color: ${color};">${topic.score}%</span>
@@ -3583,11 +3589,10 @@ const QuizEngine = {
         const weakTopics = this.topicsPerformance.filter(t => t.score < 65).sort((a, b) => a.score - b.score);
         let html = '';
         weakTopics.forEach(topic => {
-            const pooIcon = topic.score < 50 ? '💩 ' : '';
             html += `
                 <div onclick="QuizEngine.startTopicRevision('${topic.name}')" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #fff7ed; padding: 14px 16px; border-radius: 12px; border: 1px solid #ffedd5; transition: transform 0.1s ease, box-shadow 0.2s; box-shadow: 0 1px 2px rgba(234, 88, 12, 0.05);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(234, 88, 12, 0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 2px rgba(234, 88, 12, 0.05)';">
                     <div style="display: flex; align-items: center; gap: 10px;">
-                        <span style="font-size: 15px; font-weight: 800; color: #c2410c;">${pooIcon}${topic.name}</span>
+                        <span style="font-size: 15px; font-weight: 800; color: #c2410c;">${topic.name}</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <span style="font-size: 12px; font-weight: 700; color: #ea580c; background: rgba(234, 88, 12, 0.1); padding: 4px 8px; border-radius: 6px;">${topic.score}% Accuracy</span>
@@ -4969,7 +4974,6 @@ const QuizEngine = {
 
     updateSkippedNavigatorBar: function () {
         const bar = document.getElementById('open-navigator-bar');
-        const badge = document.getElementById('skipped-count-badge');
         const viewActive = document.getElementById('view-active');
         if (!bar) return;
 
@@ -4981,17 +4985,7 @@ const QuizEngine = {
             bar.classList.add('visible');
             bar.setAttribute('aria-hidden', 'false');
             if (viewActive) viewActive.classList.add('has-skipped-nav-bar');
-
-            let skipped = 0;
-            if (this.mockAnswers) {
-                for (let i = 0; i < this.totalQuestions; i++) {
-                    if (this.mockAnswers[i] && this.mockAnswers[i].status === 'skipped') skipped++;
-                }
-            }
-            if (badge) {
-                badge.innerText = skipped;
-                badge.style.display = skipped > 0 ? '' : 'none';
-            }
+            this.updateMockSkipButton();
         } else {
             bar.classList.remove('visible');
             bar.setAttribute('aria-hidden', 'true');
@@ -4999,7 +4993,27 @@ const QuizEngine = {
         }
     },
 
+    updateMockSkipButton: function () {
+        const mockSkipBtn = document.getElementById('mock-skip-btn');
+        if (!mockSkipBtn) return;
+
+        const isMockExam = (this.currentFlow === 'mock' || this.selectedCategory === 'Mock Exam' || this.selectedCategory === 'Promotion Exam');
+        const viewActive = document.getElementById('view-active');
+        const isActiveView = viewActive && viewActive.classList.contains('active');
+        if (!isMockExam || !isActiveView) {
+            mockSkipBtn.disabled = true;
+            return;
+        }
+
+        const currentAnswer = this.mockAnswers && this.mockAnswers[this.currentQuestion - 1];
+        const isAnswered = currentAnswer && currentAnswer.status === 'answered';
+        mockSkipBtn.disabled = !!isAnswered;
+    },
+
     skipCurrentQuestion: function () {
+        const mockSkipBtn = document.getElementById('mock-skip-btn');
+        if (mockSkipBtn && mockSkipBtn.disabled) return;
+
         if (!this.mockAnswers) this.mockAnswers = new Array(this.totalQuestions).fill(null);
 
         if (!this.mockAnswers[this.currentQuestion - 1] || this.mockAnswers[this.currentQuestion - 1].status !== 'answered') {

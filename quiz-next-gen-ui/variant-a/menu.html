@@ -1040,7 +1040,8 @@
             content: "";
             position: absolute;
             right: 10px;
-            top: 12px;
+            bottom: 16px;
+            top: auto;
             transform: none;
             width: 12px;
             height: 12px;
@@ -1105,7 +1106,7 @@
             letter-spacing: -0.2px;
             text-align: left;
             width: 100%;
-            max-width: 100%;
+            max-width: calc(100% - 18px);
             margin-top: auto;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -1124,24 +1125,16 @@
             display: contents;
         }
 
-        .more-apps-card.hidden {
-            display: none !important;
-        }
-
-        .see-less-wrapper {
-            display: none;
+        .view-more-wrapper {
+            display: flex;
             justify-content: flex-end;
             align-items: center;
-            margin-top: -4px;
-            margin-bottom: 20px;
+            margin-top: 2px;
+            margin-bottom: 6px;
             padding-right: 2px;
         }
 
-        .see-less-wrapper.visible {
-            display: flex;
-        }
-
-        .see-less-link {
+        .view-toggle-link {
             background: none;
             border: none;
             padding: 0;
@@ -1154,8 +1147,12 @@
             letter-spacing: -0.2px;
         }
 
-        .see-less-link:active {
+        .view-toggle-link:active {
             opacity: 0.75;
+        }
+
+        .view-toggle-link.hidden {
+            display: none;
         }
 
         /* ----- Support List (Professional Row Cards) ----- */
@@ -1282,7 +1279,7 @@
                 <div class="menu-search-section">
                     <div class="menu-search-input-wrapper">
                         <img src="../images/search.svg" alt="Search">
-                        <input type="text" placeholder="Search Pocket Sergeant...">
+                        <input type="text" placeholder="Search...">
                     </div>
                 </div>
             </div>
@@ -1365,12 +1362,11 @@
                                     alt="Police Regulations"></div>
                             <span>Police Regulations</span>
                         </div>
-                        <div class="menu-card more-apps-card" id="more-apps-card">
+                        <div class="menu-card more-apps-card">
                             <div class="menu-card-icon"><img src="../images/menu_icons/more-apps.png" alt="More Apps">
                             </div>
                             <span>More Apps</span>
                         </div>
-
                         <!-- Hidden Features -->
                         <div class="hidden-features" id="hidden-features">
                             <div class="menu-card">
@@ -1397,8 +1393,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="see-less-wrapper" id="see-less-wrapper">
-                        <button type="button" class="see-less-link" id="see-less-link">See Less</button>
+                    <div class="view-more-wrapper">
+                        <button type="button" class="view-toggle-link" id="view-more-link">View more</button>
+                        <button type="button" class="view-toggle-link hidden" id="view-less-link">View less</button>
                     </div>
                 </div>
 
@@ -1407,8 +1404,8 @@
                     <div class="menu-list">
                         <div class="menu-list-item">
                             <div class="menu-list-item-icon"><img src="../images/menu_icons/subscription-icon.png"
-                                    alt="Subscription"></div>
-                            <span>Subscription</span>
+                                    alt="Subscription Info"></div>
+                            <span>Subscription Info</span>
                         </div>
                         <div class="menu-list-item">
                             <div class="menu-list-item-icon"><img src="../images/menu_icons/dark-mode.png"
@@ -1451,27 +1448,26 @@
             });
         });
 
-        // More Apps / See Less toggle logic
-        const moreAppsCard = document.getElementById('more-apps-card');
-        const seeLessWrapper = document.getElementById('see-less-wrapper');
-        const seeLessLink = document.getElementById('see-less-link');
+        // View more / View less toggle for hidden menu items
+        const viewMoreLink = document.getElementById('view-more-link');
+        const viewLessLink = document.getElementById('view-less-link');
         const hiddenFeatures = document.getElementById('hidden-features');
 
         const expandHiddenFeatures = () => {
             hiddenFeatures.classList.add('expanded');
-            moreAppsCard.classList.add('hidden');
-            seeLessWrapper.classList.add('visible');
+            viewMoreLink.classList.add('hidden');
+            viewLessLink.classList.remove('hidden');
         };
 
         const collapseHiddenFeatures = () => {
             hiddenFeatures.classList.remove('expanded');
-            moreAppsCard.classList.remove('hidden');
-            seeLessWrapper.classList.remove('visible');
+            viewMoreLink.classList.remove('hidden');
+            viewLessLink.classList.add('hidden');
         };
 
-        if (moreAppsCard && seeLessLink && hiddenFeatures) {
-            moreAppsCard.addEventListener('click', expandHiddenFeatures);
-            seeLessLink.addEventListener('click', collapseHiddenFeatures);
+        if (viewMoreLink && viewLessLink && hiddenFeatures) {
+            viewMoreLink.addEventListener('click', expandHiddenFeatures);
+            viewLessLink.addEventListener('click', collapseHiddenFeatures);
         }
 
         const scroller = document.querySelector('.menu-scroller');

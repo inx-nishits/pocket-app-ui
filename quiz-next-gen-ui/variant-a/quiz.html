@@ -3707,23 +3707,7 @@
                     </div>
                 </div>
 
-                <div id="mock-exam-actions"
-                    style="display: none; margin-top: 16px; width: 500px; max-width: 100%; flex-direction: column; align-items: stretch;">
-
-                    <div style="display: flex; justify-content: flex-end; width: 100%;">
-                        <button id="mock-skip-btn" onclick="QuizEngine.skipCurrentQuestion()"
-                            style="background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); border: none; color: white; font-size: 14px; font-weight: 600; padding: 10px 12px; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(70, 107, 169, 0.2); display: inline-flex; align-items: center; gap: 8px;">
-                            Skip Question
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="5 4 15 12 5 20 5 4"></polygon>
-                                <line x1="19" y1="5" x2="19" y2="19"></line>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- Skipped Question CTA moved to fixed footer below -->
-                </div>
+                <div id="mock-exam-actions" style="display: none;"></div>
 
                 <div id="inline-feedback-container" class="hidden inline-feedback-card"
                     style="margin-top: 12px; margin-bottom: 16px; display: none; flex-direction: column; background: linear-gradient(135deg, var(--accent-blue) 0%, #60a5fa 100%); padding: 14px 14px 12px; border-radius: 16px; width: 500px; max-width: 100%;">
@@ -3782,20 +3766,30 @@
                 </div>
             </div>
 
-            <!-- Fixed bottom bar: Skipped Question navigator (mock exam only) -->
+            <!-- Fixed bottom bar: mock exam actions (mock exam only) -->
             <div id="open-navigator-bar" class="skipped-navigator-bar" aria-hidden="true">
-                <button id="open-navigator-btn" class="skipped-navigator-btn" type="button"
-                    onclick="QuizEngine.openQuestionNavigator()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <rect x="3" y="3" width="7" height="7"></rect>
-                        <rect x="14" y="3" width="7" height="7"></rect>
-                        <rect x="14" y="14" width="7" height="7"></rect>
-                        <rect x="3" y="14" width="7" height="7"></rect>
-                    </svg>
-                    Question Navigator
-                    <span id="skipped-count-badge" class="skipped-navigator-badge">0</span>
-                </button>
+                <div class="skipped-navigator-bar__inner">
+                    <button id="open-navigator-btn" class="skipped-navigator-btn" type="button"
+                        onclick="QuizEngine.openQuestionNavigator()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        Question Navigator
+                    </button>
+                    <button id="mock-skip-btn" class="mock-skip-btn" type="button"
+                        onclick="QuizEngine.skipCurrentQuestion()">
+                        Skip Question
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                            <line x1="19" y1="5" x2="19" y2="19"></line>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
 
@@ -4408,9 +4402,7 @@
                 <div class="format-card"
                     style="display: flex; flex-direction: column; align-items: stretch; cursor: default; padding: 20px; margin-bottom: 16px; background: white; border-radius: 16px; border: 1.5px solid rgba(15, 23, 42, 0.04);">
                     <h3
-                        style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 20px 0; display: flex; align-items: center; gap: 8px;">
-                        <span
-                            style="background: #eff6ff; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📚</span>
+                        style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0 0 20px 0;">
                         Topic Performance Breakdown
                     </h3>
                     <div id="topic-performance-list" style="display: flex; flex-direction: column; gap: 20px;">
@@ -6248,7 +6240,7 @@
                         style="width: 100%; padding: 16px; background: linear-gradient(to bottom, rgb(134, 174, 244), #4b73b7, #345da5); color: white; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);"
                         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 24px rgba(70, 107, 169, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)';"
                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(70, 107, 169, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)';">
-                        Review Skipped
+                        Review skipped questions
                     </button>
 
                 </div>
